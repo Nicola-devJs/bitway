@@ -1,5 +1,5 @@
 import Image from "next/image";
 
 export default function Home() {
-  return <main className="container">Content</main>;
+  return <main className="container">Contents</main>;
 }
