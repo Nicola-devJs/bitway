@@ -47,7 +47,13 @@ export const FooterApp = () => {
             </ContainerSocialIcons>
           </Column>
         </FooterColumns>
-        <FooterBottom>asdsa</FooterBottom>
+        <FooterBottom>
+          <span>Copyright 2022 flora. All Rights Reserved</span>
+          <div>
+            <span>Terms & Conditions</span>
+            <span>Privacy Policy</span>
+          </div>
+        </FooterBottom>
       </ContainerApp>
     </FooterContainer>
   );
@@ -85,15 +91,46 @@ const FooterBottom = styled.div`
   border-top: 1px solid rgba(255, 255, 255, 0.2);
   padding-top: 1.389vw;
   margin-top: 2.083vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: ${theme.colors.white};
+
+  & > div {
+    display: flex;
+    align-items: center;
+    gap: 2.083vw;
+  }
+
+  span {
+    font-weight: 500;
+    font-size: 1.111vw;
+  }
 
   @media (max-width: ${theme.media.desktop}px) {
     padding-top: 1.668vw;
     margin-top: 2.502vw;
+
+    & > div {
+      gap: 2.502vw;
+    }
+
+    span {
+      font-size: 1.334vw;
+    }
   }
 
   @media (max-width: ${theme.media.tablet}px) {
     padding-top: 2.604vw;
     margin-top: 3.906vw;
+
+    & > div {
+      gap: 3.906vw;
+    }
+
+    span {
+      font-size: 2.083vw;
+    }
   }
 `;
 
