@@ -14,19 +14,20 @@ interface IProps {
 
 export const NextImage: FC<IProps> = ({ info, objectFit, ...props }) => {
   return (
-    <ImageContainer {...props}>
-      <Image src={info} alt="image" objectFit={objectFit && "cover"} />
+    <ImageContainer {...props} $obf={objectFit || "cover"}>
+      <Image src={info} alt="image" />
     </ImageContainer>
   );
 };
 
-const ImageContainer = styled.div<{ $width?: number }>`
+const ImageContainer = styled.div<{ $width?: number; $obf: string }>`
   width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width) : "auto")};
   display: flex;
 
   img {
     width: inherit;
     height: inherit;
+    object-fit: ${(props) => props.$obf};
   }
 
   @media (max-width: ${theme.media.desktop}px) {
