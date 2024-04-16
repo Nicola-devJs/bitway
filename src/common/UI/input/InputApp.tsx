@@ -1,21 +1,20 @@
 "use client";
-
-import { theme } from "@/assets/theme/theme";
-import { jost } from "@/common/constants/font";
+import React, { ChangeEvent, InputHTMLAttributes } from "react";
+import { jost, playfair } from "@/common/constants/font";
 import { TextApp } from "@/common/styledComponents/Text";
-import React, { FC, InputHTMLAttributes } from "react";
-import styled from "styled-components";
-
+import { ErrorMessage } from "@/common/styledComponents/ErrorMessage";
+import { ContainerCheckbox, ContainerCode, ContainerInput, StyledCheckbox, StyledInput } from "./StyledInputApp";
+import type { ControllerRenderProps, UseControllerReturn } from "react-hook-form";
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
-  label?: string;
+  label?: React.ReactNode;
+  errorMessage?: string;
 }
 
-interface IPropsCheckbox {
-  label?: string;
-  id?: string;
+interface IPropsCode {
+  codes: UseControllerReturn[];
 }
 
-const InputApp = ({ label, ...props }: IProps) => {
+const InputApp = ({ label, errorMessage, ...props }: IProps) => {
   return (
     <ContainerInput>
       {label && (
@@ -23,87 +22,53 @@ const InputApp = ({ label, ...props }: IProps) => {
           {label}
         </TextApp>
       )}
-      <StyledInput type="text" className={jost.className} {...props} />
+      <StyledInput type="text" className={jost.className} $error={!!errorMessage} {...props} />
+      <ErrorMessage>{errorMessage}</ErrorMessage>
     </ContainerInput>
   );
 };
 
-InputApp.Checkbox = ({ label, id, ...props }: IPropsCheckbox) => {
+InputApp.Checkbox = ({ label, errorMessage, ...props }: IProps) => {
   return (
     <ContainerCheckbox as="label">
       <input type="checkbox" {...props} />
-      <StyledCheckbox />
-      <span>{label}</span>
+      <StyledCheckbox $error={!!errorMessage} />
+      {label}
+      <ErrorMessage showType="bottom">{errorMessage}</ErrorMessage>
     </ContainerCheckbox>
   );
 };
 
+InputApp.Code = ({ codes }: IPropsCode) => {
+  const changeHandler = (field: ControllerRenderProps) => (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value.replace(/\D/g, "").substring(0, 1);
+    const nextInput = event.target.nextSibling as HTMLInputElement | null;
+    const prevInput = event.target.previousSibling as HTMLInputElement | null;
+
+    value ? nextInput?.focus() : prevInput?.focus();
+
+    field.onChange(value);
+  };
+
+  return (
+    <ContainerCode>
+      {codes?.map((code, id) => (
+        <StyledInput
+          key={id}
+          type="text"
+          $size={24}
+          $width={70}
+          className={jost.className}
+          style={{ textAlign: "center", fontWeight: 700 }}
+          tabIndex={id + 1}
+          value={code.field.value}
+          onChange={changeHandler(code.field)}
+          onBlur={code.field.onBlur}
+          $error={!!code.fieldState.error?.message}
+        />
+      ))}
+    </ContainerCode>
+  );
+};
+
 export { InputApp };
-
-const ContainerInput = styled.div`
-  label {
-    margin-bottom: 0.347vw;
-    display: inline-block;
-
-    @media (max-width: ${theme.media.desktop}px) {
-      margin-bottom: 0.417vw;
-    }
-
-    @media (max-width: ${theme.media.tablet}px) {
-      margin-bottom: 0.651vw;
-    }
-  }
-`;
-
-const StyledCheckbox = styled.span`
-  display: inline-block;
-  width: 20px;
-  height: 20px;
-  border: 1px solid ${theme.colors.blue};
-  border-radius: 2px;
-  background-color: transparent;
-  margin-right: 10px;
-`;
-
-const ContainerCheckbox = styled(TextApp)`
-  display: flex;
-  align-items: center;
-  width: max-content;
-
-  input {
-    display: none;
-    &:checked + ${StyledCheckbox} {
-      background-color: ${theme.colors.blue};
-    }
-  }
-`;
-
-const StyledInput = styled.input`
-  width: 100%;
-  border: 1px solid ${theme.colors.blue};
-  padding: 1.111vw;
-  border-radius: 0.694vw;
-  color: ${theme.colors.dark};
-  font-weight: 500;
-  font-size: 1.111vw;
-
-  &:focus {
-    outline: none;
-  }
-
-  &::placeholder {
-    color: ${theme.colors.gray};
-  }
-
-  @media (max-width: ${theme.media.desktop}px) {
-    padding: 1.334vw;
-    font-size: 1.334vw;
-    border-radius: 0.834vw;
-  }
-
-  @media (max-width: ${theme.media.tablet}px) {
-    padding: 2.083vw;
-    font-size: 2.083vw;
-    border-radius: 1.302vw;
-  }
-`;

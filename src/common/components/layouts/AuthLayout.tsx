@@ -3,12 +3,18 @@ import styled from "styled-components";
 import { NextImage } from "../NextImage";
 import createImage from "@/assets/images/auth/create.jpg";
 import { theme } from "@/assets/theme/theme";
+import { authPages } from "@/common/constants/authPages";
 
-export default function AuthLayout({ children }: { children: React.ReactNode }) {
+interface IProps {
+  children: React.ReactNode;
+  authPage: string;
+}
+
+export default function AuthLayout({ children, authPage }: IProps) {
   return (
     <Wrapper>
       <ContainerImage>
-        <NextImage info={createImage} />
+        <NextImage info={authPages?.[authPage]} />
       </ContainerImage>
       <ContainerContent>{children}</ContainerContent>
     </Wrapper>
@@ -55,7 +61,7 @@ const ContainerContent = styled.div`
     align-items: center;
 
     width: 100%;
-    max-width: 50vw;
+    max-width: 70vw;
     margin: 0 auto;
   }
 
