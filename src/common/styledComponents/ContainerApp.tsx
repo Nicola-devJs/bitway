@@ -1,3 +1,4 @@
+"use client";
 import { theme } from "@/assets/theme/theme";
 import React, { FC } from "react";
 import styled from "styled-components";
