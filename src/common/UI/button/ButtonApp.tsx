@@ -1,20 +1,20 @@
 "use client";
 import Link from "next/link";
-import React, { FC, ReactNode } from "react";
+import React, { ButtonHTMLAttributes, FC, ReactNode } from "react";
 import styled from "styled-components";
 import { theme } from "@/assets/theme/theme";
 import { transformAdaptiveSize } from "@/common/helpers/adaptiveSize";
 
-interface IProps {
+interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   children: ReactNode;
   fontSize?: number;
   paddingBlock?: number;
   width?: number;
 }
 
-export const ButtonApp: FC<IProps> = ({ children, fontSize = 16, paddingBlock = 16, width }) => {
+export const ButtonApp: FC<IProps> = ({ children, fontSize = 16, paddingBlock = 16, width, ...props }) => {
   return (
-    <StyledButton $fz={fontSize} $pb={paddingBlock} $w={width}>
+    <StyledButton $fz={fontSize} $pb={paddingBlock} $w={width} {...props}>
       {children}
     </StyledButton>
   );
@@ -22,7 +22,7 @@ export const ButtonApp: FC<IProps> = ({ children, fontSize = 16, paddingBlock = 
 
 const StyledButton = styled.button<{ $fz: number; $pb: number; $w?: number }>`
   font-family: inherit;
-  font-weight: 500;
+  font-weight: 400;
   background-color: ${theme.colors.blue};
   color: #fff;
   width: ${(props) => (props.$w ? transformAdaptiveSize(props.$w) : "100%")};

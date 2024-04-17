@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { NextImage } from "../NextImage";
-import createImage from "@/assets/images/auth/create.jpg";
 import { theme } from "@/assets/theme/theme";
 import { authPages } from "@/common/constants/authPages";
 
@@ -37,12 +36,17 @@ const ContainerImage = styled.div`
 
   @media (max-width: ${theme.media.desktop}px) {
     width: 100%;
-    img {
-      filter: blur(6px);
+    position: relative;
+    &:after {
+      content: "";
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: rgba(164, 166, 172, 0.2);
+      backdrop-filter: blur(30px);
     }
-  }
-
-  @media (max-width: ${theme.media.tablet}px) {
   }
 `;
 
@@ -61,11 +65,10 @@ const ContainerContent = styled.div`
     align-items: center;
 
     width: 100%;
-    max-width: 70vw;
-    margin: 0 auto;
+    padding: 15vw;
   }
 
   @media (max-width: ${theme.media.tablet}px) {
-    max-width: 80vw;
+    padding: 5vw;
   }
 `;
