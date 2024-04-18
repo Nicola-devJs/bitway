@@ -77,21 +77,6 @@ const MenuList = styled.ul`
     margin-left: 2.083vw;
   }
 
-  li::after {
-    content: "";
-    width: 0%;
-    height: 1px;
-    background-color: black;
-    position: absolute;
-    left: 0;
-    bottom: -1px;
-    transition: width 0.2s linear;
-  }
-
-  li:hover::after {
-    width: 100%;
-  }
-
   @media (max-width: ${theme.media.desktop}px) {
     li:not(:first-child) {
       margin-left: 2.502vw;

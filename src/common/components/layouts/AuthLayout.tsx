@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { NextImage } from "../NextImage";
 import { theme } from "@/assets/theme/theme";
-import { authPages } from "@/common/constants/authPages";
+import { authPages } from "@/common/constants/constantImages";
 
 interface IProps {
   children: React.ReactNode;

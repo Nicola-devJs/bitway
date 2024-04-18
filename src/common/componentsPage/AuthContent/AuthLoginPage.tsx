@@ -67,7 +67,7 @@ export const AuthLoginPage = () => {
             onBlur={remember.onBlur}
             errorMessage={rememberState.error?.message}
           />
-          <LinkApp color={theme.colors.blue} path="/auth/forgot">
+          <LinkApp color={theme.colors.blue} path="/auth/forgot" notViewUnderline>
             Forgot Password?
           </LinkApp>
         </div>
@@ -75,7 +75,7 @@ export const AuthLoginPage = () => {
       </form>
       <TextBottom>
         Если вы еще не зарегестрированы, перейдите по{" "}
-        <LinkApp color={theme.colors.blue} path="/auth/create">
+        <LinkApp color={theme.colors.blue} path="/auth/create" notViewUnderline>
           ссылке
         </LinkApp>
       </TextBottom>

@@ -1,5 +1,8 @@
 "use client";
+import { theme } from "@/assets/theme/theme";
 import { ButtonApp } from "@/common/UI/button/ButtonApp";
+import { ListProperties } from "@/common/components/listProperties/ListProperties";
+import { PropertyCard } from "@/common/components/propertyCard/PropertyCard";
 import { playfair } from "@/common/constants/font";
 import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 import { TextApp } from "@/common/styledComponents/Text";
@@ -11,7 +14,7 @@ export const HomeHeadingBlock = () => {
     <>
       <ContainerApp>
         <HeadingBlock>
-          <TextApp.Heading as="h1" size={60} className={playfair.className} weight={700}>
+          <TextApp.Heading as="h1" size={60} className={playfair.className}>
             Let’s start search for your dream home
           </TextApp.Heading>
           <div>
@@ -29,12 +32,12 @@ export const HomeHeadingBlock = () => {
 
 export const HomeLatestProperties = () => {
   return (
-    <ContainerApp>
-      <TextApp.Block
-        title="Explore the latest properties available"
-        text="Using it can make you sound like you have been studying english for a long time. Here’s the challenge"
-      />
-    </ContainerApp>
+    <LatestPropertiesBlock>
+      <ContainerApp>
+        <TextApp.Block title="Explore the latest properties available" $mb={50} />
+        <ListProperties typeShow="tile" />
+      </ContainerApp>
+    </LatestPropertiesBlock>
   );
 };
 
@@ -48,5 +51,44 @@ const HeadingBlock = styled.div`
 
   p {
     margin-bottom: 2.083vw;
+  }
+
+  @media (max-width: ${theme.media.desktop}px) {
+    gap: 2.502vw;
+    margin-block: 4.17vw;
+
+    div {
+      width: 38.115vw;
+    }
+
+    p {
+      margin-bottom: 2.502vw;
+    }
+  }
+
+  @media (max-width: ${theme.media.desktop}px) {
+    gap: 3.906vw;
+    margin-block: 6.51vw;
+
+    div {
+      width: 59.505vw;
+    }
+
+    p {
+      margin-bottom: 3.906vw;
+    }
+  }
+`;
+
+const LatestPropertiesBlock = styled.div`
+  background-color: rgba(164, 166, 172, 0.1);
+  padding-block: 4.861vw;
+
+  @media (max-width: ${theme.media.desktop}px) {
+    padding-block: 5.838vw;
+  }
+
+  @media (max-width: ${theme.media.tablet}px) {
+    padding-block: 9.115vw;
   }
 `;

@@ -4,6 +4,12 @@ export const HEADER_NAVMENU = [
   { label: "About", path: "/about" },
 ];
 
+export const BREADCRUMBS_MENU: Record<string, string> = {
+  "/": "Home",
+  "/properties": "Properties",
+  "/about": "About",
+};
+
 export const FOOTER_NAVMENU = [
   {
     label: "About",

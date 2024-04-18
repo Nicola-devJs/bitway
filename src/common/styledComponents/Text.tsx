@@ -30,10 +30,10 @@ TextApp.Heading = ({ children, size = 18, color = theme.colors.dark, ...props }:
   );
 };
 
-TextApp.Block = ({ title, text }: { title: string; text?: string }) => {
+TextApp.Block = ({ title, text, $mb }: { title: string; text?: string; $mb?: number }) => {
   return (
-    <StyledTextBlock>
-      <TextApp.Heading as="h2" className={playfair.className} size={40} weight={700}>
+    <StyledTextBlock $mb={$mb}>
+      <TextApp.Heading as="h2" className={playfair.className} size={40}>
         {title}
       </TextApp.Heading>
       {text && <TextApp color={theme.colors.gray}>{text}</TextApp>}
@@ -57,18 +57,24 @@ const StyledText = styled.p<{ $s: number; $c: string; $fw?: number }>`
   }
 `;
 
-const StyledTextBlock = styled.div`
+const StyledTextBlock = styled.div<{ $mb?: number }>`
+  ${(props) => props.$mb && `margin-bottom: ${transformAdaptiveSize(props.$mb)};`}
+
   p {
     margin-top: 0.694vw;
   }
 
   @media (max-width: ${theme.media.desktop}px) {
+    ${(props) => props.$mb && `margin-bottom: ${transformAdaptiveSize(props.$mb, theme.media.desktop)};`}
+
     p {
       margin-top: 0.834vw;
     }
   }
 
   @media (max-width: ${theme.media.desktop}px) {
+    ${(props) => props.$mb && `margin-bottom: ${transformAdaptiveSize(props.$mb, theme.media.tablet)};`}
+
     p {
       margin-top: 1.302vw;
     }
