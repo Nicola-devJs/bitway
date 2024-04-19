@@ -66,7 +66,7 @@ export const PropertyCard: FC<IProps> = ({ typeShow }) => {
   );
 };
 
-const PropertyCardContainer = styled.div<{ $typeShow: ShowType }>`
+const PropertyCardContainer = styled.article<{ $typeShow: ShowType }>`
   background-color: ${theme.colors.white};
   width: 100%;
   border-radius: 1.111vw;
@@ -134,7 +134,7 @@ const ContainerImage = styled.div<{ $typeShow: ShowType }>`
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: rgba(255, 255, 255, 0.8);
+    background-color: ${theme.colors.whiteOpacity(0.8)};
     opacity: 0;
     transition: opacity 0.2s ease-in-out;
     cursor: pointer;
@@ -236,7 +236,7 @@ const PropertyComponents = styled.div`
 
 const PropertyCardBottom = styled.div`
   padding-top: 1.111vw;
-  border-top: 1px solid rgba(164, 166, 172, 0.2);
+  border-top: 1px solid ${theme.colors.lightGrayOpacity(0.2)};
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -291,7 +291,7 @@ const BottomTools = styled.div`
     width: 2.361vw;
     height: 2.361vw;
     border-radius: 0.347vw;
-    border: 1px solid rgba(164, 166, 172, 0.2);
+    border: 1px solid ${theme.colors.lightGrayOpacity(0.2)};
     display: flex;
     justify-content: center;
     align-items: center;

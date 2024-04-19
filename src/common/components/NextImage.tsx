@@ -2,11 +2,11 @@
 
 import { theme } from "@/assets/theme/theme";
 import Image, { StaticImageData } from "next/image";
-import React, { FC } from "react";
+import React, { FC, HtmlHTMLAttributes } from "react";
 import styled from "styled-components";
 import { transformAdaptiveSize } from "../helpers/adaptiveSize";
 
-interface IProps {
+interface IProps extends HtmlHTMLAttributes<HTMLDivElement> {
   info: StaticImageData | string;
   objectFit?: "cover" | "contain";
   $width?: number;

@@ -24,7 +24,7 @@ export const FilterPanel = () => {
               <TextApp.Heading color={theme.colors.white} size={20}>
                 Location
               </TextApp.Heading>
-              <TextApp color="rgba(255, 255, 255, 0.5)">Tiraspol, PMR</TextApp>
+              <TextApp color={theme.colors.whiteOpacity(0.5)}>Tiraspol, PMR</TextApp>
             </div>
           </FilterPanelItem>
           <FilterPanelItem>
@@ -36,7 +36,7 @@ export const FilterPanel = () => {
               <TextApp.Heading color={theme.colors.white} size={20}>
                 Price
               </TextApp.Heading>
-              <TextApp color="rgba(255, 255, 255, 0.5)">$1000 - 10 000</TextApp>
+              <TextApp color={theme.colors.whiteOpacity(0.5)}>$1000 - 10 000</TextApp>
             </div>
           </FilterPanelItem>
           <FilterPanelItem>
@@ -48,7 +48,7 @@ export const FilterPanel = () => {
               <TextApp.Heading color={theme.colors.white} size={20}>
                 Type of property
               </TextApp.Heading>
-              <TextApp color="rgba(255, 255, 255, 0.5)">Apartment</TextApp>
+              <TextApp color={theme.colors.whiteOpacity(0.5)}>Apartment</TextApp>
             </div>
           </FilterPanelItem>
         </FilterPanelRow>
@@ -104,14 +104,14 @@ const FilterPanelItem = styled.div`
   }
 
   &:not(:last-child) {
-    border-right: 1px solid rgba(255, 255, 255, 0.1);
+    border-right: 1px solid ${theme.colors.whiteOpacity(0.1)};
   }
 
   & > div:first-child {
     width: 4.167vw;
     height: 4.167vw;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.1);
+    background-color: ${theme.colors.whiteOpacity(0.1)};
     display: flex;
     justify-content: center;
     align-items: center;

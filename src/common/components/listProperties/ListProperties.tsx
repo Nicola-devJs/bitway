@@ -14,8 +14,8 @@ export const ListProperties: FC<IProps> = ({ typeShow }) => {
     <StyledListProperties $typeShow={typeShow}>
       {Array(5)
         .fill(" ")
-        .map(() => (
-          <PropertyCard typeShow={typeShow} />
+        .map((_, id) => (
+          <PropertyCard key={id} typeShow={typeShow} />
         ))}
     </StyledListProperties>
   );

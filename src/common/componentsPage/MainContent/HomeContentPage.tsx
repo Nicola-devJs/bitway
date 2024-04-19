@@ -81,7 +81,7 @@ const HeadingBlock = styled.div`
 `;
 
 const LatestPropertiesBlock = styled.div`
-  background-color: rgba(164, 166, 172, 0.1);
+  background-color: ${theme.colors.lightGrayOpacity(0.1)};
   padding-block: 4.861vw;
 
   @media (max-width: ${theme.media.desktop}px) {

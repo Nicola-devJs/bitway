@@ -44,7 +44,7 @@ const ContainerImage = styled.div`
       right: 0;
       bottom: 0;
       left: 0;
-      background-color: rgba(164, 166, 172, 0.2);
+      background-color: ${theme.colors.lightGrayOpacity(0.2)};
       backdrop-filter: blur(30px);
     }
   }
