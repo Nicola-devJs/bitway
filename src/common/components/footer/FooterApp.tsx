@@ -88,7 +88,7 @@ const FooterColumns = styled.div`
 `;
 
 const FooterBottom = styled.div`
-  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-top: 1px solid ${theme.colors.whiteOpacity(0.2)};
   padding-top: 1.389vw;
   margin-top: 2.083vw;
   display: flex;

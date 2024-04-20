@@ -99,7 +99,7 @@ const ModalOverlay = styled.div`
   left: 0;
   bottom: 0;
   z-index: 100;
-  background-color: rgba(164, 166, 172, 0.2);
+  background-color: ${theme.colors.lightGrayOpacity(0.2)};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -172,13 +172,13 @@ const IconAlertModal = styled.div`
   &::before {
     width: 5.972vw;
     height: 5.972vw;
-    background-color: rgba(62, 84, 235, 0.1);
+    background-color: ${theme.colors.blueOpacity(0.1)};
   }
 
   &::after {
     width: 7.5vw;
     height: 7.5vw;
-    background-color: rgba(62, 84, 235, 0.05);
+    background-color: ${theme.colors.blueOpacity(0.05)};
   }
 
   & span {

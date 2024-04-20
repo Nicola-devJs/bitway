@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { NextImage } from "../NextImage";
 import { theme } from "@/assets/theme/theme";
-import { authPages } from "@/common/constants/authPages";
+import { authPages } from "@/common/constants/constantImages";
 
 interface IProps {
   children: React.ReactNode;
@@ -44,7 +44,7 @@ const ContainerImage = styled.div`
       right: 0;
       bottom: 0;
       left: 0;
-      background-color: rgba(164, 166, 172, 0.2);
+      background-color: ${theme.colors.lightGrayOpacity(0.2)};
       backdrop-filter: blur(30px);
     }
   }
