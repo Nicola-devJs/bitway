@@ -25,7 +25,7 @@ export const HeaderApp = () => {
               </li>
             ))}
           </MenuList>
-          <Link href="/auth">
+          <Link href="/auth/login">
             <ButtonApp paddingBlock={13.5} width={98}>
               Login
             </ButtonApp>

@@ -102,21 +102,12 @@ const FooterBottom = styled.div`
     gap: 2.083vw;
   }
 
-  span {
-    font-weight: 500;
-    font-size: 1.111vw;
-  }
-
   @media (max-width: ${theme.media.desktop}px) {
     padding-top: 1.668vw;
     margin-top: 2.502vw;
 
     & > div {
       gap: 2.502vw;
-    }
-
-    span {
-      font-size: 1.334vw;
     }
   }
 
@@ -126,10 +117,6 @@ const FooterBottom = styled.div`
 
     & > div {
       gap: 3.906vw;
-    }
-
-    span {
-      font-size: 2.083vw;
     }
   }
 `;
