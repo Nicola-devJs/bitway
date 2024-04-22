@@ -8,6 +8,11 @@ import type { ControllerRenderProps, UseControllerReturn } from "react-hook-form
 import { RangeContainer, RangeProgress, RangeInput } from "./components/StyledInputAppRange";
 import { ContainerCode } from "./components/StyledInputAppCode";
 import { ContainerCheckbox, StyledCheckbox } from "./components/StyledInputAppCheckbox";
+
+type RangeType = {
+  min: number;
+  max: number;
+};
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: React.ReactNode;
   errorMessage?: string;
@@ -21,6 +26,9 @@ interface IPropsRange {
   min: number;
   max: number;
   priceGap: number;
+  rangeState: RangeType;
+  setRangeState: React.Dispatch<React.SetStateAction<RangeType>>;
+  children?: React.ReactNode;
 }
 
 const InputApp = ({ label, errorMessage, ...props }: IProps) => {
@@ -80,9 +88,7 @@ InputApp.Code = ({ codes }: IPropsCode) => {
   );
 };
 
-InputApp.Range = ({ min, max, priceGap }: IPropsRange) => {
-  const [rangeState, setRangeState] = useState({ min, max });
-
+InputApp.Range = ({ min, max, priceGap, children, rangeState, setRangeState }: IPropsRange) => {
   const thumbRangeHandler = (changeStateHandler: () => void) =>
     rangeState.max - rangeState.min >= priceGap && changeStateHandler();
 
@@ -105,6 +111,7 @@ InputApp.Range = ({ min, max, priceGap }: IPropsRange) => {
 
   return (
     <div>
+      {children}
       <RangeContainer>
         <RangeProgress
           $minPrecent={Math.trunc((rangeState.min / max) * 100)}

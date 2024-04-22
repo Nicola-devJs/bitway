@@ -9,10 +9,11 @@ interface IProps {
   label: string;
   children: React.ReactNode;
   zIndex?: number;
+  initialView?: boolean;
 }
 
-export const Accordion: FC<IProps> = ({ children, label, zIndex }) => {
-  const [viewContent, setViewContent] = useState(false);
+export const Accordion: FC<IProps> = ({ children, label, zIndex, initialView = false }) => {
+  const [viewContent, setViewContent] = useState(initialView);
   return (
     <AccordionContainer>
       <AccordionHeader onClick={() => setViewContent((prevState) => !prevState)}>

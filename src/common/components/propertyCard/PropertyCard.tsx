@@ -10,6 +10,8 @@ import { propertyCardIcons } from "@/common/constants/constantImages";
 import iconHeart from "@/assets/icons/property-card/heart.svg";
 import iconShare from "@/assets/icons/property-card/share.svg";
 import { ShowType } from "../listProperties/ListProperties";
+import { LinkApp } from "@/common/UI/link/LinkApp";
+import Link from "next/link";
 
 interface IProps {}
 
@@ -21,9 +23,10 @@ const iconComponents = [
 
 interface IProps {
   typeShow: ShowType;
+  id: number;
 }
 
-export const PropertyCard: FC<IProps> = ({ typeShow }) => {
+export const PropertyCard: FC<IProps> = ({ typeShow, id }) => {
   return (
     <PropertyCardContainer $typeShow={typeShow}>
       <ContainerImage $typeShow={typeShow}>
@@ -31,9 +34,11 @@ export const PropertyCard: FC<IProps> = ({ typeShow }) => {
         <span></span>
       </ContainerImage>
       <PropertyCardContent>
-        <TextApp.Heading className={playfair.className} size={24}>
-          Luxury Apartment in California
-        </TextApp.Heading>
+        <Link href={`/properties/${id}`}>
+          <TextApp.Heading className={playfair.className} size={24}>
+            Luxury Apartment in California
+          </TextApp.Heading>
+        </Link>
         <TextApp size={20}>$2600</TextApp>
         <TextApp color={theme.colors.gray} className="property_card_text">
           Using it can make you sound like you have been studying english for a long time.

@@ -1,7 +1,8 @@
 import { theme } from "@/assets/theme/theme";
 import { InputApp } from "@/common/UI/input/InputApp";
 import { SelectApp } from "@/common/UI/select/SelectApp";
-import React from "react";
+import { TextApp } from "@/common/styledComponents/Text";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 const PropertyType = () => {
@@ -47,7 +48,7 @@ const Rooms = () => {
           { label: "1", value: 1 },
           { label: "2", value: 2 },
           { label: "3", value: 3 },
-          { label: "4", value: 4 },
+          { label: "Четырех комнатная", value: 4 },
         ]}
       />
     </ContainerContent>
@@ -55,9 +56,22 @@ const Rooms = () => {
 };
 
 const PriceRange = () => {
+  const priceMax = 199888;
+  const [rangeState, setRangeState] = useState({ min: 0, max: priceMax });
+
   return (
     <ContainerContent>
-      <InputApp.Range min={0} max={1000} priceGap={100} />
+      <InputApp.Range
+        min={0}
+        max={priceMax}
+        priceGap={priceMax * 0.1}
+        rangeState={rangeState}
+        setRangeState={setRangeState}
+      >
+        <TextRange>
+          Price: ${rangeState.min} - ${rangeState.max}
+        </TextRange>
+      </InputApp.Range>
     </ContainerContent>
   );
 };
@@ -87,5 +101,17 @@ const ContainerContent = styled.div`
     & > *:not(:last-child) {
       margin-bottom: 2.083vw;
     }
+  }
+`;
+
+const TextRange = styled(TextApp)`
+  margin-bottom: 1.111vw;
+
+  @media (max-width: ${theme.media.desktop}px) {
+    margin-bottom: 1.334vw;
+  }
+
+  @media (max-width: ${theme.media.tablet}px) {
+    margin-bottom: 2.083vw;
   }
 `;
