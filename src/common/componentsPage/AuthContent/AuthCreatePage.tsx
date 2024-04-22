@@ -86,7 +86,7 @@ export const AuthCreatePage = () => {
               </LinkApp>{" "}
             </span>
           }
-          checked={agree.value}
+          checked={agree.value ?? false}
           onChange={agree.onChange}
           onBlur={agree.onBlur}
           errorMessage={agreeState.error?.message}

@@ -62,7 +62,7 @@ export const AuthLoginPage = () => {
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <InputApp.Checkbox
             label={<span>Remember Me</span>}
-            checked={remember.value}
+            checked={remember.value ?? false}
             onChange={remember.onChange}
             onBlur={remember.onBlur}
             errorMessage={rememberState.error?.message}

@@ -54,7 +54,7 @@ const InputApp = ({ label, errorMessage, ...props }: IProps) => {
 InputApp.Checkbox = ({ label, errorMessage, ...props }: IProps) => {
   return (
     <ContainerCheckbox as="label">
-      <input type="checkbox" {...props} checked={props.checked ?? false} />
+      <input type="checkbox" {...props} />
       <StyledCheckbox $error={!!errorMessage} />
       {label}
       <ErrorMessage showType="bottom">{errorMessage}</ErrorMessage>
