@@ -31,7 +31,13 @@ const InputApp = ({ label, errorMessage, ...props }: IProps) => {
           {label}
         </TextApp>
       )}
-      <StyledInput type="text" className={jost.className} $error={!!errorMessage} {...props} />
+      <StyledInput
+        type="text"
+        className={jost.className}
+        $error={!!errorMessage}
+        {...props}
+        value={props.value ? props.value : ""}
+      />
       <ErrorMessage>{errorMessage}</ErrorMessage>
     </ContainerInput>
   );
@@ -40,7 +46,7 @@ const InputApp = ({ label, errorMessage, ...props }: IProps) => {
 InputApp.Checkbox = ({ label, errorMessage, ...props }: IProps) => {
   return (
     <ContainerCheckbox as="label">
-      <input type="checkbox" {...props} />
+      <input type="checkbox" {...props} checked={props.checked ? props.checked : false} />
       <StyledCheckbox $error={!!errorMessage} />
       {label}
       <ErrorMessage showType="bottom">{errorMessage}</ErrorMessage>

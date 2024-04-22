@@ -10,6 +10,7 @@ interface IProps extends HtmlHTMLAttributes<HTMLDivElement> {
   info: StaticImageData | string;
   objectFit?: "cover" | "contain";
   $width?: number;
+  $height?: number;
   $fullWidth?: boolean;
 }
 
@@ -21,8 +22,9 @@ export const NextImage: FC<IProps> = ({ info, objectFit, ...props }) => {
   );
 };
 
-const ImageContainer = styled.div<{ $width?: number; $obf: string; $fullWidth?: boolean }>`
+const ImageContainer = styled.div<{ $width?: number; $height?: number; $obf: string; $fullWidth?: boolean }>`
   width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width) : props.$fullWidth ? "100%" : "auto")};
+  height: ${(props) => (props.$height ? transformAdaptiveSize(props.$height) : props.$fullWidth ? "100%" : "auto")};
   display: flex;
 
   img {
@@ -34,10 +36,14 @@ const ImageContainer = styled.div<{ $width?: number; $obf: string; $fullWidth?: 
   @media (max-width: ${theme.media.desktop}px) {
     width: ${(props) =>
       props.$width ? transformAdaptiveSize(props.$width, theme.media.desktop) : props.$fullWidth ? "100%" : "auto"};
+    height: ${(props) =>
+      props.$height ? transformAdaptiveSize(props.$height, theme.media.desktop) : props.$fullWidth ? "100%" : "auto"};
   }
 
   @media (max-width: ${theme.media.tablet}px) {
     width: ${(props) =>
       props.$width ? transformAdaptiveSize(props.$width, theme.media.tablet) : props.$fullWidth ? "100%" : "auto"};
+    height: ${(props) =>
+      props.$height ? transformAdaptiveSize(props.$height, theme.media.tablet) : props.$fullWidth ? "100%" : "auto"};
   }
 `;

@@ -2,14 +2,15 @@
 import { theme } from "@/assets/theme/theme";
 import React, { FC } from "react";
 import styled from "styled-components";
+import Link from "next/link";
 import { NextImage } from "../NextImage";
 import cardImg from "@/assets/images/main-img.jpg";
 import { TextApp } from "@/common/styledComponents/Text";
 import { playfair } from "@/common/constants/font";
 import { propertyCardIcons } from "@/common/constants/constantImages";
 import iconHeart from "@/assets/icons/property-card/heart.svg";
-import iconShare from "@/assets/icons/property-card/share.svg";
 import { ShowType } from "../listProperties/ListProperties";
+import { PropertyActions } from "../propertyActions/PropertyActions";
 
 interface IProps {}
 
@@ -31,9 +32,11 @@ export const PropertyCard: FC<IProps> = ({ typeShow }) => {
         <span></span>
       </ContainerImage>
       <PropertyCardContent>
-        <TextApp.Heading className={playfair.className} size={24}>
-          Luxury Apartment in California
-        </TextApp.Heading>
+        <Link href={`/properties/luxury-apartment-in-california`}>
+          <TextApp.Heading className={playfair.className} size={24} weight={700}>
+            Luxury Apartment in California
+          </TextApp.Heading>
+        </Link>
         <TextApp size={20}>$2600</TextApp>
         <TextApp color={theme.colors.gray} className="property_card_text">
           Using it can make you sound like you have been studying english for a long time.
@@ -48,18 +51,11 @@ export const PropertyCard: FC<IProps> = ({ typeShow }) => {
         <PropertyCardBottom>
           <Profile>
             <div>
-              <NextImage info={cardImg} $width={34} />
+              <NextImage info={cardImg} $width={34} $height={34} />
             </div>
             <TextApp>Alexa Mate</TextApp>
           </Profile>
-          <BottomTools>
-            <div>
-              <NextImage info={iconHeart} $width={18} />
-            </div>
-            <div>
-              <NextImage info={iconShare} $width={18} />
-            </div>
-          </BottomTools>
+          <PropertyActions gapActions={8} sizeIcon={18} sizeWrapper={34} />
         </PropertyCardBottom>
       </PropertyCardContent>
     </PropertyCardContainer>
@@ -236,7 +232,7 @@ const PropertyComponents = styled.div`
 
 const PropertyCardBottom = styled.div`
   padding-top: 1.111vw;
-  border-top: 1px solid ${theme.colors.lightGrayOpacity(0.2)};
+  border-top: 1px solid ${theme.colors.grayOpacity(0.2)};
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -255,66 +251,15 @@ const Profile = styled.div`
   align-items: center;
   gap: 0.694vw;
   & > div {
-    width: 2.361vw;
-    height: 2.361vw;
     border-radius: 50%;
     overflow: hidden;
-
-    div {
-      height: inherit;
-    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {
     gap: 0.834vw;
-
-    & > div {
-      width: 2.836vw;
-      height: 2.836vw;
-    }
   }
 
   @media (max-width: ${theme.media.tablet}px) {
     gap: 1.302vw;
-
-    & > div {
-      width: 4.427vw;
-      height: 4.427vw;
-    }
-  }
-`;
-
-const BottomTools = styled.div`
-  display: flex;
-  gap: 0.556vw;
-  & > div {
-    width: 2.361vw;
-    height: 2.361vw;
-    border-radius: 0.347vw;
-    border: 1px solid ${theme.colors.lightGrayOpacity(0.2)};
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-  }
-
-  @media (max-width: ${theme.media.desktop}px) {
-    gap: 0.667vw;
-
-    & > div {
-      border-radius: 0.417vw;
-      width: 2.836vw;
-      height: 2.836vw;
-    }
-  }
-
-  @media (max-width: ${theme.media.tablet}px) {
-    gap: 1.042vw;
-
-    & > div {
-      border-radius: 0.651vw;
-      width: 4.427vw;
-      height: 4.427vw;
-    }
   }
 `;

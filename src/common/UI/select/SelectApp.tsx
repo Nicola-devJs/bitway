@@ -126,7 +126,7 @@ export const ContainerInput = styled.div<{ $isOpen: boolean }>`
 
 export const StyledInput = styled.input<{ $error?: boolean; $size?: number; $width?: number }>`
   width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width) : "100%")};
-  border: 1px solid ${(props) => (props.$error ? theme.colors.red : theme.colors.lightGray)};
+  border: 1px solid ${(props) => (props.$error ? theme.colors.red : theme.colors.grayOpacity(0.2))};
   padding: 0.903vw 1.389vw;
   border-radius: 0.694vw;
   color: ${theme.colors.dark};
@@ -172,7 +172,7 @@ const ContainerOptions = styled.div<{ $isOpen: boolean }>`
   z-index: 2;
   border-radius: 0.694vw;
   background-color: ${theme.colors.white};
-  border: 1px solid ${theme.colors.lightGray};
+  border: 1px solid ${theme.colors.grayOpacity(0.2)};
   padding-block: 0.694vw;
   transform: ${(props) => (props.$isOpen ? "translateY(0px)" : "translateY(-10px)")};
   visibility: ${(props) => (props.$isOpen ? "visible" : "hidden")};
@@ -186,7 +186,7 @@ const ContainerOptions = styled.div<{ $isOpen: boolean }>`
     cursor: pointer;
 
     &:hover {
-      background-color: ${theme.colors.lightGrayOpacity(0.1)};
+      background-color: ${theme.colors.grayOpacity(0.1)};
     }
   }
 

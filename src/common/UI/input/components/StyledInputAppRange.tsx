@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const RangeContainer = styled.div`
   width: 100%;
-  background-color: ${theme.colors.lightGrayOpacity(0.2)};
+  background-color: ${theme.colors.grayOpacity(0.2)};
   height: 2px;
   position: relative;
 `;

@@ -2,7 +2,6 @@
 import { theme } from "@/assets/theme/theme";
 import { ButtonApp } from "@/common/UI/button/ButtonApp";
 import { ListProperties } from "@/common/components/listProperties/ListProperties";
-import { PropertyCard } from "@/common/components/propertyCard/PropertyCard";
 import { playfair } from "@/common/constants/font";
 import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 import { TextApp } from "@/common/styledComponents/Text";
@@ -14,7 +13,7 @@ export const HomeHeadingBlock = () => {
     <>
       <ContainerApp>
         <HeadingBlock>
-          <TextApp.Heading as="h1" size={60} className={playfair.className}>
+          <TextApp.Heading as="h1" size={60} className={playfair.className} weight={700}>
             Let’s start search for your dream home
           </TextApp.Heading>
           <div>
@@ -81,7 +80,7 @@ const HeadingBlock = styled.div`
 `;
 
 const LatestPropertiesBlock = styled.div`
-  background-color: ${theme.colors.lightGrayOpacity(0.1)};
+  background-color: ${theme.colors.grayOpacity(0.1)};
   padding-block: 4.861vw;
 
   @media (max-width: ${theme.media.desktop}px) {

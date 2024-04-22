@@ -7,7 +7,7 @@ export const StyledCheckbox = styled.span<{ $error: boolean }>`
   display: inline-block;
   width: 1.389vw;
   height: 1.389vw;
-  border: 1px solid ${(props) => (props.$error ? theme.colors.red : theme.colors.lightGray)};
+  border: 1px solid ${(props) => (props.$error ? theme.colors.red : theme.colors.grayOpacity(0.2))};
   border-radius: 0.139vw;
   background-color: ${theme.colors.white};
   margin-right: 0.694vw;

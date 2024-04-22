@@ -33,7 +33,7 @@ const StyledSidebar = styled.aside`
 const ContentContainer = styled.div`
   width: 100%;
   padding-bottom: 1.389vw;
-  border-bottom: 1px solid ${theme.colors.lightGrayOpacity(0.1)};
+  border-bottom: 1px solid ${theme.colors.grayOpacity(0.1)};
 
   margin-bottom: 1.389vw;
 

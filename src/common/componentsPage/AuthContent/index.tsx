@@ -22,7 +22,7 @@ export const AuthContent: FC<IProps> = ({ children, title, subTitle }) => {
     <ContentWrappper>
       <GoBack onClick={() => back()}>Back</GoBack>
       <HeaderBlock>
-        <TextApp.Heading size={30} className={playfair.className}>
+        <TextApp.Heading size={30} className={playfair.className} weight={700}>
           {title}
         </TextApp.Heading>
         <TextApp color={theme.colors.gray}>{subTitle}</TextApp>

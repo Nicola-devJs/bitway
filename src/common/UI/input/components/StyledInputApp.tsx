@@ -20,7 +20,7 @@ export const ContainerInput = styled.div`
 
 export const StyledInput = styled.input<{ $error?: boolean; $size?: number; $width?: number }>`
   width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width) : "100%")};
-  border: 1px solid ${(props) => (props.$error ? theme.colors.red : theme.colors.lightGray)};
+  border: 1px solid ${(props) => (props.$error ? theme.colors.red : theme.colors.grayOpacity(0.2))};
   padding: 1.111vw;
   border-radius: 0.694vw;
   color: ${theme.colors.dark};

@@ -33,7 +33,7 @@ TextApp.Heading = ({ children, size = 18, color = theme.colors.dark, ...props }:
 TextApp.Block = ({ title, text, $mb }: { title: string; text?: string; $mb?: number }) => {
   return (
     <StyledTextBlock $mb={$mb}>
-      <TextApp.Heading as="h2" className={playfair.className} size={40}>
+      <TextApp.Heading as="h2" className={playfair.className} size={40} weight={700}>
         {title}
       </TextApp.Heading>
       {text && <TextApp color={theme.colors.gray}>{text}</TextApp>}
