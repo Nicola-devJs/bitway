@@ -9,7 +9,7 @@ export const SidebarFilter = () => {
     <StyledSidebar>
       {ComponentsSidebarFilter.map((filter, id) => (
         <ContentContainer key={id}>
-          <Accordion label={filter.label} zIndex={filter.zIndex}>
+          <Accordion label={filter.label} zIndex={filter.zIndex} initialView={true}>
             {filter.content}
           </Accordion>
         </ContentContainer>
@@ -19,14 +19,14 @@ export const SidebarFilter = () => {
 };
 
 const StyledSidebar = styled.aside`
-  width: 16.944vw;
+  min-width: 16.944vw;
 
   @media (max-width: ${theme.media.desktop}px) {
-    width: 20.35vw;
+    min-width: 20.35vw;
   }
 
   @media (max-width: ${theme.media.tablet}px) {
-    width: 31.771vw;
+    min-width: 31.771vw;
   }
 `;
 

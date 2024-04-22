@@ -22,9 +22,10 @@ const iconComponents = [
 
 interface IProps {
   typeShow: ShowType;
+  id: number;
 }
 
-export const PropertyCard: FC<IProps> = ({ typeShow }) => {
+export const PropertyCard: FC<IProps> = ({ typeShow, id }) => {
   return (
     <PropertyCardContainer $typeShow={typeShow}>
       <ContainerImage $typeShow={typeShow}>
