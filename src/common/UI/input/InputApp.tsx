@@ -44,7 +44,7 @@ const InputApp = ({ label, errorMessage, ...props }: IProps) => {
         className={jost.className}
         $error={!!errorMessage}
         {...props}
-        value={props.value ? props.value : ""}
+        value={props.value ?? ""}
       />
       <ErrorMessage>{errorMessage}</ErrorMessage>
     </ContainerInput>
@@ -54,7 +54,7 @@ const InputApp = ({ label, errorMessage, ...props }: IProps) => {
 InputApp.Checkbox = ({ label, errorMessage, ...props }: IProps) => {
   return (
     <ContainerCheckbox as="label">
-      <input type="checkbox" {...props} checked={props.checked ? props.checked : false} />
+      <input type="checkbox" {...props} checked={props.checked ?? false} />
       <StyledCheckbox $error={!!errorMessage} />
       {label}
       <ErrorMessage showType="bottom">{errorMessage}</ErrorMessage>
@@ -84,7 +84,7 @@ InputApp.Code = ({ codes }: IPropsCode) => {
           className={jost.className}
           style={{ textAlign: "center", fontWeight: 700 }}
           tabIndex={id + 1}
-          value={code.field.value}
+          value={code.field.value ?? ""}
           onChange={changeHandler(code.field)}
           onBlur={code.field.onBlur}
           $error={!!code.fieldState.error?.message}
