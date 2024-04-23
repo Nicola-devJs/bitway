@@ -1,12 +1,12 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import { useRouter } from "next/navigation";
 import { useController, useForm } from "react-hook-form";
 import { AuthContent } from ".";
 import { ButtonApp } from "@/common/UI/button/ButtonApp";
 import { InputApp } from "@/common/UI/input/InputApp";
 import { validateRequired } from "@/common/constants/validation";
-import { ModalApp, modal } from "@/common/UI/modal/ModalApp";
+import { ModalContext } from "@/common/hoc/ModalProvider";
 
 interface FormValues {
   code1: number;
@@ -18,10 +18,21 @@ interface FormValues {
 
 export const AuthOTPPage = () => {
   const { push } = useRouter();
+  const { showHandler, setOptionModalHandler } = useContext(ModalContext);
   const { handleSubmit, control } = useForm<FormValues>({ mode: "onBlur" });
+
   const handler = (data: FormValues) => {
     console.log(Object.values(data).join(""));
-    modal.show?.();
+    setOptionModalHandler({
+      type: "alert",
+      options: {
+        title: "Password Changed Successfully",
+        text: "Your password has been updated successfully",
+        textButton: "Back to Login",
+        buttonHandler: () => push("/auth/login"),
+      },
+    });
+    showHandler();
   };
 
   const arrayCodes = Array(5)
@@ -39,12 +50,6 @@ export const AuthOTPPage = () => {
           <ButtonApp>Verify</ButtonApp>
         </form>
       </AuthContent>
-      <ModalApp.Alert
-        title="Password Changed Successfully"
-        text="Your password has been updated successfully"
-        textButton="Back to Login"
-        buttonHandler={() => push("/auth/login")}
-      />
     </>
   );
 };

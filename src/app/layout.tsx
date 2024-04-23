@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "../../public/global.css";
 import StyledComponentsRegistry from "@/lib/registryStyled";
 import { jost } from "@/common/constants/font";
+import { ModalProvider } from "@/common/hoc/ModalProvider";
 
 export const metadata: Metadata = {
   title: "Bitway",
@@ -17,7 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={jost.className}>
         <StyledComponentsRegistry>
-          <>{children}</>
+          <ModalProvider>{children}</ModalProvider>
         </StyledComponentsRegistry>
       </body>
     </html>

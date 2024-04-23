@@ -1,22 +1,23 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { NextImage } from "../NextImage";
 import imageGallery from "@/assets/images/main-img.jpg";
 import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 import { theme } from "@/assets/theme/theme";
 import { playfair } from "@/common/constants/font";
-import { ModalApp, modal } from "@/common/UI/modal/ModalApp";
+import { ModalContext } from "@/common/hoc/ModalProvider";
 
 export const GalleryApp = () => {
-  const [initialPosition, setInitialPosition] = useState(0);
+  const { showHandler, setOptionModalHandler } = useContext(ModalContext);
+
   const mockGallery = Array(8)
     .fill(" ")
     .map(() => imageGallery);
 
   const openModalSlideHandler = (position: number) => () => {
-    setInitialPosition(position + 1);
-    modal.show?.();
+    setOptionModalHandler({ type: "gallery", options: { images: mockGallery, initialPosition: position + 1 } });
+    showHandler();
   };
 
   return (
@@ -42,7 +43,6 @@ export const GalleryApp = () => {
           </ContainerImages>
         </ContainerApp>
       </div>
-      <ModalApp.Gallery images={mockGallery} initialPosition={initialPosition} />
     </>
   );
 };
