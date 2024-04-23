@@ -87,11 +87,25 @@ const TextBottom = styled(TextApp)`
   margin-top: 2.083vw;
 
   @media (max-width: ${theme.media.desktop}px) {
-    margin-bottom: 2.502vw;
+    margin-top: 2.502vw;
     color: ${theme.colors.white};
   }
 
   @media (max-width: ${theme.media.tablet}px) {
-    margin-bottom: 3.906vw;
+    margin-top: 3.906vw;
+    font-size: 2.604vw;
+
+    a {
+      font-size: 2.604vw;
+    }
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    font-size: 4.706vw;
+    line-height: 1.2;
+
+    a {
+      font-size: 4.706vw;
+    }
   }
 `;

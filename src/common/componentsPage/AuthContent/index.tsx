@@ -32,7 +32,7 @@ export const AuthContent: FC<IProps> = ({ children, title, subTitle }) => {
   );
 };
 
-const GoBack = styled.p`
+const GoBack = styled.div`
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -96,10 +96,25 @@ const HeaderBlock = styled.div`
 
   @media (max-width: ${theme.media.tablet}px) {
     h5 {
+      font-size: 5.208vw;
       margin-bottom: 0.651vw;
     }
 
+    p {
+      font-size: 2.604vw;
+    }
+
     margin-bottom: 3.906vw;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    h5 {
+      font-size: 9.412vw;
+    }
+
+    p {
+      font-size: 4.706vw;
+    }
   }
 `;
 
