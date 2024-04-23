@@ -22,6 +22,10 @@ body {
   color: #0f1015;
 }
 
+body.hide {
+  overflow: hidden;
+}
+
 @media (max-width: 1199px) {
   body {
     font-size: 1.334vw;

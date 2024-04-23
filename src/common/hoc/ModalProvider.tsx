@@ -19,8 +19,14 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
     options: {} as GetOptionsType<ModalType>,
   });
 
-  const showHandler = () => setShow("show");
-  const hideHandler = () => setShow("");
+  const showHandler = () => {
+    setShow("show");
+    document.body.classList.add("hide");
+  };
+  const hideHandler = () => {
+    setShow("");
+    document.body.classList.remove("hide");
+  };
 
   function setOptionModalHandler<T extends ModalType>({ type, options }: IInitializationModal<T>) {
     setOptionModal({ type, options });
