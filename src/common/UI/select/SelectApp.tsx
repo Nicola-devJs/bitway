@@ -2,7 +2,7 @@ import React, { FC, InputHTMLAttributes, useEffect, useRef, useState } from "rea
 import styled from "styled-components";
 import { theme } from "@/assets/theme/theme";
 import { jost } from "@/common/constants/font";
-import { transformAdaptiveSize } from "@/common/helpers/adaptiveSize";
+import { transformAdaptiveSize } from "@/common/helpers/transformValues";
 import { ErrorMessage } from "@/common/styledComponents/ErrorMessage";
 import { TextApp } from "@/common/styledComponents/Text";
 import arrowSelect from "@/assets/icons/arrow-select.svg";

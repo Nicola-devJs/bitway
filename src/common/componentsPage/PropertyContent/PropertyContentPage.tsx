@@ -10,6 +10,9 @@ import { NextImage } from "@/common/components/NextImage";
 import { PropertyActions } from "@/common/components/propertyActions/PropertyActions";
 import { TabsApp } from "@/common/components/tabs/TabsApp";
 import { PropertyDescription } from "./components/PropertyDescription";
+import { SliderApp } from "@/common/components/slider/SliderApp";
+import { PropertyCard } from "@/common/components/propertyCard/PropertyCard";
+import propertiesMockData from "../../../../public/mockData/properties.json";
 
 export const PropertyContentPage = () => {
   return (
@@ -35,6 +38,16 @@ export const PropertyContentPage = () => {
           { title: "Schedule a Tour", content: "Content" },
         ]}
       />
+      <SimilarPropertiesBlock>
+        <SliderApp
+          slides={propertiesMockData.map((prop) => (
+            <PropertyCard typeShow="tile" {...prop} />
+          ))}
+          titleSlider="Similar Properties"
+          countViewSlide={3}
+          countTrack={1}
+        />
+      </SimilarPropertiesBlock>
     </ContainerApp>
   );
 };
@@ -93,5 +106,16 @@ const LocationText = styled.div`
     & > div:first-child {
       margin-right: 1.302vw;
     }
+  }
+`;
+
+const SimilarPropertiesBlock = styled.div`
+  margin-block: 6.944vw;
+
+  @media (max-width: ${theme.media.desktop}px) {
+    margin-block: 8.34vw;
+  }
+  @media (max-width: ${theme.media.tablet}px) {
+    margin-block: 13.021vw;
   }
 `;

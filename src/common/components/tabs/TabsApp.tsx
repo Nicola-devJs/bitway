@@ -1,6 +1,6 @@
 "use client";
 import { theme } from "@/assets/theme/theme";
-import { transformAdaptiveSize } from "@/common/helpers/adaptiveSize";
+import { transformAdaptiveSize } from "@/common/helpers/transformValues";
 import { TextApp } from "@/common/styledComponents/Text";
 import React, { FC, useEffect, useRef, useState } from "react";
 import styled from "styled-components";

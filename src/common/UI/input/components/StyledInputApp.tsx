@@ -1,6 +1,6 @@
 import { theme } from "@/assets/theme/theme";
 import styled from "styled-components";
-import { transformAdaptiveSize } from "@/common/helpers/adaptiveSize";
+import { transformAdaptiveSize } from "@/common/helpers/transformValues";
 
 export const ContainerInput = styled.div`
   position: relative;

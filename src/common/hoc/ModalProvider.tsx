@@ -1,7 +1,7 @@
 "use client";
 import React, { createContext, useState } from "react";
 import { InitializationModalApp } from "../UI/modal/ModalApp";
-import { GetOptionsType, IInitializationModal, ModalType } from "../UI/modal/interfaces";
+import { GetOptionsType, IInitializationModal, ModalType } from "../interfaces/IModal";
 
 interface IContextModal {
   show: string;

@@ -11,6 +11,7 @@ import { propertyCardIcons } from "@/common/constants/constantImages";
 import iconHeart from "@/assets/icons/property-card/heart.svg";
 import { ShowType } from "../listProperties/ListProperties";
 import { PropertyActions } from "../propertyActions/PropertyActions";
+import { IPropertyCard } from "@/common/interfaces/IProperty";
 
 interface IProps {}
 
@@ -20,12 +21,12 @@ const iconComponents = [
   { icon: "car", count: 2 },
 ];
 
-interface IProps {
+interface IProps extends IPropertyCard {
   typeShow: ShowType;
   id: number;
 }
 
-export const PropertyCard: FC<IProps> = ({ typeShow, id }) => {
+export const PropertyCard: FC<IProps> = ({ typeShow, id, author, description, heading, price }) => {
   return (
     <PropertyCardContainer $typeShow={typeShow}>
       <ContainerImage $typeShow={typeShow}>
@@ -35,12 +36,12 @@ export const PropertyCard: FC<IProps> = ({ typeShow, id }) => {
       <PropertyCardContent>
         <Link href={`/properties/luxury-apartment-in-california`}>
           <TextApp.Heading className={playfair.className} size={24} weight={700}>
-            Luxury Apartment in California
+            {heading}
           </TextApp.Heading>
         </Link>
-        <TextApp size={20}>$2600</TextApp>
+        <TextApp size={20}>${price}</TextApp>
         <TextApp color={theme.colors.gray} className="property_card_text">
-          Using it can make you sound like you have been studying english for a long time.
+          {description}
         </TextApp>
         <PropertyComponents>
           {iconComponents.map((comp) => (
@@ -54,7 +55,7 @@ export const PropertyCard: FC<IProps> = ({ typeShow, id }) => {
             <div>
               <NextImage info={cardImg} $width={34} $height={34} />
             </div>
-            <TextApp>Alexa Mate</TextApp>
+            <TextApp>{author.name}</TextApp>
           </Profile>
           <PropertyActions gapActions={8} sizeIcon={18} sizeWrapper={34} />
         </PropertyCardBottom>

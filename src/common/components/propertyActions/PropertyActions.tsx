@@ -5,7 +5,7 @@ import styled from "styled-components";
 import iconShare from "@/assets/icons/property-card/share.svg";
 import iconHeart from "@/assets/icons/property-card/heart.svg";
 import { NextImage } from "../NextImage";
-import { transformAdaptiveSize } from "@/common/helpers/adaptiveSize";
+import { transformAdaptiveSize } from "@/common/helpers/transformValues";
 
 interface IProps {
   sizeIcon: number;

@@ -20,7 +20,7 @@ export interface IModalProps extends IModal {
 export interface IGalleryProps extends IModal {
   height?: number;
   images: StaticImageData[] | string[];
-  initialPosition?: number;
+  initialPosition: number;
 }
 
 export type ModalType = "alert" | "gallery" | "modal";

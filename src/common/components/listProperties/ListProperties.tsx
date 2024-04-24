@@ -2,22 +2,22 @@ import { theme } from "@/assets/theme/theme";
 import React, { FC } from "react";
 import styled from "styled-components";
 import { PropertyCard } from "../propertyCard/PropertyCard";
+import { IPropertyCard } from "@/common/interfaces/IProperty";
 
 export type ShowType = "list" | "tile";
 
 interface IProps {
   typeShow: ShowType;
   countTiles?: number;
+  properties: IPropertyCard[];
 }
 
-export const ListProperties: FC<IProps> = ({ typeShow, countTiles = 3 }) => {
+export const ListProperties: FC<IProps> = ({ typeShow, countTiles = 3, properties }) => {
   return (
     <StyledListProperties $typeShow={typeShow} $countTiles={countTiles}>
-      {Array(5)
-        .fill(" ")
-        .map((_, id) => (
-          <PropertyCard key={id} typeShow={typeShow} id={id} />
-        ))}
+      {properties?.map((prop, id) => (
+        <PropertyCard key={id} typeShow={typeShow} id={id} {...prop} />
+      ))}
     </StyledListProperties>
   );
 };

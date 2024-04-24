@@ -1,17 +1,14 @@
 import { theme } from "@/assets/theme/theme";
-import { transformAdaptiveSize } from "@/common/helpers/adaptiveSize";
+import { transformAdaptiveSize } from "@/common/helpers/transformValues";
 import styled from "styled-components";
 import alertIcon from "@/assets/icons/alert-icon.svg";
-import { ModalSlider } from "./StyledModalAppSlider";
+import { CloseModalSlider, SliderInfo } from "./StyledModalAppSlider";
 
 const ModalBody = styled.div<{ $width: number }>`
   width: ${(props) => transformAdaptiveSize(props.$width)};
   background-color: ${theme.colors.white};
   border-radius: 1.389vw;
   padding: 2.083vw 1.389vw 1.597vw;
-  opacity: 0;
-  transform: translateY(-50px);
-  transition: all 0.2s ease-in-out 0.1s;
 
   @media (max-width: ${theme.media.desktop}px) {
     width: ${(props) => transformAdaptiveSize(props.$width, theme.media.desktop)};
@@ -41,10 +38,20 @@ const ModalOverlay = styled.div`
   visibility: hidden;
   transition: all 0.2s ease-in-out;
 
+  & > div {
+    opacity: 0;
+    transform: translateY(-50px);
+    transition: all 0.2s ease-in-out 0.1s;
+
+    &:hover ${SliderInfo}, &:hover ${CloseModalSlider} {
+      opacity: 1;
+    }
+  }
+
   &.show {
     visibility: visible;
     backdrop-filter: blur(5px);
-    & ${ModalBody}, & ${ModalSlider} {
+    & > div {
       opacity: 1;
       transform: translateY(0px);
     }

@@ -7,6 +7,7 @@ import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 import { TextApp } from "@/common/styledComponents/Text";
 import React from "react";
 import styled from "styled-components";
+import { PropertiesBlock } from "../PropertiesBlock";
 
 export const HomeHeadingBlock = () => {
   return (
@@ -32,10 +33,7 @@ export const HomeHeadingBlock = () => {
 export const HomeLatestProperties = () => {
   return (
     <LatestPropertiesBlock>
-      <ContainerApp>
-        <TextApp.Block title="Explore the latest properties available" $mb={50} />
-        <ListProperties typeShow="tile" />
-      </ContainerApp>
+      <PropertiesBlock />
     </LatestPropertiesBlock>
   );
 };

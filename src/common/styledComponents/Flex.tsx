@@ -1,7 +1,7 @@
 "use client";
 import React, { FC } from "react";
 import styled from "styled-components";
-import { transformAdaptiveSize } from "../helpers/adaptiveSize";
+import { transformAdaptiveSize } from "../helpers/transformValues";
 import { theme } from "@/assets/theme/theme";
 
 interface IProps {

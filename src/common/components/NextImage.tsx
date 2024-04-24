@@ -4,7 +4,7 @@ import { theme } from "@/assets/theme/theme";
 import Image, { StaticImageData } from "next/image";
 import React, { FC, HtmlHTMLAttributes } from "react";
 import styled from "styled-components";
-import { transformAdaptiveSize } from "../helpers/adaptiveSize";
+import { transformAdaptiveSize } from "../helpers/transformValues";
 
 interface IProps extends HtmlHTMLAttributes<HTMLDivElement> {
   info: StaticImageData | string;

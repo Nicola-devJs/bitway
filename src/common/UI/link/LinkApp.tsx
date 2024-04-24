@@ -1,6 +1,6 @@
 "use client";
 import { theme } from "@/assets/theme/theme";
-import { transformAdaptiveSize } from "@/common/helpers/adaptiveSize";
+import { transformAdaptiveSize } from "@/common/helpers/transformValues";
 import Link from "next/link";
 import React, { FC } from "react";
 import styled from "styled-components";
