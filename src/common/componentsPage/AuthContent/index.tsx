@@ -56,6 +56,7 @@ const GoBack = styled.div`
 
   @media (max-width: ${theme.media.desktop}px) {
     margin-bottom: 2.502vw;
+    font-size: 1.8vw;
     color: ${theme.colors.white};
     &:before {
       background-image: url(${goBackIconWhite.src});
@@ -66,10 +67,19 @@ const GoBack = styled.div`
 
   @media (max-width: ${theme.media.tablet}px) {
     margin-bottom: 3.906vw;
+    font-size: 3.3vw;
     &:before {
-      width: 1.042vw;
-      height: 2.214vw;
+      width: 1.742vw;
+      height: 2.514vw;
     }
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    font-size: 4.529vw;
+    &:before {
+    width: 1.5vw;
+    height: 3.214vw;
+  }
   }
 `;
 
@@ -108,12 +118,16 @@ const HeaderBlock = styled.div`
   }
 
   @media (max-width: ${theme.media.phone}px) {
+    margin-bottom: 8.083vw;
+
     h5 {
-      font-size: 9.412vw;
+      font-size: 10vw;
+      text-align: center;
     }
 
     p {
       font-size: 4.706vw;
+      text-align: center;
     }
   }
 `;
@@ -152,6 +166,20 @@ const ContentWrappper = styled.div`
         margin-top: 2.083vw;
       }
 
+      &:last-child {
+        margin-top: 3.906vw;
+      }
+    }
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    form > * {
+      &:nth-child(2) {
+        margin-top: 4.083vw;
+      }
+      &:nth-child(3) {
+        margin-top: 4.083vw;
+      }
       &:last-child {
         margin-top: 3.906vw;
       }

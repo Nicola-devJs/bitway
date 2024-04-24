@@ -51,6 +51,11 @@ export const StyledCheckbox = styled.span<{ $error: boolean }>`
       height: 1.563vw;
     }
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    width: 3.604vw;
+    height: 3.604vw;
+  }
 `;
 
 export const ContainerCheckbox = styled(TextApp)`
@@ -68,6 +73,18 @@ export const ContainerCheckbox = styled(TextApp)`
       &::after {
         opacity: 1;
       }
+    }
+  }
+
+  @media (max-width: ${theme.media.tablet}px) {
+    span {
+    font-size: 2.344vw;
+    }
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    span {
+    font-size: 3.6vw;
     }
   }
 `;

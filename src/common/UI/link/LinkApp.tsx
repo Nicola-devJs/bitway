@@ -32,6 +32,11 @@ const CustomLink = styled(Link)<{ $fz: number; $color: string; $isNotViewUnderli
   color: ${(props) => props.$color};
   font-weight: 400;
   position: relative;
+  /*  */
+  color: #001ff5;
+  font-weight: 500;
+  letter-spacing: 1.2px;
+  /*  */
 
   &::after {
     content: "";
@@ -54,6 +59,10 @@ const CustomLink = styled(Link)<{ $fz: number; $color: string; $isNotViewUnderli
   }
 
   @media (max-width: ${theme.media.tablet}px) {
-    font-size: ${(props) => transformAdaptiveSize(props.$fz, theme.media.tablet)};
+    font-size: ${(props) => transformAdaptiveSize(props.$fz, theme.media.tablet, 130)};
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    font-size: ${(props) => transformAdaptiveSize(props.$fz, theme.media.phone)};
   }
 `;

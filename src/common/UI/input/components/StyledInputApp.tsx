@@ -13,7 +13,7 @@ export const ContainerInput = styled.div`
     }
 
     @media (max-width: ${theme.media.tablet}px) {
-      margin-bottom: 0.651vw;
+      margin-bottom: 1.251vw;
     }
   }
 `;
@@ -48,11 +48,18 @@ export const StyledInput = styled.input<{ $error?: boolean; $size?: number; $wid
 
   @media (max-width: ${theme.media.tablet}px) {
     width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width, theme.media.tablet) : "100%")};
-    padding: 2.083vw;
+    padding: 2.6vw;
     font-size: ${(props) =>
       props.$size
         ? transformAdaptiveSize(props.$size, theme.media.tablet)
         : transformAdaptiveSize(16, theme.media.tablet)};
     border-radius: 1.302vw;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    padding: 4.083vw;
+    &::placeholder {
+    font-size: 3.5vw;
+  }
   }
 `;

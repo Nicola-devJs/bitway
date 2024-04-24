@@ -49,11 +49,17 @@ const StyledText = styled.p<{ $s: number; $c: string; $fw?: number }>`
   font-size: ${(props) => transformAdaptiveSize(props.$s)};
 
   @media (max-width: ${theme.media.desktop}px) {
-    font-size: ${(props) => transformAdaptiveSize(props.$s, theme.media.desktop)};
+    font-size: ${(props) => transformAdaptiveSize(props.$s, theme.media.desktop, 120)};
+    letter-spacing: 0.5px;
   }
 
   @media (max-width: ${theme.media.tablet}px) {
-    font-size: ${(props) => transformAdaptiveSize(props.$s, theme.media.tablet)};
+    font-size: ${(props) => transformAdaptiveSize(props.$s, theme.media.tablet, 135)};
+    letter-spacing: 0.5px;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    font-size: ${(props) => transformAdaptiveSize(props.$s, theme.media.phone, 120)};
   }
 `;
 
