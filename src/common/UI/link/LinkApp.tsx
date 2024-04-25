@@ -32,11 +32,7 @@ const CustomLink = styled(Link)<{ $fz: number; $color: string; $isNotViewUnderli
   color: ${(props) => props.$color};
   font-weight: 400;
   position: relative;
-  /*  */
-  color: #001ff5;
-  font-weight: 500;
-  letter-spacing: 1.2px;
-  /*  */
+
 
   &::after {
     content: "";

@@ -55,6 +55,11 @@ export const StyledCheckbox = styled.span<{ $error: boolean }>`
   @media (max-width: ${theme.media.phone}px) {
     width: 3.604vw;
     height: 3.604vw;
+
+    &:after {
+      width: 2.2vw;
+      height: 2.2vw;
+    }
   }
 `;
 

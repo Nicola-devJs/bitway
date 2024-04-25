@@ -14,4 +14,8 @@ export const ContainerCode = styled.div`
   @media (max-width: ${theme.media.tablet}px) {
     gap: 2.604vw;
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    gap: 4.706vw;
+  }
 `;

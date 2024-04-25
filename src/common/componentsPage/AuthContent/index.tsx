@@ -1,22 +1,22 @@
-"use client";
-import React, { FC } from "react";
-import { useRouter } from "next/navigation";
-import styled from "styled-components";
-import { TextApp } from "../../styledComponents/Text";
-import { playfair } from "../../constants/font";
-import { theme } from "@/assets/theme/theme";
+"use client"
+import React, { FC } from "react"
+import { useRouter } from "next/navigation"
+import styled from "styled-components"
+import { TextApp } from "../../styledComponents/Text"
+import { playfair } from "../../constants/font"
+import { theme } from "@/assets/theme/theme"
 
-import goBackIconBlack from "@/assets/icons/chevron-left-b.svg";
-import goBackIconWhite from "@/assets/icons/chevron-left-w.svg";
+import goBackIconBlack from "@/assets/icons/chevron-left-b.svg"
+import goBackIconWhite from "@/assets/icons/chevron-left-w.svg"
 
 interface IProps {
-  children?: React.ReactNode;
-  title: string;
-  subTitle: string;
+  children?: React.ReactNode
+  title: string
+  subTitle: string
 }
 
 export const AuthContent: FC<IProps> = ({ children, title, subTitle }) => {
-  const { back } = useRouter();
+  const { back } = useRouter()
 
   return (
     <ContentWrappper>
@@ -29,8 +29,8 @@ export const AuthContent: FC<IProps> = ({ children, title, subTitle }) => {
       </HeaderBlock>
       {children}
     </ContentWrappper>
-  );
-};
+  )
+}
 
 const GoBack = styled.div`
   display: flex;
@@ -76,12 +76,13 @@ const GoBack = styled.div`
 
   @media (max-width: ${theme.media.phone}px) {
     font-size: 4.529vw;
+    margin-bottom: 8vw;
     &:before {
-    width: 1.5vw;
-    height: 3.214vw;
+      width: 1.5vw;
+      height: 3.214vw;
+    }
   }
-  }
-`;
+`
 
 const HeaderBlock = styled.div`
   h5 {
@@ -130,7 +131,7 @@ const HeaderBlock = styled.div`
       text-align: center;
     }
   }
-`;
+`
 
 const ContentWrappper = styled.div`
   form > * {
@@ -185,4 +186,4 @@ const ContentWrappper = styled.div`
       }
     }
   }
-`;
+`

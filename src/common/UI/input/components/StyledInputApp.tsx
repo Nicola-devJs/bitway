@@ -13,7 +13,7 @@ export const ContainerInput = styled.div`
     }
 
     @media (max-width: ${theme.media.tablet}px) {
-      margin-bottom: 1.251vw;
+      margin-bottom: 0.5vw;
     }
   }
 `;
@@ -42,7 +42,7 @@ export const StyledInput = styled.input<{ $error?: boolean; $size?: number; $wid
     font-size: ${(props) =>
       props.$size
         ? transformAdaptiveSize(props.$size, theme.media.desktop)
-        : transformAdaptiveSize(16, theme.media.desktop)};
+        : transformAdaptiveSize(18, theme.media.desktop)};
     border-radius: 0.834vw;
   }
 
@@ -52,12 +52,16 @@ export const StyledInput = styled.input<{ $error?: boolean; $size?: number; $wid
     font-size: ${(props) =>
       props.$size
         ? transformAdaptiveSize(props.$size, theme.media.tablet)
-        : transformAdaptiveSize(16, theme.media.tablet)};
+        : transformAdaptiveSize(16, theme.media.tablet, 120)};
     border-radius: 1.302vw;
   }
 
   @media (max-width: ${theme.media.phone}px) {
-    padding: 4.083vw;
+    font-size: ${(props) =>
+      props.$size
+        ? transformAdaptiveSize(props.$size, theme.media.phone)
+        : transformAdaptiveSize(16, theme.media.phone)};
+    padding: 1.583vw;
     &::placeholder {
     font-size: 3.5vw;
   }
