@@ -29,7 +29,7 @@ export const FooterApp = () => {
               <ListMenu>
                 {itemMenu.childs.map((child) => (
                   <li key={child.path}>
-                    <LinkApp path={child.path} color={theme.colors.white}>
+                    <LinkApp href={child.path} color={theme.colors.white}>
                       {child.label}
                     </LinkApp>
                   </li>

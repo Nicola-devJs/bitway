@@ -8,6 +8,7 @@ import { TextApp } from "@/common/styledComponents/Text";
 import React from "react";
 import styled from "styled-components";
 import { PropertiesBlock } from "../PropertiesBlock";
+import { LinkApp } from "@/common/UI/link/LinkApp";
 
 export const HomeHeadingBlock = () => {
   return (
@@ -22,7 +23,9 @@ export const HomeHeadingBlock = () => {
               It is a long established fact that a reader will be distracted by the readable content of a page when
               looking at its layout.
             </TextApp>
-            <ButtonApp width={262}>Get Started</ButtonApp>
+            <LinkApp.Button href="#search_property" width={262}>
+              Get Started
+            </LinkApp.Button>
           </div>
         </HeadingBlock>
       </ContainerApp>

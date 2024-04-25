@@ -20,12 +20,16 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
   });
 
   const showHandler = () => {
-    setShow("show");
-    document.body.classList.add("hide");
+    setTimeout(() => {
+      setShow("show");
+      document.body.classList.add("hide");
+    }, 0);
   };
   const hideHandler = () => {
-    setShow("");
-    document.body.classList.remove("hide");
+    setTimeout(() => {
+      setShow("");
+      document.body.classList.remove("hide");
+    }, 0);
   };
 
   function setOptionModalHandler<T extends ModalType>({ type, options }: IInitializationModal<T>) {

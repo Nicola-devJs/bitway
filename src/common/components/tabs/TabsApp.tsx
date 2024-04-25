@@ -7,33 +7,38 @@ import styled from "styled-components";
 
 interface IProps {
   listTabs: { title: string; content: React.ReactNode }[];
+  additionalItem?: React.ReactNode;
 }
 
-export const TabsApp: FC<IProps> = ({ listTabs }) => {
+export const TabsApp: FC<IProps> = ({ listTabs, additionalItem }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
     <StyledTabs>
       <TabsNavigate>
-        {listTabs.map((tab, id) => (
-          <TabItem key={id} $active={id === activeTab} onClick={() => setActiveTab(id)}>
-            <TextApp
-              size={20}
-              weight={id === activeTab ? 700 : 400}
-              color={id === activeTab ? theme.colors.blue : theme.colors.dark}
-            >
-              {tab.title}
-            </TextApp>
-          </TabItem>
-        ))}
+        <div>
+          {listTabs.map((tab, id) => (
+            <TabItem key={id} $active={id === activeTab} onClick={() => setActiveTab(id)}>
+              <TextApp
+                size={20}
+                weight={id === activeTab ? 700 : 400}
+                color={id === activeTab ? theme.colors.blue : theme.colors.dark}
+              >
+                {tab.title}
+              </TextApp>
+            </TabItem>
+          ))}
+        </div>
+        {additionalItem && <>{additionalItem}</>}
       </TabsNavigate>
-      <div style={{ overflow: "hidden" }}>
+      {listTabs[activeTab].content}
+      {/* <div style={{ overflow: "hidden" }}>
         <TabsTrack $pos={activeTab} $columns={listTabs.length}>
           {listTabs.map(({ content }, id) => (
             <div key={id}>{content}</div>
           ))}
         </TabsTrack>
-      </div>
+      </div> */}
     </StyledTabs>
   );
 };
@@ -45,9 +50,15 @@ const StyledTabs = styled.div`
 const TabsNavigate = styled.ul`
   width: 100%;
   display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
   padding-bottom: 12px;
   margin-bottom: 20px;
   border-bottom: 1px solid ${theme.colors.grayOpacity(0.2)};
+
+  & > div:first-child {
+    display: flex;
+  }
 `;
 
 const TabItem = styled.li<{ $active?: boolean }>`
@@ -77,10 +88,10 @@ const TabItem = styled.li<{ $active?: boolean }>`
     }
   }
 `;
-
-const TabsTrack = styled.div<{ $pos: number; $columns: number }>`
-  display: grid;
-  grid-template-columns: ${(props) => `repeat(${props.$columns}, 100%)`};
-  transform: ${(props) => `translateX(-${100 * props.$pos}%)`};
-  transition: transform 0.2s ease-in-out;
-`;
+// TODO Решение для перелистывания табов в виде слайдера (сырое)
+// const TabsTrack = styled.div<{ $pos: number; $columns: number }>`
+//   display: grid;
+//   grid-template-columns: ${(props) => `repeat(${props.$columns}, 100%)`};
+//   transform: ${(props) => `translateX(-${100 * props.$pos}%)`};
+//   transition: transform 0.2s ease-in-out;
+// `;

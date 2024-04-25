@@ -27,7 +27,7 @@ export const Breadcrumbs = () => {
           ) : path === ">" ? (
             <ArrowRight />
           ) : (
-            <LinkApp path={path}>{BREADCRUMBS_MENU[path]}</LinkApp>
+            <LinkApp href={path}>{BREADCRUMBS_MENU[path]}</LinkApp>
           )}
         </React.Fragment>
       ))}

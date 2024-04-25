@@ -36,6 +36,8 @@ export const SliderApp: FC<IProps> = ({
   countTrack = 1,
 }) => {
   const [positionSlide, setPositionSlide] = useState(initialPosition);
+  const isFirstSlide = positionSlide === 0;
+  const isLastSlide = countTrack * (positionSlide + countViewSlide) > slides.length - 1;
 
   const incrementPosition = () => {
     if (positionSlide < slides.length - 1) {
@@ -64,16 +66,16 @@ export const SliderApp: FC<IProps> = ({
           </TextApp.Heading>
           <NavigationBlock>
             <SliderNavigationArrowLeft
-              $disabled={positionSlide === 0}
-              disabled={positionSlide === 0}
+              $disabled={isFirstSlide}
+              disabled={isFirstSlide}
               onClick={decrementPosition}
               $customPosition
             >
               <NextImage info={arrowLeftSlider} $height={9.5} $width={13.5} objectFit="contain" />
             </SliderNavigationArrowLeft>
             <SliderNavigationArrowRight
-              $disabled={countTrack * (positionSlide + countViewSlide) > slides.length - 1}
-              disabled={countTrack * (positionSlide + countViewSlide) > slides.length - 1}
+              $disabled={isLastSlide}
+              disabled={isLastSlide}
               onClick={incrementPosition}
               $customPosition
             >
@@ -99,18 +101,10 @@ export const SliderApp: FC<IProps> = ({
         {children}
         {showArrowsNavigation && (
           <>
-            <SliderNavigationArrowLeft
-              $disabled={positionSlide === 0}
-              disabled={positionSlide === 0}
-              onClick={decrementPosition}
-            >
+            <SliderNavigationArrowLeft $disabled={isFirstSlide} disabled={isFirstSlide} onClick={decrementPosition}>
               <NextImage info={arrowLeftSlider} $height={9.5} $width={13.5} objectFit="contain" />
             </SliderNavigationArrowLeft>
-            <SliderNavigationArrowRight
-              $disabled={countTrack * (positionSlide + countViewSlide) > slides.length - 1}
-              disabled={countTrack * (positionSlide + countViewSlide) > slides.length - 1}
-              onClick={incrementPosition}
-            >
+            <SliderNavigationArrowRight $disabled={isLastSlide} disabled={isLastSlide} onClick={incrementPosition}>
               <NextImage info={arrowRightSlider} $height={9.5} $width={13.5} objectFit="contain" />
             </SliderNavigationArrowRight>
           </>

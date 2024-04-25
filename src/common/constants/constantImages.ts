@@ -8,6 +8,10 @@ import iconBed from "@/assets/icons/property-card/bed.svg";
 import iconBath from "@/assets/icons/property-card/bath.svg";
 import iconCar from "@/assets/icons/property-card/car.svg";
 
+import iconTelegram from "@/assets/icons/feedback/telegram.svg";
+import iconWhatsapp from "@/assets/icons/feedback/whatsapp.svg";
+import iconViber from "@/assets/icons/feedback/viber.svg";
+
 type ConstImagesType = { [x: string]: StaticImageData };
 
 export const authPages: ConstImagesType = {
@@ -21,4 +25,10 @@ export const propertyCardIcons: ConstImagesType = {
   bed: iconBed,
   bath: iconBath,
   car: iconCar,
+};
+
+export const feedbackButtonIcons = {
+  telegram: iconTelegram,
+  whatsapp: iconWhatsapp,
+  viber: iconViber,
 };

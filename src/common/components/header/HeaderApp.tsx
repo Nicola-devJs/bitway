@@ -2,7 +2,7 @@
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
-import { ButtonApp } from "@/common/UI/button/ButtonApp";
+
 import { theme } from "@/assets/theme/theme";
 import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 import { LogoApp } from "../logo/LogoApp";
@@ -21,15 +21,13 @@ export const HeaderApp = () => {
           <MenuList>
             {HEADER_NAVMENU.map((itemMenu) => (
               <li key={itemMenu.path}>
-                <LinkApp path={itemMenu.path}>{itemMenu.label}</LinkApp>
+                <LinkApp href={itemMenu.path}>{itemMenu.label}</LinkApp>
               </li>
             ))}
           </MenuList>
-          <Link href="/auth/login">
-            <ButtonApp paddingBlock={13.5} width={98}>
-              Login
-            </ButtonApp>
-          </Link>
+          <LinkApp.Button href="/auth/login" width={98}>
+            Login
+          </LinkApp.Button>
         </HeaderNav>
       </ContainerApp>
     </HeaderContainer>

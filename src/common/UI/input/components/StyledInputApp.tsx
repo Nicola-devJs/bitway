@@ -26,6 +26,7 @@ export const StyledInput = styled.input<{ $error?: boolean; $size?: number; $wid
   color: ${theme.colors.dark};
   font-weight: 500;
   font-size: ${(props) => (props.$size ? transformAdaptiveSize(props.$size) : transformAdaptiveSize(16))};
+  resize: vertical;
 
   &:focus {
     outline: none;

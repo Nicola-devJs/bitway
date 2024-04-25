@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useContext, useLayoutEffect, useState } from "react";
 import styled from "styled-components";
 import { theme } from "@/assets/theme/theme";
 import { playfair } from "@/common/constants/font";
@@ -13,8 +13,22 @@ import { PropertyDescription } from "./components/PropertyDescription";
 import { SliderApp } from "@/common/components/slider/SliderApp";
 import { PropertyCard } from "@/common/components/propertyCard/PropertyCard";
 import propertiesMockData from "../../../../public/mockData/properties.json";
+import { FormFeedback } from "@/common/components/feedback/FormFeedback";
+import { ButtonApp } from "@/common/UI/button/ButtonApp";
+import { ModalContext } from "@/common/hoc/ModalProvider";
+import { useScreenExtension } from "@/common/hooks/useScreenExtension";
 
 export const PropertyContentPage = () => {
+  // TODO Доработать хук useScreenExtension (использовать массив, с инверсией. В хуке задействовать изначальные значения)
+  const isDesktopScreen = useScreenExtension(theme.media.desktop);
+  const { showHandler, setOptionModalHandler } = useContext(ModalContext);
+
+  const openModalFormFeedback = () => {
+    setOptionModalHandler({ type: "modal", options: { children: <FormFeedback />, width: 700 } });
+
+    showHandler();
+  };
+
   return (
     <ContainerApp>
       <PropertyTopInfo>
@@ -30,14 +44,24 @@ export const PropertyContentPage = () => {
         </div>
         <PropertyActions sizeIcon={24} sizeWrapper={56} gapActions={20} />
       </PropertyTopInfo>
-      <TabsApp
-        listTabs={[
-          { title: "Descriptions", content: <PropertyDescription /> },
-          { title: "Features", content: "Content" },
-          { title: "Mortgage Calculator", content: "Content" },
-          { title: "Schedule a Tour", content: "Content" },
-        ]}
-      />
+      <PropertyContentContainer>
+        <TabsApp
+          listTabs={[
+            { title: "Descriptions", content: <PropertyDescription /> },
+            { title: "Features", content: "Content" },
+            { title: "Mortgage Calculator", content: "Content" },
+            { title: "Schedule a Tour", content: "Content" },
+          ]}
+          additionalItem={
+            !isDesktopScreen ? (
+              <ButtonApp onClick={openModalFormFeedback} width={98}>
+                Send
+              </ButtonApp>
+            ) : null
+          }
+        />
+        {isDesktopScreen && <FormFeedback />}
+      </PropertyContentContainer>
       <SimilarPropertiesBlock>
         <SliderApp
           slides={propertiesMockData.map((prop) => (
@@ -106,6 +130,16 @@ const LocationText = styled.div`
     & > div:first-child {
       margin-right: 1.302vw;
     }
+  }
+`;
+
+const PropertyContentContainer = styled.div`
+  display: grid;
+  grid-template-columns: 58% auto;
+  grid-column-gap: 2.083vw;
+
+  @media (max-width: ${theme.media.desktop}px) {
+    grid-template-columns: 100%;
   }
 `;
 

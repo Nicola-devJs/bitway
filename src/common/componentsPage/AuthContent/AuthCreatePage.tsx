@@ -81,7 +81,7 @@ export const AuthCreatePage = () => {
           label={
             <span>
               I agree to the{" "}
-              <LinkApp color={theme.colors.blue} path="#" notViewUnderline>
+              <LinkApp color={theme.colors.blue} href="#" notViewUnderline>
                 Terms & Conditions
               </LinkApp>{" "}
             </span>

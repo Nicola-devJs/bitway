@@ -24,7 +24,7 @@ export const PropertiesList = () => {
           <TextApp>Showing 1–16 of 72 results</TextApp>
         </ShowAndCountPropertiesBlock>
       </PropertiesToolbar>
-      <ListProperties typeShow={showType} countTiles={2} />
+      {/* <ListProperties typeShow={showType} countTiles={2} /> */}
     </div>
   );
 };

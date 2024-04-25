@@ -1,5 +1,5 @@
 "use client";
-import React, { ChangeEvent, InputHTMLAttributes, useCallback, useState } from "react";
+import React, { ChangeEvent, InputHTMLAttributes, TextareaHTMLAttributes, useCallback, useState } from "react";
 import { jost } from "@/common/constants/font";
 import { TextApp } from "@/common/styledComponents/Text";
 import { ErrorMessage } from "@/common/styledComponents/ErrorMessage";
@@ -13,7 +13,14 @@ type RangeType = {
   min: number;
   max: number;
 };
+
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
+  label?: React.ReactNode;
+  errorMessage?: string;
+  onChange: (...event: any[]) => void;
+}
+
+interface IPropsTextarea extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: React.ReactNode;
   errorMessage?: string;
 }
@@ -91,6 +98,53 @@ InputApp.Code = ({ codes }: IPropsCode) => {
         />
       ))}
     </ContainerCode>
+  );
+};
+
+InputApp.Phone = ({ label, errorMessage, onChange, ...props }: IProps) => {
+  const phoneHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    const value = event.target.value.replace(/[^+\d]/g, "");
+    onChange(value);
+  };
+
+  return (
+    <ContainerInput>
+      {label && (
+        <TextApp as="label" size={12} weight={500}>
+          {label}
+        </TextApp>
+      )}
+      <StyledInput
+        type="tel"
+        className={jost.className}
+        $error={!!errorMessage}
+        onChange={phoneHandler}
+        {...props}
+        value={props.value ?? ""}
+      />
+      <ErrorMessage>{errorMessage}</ErrorMessage>
+    </ContainerInput>
+  );
+};
+
+InputApp.Text = ({ label, errorMessage, ...props }: IPropsTextarea) => {
+  return (
+    <ContainerInput>
+      {label && (
+        <TextApp as="label" size={12} weight={500}>
+          {label}
+        </TextApp>
+      )}
+      <StyledInput
+        as="textarea"
+        className={jost.className}
+        $error={!!errorMessage}
+        rows={3}
+        {...props}
+        value={props.value ?? ""}
+      />
+      <ErrorMessage>{errorMessage}</ErrorMessage>
+    </ContainerInput>
   );
 };
 

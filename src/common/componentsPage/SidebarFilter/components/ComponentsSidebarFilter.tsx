@@ -6,10 +6,11 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const PropertyType = () => {
+  // TODO Добавить onChange в checkbox
   return (
     <ContainerContent>
-      <InputApp.Checkbox label="Buy" />
-      <InputApp.Checkbox label="Rent" />
+      {/* <InputApp.Checkbox label="Buy" />
+      <InputApp.Checkbox label="Rent" /> */}
     </ContainerContent>
   );
 };
@@ -17,10 +18,10 @@ const PropertyType = () => {
 const Categories = () => {
   return (
     <ContainerContent>
-      <InputApp.Checkbox label="Apartment" />
+      {/* <InputApp.Checkbox label="Apartment" />
       <InputApp.Checkbox label="Villa" />
       <InputApp.Checkbox label="Duplex" />
-      <InputApp.Checkbox label="Houses" />
+      <InputApp.Checkbox label="Houses" /> */}
     </ContainerContent>
   );
 };

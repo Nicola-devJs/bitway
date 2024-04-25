@@ -10,12 +10,12 @@ import { NextImage } from "../NextImage";
 import { theme } from "@/assets/theme/theme";
 import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 
-export const FilterPanel = () => {
+export const SearchProperty = () => {
   return (
     <ContainerApp>
-      <FilterPanelContainer>
-        <FilterPanelRow>
-          <FilterPanelItem>
+      <SearchPropertyContainer id="search_property">
+        <SearchPropertyRow>
+          <SearchPropertyItem>
             <div>
               <NextImage info={locationIcon} $width={24} objectFit="contain" />
             </div>
@@ -26,8 +26,8 @@ export const FilterPanel = () => {
               </TextApp.Heading>
               <TextApp color={theme.colors.whiteOpacity(0.5)}>Tiraspol, PMR</TextApp>
             </div>
-          </FilterPanelItem>
-          <FilterPanelItem>
+          </SearchPropertyItem>
+          <SearchPropertyItem>
             <div>
               <NextImage info={dollarIcon} $width={24} objectFit="contain" />
             </div>
@@ -38,8 +38,8 @@ export const FilterPanel = () => {
               </TextApp.Heading>
               <TextApp color={theme.colors.whiteOpacity(0.5)}>$1000 - 10 000</TextApp>
             </div>
-          </FilterPanelItem>
-          <FilterPanelItem>
+          </SearchPropertyItem>
+          <SearchPropertyItem>
             <div>
               <NextImage info={homeIcon} $width={24} objectFit="contain" />
             </div>
@@ -50,17 +50,17 @@ export const FilterPanel = () => {
               </TextApp.Heading>
               <TextApp color={theme.colors.whiteOpacity(0.5)}>Apartment</TextApp>
             </div>
-          </FilterPanelItem>
-        </FilterPanelRow>
+          </SearchPropertyItem>
+        </SearchPropertyRow>
         <Search>
           <NextImage info={searchIcon} $width={24} objectFit="contain" />
         </Search>
-      </FilterPanelContainer>
+      </SearchPropertyContainer>
     </ContainerApp>
   );
 };
 
-const FilterPanelContainer = styled.div`
+const SearchPropertyContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -86,12 +86,12 @@ const FilterPanelContainer = styled.div`
   }
 `;
 
-const FilterPanelRow = styled.div`
+const SearchPropertyRow = styled.div`
   display: flex;
   align-items: center;
 `;
 
-const FilterPanelItem = styled.div`
+const SearchPropertyItem = styled.div`
   display: flex;
 
   padding-inline: 2.5vw;

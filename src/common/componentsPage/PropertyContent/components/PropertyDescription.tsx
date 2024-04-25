@@ -137,9 +137,9 @@ const DetailsTable = styled.ul`
   }
 
   li {
-    display: grid;
-    align-content: center;
-    grid-template-columns: minmax(max-content, 1fr) 1fr;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     & > p:first-child {
       margin-right: 20px;
       &:after {
