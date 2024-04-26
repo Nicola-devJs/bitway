@@ -21,7 +21,7 @@ export const HomeHeadingBlock = () => {
               It is a long established fact that a reader will be distracted by the readable content of a page when
               looking at its layout.
             </TextApp>
-            <LinkApp.Button href="#search_property" width={262}>
+            <LinkApp.Button href="/properties" width={262}>
               Get Started
             </LinkApp.Button>
           </div>
