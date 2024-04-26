@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext, useLayoutEffect, useState } from "react";
+import React, { useContext } from "react";
 import styled from "styled-components";
 import { theme } from "@/assets/theme/theme";
 import { playfair } from "@/common/constants/font";
@@ -20,7 +20,12 @@ import { useScreenExtension } from "@/common/hooks/useScreenExtension";
 
 export const PropertyContentPage = () => {
   // TODO Доработать хук useScreenExtension (использовать массив, с инверсией. В хуке задействовать изначальные значения)
-  const isDesktopScreen = useScreenExtension(theme.media.desktop);
+  const [minDesktopScreen, maxDesktopScreen, maxTabletScreen] = useScreenExtension([
+    { screenExtension: theme.media.desktop },
+    { screenExtension: theme.media.desktop, maxScreen: true },
+    { screenExtension: theme.media.tablet, maxScreen: true },
+  ]);
+
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
 
   const openModalFormFeedback = () => {
@@ -42,7 +47,14 @@ export const PropertyContentPage = () => {
           </LocationText>
           <TextApp.Heading size={24}>$7500000</TextApp.Heading>
         </div>
-        <PropertyActions sizeIcon={24} sizeWrapper={56} gapActions={20} />
+        <PropertyTopActionBlock>
+          <PropertyActions sizeIcon={24} sizeWrapper={56} gapActions={20} />
+          {maxDesktopScreen ? (
+            <ButtonApp onClick={openModalFormFeedback} width={98}>
+              Send
+            </ButtonApp>
+          ) : null}
+        </PropertyTopActionBlock>
       </PropertyTopInfo>
       <PropertyContentContainer>
         <TabsApp
@@ -52,15 +64,8 @@ export const PropertyContentPage = () => {
             { title: "Mortgage Calculator", content: "Content" },
             { title: "Schedule a Tour", content: "Content" },
           ]}
-          additionalItem={
-            !isDesktopScreen ? (
-              <ButtonApp onClick={openModalFormFeedback} width={98}>
-                Send
-              </ButtonApp>
-            ) : null
-          }
         />
-        {isDesktopScreen && <FormFeedback />}
+        {minDesktopScreen && <FormFeedback />}
       </PropertyContentContainer>
       <SimilarPropertiesBlock>
         <SliderApp
@@ -68,7 +73,7 @@ export const PropertyContentPage = () => {
             <PropertyCard typeShow="tile" {...prop} />
           ))}
           titleSlider="Similar Properties"
-          countViewSlide={3}
+          countViewSlide={maxTabletScreen ? 2 : 3}
           countTrack={1}
         />
       </SimilarPropertiesBlock>
@@ -79,7 +84,6 @@ export const PropertyContentPage = () => {
 const PropertyTopInfo = styled.div`
   display: flex;
   justify-content: space-between;
-  align-items: flex-start;
   margin-block: 3.472vw;
   padding-bottom: 1.389vw;
   border-bottom: 1px solid ${theme.colors.grayOpacity(0.2)};
@@ -104,6 +108,15 @@ const PropertyTopInfo = styled.div`
     h3 {
       margin-bottom: 1.563vw;
     }
+  }
+`;
+
+const PropertyTopActionBlock = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  & > div:first-child {
+    flex: 1 1 auto;
   }
 `;
 

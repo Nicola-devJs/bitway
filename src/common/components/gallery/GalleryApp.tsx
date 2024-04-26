@@ -7,9 +7,13 @@ import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 import { theme } from "@/assets/theme/theme";
 import { playfair } from "@/common/constants/font";
 import { ModalContext } from "@/common/hoc/ModalProvider";
+import { useScreenExtension } from "@/common/hooks/useScreenExtension";
 
 export const GalleryApp = () => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
+  const [maxTabletScreen] = useScreenExtension([{ screenExtension: theme.media.tablet, maxScreen: true }]);
+
+  const viewPicturies = !maxTabletScreen ? 5 : 4;
 
   const mockGallery = Array(8)
     .fill(" ")
@@ -26,18 +30,23 @@ export const GalleryApp = () => {
         <NextImage info={mockGallery[0]} $fullWidth />{" "}
         <ContainerApp>
           <ContainerImages>
-            {mockGallery.slice(1, 5).map((img, id) => (
+            {mockGallery.slice(1, viewPicturies).map((img, id) => (
               <NextImage key={id} info={img} $width={212} $height={125} onClick={openModalSlideHandler(id)} />
             ))}
-            {mockGallery.slice(5).length === 1 ? (
-              <NextImage info={mockGallery[5]} $width={212} $height={125} onClick={openModalSlideHandler(5)} />
-            ) : mockGallery.slice(5).length > 1 ? (
+            {mockGallery.slice(viewPicturies).length === 1 ? (
+              <NextImage
+                info={mockGallery[viewPicturies]}
+                $width={212}
+                $height={125}
+                onClick={openModalSlideHandler(viewPicturies)}
+              />
+            ) : mockGallery.slice(viewPicturies).length > 1 ? (
               <MoreImages
                 className={playfair.className}
-                onClick={openModalSlideHandler(4)}
-                $remaining={mockGallery.slice(5).length}
+                onClick={openModalSlideHandler(viewPicturies - 1)}
+                $remaining={mockGallery.slice(viewPicturies).length}
               >
-                <NextImage info={mockGallery[5]} $width={212} $height={125} />
+                <NextImage info={mockGallery[viewPicturies]} $width={212} $height={125} />
               </MoreImages>
             ) : null}
           </ContainerImages>
@@ -49,6 +58,7 @@ export const GalleryApp = () => {
 
 const ContainerImages = styled.div`
   display: flex;
+  justify-content: space-between;
   gap: 1.389vw;
   margin-top: -4.306vw;
 
@@ -98,10 +108,14 @@ const MoreImages = styled.div<{ $remaining: number }>`
   }
 
   @media (max-width: ${theme.media.desktop}px) {
-    font-size: 2.002vw;
+    &::after {
+      font-size: 2.002vw;
+    }
   }
 
   @media (max-width: ${theme.media.tablet}px) {
-    font-size: 3.125vw;
+    &::after {
+      font-size: 3.125vw;
+    }
   }
 `;

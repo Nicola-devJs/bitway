@@ -1,10 +1,18 @@
 import { useLayoutEffect, useState } from "react";
 
-export const useScreenExtension = (screenExtension: number, inversion: boolean = false) => {
-  const [isTargetExtension, setTargetExtension] = useState(false);
+type ParametrsType = { screenExtension: number; maxScreen?: boolean }[];
+
+const showElement = (params: ParametrsType) => {
+  return params.map(({ screenExtension, maxScreen }) =>
+    maxScreen ? globalThis.innerWidth <= screenExtension : globalThis.innerWidth >= screenExtension
+  );
+};
+
+export const useScreenExtension = (params: ParametrsType) => {
+  const [isTargetExtension, setTargetExtension] = useState(params.map(({ maxScreen }) => !maxScreen));
   useLayoutEffect(() => {
     const handleResize = () => {
-      setTargetExtension(inversion ? globalThis.innerWidth < screenExtension : globalThis.innerWidth > screenExtension);
+      setTargetExtension(showElement(params));
     };
     handleResize();
     globalThis.addEventListener("resize", handleResize);

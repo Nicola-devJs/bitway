@@ -6,6 +6,7 @@ import styled from "styled-components";
 import plan from "@/assets/images/main-img.jpg";
 import { ModalContext } from "@/common/hoc/ModalProvider";
 
+// TODO Временно
 const plans = [plan, plan, plan, plan];
 
 export const PropertyDescription = () => {
@@ -89,9 +90,10 @@ export const PropertyDescription = () => {
             ))}
           </FloorPlanBlock>
         </div>
-        <div>
+        {/* TODO Надо подключить тут карту */}
+        {/* <div>
           <TextApp.Heading>Location</TextApp.Heading>
-        </div>
+        </div> */}
       </StyledPropertyDescription>
     </>
   );
@@ -153,11 +155,23 @@ const FloorPlanBlock = styled.div`
   display: grid;
   width: 100%;
   grid-template-columns: repeat(2, 1fr);
-  grid-auto-rows: minmax(auto, 296px);
-  grid-gap: 10px;
+  grid-auto-rows: minmax(auto, 20.556vw);
+  grid-gap: 0.694vw;
 
   & > div {
     align-self: center;
     justify-self: center;
+  }
+
+  @media (max-width: ${theme.media.desktop}px) {
+    grid-template-columns: repeat(3, 1fr);
+    grid-auto-rows: minmax(auto, 24.687vw);
+    grid-gap: 0.834vw;
+  }
+
+  @media (max-width: ${theme.media.tablet}px) {
+    grid-template-columns: repeat(2, 1fr);
+    grid-auto-rows: minmax(auto, 38.542vw);
+    grid-gap: 1.302vw;
   }
 `;

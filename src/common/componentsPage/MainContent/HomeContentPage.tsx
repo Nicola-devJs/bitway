@@ -1,7 +1,5 @@
 "use client";
 import { theme } from "@/assets/theme/theme";
-import { ButtonApp } from "@/common/UI/button/ButtonApp";
-import { ListProperties } from "@/common/components/listProperties/ListProperties";
 import { playfair } from "@/common/constants/font";
 import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 import { TextApp } from "@/common/styledComponents/Text";

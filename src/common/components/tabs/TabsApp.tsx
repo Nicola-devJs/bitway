@@ -7,29 +7,25 @@ import styled from "styled-components";
 
 interface IProps {
   listTabs: { title: string; content: React.ReactNode }[];
-  additionalItem?: React.ReactNode;
 }
 
-export const TabsApp: FC<IProps> = ({ listTabs, additionalItem }) => {
+export const TabsApp: FC<IProps> = ({ listTabs }) => {
   const [activeTab, setActiveTab] = useState(0);
 
   return (
     <StyledTabs>
       <TabsNavigate>
-        <div>
-          {listTabs.map((tab, id) => (
-            <TabItem key={id} $active={id === activeTab} onClick={() => setActiveTab(id)}>
-              <TextApp
-                size={20}
-                weight={id === activeTab ? 700 : 400}
-                color={id === activeTab ? theme.colors.blue : theme.colors.dark}
-              >
-                {tab.title}
-              </TextApp>
-            </TabItem>
-          ))}
-        </div>
-        {additionalItem && <>{additionalItem}</>}
+        {listTabs.map((tab, id) => (
+          <TabItem key={id} $active={id === activeTab} onClick={() => setActiveTab(id)}>
+            <TextApp
+              size={20}
+              weight={id === activeTab ? 700 : 400}
+              color={id === activeTab ? theme.colors.blue : theme.colors.dark}
+            >
+              {tab.title}
+            </TextApp>
+          </TabItem>
+        ))}
       </TabsNavigate>
       {listTabs[activeTab].content}
       {/* <div style={{ overflow: "hidden" }}>
@@ -50,15 +46,9 @@ const StyledTabs = styled.div`
 const TabsNavigate = styled.ul`
   width: 100%;
   display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
   padding-bottom: 12px;
   margin-bottom: 20px;
   border-bottom: 1px solid ${theme.colors.grayOpacity(0.2)};
-
-  & > div:first-child {
-    display: flex;
-  }
 `;
 
 const TabItem = styled.li<{ $active?: boolean }>`

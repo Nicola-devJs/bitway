@@ -5,11 +5,10 @@ import { ContainerApp } from "../styledComponents/ContainerApp";
 import propertiesMockData from "../../../public/mockData/properties.json";
 import { SliderApp } from "../components/slider/SliderApp";
 import { PropertyCard } from "../components/propertyCard/PropertyCard";
-import { doSplitToArray } from "../helpers/transformValues";
-import { theme } from "@/assets/theme/theme";
 import { TextApp } from "../styledComponents/Text";
 
 export const PropertiesBlock = () => {
+  // TODO Сделать адаптив по значениям count для slider
   //   const countView =
   //     globalThis.innerWidth > theme.media.desktop
   //       ? 3
