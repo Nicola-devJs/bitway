@@ -12,7 +12,7 @@ interface IContextModal {
 
 export const ModalContext = createContext<IContextModal>({} as IContextModal);
 
-export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
+export default function ModalProvider({ children }: { children: React.ReactNode }) {
   const [show, setShow] = useState("");
   const [optionModal, setOptionModal] = useState<IInitializationModal<ModalType>>({
     type: "modal",
@@ -44,4 +44,4 @@ export const ModalProvider = ({ children }: { children: React.ReactNode }) => {
       </>
     </ModalContext.Provider>
   );
-};
+}
