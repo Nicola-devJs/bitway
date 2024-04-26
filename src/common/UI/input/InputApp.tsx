@@ -3,11 +3,13 @@ import React, { ChangeEvent, InputHTMLAttributes, useCallback, useState } from "
 import { jost } from "@/common/constants/font";
 import { TextApp } from "@/common/styledComponents/Text";
 import { ErrorMessage } from "@/common/styledComponents/ErrorMessage";
-import { ContainerInput, StyledInput } from "./components/StyledInputApp";
+import { ContainerInput, StyledInput } from "./styledComponents/StyledInputApp";
 import type { ControllerRenderProps, UseControllerReturn } from "react-hook-form";
-import { RangeContainer, RangeProgress, RangeInput } from "./components/StyledInputAppRange";
-import { ContainerCode } from "./components/StyledInputAppCode";
-import { ContainerCheckbox, StyledCheckbox } from "./components/StyledInputAppCheckbox";
+import { RangeContainer, RangeProgress, RangeInput } from "./styledComponents/StyledInputAppRange";
+import { ContainerCode } from "./styledComponents/StyledInputAppCode";
+import { ContainerCheckbox, StyledCheckbox } from "./styledComponents/StyledInputAppCheckbox";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: React.ReactNode;
   errorMessage?: string;
@@ -36,6 +38,48 @@ const InputApp = ({ label, errorMessage, ...props }: IProps) => {
     </ContainerInput>
   );
 };
+
+InputApp.Password = ({ label, errorMessage, ...props }: IProps) => {
+  const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+ 
+  const togglePasswordVisibility = () => {
+      setIsPasswordVisible(!isPasswordVisible);
+  };
+ 
+  return (
+      <ContainerInput>
+        {label && (
+          <TextApp as="label" size={12} weight={500}>
+            {label}
+          </TextApp>
+        )}
+        <div style={{ position: 'relative' }}>
+          <StyledInput
+            type={isPasswordVisible ? "text" : "password"}
+            className={jost.className}
+            $error={!!errorMessage}
+            {...props}
+            style={{ paddingRight: '45px' }}
+          />
+          <p
+            onClick={togglePasswordVisibility}
+            style={{
+              position: 'absolute',
+              right: '10px', 
+              top: '57%',
+              transform: 'translateY(-50%)',
+              cursor: 'pointer',
+            }}
+          >
+            {isPasswordVisible ? <AiOutlineEyeInvisible size='1.75vw'/> : <AiOutlineEye size='1.75vw'/>}
+          </p>
+        </div>
+        {errorMessage && <ErrorMessage>{errorMessage}</ErrorMessage>}
+      </ContainerInput>
+  );
+ };
+ 
+
 
 InputApp.Checkbox = ({ label, errorMessage, ...props }: IProps) => {
   return (
@@ -138,5 +182,6 @@ InputApp.Range = ({ min, max, priceGap }: IPropsRange) => {
     </div>
   );
 };
+
 
 export { InputApp };
