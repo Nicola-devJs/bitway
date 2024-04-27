@@ -21,6 +21,7 @@ interface IPropsLinkButton extends LinkProps {
   width?: number | "max-content";
   outlined?: boolean;
   icon?: keyof typeof feedbackButtonIcons;
+  color?: string;
 }
 
 const LinkApp = ({ children, color = theme.colors.dark, size = 16, notViewUnderline = false, ...props }: IProps) => {
@@ -38,10 +39,11 @@ LinkApp.Button = ({
   width,
   outlined,
   icon,
+  color,
   ...props
 }: IPropsLinkButton) => {
   return (
-    <LinkButton $fz={fontSize} $pb={paddingBlock} $w={width} $outlined={outlined} {...props}>
+    <LinkButton $fz={fontSize} $pb={paddingBlock} $w={width} $outlined={outlined} $color={color} {...props}>
       {icon && <NextImage info={feedbackButtonIcons[icon]} $width={24} $height={24} objectFit="contain" />}
       {children}
     </LinkButton>
@@ -81,22 +83,30 @@ const CustomLink = styled(Link)<{ $fz: number; $color: string; $isNotViewUnderli
   }
 `;
 
-const LinkButton = styled(Link)<{ $fz: number; $pb: number; $w?: number | "max-content"; $outlined?: boolean }>`
+const LinkButton = styled(Link)<{
+  $fz: number;
+  $pb: number;
+  $w?: number | "max-content";
+  $outlined?: boolean;
+  $color?: string;
+}>`
   display: flex;
   align-items: center;
   justify-content: center;
 
   font-family: inherit;
   font-weight: 400;
-  background-color: ${(props) => (props.$outlined ? theme.colors.white : theme.colors.blue)};
-  color: ${(props) => (props.$outlined ? theme.colors.blue : theme.colors.white)};
+  background-color: ${(props) => (props.$outlined ? "transparent" : theme.colors.blue)};
+  color: ${(props) =>
+    props.$outlined && props.$color ? props.$color : props.$outlined ? theme.colors.blue : theme.colors.white};
   width: ${(props) =>
     typeof props.$w === "number"
       ? transformAdaptiveSize(props.$w)
       : props.$w === "max-content"
       ? "max-content"
       : "100%"};
-  border: 1px solid ${(props) => (props.$outlined ? theme.colors.blue : "transparent")};
+  border: 1px solid
+    ${(props) => (props.$outlined && props.$color ? props.$color : props.$outlined ? theme.colors.blue : "transparent")};
   padding-block: ${(props) => transformAdaptiveSize(props.$pb)};
   border-radius: 0.69vw;
   font-size: ${(props) => transformAdaptiveSize(props.$fz)};

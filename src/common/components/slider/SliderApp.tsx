@@ -21,6 +21,7 @@ interface IProps {
   getPosition?: (pos: number) => void;
   titleSlider?: string;
   countTrack?: number;
+  infinityMode?: boolean | number;
 }
 
 export const SliderApp: FC<IProps> = ({
@@ -34,6 +35,7 @@ export const SliderApp: FC<IProps> = ({
   getPosition,
   titleSlider,
   countTrack = 1,
+  infinityMode,
 }) => {
   const [positionSlide, setPositionSlide] = useState(initialPosition);
   const isFirstSlide = positionSlide === 0;
@@ -56,6 +58,21 @@ export const SliderApp: FC<IProps> = ({
   useEffect(() => {
     setPositionSlide(initialPosition);
   }, [initialPosition]);
+
+  useEffect(() => {
+    const changePositionWithInfinityMode = (duration: number) => {
+      let newPositionslide = positionSlide;
+      setInterval(() => {
+        newPositionslide < slides.length / countTrack - countViewSlide ? newPositionslide++ : (newPositionslide = 0);
+
+        getPosition?.(newPositionslide);
+        setPositionSlide(newPositionslide);
+      }, duration);
+    };
+
+    const duration = typeof infinityMode === "number" ? infinityMode : 2000;
+    infinityMode && changePositionWithInfinityMode(duration);
+  }, []);
 
   return (
     <>

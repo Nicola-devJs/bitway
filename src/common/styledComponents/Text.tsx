@@ -30,9 +30,21 @@ TextApp.Heading = ({ children, size = 18, color = theme.colors.dark, weight = 70
   );
 };
 
-TextApp.Block = ({ title, text, $mb }: { title: string; text?: string; $mb?: number }) => {
+TextApp.Block = ({
+  title,
+  text,
+  $mb,
+  textAlign = "start",
+  maxWidht,
+}: {
+  title: string;
+  text?: string;
+  $mb?: number;
+  textAlign?: "center" | "start" | "end";
+  maxWidht?: number;
+}) => {
   return (
-    <StyledTextBlock $mb={$mb}>
+    <StyledTextBlock $mb={$mb} $textAlign={textAlign} $maxWidht={maxWidht}>
       <TextApp.Heading as="h2" className={playfair.className} size={40} weight={800}>
         {title}
       </TextApp.Heading>
@@ -57,9 +69,12 @@ const StyledText = styled.p<{ $s: number; $c: string; $fw?: number }>`
   }
 `;
 
-const StyledTextBlock = styled.div<{ $mb?: number }>`
+const StyledTextBlock = styled.div<{ $mb?: number; $textAlign: "center" | "start" | "end"; $maxWidht?: number }>`
   ${(props) => props.$mb && `margin-bottom: ${transformAdaptiveSize(props.$mb)};`}
-  max-width: 44.097vw;
+  max-width: ${(props) => props.$maxWidht && transformAdaptiveSize(props.$maxWidht)};
+  text-align: ${(props) => props.$textAlign};
+  margin-inline: ${(props) => props.$textAlign === "center" && "auto"};
+  margin-left: ${(props) => props.$textAlign === "end" && "auto"};
 
   p {
     margin-top: 0.694vw;
@@ -67,7 +82,7 @@ const StyledTextBlock = styled.div<{ $mb?: number }>`
 
   @media (max-width: ${theme.media.desktop}px) {
     ${(props) => props.$mb && `margin-bottom: ${transformAdaptiveSize(props.$mb, theme.media.desktop)};`}
-    max-width: 52.961vw;
+    max-width: ${(props) => props.$maxWidht && transformAdaptiveSize(props.$maxWidht, theme.media.desktop)};
     p {
       margin-top: 0.834vw;
     }
@@ -75,7 +90,7 @@ const StyledTextBlock = styled.div<{ $mb?: number }>`
 
   @media (max-width: ${theme.media.tablet}px) {
     ${(props) => props.$mb && `margin-bottom: ${transformAdaptiveSize(props.$mb, theme.media.tablet)};`}
-    max-width: 82.682vw;
+    max-width: ${(props) => props.$maxWidht && transformAdaptiveSize(props.$maxWidht, theme.media.tablet)};
     p {
       margin-top: 1.302vw;
     }

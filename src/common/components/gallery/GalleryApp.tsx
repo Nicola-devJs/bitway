@@ -2,22 +2,18 @@
 import React, { useState, useContext, useEffect } from "react";
 import styled from "styled-components";
 import { NextImage } from "../NextImage";
-import imageGallery from "@/assets/images/main-img.jpg";
 import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 import { theme } from "@/assets/theme/theme";
 import { playfair } from "@/common/constants/font";
 import { ModalContext } from "@/common/hoc/ModalProvider";
 import { useScreenExtension } from "@/common/hooks/useScreenExtension";
+import { mockGallery } from "@/common/constants/mockGallery";
 
 export const GalleryApp = () => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
   const [maxTabletScreen] = useScreenExtension([{ screenExtension: theme.media.tablet, maxScreen: true }]);
 
   const viewPicturies = !maxTabletScreen ? 5 : 4;
-
-  const mockGallery = Array(8)
-    .fill(" ")
-    .map(() => imageGallery);
 
   const openModalSlideHandler = (position: number) => () => {
     setOptionModalHandler({ type: "gallery", options: { images: mockGallery, initialPosition: position + 1 } });

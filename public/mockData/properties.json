@@ -4,6 +4,11 @@
     "heading": "Test heading",
     "description": "lorem ipsum",
     "price": 1000,
+    "components": {
+      "bed": 2,
+      "bath": 2,
+      "car": 2
+    },
     "author": {
       "id": 11,
       "name": "Alex Green",
@@ -15,6 +20,11 @@
     "heading": "Test heading 2",
     "description": "lorem ipsum lorem ipsum lorem ipsum",
     "price": 15000,
+    "components": {
+      "bed": 3,
+      "bath": 2,
+      "car": 4
+    },
     "author": {
       "id": 11,
       "name": "Alex Green",
@@ -26,6 +36,11 @@
     "heading": "Test heading 3",
     "description": "lorem ipsum",
     "price": 107800,
+    "components": {
+      "bed": 4,
+      "bath": 2,
+      "car": 1
+    },
     "author": {
       "id": 11,
       "name": "Alex Green",
@@ -37,6 +52,11 @@
     "heading": "Test heading",
     "description": "lorem ipsum",
     "price": 1000,
+    "components": {
+      "bed": 2,
+      "bath": 2,
+      "car": 2
+    },
     "author": {
       "id": 11,
       "name": "Alex Green",
@@ -48,6 +68,11 @@
     "heading": "Test heading 2",
     "description": "lorem ipsum lorem ipsum lorem ipsum",
     "price": 15000,
+    "components": {
+      "bed": 3,
+      "bath": 2,
+      "car": 4
+    },
     "author": {
       "id": 11,
       "name": "Alex Green",
@@ -59,6 +84,27 @@
     "heading": "Test heading 3",
     "description": "lorem ipsum",
     "price": 107800,
+    "components": {
+      "bed": 4,
+      "bath": 2,
+      "car": 1
+    },
+    "author": {
+      "id": 11,
+      "name": "Alex Green",
+      "avatar": "img"
+    }
+  },
+  {
+    "id": 1,
+    "heading": "Test heading",
+    "description": "lorem ipsum",
+    "price": 1000,
+    "components": {
+      "bed": 2,
+      "bath": 2,
+      "car": 2
+    },
     "author": {
       "id": 11,
       "name": "Alex Green",
@@ -70,6 +116,11 @@
     "heading": "Test heading 2",
     "description": "lorem ipsum lorem ipsum lorem ipsum",
     "price": 15000,
+    "components": {
+      "bed": 3,
+      "bath": 2,
+      "car": 4
+    },
     "author": {
       "id": 11,
       "name": "Alex Green",
@@ -81,17 +132,11 @@
     "heading": "Test heading 3",
     "description": "lorem ipsum",
     "price": 107800,
-    "author": {
-      "id": 11,
-      "name": "Alex Green",
-      "avatar": "img"
-    }
-  },
-  {
-    "id": 3,
-    "heading": "Test heading 3",
-    "description": "lorem ipsum",
-    "price": 107800,
+    "components": {
+      "bed": 4,
+      "bath": 2,
+      "car": 1
+    },
     "author": {
       "id": 11,
       "name": "Alex Green",

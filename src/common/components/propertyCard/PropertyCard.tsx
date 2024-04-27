@@ -1,17 +1,20 @@
 "use client";
 import { theme } from "@/assets/theme/theme";
-import React, { FC } from "react";
+import React, { FC, useContext } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import { NextImage } from "../NextImage";
 import cardImg from "@/assets/images/main-img.jpg";
 import { TextApp } from "@/common/styledComponents/Text";
 import { playfair } from "@/common/constants/font";
-import { propertyCardIcons } from "@/common/constants/constantImages";
+import { propertyCardIconsBlack } from "@/common/constants/constantImages";
 import iconHeart from "@/assets/icons/property-card/heart.svg";
+import iconLoupe from "@/assets/icons/property-card/loupe.svg";
 import { ShowType } from "../listProperties/ListProperties";
 import { PropertyActions } from "../propertyActions/PropertyActions";
 import { IPropertyCard } from "@/common/interfaces/IProperty";
+import { ModalContext } from "@/common/hoc/ModalProvider";
+import { mockGallery } from "@/common/constants/mockGallery";
 
 interface IProps {}
 
@@ -27,11 +30,25 @@ interface IProps extends IPropertyCard {
 }
 
 export const PropertyCard: FC<IProps> = ({ typeShow, id, author, description, heading, price }) => {
+  const { showHandler, setOptionModalHandler } = useContext(ModalContext);
+  const openModalGalleryHandler = () => {
+    // TODO Пофиксить изначальную позицию в модалке
+    setOptionModalHandler({ type: "gallery", options: { images: mockGallery, initialPosition: 0 } });
+    showHandler();
+  };
+
   return (
     <PropertyCardContainer $typeShow={typeShow}>
       <ContainerImage $typeShow={typeShow}>
-        <NextImage info={cardImg} $fullWidth />
-        <span></span>
+        <Link href={`/properties/luxury-apartment-in-california`}>
+          <NextImage info={cardImg} $fullWidth />
+        </Link>
+        <div className="container-icon heart">
+          <NextImage info={iconHeart} $width={20} $height={20} objectFit="contain" />
+        </div>
+        <div className="container-icon loupe" onClick={openModalGalleryHandler}>
+          <NextImage info={iconLoupe} $width={20} $height={20} objectFit="contain" />
+        </div>
       </ContainerImage>
       <PropertyCardContent>
         <Link href={`/properties/luxury-apartment-in-california`}>
@@ -46,7 +63,7 @@ export const PropertyCard: FC<IProps> = ({ typeShow, id, author, description, he
         <PropertyComponents>
           {iconComponents.map((comp) => (
             <div key={comp.icon}>
-              <NextImage info={propertyCardIcons[comp.icon]} $width={24} /> <span>{comp.count}</span>
+              <NextImage info={propertyCardIconsBlack[comp.icon]} $width={24} /> <span>{comp.count}</span>
             </div>
           ))}
         </PropertyComponents>
@@ -118,13 +135,13 @@ const ContainerImage = styled.div<{ $typeShow: ShowType }>`
   overflow: hidden;
   position: relative;
 
-  div {
+  a {
     height: inherit;
   }
 
-  span {
+  .container-icon {
     position: absolute;
-    top: 1.111vw;
+
     right: 1.111vw;
     width: 2.222vw;
     height: 2.222vw;
@@ -137,18 +154,16 @@ const ContainerImage = styled.div<{ $typeShow: ShowType }>`
     transition: opacity 0.2s ease-in-out;
     cursor: pointer;
 
-    &:after {
-      content: "";
-      background-image: url(${iconHeart.src});
-      background-repeat: no-repeat;
-      background-size: cover;
-      background-position: center;
-      width: 1.389vw;
-      height: 1.389vw;
+    &.heart {
+      top: 1.111vw;
+    }
+    &.loupe {
+      opacity: 0.5;
+      bottom: 1.111vw;
     }
   }
 
-  &:hover span {
+  &:hover .container-icon {
     opacity: 1;
   }
 
@@ -158,16 +173,17 @@ const ContainerImage = styled.div<{ $typeShow: ShowType }>`
     border-radius: 1.001vw;
     margin: ${(props) => (props.$typeShow === "tile" ? "0 0 1.334vw 0" : "0 1.668vw 0 0")};
 
-    span {
-      top: 1.334vw;
+    .container-icon {
       right: 1.334vw;
       width: 2.669vw;
       height: 2.669vw;
       border-radius: 0.417vw;
 
-      &:after {
-        width: 1.668vw;
-        height: 1.668vw;
+      &.heart {
+        top: 1.334vw;
+      }
+      &.loupe {
+        bottom: 1.334vw;
       }
     }
   }
@@ -178,15 +194,17 @@ const ContainerImage = styled.div<{ $typeShow: ShowType }>`
     border-radius: 1.563vw;
     margin: ${(props) => (props.$typeShow === "tile" ? "0 0 2.083vw 0" : "0 2.604vw 0 0")};
 
-    span {
-      top: 2.083vw;
+    .container-icon {
       right: 2.083vw;
       width: 4.167vw;
       height: 4.167vw;
       border-radius: 0.651vw;
-      &:after {
-        width: 2.604vw;
-        height: 2.604vw;
+
+      &.heart {
+        top: 2.083vw;
+      }
+      &.loupe {
+        bottom: 2.083vw;
       }
     }
   }

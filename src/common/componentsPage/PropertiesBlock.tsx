@@ -1,20 +1,18 @@
 import React from "react";
-import styled from "styled-components";
 import { ListProperties } from "../components/listProperties/ListProperties";
 import { ContainerApp } from "../styledComponents/ContainerApp";
 import propertiesMockData from "../../../public/mockData/properties.json";
 import { SliderApp } from "../components/slider/SliderApp";
 import { PropertyCard } from "../components/propertyCard/PropertyCard";
 import { TextApp } from "../styledComponents/Text";
+import { useScreenExtension } from "../hooks/useScreenExtension";
+import { theme } from "@/assets/theme/theme";
 
 export const PropertiesBlock = () => {
-  // TODO Сделать адаптив по значениям count для slider
-  //   const countView =
-  //     globalThis.innerWidth > theme.media.desktop
-  //       ? 3
-  //       : globalThis.innerWidth < theme.media.desktop && globalThis.innerWidth > theme.media.tablet
-  //       ? 2
-  //       : 1;
+  const [maxTabletScreen, maxPhoneScreen] = useScreenExtension([
+    { screenExtension: theme.media.tablet, maxScreen: true },
+    { screenExtension: theme.media.phone, maxScreen: true },
+  ]);
 
   return (
     <ContainerApp>
@@ -24,8 +22,8 @@ export const PropertiesBlock = () => {
             <PropertyCard typeShow="tile" {...prop} />
           ))}
           titleSlider="Explore the latest properties available"
-          countViewSlide={3}
-          countTrack={2}
+          countViewSlide={maxPhoneScreen ? 1 : maxTabletScreen ? 2 : 3}
+          countTrack={maxPhoneScreen ? 1 : 2}
         />
       ) : (
         <>
