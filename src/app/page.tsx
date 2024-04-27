@@ -9,7 +9,8 @@ export default function Home() {
     <>
       <HomeHeadingBlock />
       <NextImage info={mainImg} $fullWidth />
-      <SearchProperty />
+      {/* TODO Пока не нашел приминение */}
+      {/* <SearchProperty /> */}
       <HomeLatestProperties />
     </>
   );

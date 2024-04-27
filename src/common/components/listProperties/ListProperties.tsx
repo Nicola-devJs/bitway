@@ -29,11 +29,10 @@ const StyledListProperties = styled.div<{ $typeShow: ShowType; $countTiles: numb
   grid-gap: 2.083vw;
 
   @media (max-width: ${theme.media.desktop}px) {
-    grid-template-columns: ${(props) => (props.$typeShow === "tile" ? `repeat(${props.$countTiles - 1}, 1fr)` : "1fr")};
     grid-gap: 2.502vw;
   }
 
-  @media (max-width: ${theme.media.tablet}px) {
+  @media (max-width: ${theme.media.phone}px) {
     grid-template-columns: 1fr;
   }
 `;

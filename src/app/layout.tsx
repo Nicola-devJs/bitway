@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "../../public/global.css";
 import StyledComponentsRegistry from "@/lib/registryStyled";
 import { jost } from "@/common/constants/font";
-import { ModalProvider } from "@/common/hoc/ModalProvider";
+import ModalProvider from "@/common/hoc/ModalProvider";
 
 export const metadata: Metadata = {
   title: "Bitway",

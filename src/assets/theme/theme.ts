@@ -13,5 +13,6 @@ export const theme = {
   media: {
     desktop: 1199,
     tablet: 768,
+    phone: 425,
   },
 };
