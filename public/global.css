@@ -1,0 +1,39 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+ul {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+}
+
+button {
+  border: none;
+}
+
+body {
+  font-weight: 400;
+  font-size: 1.111vw;
+  color: #0f1015;
+}
+
+body.hide {
+  overflow: hidden;
+}
+
+@media (max-width: 1199px) {
+  body {
+    font-size: 1.334vw;
+  }
+}
+
+@media (max-width: 768px) {
+  body {
+    font-size: 2.083vw;
+  }
+}

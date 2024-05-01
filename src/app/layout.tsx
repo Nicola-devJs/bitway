@@ -1,11 +1,8 @@
 import type { Metadata } from "next";
-import { Jost, Playfair } from "next/font/google";
-import "./globals.scss";
-import HeaderApp from "@/components/header/HeaderApp";
-import FooterApp from "@/components/footer/FooterApp";
+import "../../public/global.css";
 import StyledComponentsRegistry from "@/lib/registryStyled";
-
-const jost = Jost({ subsets: ["latin"], style: "normal", weight: ["400", "700"] });
+import { jost } from "@/common/constants/font";
+import ModalProvider from "@/common/hoc/ModalProvider";
 
 export const metadata: Metadata = {
   title: "Bitway",
@@ -20,7 +17,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={jost.className}>
-        <StyledComponentsRegistry>{children}</StyledComponentsRegistry>
+        <StyledComponentsRegistry>
+          <ModalProvider>{children}</ModalProvider>
+        </StyledComponentsRegistry>
       </body>
     </html>
   );
