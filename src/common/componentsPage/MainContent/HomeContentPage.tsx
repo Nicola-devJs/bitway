@@ -31,10 +31,10 @@ export const HomeHeadingBlock = () => {
   );
 };
 
-export const HomeLatestProperties = () => {
+export const HomeLatestProperties = ({ title }: { title: string }) => {
   return (
     <LatestPropertiesBlock>
-      <PropertiesBlock />
+      <PropertiesBlock title={title} />
     </LatestPropertiesBlock>
   );
 };
@@ -64,16 +64,11 @@ const HeadingBlock = styled.div`
     }
   }
 
-  @media (max-width: ${theme.media.desktop}px) {
-    gap: 3.906vw;
-    margin-block: 6.51vw;
+  @media (max-width: ${theme.media.tablet}px) {
+    flex-direction: column;
 
     div {
-      width: 59.505vw;
-    }
-
-    p {
-      margin-bottom: 3.906vw;
+      width: 100%;
     }
   }
 `;

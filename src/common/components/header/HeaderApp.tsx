@@ -1,4 +1,5 @@
 "use client";
+import { usePathname } from "next/navigation";
 import React from "react";
 import styled from "styled-components";
 import Link from "next/link";
@@ -10,6 +11,7 @@ import { LinkApp } from "@/common/UI/link/LinkApp";
 import { HEADER_NAVMENU } from "@/common/constants/mockMenu";
 
 export const HeaderApp = () => {
+  const pathname = usePathname();
   return (
     <HeaderContainer>
       <ContainerApp>
@@ -21,7 +23,12 @@ export const HeaderApp = () => {
           <MenuList>
             {HEADER_NAVMENU.map((itemMenu) => (
               <li key={itemMenu.path}>
-                <LinkApp href={itemMenu.path}>{itemMenu.label}</LinkApp>
+                <LinkApp
+                  href={itemMenu.path}
+                  color={pathname === itemMenu.path ? theme.colors.blue : theme.colors.dark}
+                >
+                  {itemMenu.label}
+                </LinkApp>
               </li>
             ))}
           </MenuList>
@@ -35,7 +42,7 @@ export const HeaderApp = () => {
 };
 
 const HeaderContainer = styled.header`
-  padding-block: 1.389vw;
+  padding-block: 1.042vw;
   background-color: ${theme.colors.white};
 
   @media (max-width: ${theme.media.desktop}px) {

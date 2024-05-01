@@ -12,7 +12,7 @@ export default function Home() {
       <NextImage info={mainImg} $fullWidth />
       <SearchProperty />
       <FeaturedProperty />
-      <HomeLatestProperties />
+      <HomeLatestProperties title="Explore the latest properties available" />
     </>
   );
 }

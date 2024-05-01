@@ -3,7 +3,7 @@ import { theme } from "@/assets/theme/theme";
 import { SliderInfo, CloseModalSlider } from "@/common/UI/modal/styledComponents.tsx/StyledModalAppSlider";
 import { transformAdaptiveSize } from "@/common/helpers/transformValues";
 import React, { FC, useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { NextImage } from "../NextImage";
 import arrowRightSlider from "@/assets/icons/arrow-right-slider.svg";
 import arrowLeftSlider from "@/assets/icons/arrow-left-slider.svg";
@@ -103,7 +103,7 @@ export const SliderApp: FC<IProps> = ({
       )}
 
       <StyledSliderApp onClick={(e) => e.stopPropagation()} $width={width} $height={height}>
-        <SliderTrackContainer>
+        <SliderTrackContainer $isOneRow={!(countTrack > 1)}>
           <SliderTrack
             $pos={positionSlide}
             $slides={slides.length}
@@ -111,7 +111,9 @@ export const SliderApp: FC<IProps> = ({
             $countTrack={countTrack}
           >
             {slides.map((slide, key) => (
-              <Slide key={key}>{slide}</Slide>
+              <Slide key={key} $isOneRow={!(countTrack > 1)}>
+                {slide}
+              </Slide>
             ))}
           </SliderTrack>
         </SliderTrackContainer>
@@ -187,17 +189,32 @@ const NavigationBlock = styled.div`
   }
 `;
 
-const SliderTrackContainer = styled.div`
+const SliderTrackContainer = styled.div<{ $isOneRow: boolean }>`
   overflow: hidden;
-  margin: -1.042vw;
+  ${(props) =>
+    props.$isOneRow
+      ? css`
+          margin-inline: -1.042vw;
 
-  @media (max-width: ${theme.media.desktop}px) {
-    margin: -1.251vw;
-  }
+          @media (max-width: ${theme.media.desktop}px) {
+            margin-inline: -1.251vw;
+          }
 
-  @media (max-width: ${theme.media.tablet}px) {
-    margin: -1.953vw;
-  }
+          @media (max-width: ${theme.media.tablet}px) {
+            margin-inline: -1.953vw;
+          }
+        `
+      : css`
+          margin: -1.042vw;
+
+          @media (max-width: ${theme.media.desktop}px) {
+            margin: -1.251vw;
+          }
+
+          @media (max-width: ${theme.media.tablet}px) {
+            margin: -1.953vw;
+          }
+        `}
 `;
 
 const SliderTrack = styled.div<{ $pos: number; $slides: number; $countView: number; $countTrack: number }>`
@@ -255,14 +272,29 @@ const SliderNavigationArrowLeft = styled(SliderNavigationArrowRight)`
   }
 `;
 
-const Slide = styled.div`
-  padding: 1.042vw;
+const Slide = styled.div<{ $isOneRow: boolean }>`
+  ${(props) =>
+    props.$isOneRow
+      ? css`
+          padding-inline: 1.042vw;
 
-  @media (max-width: ${theme.media.desktop}px) {
-    padding: 1.251vw;
-  }
+          @media (max-width: ${theme.media.desktop}px) {
+            padding-inline: 1.251vw;
+          }
 
-  @media (max-width: ${theme.media.tablet}px) {
-    padding: 1.953vw;
-  }
+          @media (max-width: ${theme.media.tablet}px) {
+            padding-inline: 1.953vw;
+          }
+        `
+      : css`
+          padding: 1.042vw;
+
+          @media (max-width: ${theme.media.desktop}px) {
+            padding: 1.251vw;
+          }
+
+          @media (max-width: ${theme.media.tablet}px) {
+            padding: 1.953vw;
+          }
+        `}
 `;

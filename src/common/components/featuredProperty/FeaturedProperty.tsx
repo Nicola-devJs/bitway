@@ -26,7 +26,7 @@ export const FeaturedProperty = () => {
         <div style={{ position: "relative" }}>
           <SliderApp
             slides={mockPropertiesWithImage.slice(0, 5).map((prop) => (
-              <NextImage info={prop.currentImage} $fullWidth className="img" />
+              <NextImage info={prop.currentImage} $fullWidth $height={500} className="img" />
             ))}
             infinityMode={4000}
             height={500}
@@ -77,7 +77,7 @@ const FeaturedPropertyBlock = styled.div`
   }
 
   @media (max-width: ${theme.media.tablet}px) {
-    padding-bottom: 26.042vw;
+    padding-bottom: 0;
 
     .img {
       border-radius: 2.083vw;
@@ -110,11 +110,11 @@ const FeaturedPropertyInfoBlock = styled.div`
     }
   }
   @media (max-width: ${theme.media.tablet}px) {
+    position: static;
     padding: 2.604vw;
     border-radius: 1.302vw;
-    right: 13.021vw;
-    bottom: -13.021vw;
-    width: 65.104vw;
+    width: 100%;
+    margin-top: 1.302vw;
 
     & > *:not(:last-child) {
       margin-bottom: 1.302vw;
