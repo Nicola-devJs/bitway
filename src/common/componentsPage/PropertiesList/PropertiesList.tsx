@@ -21,7 +21,7 @@ export const PropertiesList: FC<IProps> = ({ properties }) => {
   const { showFilter } = useContext(FilterContext);
   const [maxTabletScreen, maxPhoneScreen] = useScreenExtension([
     { screenExtension: theme.media.tablet, maxScreen: true },
-    { screenExtension: theme.media.phone },
+    { screenExtension: theme.media.phone, maxScreen: true },
   ]);
   const changeShowTypeHandler = (type: ShowType) => () => setShowType(type);
 
@@ -34,7 +34,7 @@ export const PropertiesList: FC<IProps> = ({ properties }) => {
               Filter
             </ButtonApp>
           )}
-          {maxPhoneScreen && (
+          {!maxPhoneScreen && (
             <>
               <NextImage
                 info={tileStyleIcon}
@@ -71,5 +71,13 @@ const PropertiesToolbar = styled.div`
 const ShowAndCountPropertiesBlock = styled.div`
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 1.389vw;
+
+  @media (max-width: ${theme.media.desktop}px) {
+    gap: 1.668vw;
+  }
+
+  @media (max-width: ${theme.media.tablet}px) {
+    gap: 2.604vw;
+  }
 `;

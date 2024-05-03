@@ -30,6 +30,13 @@ const SliderInfo = styled.div`
     width: 18.75vw;
     bottom: 2.604vw;
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    padding: 3.765vw;
+    border-radius: 2.353vw;
+    width: 33.882vw;
+    bottom: 4.706vw;
+  }
 `;
 
 const CloseModalSlider = styled.div`
@@ -49,6 +56,11 @@ const CloseModalSlider = styled.div`
   @media (max-width: ${theme.media.tablet}px) {
     top: 2.604vw;
     right: 2.604vw;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    top: 4.706vw;
+    right: 4.706vw;
   }
 `;
 

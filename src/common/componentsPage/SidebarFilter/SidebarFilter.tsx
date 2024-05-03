@@ -1,5 +1,5 @@
 "use client";
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Accordion } from "@/common/components/accordion/Accordion";
 import ComponentsSidebarFilter from "./components/ComponentsSidebarFilter";
 import styled, { css } from "styled-components";
@@ -12,6 +12,15 @@ import { FilterContext } from "@/common/hoc/FilterProvider";
 export const SidebarFilter = () => {
   const { isShowFilter, hideFilter } = useContext(FilterContext);
   const [maxTabletScreen] = useScreenExtension([{ screenExtension: theme.media.tablet, maxScreen: true }]);
+
+  useEffect(() => {
+    if (isShowFilter) {
+      document.body.classList.add("hide");
+    } else {
+      document.body.classList.remove("hide");
+    }
+  }, [isShowFilter]);
+
   return (
     <StyledSidebar $showTabletFilter={isShowFilter}>
       {ComponentsSidebarFilter.map((filter, id) => (
@@ -46,7 +55,7 @@ const StyledSidebar = styled.aside<{ $showTabletFilter: boolean }>`
     top: 0;
     z-index: 100;
     background-color: ${theme.colors.white};
-    width: 50%;
+    width: 65%;
     padding: 3.906vw;
 
     transform: translateX(-10px);
@@ -66,6 +75,9 @@ const StyledSidebar = styled.aside<{ $showTabletFilter: boolean }>`
           opacity: 1;
         }
       `}
+  }
+  @media (max-width: ${theme.media.phone}px) {
+    width: 100%;
   }
 `;
 
@@ -97,5 +109,10 @@ const ContentContainer = styled.div`
   @media (max-width: ${theme.media.tablet}px) {
     padding-bottom: 2.604vw;
     margin-bottom: 2.604vw;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    padding-bottom: 4.706vw;
+    margin-bottom: 4.706vw;
   }
 `;

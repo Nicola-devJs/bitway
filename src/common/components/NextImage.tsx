@@ -46,4 +46,11 @@ const ImageContainer = styled.div<{ $width?: number; $height?: number; $obf: str
     height: ${(props) =>
       props.$height ? transformAdaptiveSize(props.$height, theme.media.tablet) : props.$fullWidth ? "100%" : "auto"};
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    width: ${(props) =>
+      props.$width ? transformAdaptiveSize(props.$width, theme.media.phone) : props.$fullWidth ? "100%" : "auto"};
+    height: ${(props) =>
+      props.$height ? transformAdaptiveSize(props.$height, theme.media.phone) : props.$fullWidth ? "100%" : "auto"};
+  }
 `;

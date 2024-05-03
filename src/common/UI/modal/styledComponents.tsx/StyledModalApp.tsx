@@ -21,6 +21,12 @@ const ModalBody = styled.div<{ $width: number }>`
     border-radius: 2.604vw;
     padding: 3.906vw 2.604vw 2.995vw;
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    width: ${(props) => transformAdaptiveSize(props.$width, theme.media.phone)};
+    border-radius: 4.706vw;
+    padding: 7.059vw 4.706vw 5.412vw;
+  }
 `;
 
 const ModalOverlay = styled.div`
@@ -89,6 +95,16 @@ const ModalContent = styled.div`
 
     & p {
       margin-bottom: 3.906vw;
+    }
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    & h5 {
+      margin-bottom: 2.353vw;
+    }
+
+    & p {
+      margin-bottom: 7.059vw;
     }
   }
 `;

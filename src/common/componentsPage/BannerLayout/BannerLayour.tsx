@@ -36,7 +36,10 @@ const DescriptionContainer = styled.div`
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
 `;
 
 const BannerTitle = styled(TextApp.Heading)`

@@ -56,6 +56,11 @@ const Arrow = styled.span<{ $isUp: boolean }>`
     width: 1.302vw;
     height: 0.521vw;
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    width: 2.353vw;
+    height: 0.941vw;
+  }
 `;
 
 const AccordionBody = styled.div<{ $view: boolean; $zIndex?: number }>`
@@ -76,5 +81,10 @@ const AccordionBody = styled.div<{ $view: boolean; $zIndex?: number }>`
   @media (max-width: ${theme.media.tablet}px) {
     padding-top: ${(props) => (props.$view ? "1.302vw" : "0px")};
     transform: ${(props) => (props.$view ? "translateY(0px)" : "translateY(-1.302vw)")};
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    padding-top: ${(props) => (props.$view ? "2.353vw" : "0px")};
+    transform: ${(props) => (props.$view ? "translateY(0px)" : "translateY(-2.353vw)")};
   }
 `;

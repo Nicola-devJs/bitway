@@ -10,9 +10,15 @@ import { playfair } from "@/common/constants/font";
 import { LinkApp } from "@/common/UI/link/LinkApp";
 import { propertyCardIconsWhite } from "@/common/constants/constantImages";
 import { mockPropertiesWithImage } from "@/common/constants/mockGallery";
+import { useScreenExtension } from "@/common/hooks/useScreenExtension";
 
 export const FeaturedProperty = () => {
+  const [maxTabletScreen, maxPhoneScreen] = useScreenExtension([
+    { screenExtension: theme.media.tablet, maxScreen: true },
+    { screenExtension: theme.media.phone, maxScreen: true },
+  ]);
   const [propId, setPropId] = useState(0);
+  const conditionHeightScreen = maxPhoneScreen ? 266 : maxTabletScreen ? 350 : 500;
 
   return (
     <ContainerApp>
@@ -26,10 +32,10 @@ export const FeaturedProperty = () => {
         <div style={{ position: "relative" }}>
           <SliderApp
             slides={mockPropertiesWithImage.slice(0, 5).map((prop) => (
-              <NextImage info={prop.currentImage} $fullWidth $height={500} className="img" />
+              <NextImage info={prop.currentImage} $fullWidth $height={conditionHeightScreen} className="img" />
             ))}
             infinityMode={4000}
-            height={500}
+            height={conditionHeightScreen}
             getPosition={setPropId}
           />
           <FeaturedPropertyInfoBlock>
@@ -83,6 +89,12 @@ const FeaturedPropertyBlock = styled.div`
       border-radius: 2.083vw;
     }
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    .img {
+      border-radius: 3.765vw;
+    }
+  }
 `;
 
 const FeaturedPropertyInfoBlock = styled.div`
@@ -120,6 +132,17 @@ const FeaturedPropertyInfoBlock = styled.div`
       margin-bottom: 1.302vw;
     }
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    position: static;
+    padding: 4.706vw;
+    border-radius: 2.353vw;
+    margin-top: 2.353vw;
+
+    & > *:not(:last-child) {
+      margin-bottom: 2.353vw;
+    }
+  }
 `;
 
 const FeaturedPropertyInfoComponents = styled.div`
@@ -151,6 +174,14 @@ const FeaturedPropertyInfoComponents = styled.div`
     margin-block: 2.083vw 3.906vw !important;
     & > div {
       gap: 1.302vw;
+    }
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    gap: 4.706vw;
+    margin-block: 3.765vw 7.059vw !important;
+    & > div {
+      gap: 2.353vw;
     }
   }
 `;

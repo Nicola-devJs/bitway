@@ -9,26 +9,26 @@ const listLocation = ["Тирасполь", "Бендеры", "Дубосары"
 const listPrice = ["$100 - 1,000", "1,000 - 10,000", "10,000 - 100,000"];
 const categoryProperty = ["Дом", "Апартаменты", "Вилла", "Гараж", "Пустой участок"];
 
-export const mainFilter = [
-  {
+export const mainFilter = {
+  location: {
     title: "Расположение",
     icon_w: locationIconWhite,
     icon_b: locationIconBlack,
     value: listLocation[0],
     list: listLocation,
   },
-  {
+  price: {
     title: "Стоимость",
     icon_w: dollarIconWhite,
     icon_b: dollarIconBlack,
     value: listPrice[0],
     list: listPrice,
   },
-  {
+  typeProperty: {
     title: "Тип строения",
     icon_w: homeIconWhite,
     icon_b: homeIconBlack,
     value: categoryProperty[0],
     list: categoryProperty,
   },
-];
+};

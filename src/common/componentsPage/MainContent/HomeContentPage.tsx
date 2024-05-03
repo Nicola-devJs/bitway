@@ -7,8 +7,17 @@ import React from "react";
 import styled from "styled-components";
 import { PropertiesBlock } from "../PropertiesBlock";
 import { LinkApp } from "@/common/UI/link/LinkApp";
+import mainImg from "@/assets/images/main-img.jpg";
+import { NextImage } from "@/common/components/NextImage";
+import { useScreenExtension } from "@/common/hooks/useScreenExtension";
 
 export const HomeHeadingBlock = () => {
+  const [maxTabletScreen, maxPhoneScreen] = useScreenExtension([
+    { screenExtension: theme.media.tablet, maxScreen: true },
+    { screenExtension: theme.media.phone, maxScreen: true },
+  ]);
+  const conditionHeightScreen = maxPhoneScreen ? 300 : maxTabletScreen ? 400 : 650;
+
   return (
     <>
       <ContainerApp>
@@ -27,6 +36,7 @@ export const HomeHeadingBlock = () => {
           </div>
         </HeadingBlock>
       </ContainerApp>
+      <NextImage info={mainImg} $fullWidth $height={conditionHeightScreen} />
     </>
   );
 };
@@ -43,6 +53,11 @@ const HeadingBlock = styled.div`
   display: flex;
   gap: 2.083vw;
   margin-block: 3.472vw;
+
+  h1 {
+    line-height: 1;
+  }
+
   div {
     width: 31.736vw;
   }

@@ -85,6 +85,12 @@ const FooterColumns = styled.div`
   @media (max-width: ${theme.media.tablet}px) {
     padding-block: 6.51vw;
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    grid-template-columns: 1fr;
+    gap: 7.059vw;
+    padding-block: 4.706vw;
+  }
 `;
 
 const FooterBottom = styled.div`
@@ -117,6 +123,17 @@ const FooterBottom = styled.div`
 
     & > div {
       gap: 3.906vw;
+    }
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    flex-direction: column;
+    padding-top: 4.706vw;
+    margin-top: 7.059vw;
+    gap: 7.059vw;
+
+    & > div {
+      gap: 7.059vw;
     }
   }
 `;

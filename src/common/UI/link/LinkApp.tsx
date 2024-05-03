@@ -81,6 +81,10 @@ const CustomLink = styled(Link)<{ $fz: number; $color: string; $isNotViewUnderli
   @media (max-width: ${theme.media.tablet}px) {
     font-size: ${(props) => transformAdaptiveSize(props.$fz, theme.media.tablet)};
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    font-size: ${(props) => transformAdaptiveSize(props.$fz, theme.media.phone)};
+  }
 `;
 
 const LinkButton = styled(Link)<{
@@ -145,6 +149,22 @@ const LinkButton = styled(Link)<{
 
     & > div {
       margin-right: 1.302vw;
+    }
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    font-size: ${(props) => transformAdaptiveSize(props.$fz, theme.media.phone)};
+    padding-block: ${(props) => transformAdaptiveSize(props.$pb, theme.media.phone)};
+    width: ${(props) =>
+      typeof props.$w === "number"
+        ? transformAdaptiveSize(props.$w, theme.media.phone)
+        : props.$w === "max-content"
+        ? "max-content"
+        : "100%"};
+    border-radius: 2.353vw;
+
+    & > div {
+      margin-right: 2.353vw;
     }
   }
 `;

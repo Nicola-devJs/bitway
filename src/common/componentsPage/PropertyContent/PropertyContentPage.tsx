@@ -20,10 +20,11 @@ import { useScreenExtension } from "@/common/hooks/useScreenExtension";
 
 export const PropertyContentPage = () => {
   // TODO Доработать хук useScreenExtension (использовать массив, с инверсией. В хуке задействовать изначальные значения)
-  const [minDesktopScreen, maxDesktopScreen, maxTabletScreen] = useScreenExtension([
+  const [minDesktopScreen, maxDesktopScreen, maxTabletScreen, maxPhoneScreen] = useScreenExtension([
     { screenExtension: theme.media.desktop },
     { screenExtension: theme.media.desktop, maxScreen: true },
     { screenExtension: theme.media.tablet, maxScreen: true },
+    { screenExtension: theme.media.phone, maxScreen: true },
   ]);
 
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
@@ -73,7 +74,7 @@ export const PropertyContentPage = () => {
             <PropertyCard typeShow="tile" {...prop} />
           ))}
           titleSlider="Similar Properties"
-          countViewSlide={maxTabletScreen ? 2 : 3}
+          countViewSlide={maxPhoneScreen ? 1 : maxTabletScreen ? 2 : 3}
           countTrack={1}
         />
       </SimilarPropertiesBlock>

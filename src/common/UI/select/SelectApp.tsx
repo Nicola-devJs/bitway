@@ -8,17 +8,19 @@ import { TextApp } from "@/common/styledComponents/Text";
 import arrowSelect from "@/assets/icons/arrow-select.svg";
 import { NextImage } from "@/common/components/NextImage";
 
-type OptionType = { label: string; value: string | number };
+type OptionType = { label: string; value: string };
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   errorMessage?: string;
   options?: OptionType[];
+  changeHandler: (selected: string) => string;
+  size?: number;
 }
 
-export const SelectApp: FC<IProps> = ({ label, errorMessage, options = [], ...props }) => {
+export const SelectApp: FC<IProps> = ({ label, errorMessage, options = [], changeHandler, size = 16, ...props }) => {
   const [openSelect, setOpenSelect] = useState(false);
-  const [selected, setSelected] = useState<OptionType>();
+  // const [selected, setSelected] = useState<OptionType>();
   const selectRef = useRef<HTMLDivElement>(null);
 
   const openSelectHandler: React.MouseEventHandler<HTMLDivElement> = (e) => {
@@ -32,8 +34,8 @@ export const SelectApp: FC<IProps> = ({ label, errorMessage, options = [], ...pr
     }
   };
 
-  const selectHandler = (option: OptionType) => () => {
-    setSelected(option);
+  const selectHandler = (value: string) => () => {
+    changeHandler(value);
     setOpenSelect(false);
   };
 
@@ -58,8 +60,9 @@ export const SelectApp: FC<IProps> = ({ label, errorMessage, options = [], ...pr
           className={jost.className}
           $error={!!errorMessage}
           onMouseDown={openSelectHandler}
-          value={selected?.label || "Не выбран"}
+          value={props.value || "Не выбран"}
           readOnly
+          $size={size}
           {...props}
         />
         <NextImage info={arrowSelect} $width={17} onClick={() => setOpenSelect((prev) => !prev)} />
@@ -68,7 +71,7 @@ export const SelectApp: FC<IProps> = ({ label, errorMessage, options = [], ...pr
       <ContainerOptions $isOpen={openSelect}>
         {options.length ? (
           options.map((opt) => (
-            <div key={opt.value} onClick={selectHandler(opt)}>
+            <div key={opt.value} onClick={selectHandler(opt.value)}>
               {opt.label}
             </div>
           ))
@@ -122,16 +125,27 @@ export const ContainerInput = styled.div<{ $isOpen: boolean }>`
       right: 2.995vw;
     }
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    label {
+      margin-bottom: 1.176vw;
+    }
+
+    div {
+      top: 11.294vw;
+      right: 5.412vw;
+    }
+  }
 `;
 
-export const StyledInput = styled.input<{ $error?: boolean; $size?: number; $width?: number }>`
+export const StyledInput = styled.input<{ $error?: boolean; $size: number; $width?: number }>`
   width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width) : "100%")};
   border: 1px solid ${(props) => (props.$error ? theme.colors.red : theme.colors.grayOpacity(0.2))};
   padding: 0.903vw 1.389vw;
   border-radius: 0.694vw;
   color: ${theme.colors.dark};
   font-weight: 500;
-  font-size: ${(props) => (props.$size ? transformAdaptiveSize(props.$size) : transformAdaptiveSize(16))};
+  font-size: ${(props) => transformAdaptiveSize(props.$size)};
   cursor: pointer;
 
   &:focus {
@@ -146,21 +160,23 @@ export const StyledInput = styled.input<{ $error?: boolean; $size?: number; $wid
   @media (max-width: ${theme.media.desktop}px) {
     width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width, theme.media.desktop) : "100%")};
     padding: 1.084vw 1.668vw;
-    font-size: ${(props) =>
-      props.$size
-        ? transformAdaptiveSize(props.$size, theme.media.desktop)
-        : transformAdaptiveSize(16, theme.media.desktop)};
+    font-size: ${(props) => transformAdaptiveSize(props.$size, theme.media.desktop)};
+
     border-radius: 0.834vw;
   }
 
   @media (max-width: ${theme.media.tablet}px) {
     width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width, theme.media.tablet) : "100%")};
     padding: 1.693vw 2.604vw;
-    font-size: ${(props) =>
-      props.$size
-        ? transformAdaptiveSize(props.$size, theme.media.tablet)
-        : transformAdaptiveSize(16, theme.media.tablet)};
+    font-size: ${(props) => transformAdaptiveSize(props.$size, theme.media.tablet)};
     border-radius: 1.302vw;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width, theme.media.phone) : "100%")};
+    padding: 3.059vw 4.706vw;
+    font-size: ${(props) => transformAdaptiveSize(props.$size, theme.media.phone)};
+    border-radius: 2.353vw;
   }
 `;
 
@@ -200,13 +216,23 @@ const ContainerOptions = styled.div<{ $isOpen: boolean }>`
     }
   }
 
-  @media (max-width: ${theme.media.desktop}px) {
+  @media (max-width: ${theme.media.tablet}px) {
     top: calc(100% + 1.302vw);
     border-radius: 1.302vw;
     padding-block: 1.302vw;
 
     & > div {
       padding: 1.693vw 2.604vw;
+    }
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    top: calc(100% + 2.353vw);
+    border-radius: 2.353vw;
+    padding-block: 2.353vw;
+
+    & > div {
+      padding: 3.059vw 4.706vw;
     }
   }
 `;

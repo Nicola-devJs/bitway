@@ -11,9 +11,12 @@ import { mockGallery } from "@/common/constants/mockGallery";
 
 export const GalleryApp = () => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
-  const [maxTabletScreen] = useScreenExtension([{ screenExtension: theme.media.tablet, maxScreen: true }]);
+  const [maxTabletScreen, maxPhoneScreen] = useScreenExtension([
+    { screenExtension: theme.media.tablet, maxScreen: true },
+    { screenExtension: theme.media.phone, maxScreen: true },
+  ]);
 
-  const viewPicturies = !maxTabletScreen ? 5 : 4;
+  const viewPicturies = maxPhoneScreen ? 2 : maxTabletScreen ? 4 : 5;
 
   const openModalSlideHandler = (position: number) => () => {
     setOptionModalHandler({ type: "gallery", options: { images: mockGallery, initialPosition: position + 1 } });

@@ -27,4 +27,8 @@ const StyledFlexContent = styled.div<{ $flexType?: "row" | "column"; $flexGap?: 
   @media (max-width: ${theme.media.tablet}px) {
     gap: ${(props) => (props.$flexGap ? transformAdaptiveSize(props.$flexGap, theme.media.tablet) : 0)};
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    gap: ${(props) => (props.$flexGap ? transformAdaptiveSize(props.$flexGap, theme.media.phone) : 0)};
+  }
 `;

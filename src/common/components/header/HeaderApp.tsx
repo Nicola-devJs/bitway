@@ -1,17 +1,32 @@
 "use client";
 import { usePathname } from "next/navigation";
-import React from "react";
-import styled from "styled-components";
+import React, { useEffect, useState } from "react";
+import styled, { css } from "styled-components";
 import Link from "next/link";
-
 import { theme } from "@/assets/theme/theme";
 import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 import { LogoApp } from "../logo/LogoApp";
 import { LinkApp } from "@/common/UI/link/LinkApp";
 import { HEADER_NAVMENU } from "@/common/constants/mockMenu";
+import { useScreenExtension } from "@/common/hooks/useScreenExtension";
+import { NextImage } from "../NextImage";
+import iconMenu from "@/assets/icons/icon-menu.svg";
 
 export const HeaderApp = () => {
+  const [showMobileMenu, setShowMobileMenu] = useState(false);
   const pathname = usePathname();
+  const [maxTabletScreen, maxPhoneScreen] = useScreenExtension([
+    { screenExtension: theme.media.tablet, maxScreen: true },
+    { screenExtension: theme.media.phone, maxScreen: true },
+  ]);
+
+  useEffect(() => {
+    if (showMobileMenu) {
+      document.body.classList.add("hide");
+    } else {
+      document.body.classList.remove("hide");
+    }
+  }, [showMobileMenu]);
   return (
     <HeaderContainer>
       <ContainerApp>
@@ -19,22 +34,44 @@ export const HeaderApp = () => {
           <Link href="/">
             <LogoApp size={147.6} />
           </Link>
+          {maxTabletScreen && (
+            <>
+              <NextImage
+                info={iconMenu}
+                $width={48}
+                $height={48}
+                objectFit="contain"
+                style={{ transform: "rotate(180deg)" }}
+                onClick={() => setShowMobileMenu((showState) => !showState)}
+              />
+            </>
+          )}
 
-          <MenuList>
+          <MenuList $showMobileMenu={showMobileMenu}>
             {HEADER_NAVMENU.map((itemMenu) => (
               <li key={itemMenu.path}>
                 <LinkApp
                   href={itemMenu.path}
                   color={pathname === itemMenu.path ? theme.colors.blue : theme.colors.dark}
+                  onClick={() => setShowMobileMenu(false)}
                 >
                   {itemMenu.label}
                 </LinkApp>
               </li>
             ))}
+            {maxTabletScreen && (
+              <>
+                <OverlayMobileMenu onClick={() => setShowMobileMenu(false)} />
+                {maxPhoneScreen && <LinkApp.Button href="/auth/login">Login</LinkApp.Button>}
+              </>
+            )}
           </MenuList>
-          <LinkApp.Button href="/auth/login" width={98}>
-            Login
-          </LinkApp.Button>
+
+          {!maxPhoneScreen && (
+            <LinkApp.Button href="/auth/login" width={98}>
+              Login
+            </LinkApp.Button>
+          )}
         </HeaderNav>
       </ContainerApp>
     </HeaderContainer>
@@ -58,6 +95,7 @@ const HeaderNav = styled.nav`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  position: relative;
   gap: 2.083vw;
 
   @media (max-width: ${theme.media.desktop}px) {
@@ -69,7 +107,22 @@ const HeaderNav = styled.nav`
   }
 `;
 
-const MenuList = styled.ul`
+const OverlayMobileMenu = styled.div`
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  top: 100%;
+  right: 0;
+  z-index: 10;
+  background-color: ${theme.colors.darkOpacity(0.2)};
+  backdrop-filter: blur(5px);
+  opacity: 0;
+  transition: opacity 0.2s ease-in 0.1s;
+  width: 100%;
+  height: 100vh;
+`;
+
+const MenuList = styled.ul<{ $showMobileMenu: boolean }>`
   display: flex;
   align-items: center;
 
@@ -89,8 +142,60 @@ const MenuList = styled.ul`
   }
 
   @media (max-width: ${theme.media.tablet}px) {
-    li:not(:first-child) {
-      margin-left: 3.906vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 13.021vw 13.021vw;
+    justify-items: center;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    top: 13.021vw;
+    z-index: 100;
+    background-color: ${theme.colors.white};
+    width: 100%;
+    height: max-content;
+    padding: 3.906vw;
+
+    transform: translateY(-10px);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.2s ease-in-out;
+    pointer-events: none;
+
+    ${(props) =>
+      props.$showMobileMenu &&
+      css`
+        transform: translateY(0);
+        opacity: 1;
+        visibility: visible;
+        pointer-events: all;
+        & ${OverlayMobileMenu} {
+          opacity: 1;
+        }
+      `}
+
+    li {
+      a {
+        font-size: 3.125vw;
+      }
+
+      &:not(:first-child) {
+        margin-left: 0;
+      }
+    }
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    top: 19.294vw;
+    grid-template-rows: 19.294vw 19.294vw;
+
+    li {
+      a {
+        font-size: 5.647vw;
+      }
+    }
+    & > *:last-child {
+      grid-column: 1/3;
     }
   }
 `;

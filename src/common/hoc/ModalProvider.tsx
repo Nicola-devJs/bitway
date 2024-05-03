@@ -10,14 +10,16 @@ interface IContextModal {
   setOptionModalHandler: <T extends ModalType>(props: IInitializationModal<T>) => void;
 }
 
+const initialOptionModal: IInitializationModal<ModalType> = {
+  type: "modal",
+  options: {} as GetOptionsType<ModalType>,
+};
+
 export const ModalContext = createContext<IContextModal>({} as IContextModal);
 
 export default function ModalProvider({ children }: { children: React.ReactNode }) {
   const [show, setShow] = useState("");
-  const [optionModal, setOptionModal] = useState<IInitializationModal<ModalType>>({
-    type: "modal",
-    options: {} as GetOptionsType<ModalType>,
-  });
+  const [optionModal, setOptionModal] = useState<IInitializationModal<ModalType>>(initialOptionModal);
 
   const showHandler = () => {
     setTimeout(() => {
@@ -30,6 +32,9 @@ export default function ModalProvider({ children }: { children: React.ReactNode 
       setShow("");
       document.body.classList.remove("hide");
     }, 0);
+    setTimeout(() => {
+      setOptionModal(initialOptionModal);
+    }, 200);
   };
 
   function setOptionModalHandler<T extends ModalType>({ type, options }: IInitializationModal<T>) {
