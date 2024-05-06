@@ -102,20 +102,80 @@ export const PropertyDescription = () => {
 const StyledPropertyDescription = styled.div`
   & > div {
     h5 {
-      margin-bottom: 20px;
+      margin-bottom: 1.389vw;
     }
 
     &:not(:last-child) {
-      margin-bottom: 20px;
-      padding-bottom: 20px;
+      margin-bottom: 1.389vw;
+      padding-bottom: 1.389vw;
       border-bottom: 1px solid ${theme.colors.grayOpacity(0.2)};
+    }
+  }
+
+  @media (max-width: ${theme.media.desktop}px) {
+    & > div {
+      h5 {
+        margin-bottom: 1.668vw;
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 1.668vw;
+        padding-bottom: 1.668vw;
+        border-bottom: 1px solid ${theme.colors.grayOpacity(0.2)};
+      }
+    }
+  }
+
+  @media (max-width: ${theme.media.tablet}px) {
+    & > div {
+      h5 {
+        margin-bottom: 2.604vw;
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 2.604vw;
+        padding-bottom: 2.604vw;
+        border-bottom: 1px solid ${theme.colors.grayOpacity(0.2)};
+      }
+    }
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    & > div {
+      h5 {
+        margin-bottom: 4.706vw;
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 4.706vw;
+        padding-bottom: 4.706vw;
+        border-bottom: 1px solid ${theme.colors.grayOpacity(0.2)};
+      }
     }
   }
 `;
 
 const DescriptionBlock = styled.div`
   & p:not(:last-child) {
-    margin-bottom: 20px;
+    margin-bottom: 1.389vw;
+  }
+
+  @media (max-width: ${theme.media.desktop}px) {
+    & p:not(:last-child) {
+      margin-bottom: 1.668vw;
+    }
+  }
+
+  @media (max-width: ${theme.media.tablet}px) {
+    & p:not(:last-child) {
+      margin-bottom: 2.604vw;
+    }
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    & p:not(:last-child) {
+      margin-bottom: 4.706vw;
+    }
   }
 `;
 
@@ -124,8 +184,9 @@ const DetailsTable = styled.ul`
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: repeat(5, auto);
-  grid-row-gap: 16px;
-  grid-column-gap: 152px;
+  grid-row-gap: 1.111vw;
+  grid-column-gap: 10.556vw;
+
   &:after {
     content: "";
     position: absolute;
@@ -147,6 +208,26 @@ const DetailsTable = styled.ul`
       &:after {
         content: ":";
       }
+    }
+  }
+
+  @media (max-width: ${theme.media.desktop}px) {
+    grid-row-gap: 1.334vw;
+    grid-column-gap: 12.677vw;
+  }
+
+  @media (max-width: ${theme.media.tablet}px) {
+    grid-row-gap: 2.083vw;
+    grid-column-gap: 19.792vw;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    grid-row-gap: 3.765vw;
+    grid-column-gap: 0;
+    grid-template-columns: 1fr;
+
+    &:after {
+      display: none;
     }
   }
 `;
@@ -173,5 +254,11 @@ const FloorPlanBlock = styled.div`
     grid-template-columns: repeat(2, 1fr);
     grid-auto-rows: minmax(auto, 38.542vw);
     grid-gap: 1.302vw;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    grid-template-columns: 1fr;
+    grid-auto-rows: minmax(auto, 69.647vw);
+    grid-gap: 2.353vw;
   }
 `;

@@ -1,26 +1,41 @@
-import React, { FC, InputHTMLAttributes, useEffect, useRef, useState } from "react";
-import styled from "styled-components";
-import { theme } from "@/assets/theme/theme";
+import React, { InputHTMLAttributes, useEffect, useRef, useState } from "react";
 import { jost } from "@/common/constants/font";
-import { transformAdaptiveSize } from "@/common/helpers/transformValues";
 import { ErrorMessage } from "@/common/styledComponents/ErrorMessage";
 import { TextApp } from "@/common/styledComponents/Text";
 import arrowSelect from "@/assets/icons/arrow-select.svg";
+import doubleArrow from "@/assets/icons/double-arrow.svg";
 import { NextImage } from "@/common/components/NextImage";
+import {
+  ContainerSelect,
+  ContainerInput,
+  StyledInput,
+  ContainerOptions,
+  SelectSortedContainer,
+} from "./styledComponents/StyledSelectApp";
 
-type OptionType = { label: string; value: string };
+type OptionType = { label: string; value: string | number };
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   errorMessage?: string;
-  options?: OptionType[];
-  changeHandler: (selected: string) => string;
+  options: OptionType[];
+  changeHandler: (selected: string | number) => void;
   size?: number;
 }
 
-export const SelectApp: FC<IProps> = ({ label, errorMessage, options = [], changeHandler, size = 16, ...props }) => {
+interface IPropsSwitcher {
+  options: OptionType[];
+  changeHandler: (selected: string | number) => void;
+  viewSide?: "left" | "right";
+}
+
+interface IPropsSorted extends IPropsSwitcher {
+  label: string;
+  value: string;
+}
+
+const SelectApp = ({ label, errorMessage, options = [], changeHandler, size = 16, ...props }: IProps) => {
   const [openSelect, setOpenSelect] = useState(false);
-  // const [selected, setSelected] = useState<OptionType>();
   const selectRef = useRef<HTMLDivElement>(null);
 
   const openSelectHandler: React.MouseEventHandler<HTMLDivElement> = (e) => {
@@ -34,7 +49,7 @@ export const SelectApp: FC<IProps> = ({ label, errorMessage, options = [], chang
     }
   };
 
-  const selectHandler = (value: string) => () => {
+  const selectHandler = (value: string | number) => () => {
     changeHandler(value);
     setOpenSelect(false);
   };
@@ -68,7 +83,7 @@ export const SelectApp: FC<IProps> = ({ label, errorMessage, options = [], chang
         <NextImage info={arrowSelect} $width={17} onClick={() => setOpenSelect((prev) => !prev)} />
         <ErrorMessage>{errorMessage}</ErrorMessage>
       </ContainerInput>
-      <ContainerOptions $isOpen={openSelect}>
+      <ContainerOptions $isOpen={openSelect} $viewSize={"right"}>
         {options.length ? (
           options.map((opt) => (
             <div key={opt.value} onClick={selectHandler(opt.value)}>
@@ -83,156 +98,95 @@ export const SelectApp: FC<IProps> = ({ label, errorMessage, options = [], chang
   );
 };
 
-const ContainerSelect = styled.div`
-  position: relative;
-  width: 100%;
-`;
+SelectApp.Switcher = ({ options = [], changeHandler, viewSide = "right" }: IPropsSwitcher) => {
+  const [openSelect, setOpenSelect] = useState(false);
+  const selectRef = useRef<HTMLDivElement>(null);
 
-export const ContainerInput = styled.div<{ $isOpen: boolean }>`
-  position: relative;
-  label {
-    margin-bottom: 0.347vw;
-    display: inline-block;
-  }
-
-  div {
-    position: absolute;
-    right: 1.597vw;
-    top: 3.333vw;
-    cursor: pointer;
-    transform: ${(props) => (props.$isOpen ? "rotate(180deg)" : "rotate(0deg)")};
-    transition: transform 0.2s ease-in;
-  }
-
-  @media (max-width: ${theme.media.desktop}px) {
-    label {
-      margin-bottom: 0.417vw;
+  const closeSelectOptions = (ev: any) => {
+    if (!selectRef.current!.contains(ev.target)) {
+      setOpenSelect(false);
     }
+  };
 
-    div {
-      top: 4.003vw;
-      right: 1.918vw;
+  const selectHandler = (value: string | number) => () => {
+    changeHandler(value);
+    setOpenSelect(false);
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", closeSelectOptions);
+
+    return () => {
+      document.removeEventListener("click", closeSelectOptions);
+    };
+  }, []);
+
+  return (
+    <ContainerSelect ref={selectRef} $width="max-content">
+      <NextImage info={doubleArrow} $width={17} $height={17} onClick={() => setOpenSelect((prev) => !prev)} />
+      <ContainerOptions $isOpen={openSelect} $viewSize={viewSide} $width="max-content">
+        {options.length ? (
+          options.map((opt) => (
+            <div key={opt.value} onClick={selectHandler(opt.value)}>
+              {opt.label}
+            </div>
+          ))
+        ) : (
+          <div>Пустой список</div>
+        )}
+      </ContainerOptions>
+    </ContainerSelect>
+  );
+};
+
+SelectApp.Sorted = ({ options = [], changeHandler, viewSide = "left", label, value }: IPropsSorted) => {
+  const [openSelect, setOpenSelect] = useState(false);
+  const selectRef = useRef<HTMLDivElement>(null);
+
+  const closeSelectOptions = (ev: any) => {
+    if (!selectRef.current!.contains(ev.target)) {
+      setOpenSelect(false);
     }
-  }
+  };
 
-  @media (max-width: ${theme.media.tablet}px) {
-    label {
-      margin-bottom: 0.651vw;
-    }
+  const selectHandler = (value: string | number) => () => {
+    changeHandler(value);
+    setOpenSelect(false);
+  };
 
-    div {
-      top: 6.25vw;
-      right: 2.995vw;
-    }
-  }
+  const toggleSelectSortedHandler = () => {
+    setOpenSelect((prev) => !prev);
+  };
 
-  @media (max-width: ${theme.media.phone}px) {
-    label {
-      margin-bottom: 1.176vw;
-    }
+  useEffect(() => {
+    document.addEventListener("click", closeSelectOptions);
 
-    div {
-      top: 11.294vw;
-      right: 5.412vw;
-    }
-  }
-`;
+    return () => {
+      document.removeEventListener("click", closeSelectOptions);
+    };
+  }, []);
 
-export const StyledInput = styled.input<{ $error?: boolean; $size: number; $width?: number }>`
-  width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width) : "100%")};
-  border: 1px solid ${(props) => (props.$error ? theme.colors.red : theme.colors.grayOpacity(0.2))};
-  padding: 0.903vw 1.389vw;
-  border-radius: 0.694vw;
-  color: ${theme.colors.dark};
-  font-weight: 500;
-  font-size: ${(props) => transformAdaptiveSize(props.$size)};
-  cursor: pointer;
+  return (
+    <ContainerSelect ref={selectRef} $width="max-content">
+      <SelectSortedContainer $isOpen={openSelect} onClick={toggleSelectSortedHandler}>
+        <TextApp>
+          {label}: {value}
+        </TextApp>{" "}
+        <NextImage info={arrowSelect} $width={17} onClick={toggleSelectSortedHandler} objectFit="contain" />
+      </SelectSortedContainer>
+      <ContainerOptions $isOpen={openSelect} $viewSize={viewSide}>
+        {options.length ? (
+          options.map((opt) => (
+            <div key={opt.value} onClick={selectHandler(opt.value)}>
+              {opt.label}
+            </div>
+          ))
+        ) : (
+          <div>Пустой список</div>
+        )}
+      </ContainerOptions>
+    </ContainerSelect>
+  );
+};
 
-  &:focus {
-    outline: none;
-    border-color: ${theme.colors.blue};
-  }
-
-  &::placeholder {
-    color: ${theme.colors.gray};
-  }
-
-  @media (max-width: ${theme.media.desktop}px) {
-    width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width, theme.media.desktop) : "100%")};
-    padding: 1.084vw 1.668vw;
-    font-size: ${(props) => transformAdaptiveSize(props.$size, theme.media.desktop)};
-
-    border-radius: 0.834vw;
-  }
-
-  @media (max-width: ${theme.media.tablet}px) {
-    width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width, theme.media.tablet) : "100%")};
-    padding: 1.693vw 2.604vw;
-    font-size: ${(props) => transformAdaptiveSize(props.$size, theme.media.tablet)};
-    border-radius: 1.302vw;
-  }
-
-  @media (max-width: ${theme.media.phone}px) {
-    width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width, theme.media.phone) : "100%")};
-    padding: 3.059vw 4.706vw;
-    font-size: ${(props) => transformAdaptiveSize(props.$size, theme.media.phone)};
-    border-radius: 2.353vw;
-  }
-`;
-
-const ContainerOptions = styled.div<{ $isOpen: boolean }>`
-  position: absolute;
-  top: calc(100% + 0.694vw);
-  left: 0;
-  right: 0;
-  z-index: 2;
-  border-radius: 0.694vw;
-  background-color: ${theme.colors.white};
-  border: 1px solid ${theme.colors.grayOpacity(0.2)};
-  padding-block: 0.694vw;
-  transform: ${(props) => (props.$isOpen ? "translateY(0px)" : "translateY(-10px)")};
-  visibility: ${(props) => (props.$isOpen ? "visible" : "hidden")};
-  opacity: ${(props) => (props.$isOpen ? "1" : "0")};
-  height: ${(props) => (props.$isOpen ? "auto" : "0px")};
-  transition: all 0.2s ease-in-out;
-
-  & > div {
-    padding: 0.903vw 1.389vw;
-    transition: all 0.2s ease-in;
-    cursor: pointer;
-
-    &:hover {
-      background-color: ${theme.colors.grayOpacity(0.1)};
-    }
-  }
-
-  @media (max-width: ${theme.media.desktop}px) {
-    top: calc(100% + 0.834vw);
-    border-radius: 0.834vw;
-    padding-block: 0.834vw;
-
-    & > div {
-      padding: 1.084vw 1.668vw;
-    }
-  }
-
-  @media (max-width: ${theme.media.tablet}px) {
-    top: calc(100% + 1.302vw);
-    border-radius: 1.302vw;
-    padding-block: 1.302vw;
-
-    & > div {
-      padding: 1.693vw 2.604vw;
-    }
-  }
-
-  @media (max-width: ${theme.media.phone}px) {
-    top: calc(100% + 2.353vw);
-    border-radius: 2.353vw;
-    padding-block: 2.353vw;
-
-    & > div {
-      padding: 3.059vw 4.706vw;
-    }
-  }
-`;
+export { SelectApp };

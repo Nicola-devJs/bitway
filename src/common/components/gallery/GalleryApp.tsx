@@ -6,7 +6,7 @@ import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 import { theme } from "@/assets/theme/theme";
 import { playfair } from "@/common/constants/font";
 import { ModalContext } from "@/common/hoc/ModalProvider";
-import { useScreenExtension } from "@/common/hooks/useScreenExtension";
+import { useScreenExtension } from "@/common/hooks/screenExtension";
 import { mockGallery } from "@/common/constants/mockGallery";
 
 export const GalleryApp = () => {
@@ -26,7 +26,7 @@ export const GalleryApp = () => {
   return (
     <>
       <div style={{ width: "100%" }}>
-        <NextImage info={mockGallery[0]} $fullWidth />{" "}
+        <NextImage info={mockGallery[0]} $fullWidth />
         <ContainerApp>
           <ContainerImages>
             {mockGallery.slice(1, viewPicturies).map((img, id) => (
@@ -115,6 +115,12 @@ const MoreImages = styled.div<{ $remaining: number }>`
   @media (max-width: ${theme.media.tablet}px) {
     &::after {
       font-size: 3.125vw;
+    }
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    &::after {
+      font-size: 5.647vw;
     }
   }
 `;

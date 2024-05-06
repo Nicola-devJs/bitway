@@ -5,8 +5,10 @@ import { transformAdaptiveSize } from "@/common/helpers/transformValues";
 import React, { FC, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { NextImage } from "../NextImage";
-import arrowRightSlider from "@/assets/icons/arrow-right-slider.svg";
-import arrowLeftSlider from "@/assets/icons/arrow-left-slider.svg";
+import arrowRightWhiteSlider from "@/assets/icons/slider/arrow-right-w-slider.svg";
+import arrowRightBlackSlider from "@/assets/icons/slider/arrow-right-b-slider.svg";
+import arrowLeftWhiteSlider from "@/assets/icons/slider/arrow-left-w-slider.svg";
+import arrowLeftBlackSlider from "@/assets/icons/slider/arrow-left-b-slider.svg";
 import { TextApp } from "@/common/styledComponents/Text";
 import { playfair } from "@/common/constants/font";
 
@@ -88,7 +90,12 @@ export const SliderApp: FC<IProps> = ({
               onClick={decrementPosition}
               $customPosition
             >
-              <NextImage info={arrowLeftSlider} $height={9.5} $width={13.5} objectFit="contain" />
+              <NextImage
+                info={isFirstSlide ? arrowLeftBlackSlider : arrowLeftWhiteSlider}
+                $height={9.5}
+                $width={13.5}
+                objectFit="contain"
+              />
             </SliderNavigationArrowLeft>
             <SliderNavigationArrowRight
               $disabled={isLastSlide}
@@ -96,7 +103,12 @@ export const SliderApp: FC<IProps> = ({
               onClick={incrementPosition}
               $customPosition
             >
-              <NextImage info={arrowRightSlider} $height={9.5} $width={13.5} objectFit="contain" />
+              <NextImage
+                info={isLastSlide ? arrowRightBlackSlider : arrowRightWhiteSlider}
+                $height={9.5}
+                $width={13.5}
+                objectFit="contain"
+              />
             </SliderNavigationArrowRight>
           </NavigationBlock>
         </SliderTop>
@@ -121,10 +133,20 @@ export const SliderApp: FC<IProps> = ({
         {showArrowsNavigation && (
           <>
             <SliderNavigationArrowLeft $disabled={isFirstSlide} disabled={isFirstSlide} onClick={decrementPosition}>
-              <NextImage info={arrowLeftSlider} $height={9.5} $width={13.5} objectFit="contain" />
+              <NextImage
+                info={isFirstSlide ? arrowLeftBlackSlider : arrowLeftWhiteSlider}
+                $height={9.5}
+                $width={13.5}
+                objectFit="contain"
+              />
             </SliderNavigationArrowLeft>
             <SliderNavigationArrowRight $disabled={isLastSlide} disabled={isLastSlide} onClick={incrementPosition}>
-              <NextImage info={arrowRightSlider} $height={9.5} $width={13.5} objectFit="contain" />
+              <NextImage
+                info={isLastSlide ? arrowRightBlackSlider : arrowRightWhiteSlider}
+                $height={9.5}
+                $width={13.5}
+                objectFit="contain"
+              />
             </SliderNavigationArrowRight>
           </>
         )}

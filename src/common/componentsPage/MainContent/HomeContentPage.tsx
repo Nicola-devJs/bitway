@@ -9,7 +9,7 @@ import { PropertiesBlock } from "../PropertiesBlock";
 import { LinkApp } from "@/common/UI/link/LinkApp";
 import mainImg from "@/assets/images/main-img.jpg";
 import { NextImage } from "@/common/components/NextImage";
-import { useScreenExtension } from "@/common/hooks/useScreenExtension";
+import { useScreenExtension } from "@/common/hooks/screenExtension";
 
 export const HomeHeadingBlock = () => {
   const [maxTabletScreen, maxPhoneScreen] = useScreenExtension([

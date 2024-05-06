@@ -1,4 +1,5 @@
 import { useLayoutEffect, useState } from "react";
+import { useDebounce } from "./debounce";
 
 type ParametrsType = { screenExtension: number; maxScreen?: boolean }[];
 
@@ -10,11 +11,13 @@ const showElement = (params: ParametrsType) => {
 
 export const useScreenExtension = (params: ParametrsType) => {
   const [isTargetExtension, setTargetExtension] = useState(params.map(({ maxScreen }) => !!maxScreen));
+  const setTargetExtensionDebounce = useDebounce(setTargetExtension);
+
   useLayoutEffect(() => {
     const handleResize = () => {
-      setTargetExtension(showElement(params));
+      setTargetExtensionDebounce(showElement(params));
     };
-    handleResize();
+    setTargetExtension(showElement(params));
     globalThis.addEventListener("resize", handleResize);
 
     return () => {

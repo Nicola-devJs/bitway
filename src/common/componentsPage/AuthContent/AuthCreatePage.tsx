@@ -68,9 +68,8 @@ export const AuthCreatePage = () => {
           onBlur={email.onBlur}
           errorMessage={emailState.error?.message}
         />
-        <InputApp
+        <InputApp.Password
           placeholder="Enter Email ..."
-          type="password"
           label="Password"
           value={password.value}
           onChange={password.onChange}

@@ -38,7 +38,7 @@ const Location = () => {
           { label: "Тирасполь", value: "tiras" },
           { label: "Парканы", value: "parcani" },
         ]}
-        changeHandler={setLocation}
+        changeHandler={(locale) => setLocation(locale as string)}
         value={location}
       />
     </ContainerContent>

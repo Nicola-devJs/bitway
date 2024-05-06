@@ -5,7 +5,7 @@ import ComponentsSidebarFilter from "./components/ComponentsSidebarFilter";
 import styled, { css } from "styled-components";
 import { theme } from "@/assets/theme/theme";
 import { ButtonApp } from "@/common/UI/button/ButtonApp";
-import { useScreenExtension } from "@/common/hooks/useScreenExtension";
+import { useScreenExtension } from "@/common/hooks/screenExtension";
 
 import { FilterContext } from "@/common/hoc/FilterProvider";
 

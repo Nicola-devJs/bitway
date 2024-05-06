@@ -34,7 +34,7 @@ export default function ModalProvider({ children }: { children: React.ReactNode 
     }, 0);
     setTimeout(() => {
       setOptionModal(initialOptionModal);
-    }, 200);
+    }, 250);
   };
 
   function setOptionModalHandler<T extends ModalType>({ type, options }: IInitializationModal<T>) {

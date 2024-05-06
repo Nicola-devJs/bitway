@@ -8,16 +8,24 @@ import tileStyleIcon from "@/assets/icons/tile-style.svg";
 import { TextApp } from "@/common/styledComponents/Text";
 import { ButtonApp } from "@/common/UI/button/ButtonApp";
 import { FilterContext } from "@/common/hoc/FilterProvider";
-import { useScreenExtension } from "@/common/hooks/useScreenExtension";
+import { useScreenExtension } from "@/common/hooks/screenExtension";
 import { theme } from "@/assets/theme/theme";
 import { IPropertyCard } from "@/common/interfaces/IProperty";
+import { SelectApp } from "@/common/UI/select/SelectApp";
 
 interface IProps {
   properties: IPropertyCard[];
 }
 
+// TODO хардкод по сортировке объектов
+const sortedOptions = [
+  { label: "hight", value: "hight" },
+  { label: "low", value: "low" },
+];
+
 export const PropertiesList: FC<IProps> = ({ properties }) => {
   const [showType, setShowType] = useState<ShowType>("tile");
+  const [sorted, setSorted] = useState<{ label: string; value: string }>(sortedOptions[0]);
   const { showFilter } = useContext(FilterContext);
   const [maxTabletScreen, maxPhoneScreen] = useScreenExtension([
     { screenExtension: theme.media.tablet, maxScreen: true },
@@ -55,6 +63,12 @@ export const PropertiesList: FC<IProps> = ({ properties }) => {
           )}
 
           <TextApp>Showing 1–16 of 72 results</TextApp>
+          <SelectApp.Sorted
+            label="Sorted by"
+            options={sortedOptions}
+            value={sorted.label}
+            changeHandler={(sort) => setSorted({ label: sort as string, value: sort as string })}
+          />
         </ShowAndCountPropertiesBlock>
       </PropertiesToolbar>
       <ListProperties typeShow={showType} countTiles={2} properties={properties} />

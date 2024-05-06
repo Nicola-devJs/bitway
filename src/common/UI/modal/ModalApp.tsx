@@ -10,8 +10,6 @@ import { CloseModalSlider, SliderInfo } from "./styledComponents.tsx/StyledModal
 import { IAlertProps, IGalleryProps, IInitializationModal, IModalProps, ModalType } from "../../interfaces/IModal";
 import { ModalContext } from "@/common/hoc/ModalProvider";
 import { SliderApp } from "@/common/components/slider/SliderApp";
-import { theme } from "@/assets/theme/theme";
-import { useScreenExtension } from "@/common/hooks/useScreenExtension";
 
 const ModalApp = ({ width = 432, children, show, hideHandler }: IModalProps) => {
   return (

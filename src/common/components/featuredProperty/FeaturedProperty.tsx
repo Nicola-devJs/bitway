@@ -10,7 +10,7 @@ import { playfair } from "@/common/constants/font";
 import { LinkApp } from "@/common/UI/link/LinkApp";
 import { propertyCardIconsWhite } from "@/common/constants/constantImages";
 import { mockPropertiesWithImage } from "@/common/constants/mockGallery";
-import { useScreenExtension } from "@/common/hooks/useScreenExtension";
+import { useScreenExtension } from "@/common/hooks/screenExtension";
 
 export const FeaturedProperty = () => {
   const [maxTabletScreen, maxPhoneScreen] = useScreenExtension([

@@ -146,6 +146,69 @@ const IconAlertModal = styled.div`
     width: 1.389vw;
     height: 1.389vw;
   }
+
+  @media (max-width: ${theme.media.desktop}px) {
+    width: 5.338vw;
+    height: 5.338vw;
+    margin-bottom: 3.503vw;
+
+    &::before {
+      width: 7.173vw;
+      height: 7.173vw;
+    }
+
+    &::after {
+      width: 9.008vw;
+      height: 9.008vw;
+    }
+
+    & span {
+      width: 1.668vw;
+      height: 1.668vw;
+    }
+  }
+
+  @media (max-width: ${theme.media.tablet}px) {
+    width: 8.333vw;
+    height: 8.333vw;
+    margin-bottom: 5.469vw;
+
+    &::before {
+      width: 11.198vw;
+      height: 11.198vw;
+    }
+
+    &::after {
+      width: 14.063vw;
+      height: 14.063vw;
+    }
+
+    & span {
+      width: 2.604vw;
+      height: 2.604vw;
+    }
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    width: 15.059vw;
+    height: 15.059vw;
+    margin-bottom: 9.882vw;
+
+    &::before {
+      width: 20.235vw;
+      height: 20.235vw;
+    }
+
+    &::after {
+      width: 25.412vw;
+      height: 25.412vw;
+    }
+
+    & span {
+      width: 4.706vw;
+      height: 4.706vw;
+    }
+  }
 `;
 
 export { ModalBody, IconAlertModal, ModalContent, ModalOverlay };

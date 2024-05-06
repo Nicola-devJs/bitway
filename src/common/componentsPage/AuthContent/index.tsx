@@ -71,6 +71,16 @@ const GoBack = styled.p`
       height: 2.214vw;
     }
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    margin-bottom: 7.059vw;
+    font-size: 4.706vw;
+
+    &:before {
+      width: 1.882vw;
+      height: 4vw;
+    }
+  }
 `;
 
 const HeaderBlock = styled.div`

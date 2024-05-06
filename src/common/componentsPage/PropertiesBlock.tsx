@@ -5,7 +5,7 @@ import propertiesMockData from "../../../public/mockData/properties.json";
 import { SliderApp } from "../components/slider/SliderApp";
 import { PropertyCard } from "../components/propertyCard/PropertyCard";
 import { TextApp } from "../styledComponents/Text";
-import { useScreenExtension } from "../hooks/useScreenExtension";
+import { useScreenExtension } from "../hooks/screenExtension";
 import { theme } from "@/assets/theme/theme";
 
 export const PropertiesBlock = ({ title }: { title: string }) => {

@@ -16,7 +16,7 @@ import propertiesMockData from "../../../../public/mockData/properties.json";
 import { FormFeedback } from "@/common/components/feedback/FormFeedback";
 import { ButtonApp } from "@/common/UI/button/ButtonApp";
 import { ModalContext } from "@/common/hoc/ModalProvider";
-import { useScreenExtension } from "@/common/hooks/useScreenExtension";
+import { useScreenExtension } from "@/common/hooks/screenExtension";
 
 export const PropertyContentPage = () => {
   // TODO Доработать хук useScreenExtension (использовать массив, с инверсией. В хуке задействовать изначальные значения)
@@ -60,10 +60,10 @@ export const PropertyContentPage = () => {
       <PropertyContentContainer>
         <TabsApp
           listTabs={[
-            { title: "Descriptions", content: <PropertyDescription /> },
-            { title: "Features", content: "Content" },
-            { title: "Mortgage Calculator", content: "Content" },
-            { title: "Schedule a Tour", content: "Content" },
+            { id: 44, title: "Descriptions", content: <PropertyDescription /> },
+            { id: 2, title: "Features", content: "Content 2" },
+            { id: 5, title: "Mortgage Calculator", content: "Content 3" },
+            { id: 3, title: "Schedule a Tour", content: "Content 4" },
           ]}
         />
         {minDesktopScreen && <FormFeedback />}
@@ -110,6 +110,10 @@ const PropertyTopInfo = styled.div`
       margin-bottom: 1.563vw;
     }
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    flex-direction: column;
+  }
 `;
 
 const PropertyTopActionBlock = styled.div`
@@ -118,6 +122,11 @@ const PropertyTopActionBlock = styled.div`
   align-items: flex-end;
   & > div:first-child {
     flex: 1 1 auto;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    flex-direction: row;
+    margin-top: 3.765vw;
   }
 `;
 

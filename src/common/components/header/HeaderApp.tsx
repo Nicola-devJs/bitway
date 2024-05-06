@@ -8,7 +8,7 @@ import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 import { LogoApp } from "../logo/LogoApp";
 import { LinkApp } from "@/common/UI/link/LinkApp";
 import { HEADER_NAVMENU } from "@/common/constants/mockMenu";
-import { useScreenExtension } from "@/common/hooks/useScreenExtension";
+import { useScreenExtension } from "@/common/hooks/screenExtension";
 import { NextImage } from "../NextImage";
 import iconMenu from "@/assets/icons/icon-menu.svg";
 
