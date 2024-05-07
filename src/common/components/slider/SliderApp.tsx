@@ -1,6 +1,5 @@
 "use client";
 import { theme } from "@/assets/theme/theme";
-import { SliderInfo, CloseModalSlider } from "@/common/UI/modal/styledComponents.tsx/StyledModalAppSlider";
 import { transformAdaptiveSize } from "@/common/helpers/transformValues";
 import React, { FC, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
