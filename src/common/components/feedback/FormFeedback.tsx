@@ -142,6 +142,8 @@ const StyledFormFeedback = styled.div`
   @media (max-width: ${theme.media.desktop}px) {
     padding: 1.668vw;
     border-radius: 1.334vw;
+    box-shadow: none;
+    padding: 0;
 
     & > h5 {
       margin-bottom: 2.502vw;
@@ -153,6 +155,15 @@ const StyledFormFeedback = styled.div`
 
     & > h5 {
       margin-bottom: 3.906vw;
+    }
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    padding: 0;
+    border-radius: 0;
+
+    & > h5 {
+      margin-bottom: 7.059vw;
     }
   }
 `;
@@ -193,6 +204,16 @@ const AgentInfoBlock = styled.div`
       margin-right: 2.083vw;
     }
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    padding-bottom: 4.706vw;
+    margin-bottom: 4.706vw;
+
+    & > div:first-child {
+      border-radius: 2.353vw;
+      margin-right: 3.765vw;
+    }
+  }
 `;
 
 const FormFeedbackBlock = styled.form`
@@ -211,6 +232,12 @@ const FormFeedbackBlock = styled.form`
       margin-bottom: 2.604vw;
     }
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    & > *:not(:last-child) {
+      margin-bottom: 4.706vw;
+    }
+  }
 `;
 
 const CommunicationBlock = styled.div`
@@ -227,7 +254,12 @@ const CommunicationBlock = styled.div`
   @media (max-width: ${theme.media.desktop}px) {
     grid-gap: 0.834vw;
   }
+
   @media (max-width: ${theme.media.tablet}px) {
     grid-gap: 1.302vw;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    grid-gap: 2.353vw;
   }
 `;

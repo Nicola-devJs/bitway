@@ -11,22 +11,22 @@ interface IProps {
   sizeItem?: number;
   itemsLenght: number;
   viewCountItems: number;
+  activeIdPage: number;
+  changeIdPage: (idPage: number) => void;
 }
 
-export const PaginateApp: FC<IProps> = ({ sizeItem = 40, itemsLenght, viewCountItems }) => {
-  const [activeItem, setActiveItem] = useState(0);
-
+export const PaginateApp: FC<IProps> = ({ sizeItem = 40, itemsLenght, viewCountItems, activeIdPage, changeIdPage }) => {
   const listPaginate = Array(Math.ceil(itemsLenght / viewCountItems))
     .fill(1)
     .map((_, id) => id + 1);
 
-  const isFirstPage = activeItem === 0;
-  const isLastPage = activeItem === listPaginate.length - 1;
+  const isFirstPage = activeIdPage === 0;
+  const isLastPage = activeIdPage === listPaginate.length - 1;
 
   return (
     <PaginateContainer>
       {listPaginate.map((item, id) => (
-        <PaginateItem key={id} $size={sizeItem} $actvie={activeItem === id} onClick={() => setActiveItem(id)}>
+        <PaginateItem key={id} $size={sizeItem} $actvie={activeIdPage === id} onClick={() => changeIdPage(id)}>
           {item}
         </PaginateItem>
       ))}
@@ -34,14 +34,14 @@ export const PaginateApp: FC<IProps> = ({ sizeItem = 40, itemsLenght, viewCountI
         <PaginateArrowLeft
           $isDisabled={isFirstPage}
           disabled={isFirstPage}
-          onClick={() => setActiveItem(activeItem - 1)}
+          onClick={() => changeIdPage(activeIdPage - 1)}
         >
           <NextImage info={arrowLeftBlack} $width={12} $height={8} objectFit="contain" />
         </PaginateArrowLeft>
         <PaginateArrowRight
           $isDisabled={isLastPage}
           disabled={isLastPage}
-          onClick={() => setActiveItem(activeItem + 1)}
+          onClick={() => changeIdPage(activeIdPage + 1)}
         >
           <NextImage info={arrowRightBlack} $width={12} $height={8} objectFit="contain" />
         </PaginateArrowRight>

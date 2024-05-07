@@ -78,6 +78,7 @@ InputApp.Password = ({ label, errorMessage, size = 16, ...props }: IProps) => {
         className={jost.className}
         $error={!!errorMessage}
         $size={size}
+        $pr={50}
         {...props}
         value={props.value ?? ""}
       />

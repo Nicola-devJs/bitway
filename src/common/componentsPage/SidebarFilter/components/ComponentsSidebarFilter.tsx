@@ -64,7 +64,7 @@ const Rooms = () => {
 };
 
 const PriceRange = () => {
-  const priceMax = 199888;
+  const priceMax = 100;
   const [rangeState, setRangeState] = useState({ min: 0, max: priceMax });
 
   return (

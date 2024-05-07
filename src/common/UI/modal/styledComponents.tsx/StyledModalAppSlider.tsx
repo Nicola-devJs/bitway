@@ -39,29 +39,4 @@ const SliderInfo = styled.div`
   }
 `;
 
-const CloseModalSlider = styled.div`
-  position: absolute;
-  top: 1.389vw;
-  right: 1.389vw;
-  opacity: 0;
-  transition: opacity 0.2s ease-in-out;
-  cursor: pointer;
-
-  @media (max-width: ${theme.media.desktop}px) {
-    top: 1.668vw;
-    right: 1.668vw;
-    opacity: 1;
-  }
-
-  @media (max-width: ${theme.media.tablet}px) {
-    top: 2.604vw;
-    right: 2.604vw;
-  }
-
-  @media (max-width: ${theme.media.phone}px) {
-    top: 4.706vw;
-    right: 4.706vw;
-  }
-`;
-
-export { CloseModalSlider, SliderInfo };
+export { SliderInfo };

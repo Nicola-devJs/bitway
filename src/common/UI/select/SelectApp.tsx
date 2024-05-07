@@ -172,7 +172,7 @@ SelectApp.Sorted = ({ options = [], changeHandler, viewSide = "left", label, val
         <TextApp>
           {label}: {value}
         </TextApp>{" "}
-        <NextImage info={arrowSelect} $width={17} onClick={toggleSelectSortedHandler} objectFit="contain" />
+        <NextImage info={arrowSelect} $width={17} objectFit="contain" />
       </SelectSortedContainer>
       <ContainerOptions $isOpen={openSelect} $viewSize={viewSide}>
         {options.length ? (

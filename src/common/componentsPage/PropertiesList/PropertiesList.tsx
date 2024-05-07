@@ -12,6 +12,8 @@ import { useScreenExtension } from "@/common/hooks/screenExtension";
 import { theme } from "@/assets/theme/theme";
 import { IPropertyCard } from "@/common/interfaces/IProperty";
 import { SelectApp } from "@/common/UI/select/SelectApp";
+import { useUnit } from "effector-react";
+import { $acivePage } from "@/app/properties/modules/model";
 
 interface IProps {
   properties: IPropertyCard[];
@@ -26,10 +28,11 @@ const sortedOptions = [
 export const PropertiesList: FC<IProps> = ({ properties }) => {
   const [showType, setShowType] = useState<ShowType>("tile");
   const [sorted, setSorted] = useState<{ label: string; value: string }>(sortedOptions[0]);
+  const [activePage] = useUnit([$acivePage]);
   const { showFilter } = useContext(FilterContext);
-  const [maxTabletScreen, maxPhoneScreen] = useScreenExtension([
+  const [maxTabletScreen, minPhoneScreen] = useScreenExtension([
     { screenExtension: theme.media.tablet, maxScreen: true },
-    { screenExtension: theme.media.phone, maxScreen: true },
+    { screenExtension: theme.media.phone },
   ]);
   const changeShowTypeHandler = (type: ShowType) => () => setShowType(type);
 
@@ -42,7 +45,7 @@ export const PropertiesList: FC<IProps> = ({ properties }) => {
               Filter
             </ButtonApp>
           )}
-          {!maxPhoneScreen && (
+          {minPhoneScreen && (
             <>
               <NextImage
                 info={tileStyleIcon}
@@ -59,19 +62,23 @@ export const PropertiesList: FC<IProps> = ({ properties }) => {
                 objectFit="contain"
                 onClick={changeShowTypeHandler("list")}
               />
+              <TextApp>Showing 1–16 of 72 results</TextApp>
             </>
           )}
-
-          <TextApp>Showing 1–16 of 72 results</TextApp>
-          <SelectApp.Sorted
-            label="Sorted by"
-            options={sortedOptions}
-            value={sorted.label}
-            changeHandler={(sort) => setSorted({ label: sort as string, value: sort as string })}
-          />
         </ShowAndCountPropertiesBlock>
+        <SelectApp.Sorted
+          label="Sorted by"
+          options={sortedOptions}
+          value={sorted.label}
+          changeHandler={(sort) => setSorted({ label: sort as string, value: sort as string })}
+        />
       </PropertiesToolbar>
-      <ListProperties typeShow={showType} countTiles={2} properties={properties} />
+      <ListProperties
+        typeShow={showType}
+        countTiles={2}
+        // TODO Временное решение для демонстрации пагинации
+        properties={properties.slice(activePage * 4, (activePage + 1) * 4)}
+      />
     </div>
   );
 };

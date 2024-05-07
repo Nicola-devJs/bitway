@@ -5,8 +5,15 @@ import { TextApp } from "@/common/styledComponents/Text";
 import { ButtonApp } from "../button/ButtonApp";
 import { NextImage } from "@/common/components/NextImage";
 import closeSlider from "@/assets/icons/close-slider.svg";
-import { ModalOverlay, ModalBody, ModalContent, IconAlertModal } from "./styledComponents.tsx/StyledModalApp";
-import { CloseModalSlider, SliderInfo } from "./styledComponents.tsx/StyledModalAppSlider";
+import closeModal from "@/assets/icons/close-modal.svg";
+import {
+  ModalOverlay,
+  ModalBody,
+  ModalContent,
+  IconAlertModal,
+  ModalClose,
+} from "./styledComponents.tsx/StyledModalApp";
+import { SliderInfo } from "./styledComponents.tsx/StyledModalAppSlider";
 import { IAlertProps, IGalleryProps, IInitializationModal, IModalProps, ModalType } from "../../interfaces/IModal";
 import { ModalContext } from "@/common/hoc/ModalProvider";
 import { SliderApp } from "@/common/components/slider/SliderApp";
@@ -16,6 +23,9 @@ const ModalApp = ({ width = 432, children, show, hideHandler }: IModalProps) => 
     <ModalOverlay className={show} onClick={hideHandler}>
       <ModalBody onClick={(e) => e.stopPropagation()} $width={width}>
         {children}
+        <ModalClose onClick={hideHandler}>
+          <NextImage info={closeModal} $width={24} $height={24} />
+        </ModalClose>
       </ModalBody>
     </ModalOverlay>
   );
@@ -40,6 +50,9 @@ ModalApp.Alert = ({ text, title, width = 432, textButton, buttonHandler, show, h
           <TextApp>{text}</TextApp>
           <ButtonApp onClick={confirmHandler}>{textButton}</ButtonApp>
         </ModalContent>
+        <ModalClose onClick={hideHandler}>
+          <NextImage info={closeModal} $width={24} $height={24} />
+        </ModalClose>
       </ModalBody>
     </ModalOverlay>
   );
@@ -68,9 +81,9 @@ ModalApp.Gallery = ({ width = 942, height = 621, images, initialPosition, show, 
         showArrowsNavigation
         getPosition={getPosition}
       >
-        <CloseModalSlider onClick={hideHandler}>
+        <ModalClose onClick={hideHandler}>
           <NextImage info={closeSlider} $width={24} $height={24} />
-        </CloseModalSlider>
+        </ModalClose>
         <SliderInfo>
           {positionSlide + 1} of {images.length}
         </SliderInfo>
