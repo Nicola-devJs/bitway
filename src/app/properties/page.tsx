@@ -1,4 +1,3 @@
-import { PaginateApp } from "@/common/UI/paginate/PaginateApp";
 import { Breadcrumbs } from "@/common/components/breadcrumbs/Breadcrumbs";
 import { PropertiesList } from "@/common/componentsPage/PropertiesList/PropertiesList";
 import { SidebarFilter } from "@/common/componentsPage/SidebarFilter/SidebarFilter";
@@ -7,6 +6,7 @@ import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 import { FlexContent } from "@/common/styledComponents/Flex";
 import { Metadata } from "next";
 import mockProperties from "../../../public/mockData/properties.json";
+import { PaginateProperties } from "@/common/componentsPage/PropertiesList/PaginateProperties";
 
 export const metadata: Metadata = {
   title: "Properties | Bitway",
@@ -23,7 +23,7 @@ export default function Properties() {
             <PropertiesList properties={mockProperties} />
           </FilterProvider>
         </FlexContent>
-        <PaginateApp itemsLenght={mockProperties.length} viewCountItems={4} />
+        <PaginateProperties properties={mockProperties} />
       </ContainerApp>
     </>
   );

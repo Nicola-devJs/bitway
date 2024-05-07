@@ -59,4 +59,14 @@ const StyledPropertyActions = styled.div<{ $size: number; $gap: number }>`
       height: ${(props) => transformAdaptiveSize(props.$size, theme.media.tablet)};
     }
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    gap: ${(props) => transformAdaptiveSize(props.$gap, theme.media.phone)};
+
+    & > div {
+      border-radius: 1.176vw;
+      width: ${(props) => transformAdaptiveSize(props.$size, theme.media.phone)};
+      height: ${(props) => transformAdaptiveSize(props.$size, theme.media.phone)};
+    }
+  }
 `;

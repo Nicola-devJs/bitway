@@ -125,6 +125,20 @@ const PropertyCardContainer = styled.article<{ $typeShow: ShowType }>`
     border-radius: 2.083vw;
     padding: 2.604vw;
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    h5,
+    p {
+      margin-bottom: 2.353vw;
+
+      &.property_card_text {
+        margin-bottom: 0;
+      }
+    }
+
+    border-radius: 3.765vw;
+    padding: 4.706vw;
+  }
 `;
 
 const ContainerImage = styled.div<{ $typeShow: ShowType }>`
@@ -208,6 +222,27 @@ const ContainerImage = styled.div<{ $typeShow: ShowType }>`
       }
     }
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    width: ${(props) => (props.$typeShow === "tile" ? "100%" : "76.706vw")};
+    height: ${(props) => (props.$typeShow === "tile" ? "62.588vw" : "56vw")};
+    border-radius: 1.563vw;
+    margin: ${(props) => (props.$typeShow === "tile" ? "0 0 3.765vw 0" : "0 4.706vw 0 0")};
+
+    .container-icon {
+      right: 3.765vw;
+      width: 7.529vw;
+      height: 7.529vw;
+      border-radius: 1.176vw;
+
+      &.heart {
+        top: 3.765vw;
+      }
+      &.loupe {
+        bottom: 3.765vw;
+      }
+    }
+  }
 `;
 
 const PropertyCardContent = styled.div`
@@ -248,6 +283,14 @@ const PropertyComponents = styled.div`
       gap: 1.302vw;
     }
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    gap: 4.706vw;
+    margin-block: 3.765vw;
+    & > div {
+      gap: 2.353vw;
+    }
+  }
 `;
 
 const PropertyCardBottom = styled.div`
@@ -263,6 +306,10 @@ const PropertyCardBottom = styled.div`
 
   @media (max-width: ${theme.media.tablet}px) {
     padding-top: 2.083vw;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    padding-top: 3.765vw;
   }
 `;
 
@@ -281,5 +328,9 @@ const Profile = styled.div`
 
   @media (max-width: ${theme.media.tablet}px) {
     gap: 1.302vw;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    gap: 2.353vw;
   }
 `;

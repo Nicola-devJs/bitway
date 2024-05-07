@@ -2,13 +2,15 @@ import { theme } from "@/assets/theme/theme";
 import { transformAdaptiveSize } from "@/common/helpers/transformValues";
 import styled from "styled-components";
 import alertIcon from "@/assets/icons/alert-icon.svg";
-import { CloseModalSlider, SliderInfo } from "./StyledModalAppSlider";
+import { SliderInfo } from "./StyledModalAppSlider";
 
 const ModalBody = styled.div<{ $width: number }>`
   width: ${(props) => transformAdaptiveSize(props.$width)};
   background-color: ${theme.colors.white};
   border-radius: 1.389vw;
   padding: 2.083vw 1.389vw 1.597vw;
+  position: relative;
+  overflow: auto;
 
   @media (max-width: ${theme.media.desktop}px) {
     width: ${(props) => transformAdaptiveSize(props.$width, theme.media.desktop)};
@@ -20,6 +22,42 @@ const ModalBody = styled.div<{ $width: number }>`
     width: ${(props) => transformAdaptiveSize(props.$width, theme.media.tablet)};
     border-radius: 2.604vw;
     padding: 3.906vw 2.604vw 2.995vw;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+
+    border-radius: 0;
+    padding: 7.059vw 4.706vw 5.412vw;
+  }
+`;
+
+const ModalClose = styled.div`
+  position: absolute;
+  top: 1.389vw;
+  right: 1.389vw;
+  opacity: 0;
+  transition: opacity 0.2s ease-in-out;
+  cursor: pointer;
+
+  @media (max-width: ${theme.media.desktop}px) {
+    top: 1.668vw;
+    right: 1.668vw;
+    opacity: 1;
+  }
+
+  @media (max-width: ${theme.media.tablet}px) {
+    top: 2.604vw;
+    right: 2.604vw;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    top: 4.706vw;
+    right: 4.706vw;
   }
 `;
 
@@ -43,7 +81,7 @@ const ModalOverlay = styled.div`
     transform: translateY(-50px);
     transition: all 0.2s ease-in-out 0.1s;
 
-    &:hover ${SliderInfo}, &:hover ${CloseModalSlider} {
+    &:hover ${SliderInfo}, &:hover ${ModalClose} {
       opacity: 1;
     }
   }
@@ -51,9 +89,16 @@ const ModalOverlay = styled.div`
   &.show {
     visibility: visible;
     backdrop-filter: blur(5px);
+
     & > div {
       opacity: 1;
       transform: translateY(0px);
+    }
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    &.show {
+      /* background-color: ${theme.colors.white}; */
     }
   }
 `;
@@ -89,6 +134,16 @@ const ModalContent = styled.div`
 
     & p {
       margin-bottom: 3.906vw;
+    }
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    & h5 {
+      margin-bottom: 2.353vw;
+    }
+
+    & p {
+      margin-bottom: 7.059vw;
     }
   }
 `;
@@ -130,6 +185,69 @@ const IconAlertModal = styled.div`
     width: 1.389vw;
     height: 1.389vw;
   }
+
+  @media (max-width: ${theme.media.desktop}px) {
+    width: 5.338vw;
+    height: 5.338vw;
+    margin-bottom: 3.503vw;
+
+    &::before {
+      width: 7.173vw;
+      height: 7.173vw;
+    }
+
+    &::after {
+      width: 9.008vw;
+      height: 9.008vw;
+    }
+
+    & span {
+      width: 1.668vw;
+      height: 1.668vw;
+    }
+  }
+
+  @media (max-width: ${theme.media.tablet}px) {
+    width: 8.333vw;
+    height: 8.333vw;
+    margin-bottom: 5.469vw;
+
+    &::before {
+      width: 11.198vw;
+      height: 11.198vw;
+    }
+
+    &::after {
+      width: 14.063vw;
+      height: 14.063vw;
+    }
+
+    & span {
+      width: 2.604vw;
+      height: 2.604vw;
+    }
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    width: 15.059vw;
+    height: 15.059vw;
+    margin-bottom: 9.882vw;
+
+    &::before {
+      width: 20.235vw;
+      height: 20.235vw;
+    }
+
+    &::after {
+      width: 25.412vw;
+      height: 25.412vw;
+    }
+
+    & span {
+      width: 4.706vw;
+      height: 4.706vw;
+    }
+  }
 `;
 
-export { ModalBody, IconAlertModal, ModalContent, ModalOverlay };
+export { ModalBody, IconAlertModal, ModalContent, ModalOverlay, ModalClose };

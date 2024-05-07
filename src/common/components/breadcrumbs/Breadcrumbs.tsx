@@ -62,6 +62,12 @@ const ArrowRight = styled.span`
     height: 1.237vw;
     margin-inline: 1.042vw;
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    width: 1.059vw;
+    height: 2.235vw;
+    margin-inline: 1.882vw;
+  }
 `;
 
 const StyledBreadcrumbs = styled.p<{ $color: string }>`

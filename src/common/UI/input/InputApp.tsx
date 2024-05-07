@@ -1,13 +1,16 @@
 "use client";
-import React, { ChangeEvent, InputHTMLAttributes, TextareaHTMLAttributes, useCallback, useState } from "react";
+import React, { ChangeEvent, InputHTMLAttributes, TextareaHTMLAttributes, useState } from "react";
 import { jost } from "@/common/constants/font";
 import { TextApp } from "@/common/styledComponents/Text";
 import { ErrorMessage } from "@/common/styledComponents/ErrorMessage";
-import { ContainerInput, StyledInput } from "./components/StyledInputApp";
+import { ContainerInput, InputPasswordEye, StyledInput } from "./components/StyledInputApp";
 import type { ControllerRenderProps, UseControllerReturn } from "react-hook-form";
 import { RangeContainer, RangeProgress, RangeInput } from "./components/StyledInputAppRange";
 import { ContainerCode } from "./components/StyledInputAppCode";
 import { ContainerCheckbox, StyledCheckbox } from "./components/StyledInputAppCheckbox";
+import eyeShow from "@/assets/icons/show-eye.svg";
+import eyeHide from "@/assets/icons/hide-eye.svg";
+import { NextImage } from "@/common/components/NextImage";
 
 type RangeType = {
   min: number;
@@ -17,12 +20,14 @@ type RangeType = {
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: React.ReactNode;
   errorMessage?: string;
+  size?: number;
   onChange: (...event: any[]) => void;
 }
 
 interface IPropsTextarea extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: React.ReactNode;
   errorMessage?: string;
+  size?: number;
 }
 
 interface IPropsCode {
@@ -38,7 +43,7 @@ interface IPropsRange {
   children?: React.ReactNode;
 }
 
-const InputApp = ({ label, errorMessage, ...props }: IProps) => {
+const InputApp = ({ label, errorMessage, size = 16, ...props }: IProps) => {
   return (
     <ContainerInput>
       {label && (
@@ -50,9 +55,36 @@ const InputApp = ({ label, errorMessage, ...props }: IProps) => {
         type="text"
         className={jost.className}
         $error={!!errorMessage}
+        $size={size}
         {...props}
         value={props.value ?? ""}
       />
+      <ErrorMessage>{errorMessage}</ErrorMessage>
+    </ContainerInput>
+  );
+};
+
+InputApp.Password = ({ label, errorMessage, size = 16, ...props }: IProps) => {
+  const [isShowPassword, setShowPassword] = useState(false);
+  return (
+    <ContainerInput>
+      {label && (
+        <TextApp as="label" size={12} weight={500}>
+          {label}
+        </TextApp>
+      )}
+      <StyledInput
+        type={isShowPassword ? "text" : "password"}
+        className={jost.className}
+        $error={!!errorMessage}
+        $size={size}
+        $pr={50}
+        {...props}
+        value={props.value ?? ""}
+      />
+      <InputPasswordEye onClick={() => setShowPassword((prevState) => !prevState)}>
+        <NextImage info={isShowPassword ? eyeHide : eyeShow} $width={24} $height={24} objectFit="contain" />
+      </InputPasswordEye>
       <ErrorMessage>{errorMessage}</ErrorMessage>
     </ContainerInput>
   );
@@ -101,7 +133,7 @@ InputApp.Code = ({ codes }: IPropsCode) => {
   );
 };
 
-InputApp.Phone = ({ label, errorMessage, onChange, ...props }: IProps) => {
+InputApp.Phone = ({ label, errorMessage, onChange, size = 16, ...props }: IProps) => {
   const phoneHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value.replace(/[^+\d]/g, "");
     onChange(value);
@@ -119,6 +151,7 @@ InputApp.Phone = ({ label, errorMessage, onChange, ...props }: IProps) => {
         className={jost.className}
         $error={!!errorMessage}
         onChange={phoneHandler}
+        $size={size}
         {...props}
         value={props.value ?? ""}
       />
@@ -127,7 +160,7 @@ InputApp.Phone = ({ label, errorMessage, onChange, ...props }: IProps) => {
   );
 };
 
-InputApp.Text = ({ label, errorMessage, ...props }: IPropsTextarea) => {
+InputApp.Text = ({ label, errorMessage, size = 16, ...props }: IPropsTextarea) => {
   return (
     <ContainerInput>
       {label && (
@@ -140,6 +173,7 @@ InputApp.Text = ({ label, errorMessage, ...props }: IPropsTextarea) => {
         className={jost.className}
         $error={!!errorMessage}
         rows={3}
+        $size={size}
         {...props}
         value={props.value ?? ""}
       />
@@ -151,7 +185,6 @@ InputApp.Text = ({ label, errorMessage, ...props }: IPropsTextarea) => {
 InputApp.Range = ({ min, max, priceGap, children, rangeState, setRangeState }: IPropsRange) => {
   const thumbRangeHandler = (changeStateHandler: () => void) =>
     rangeState.max - rangeState.min >= priceGap && changeStateHandler();
-
   const rollbackRangeState = (changeStateHandler: (diff: number) => void) => {
     const differenceRange = priceGap - (rangeState.max - rangeState.min);
     if (differenceRange > 0) {
@@ -163,12 +196,10 @@ InputApp.Range = ({ min, max, priceGap, children, rangeState, setRangeState }: I
     rollbackRangeState((differenceRange) =>
       setRangeState((prevRangeState) => ({ ...prevRangeState, min: prevRangeState.min - differenceRange }))
     );
-
   const maxThumbRangeUpHandler = () =>
     rollbackRangeState((differenceRange) =>
       setRangeState((prevRangeState) => ({ ...prevRangeState, max: prevRangeState.max + differenceRange }))
     );
-
   return (
     <div>
       {children}

@@ -6,14 +6,17 @@ import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 import { theme } from "@/assets/theme/theme";
 import { playfair } from "@/common/constants/font";
 import { ModalContext } from "@/common/hoc/ModalProvider";
-import { useScreenExtension } from "@/common/hooks/useScreenExtension";
+import { useScreenExtension } from "@/common/hooks/screenExtension";
 import { mockGallery } from "@/common/constants/mockGallery";
 
 export const GalleryApp = () => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
-  const [maxTabletScreen] = useScreenExtension([{ screenExtension: theme.media.tablet, maxScreen: true }]);
+  const [maxTabletScreen, maxPhoneScreen] = useScreenExtension([
+    { screenExtension: theme.media.tablet, maxScreen: true },
+    { screenExtension: theme.media.phone, maxScreen: true },
+  ]);
 
-  const viewPicturies = !maxTabletScreen ? 5 : 4;
+  const viewPicturies = maxPhoneScreen ? 2 : maxTabletScreen ? 4 : 5;
 
   const openModalSlideHandler = (position: number) => () => {
     setOptionModalHandler({ type: "gallery", options: { images: mockGallery, initialPosition: position + 1 } });
@@ -23,7 +26,7 @@ export const GalleryApp = () => {
   return (
     <>
       <div style={{ width: "100%" }}>
-        <NextImage info={mockGallery[0]} $fullWidth />{" "}
+        <NextImage info={mockGallery[0]} $fullWidth />
         <ContainerApp>
           <ContainerImages>
             {mockGallery.slice(1, viewPicturies).map((img, id) => (
@@ -112,6 +115,12 @@ const MoreImages = styled.div<{ $remaining: number }>`
   @media (max-width: ${theme.media.tablet}px) {
     &::after {
       font-size: 3.125vw;
+    }
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    &::after {
+      font-size: 5.647vw;
     }
   }
 `;

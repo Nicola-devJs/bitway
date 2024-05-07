@@ -73,4 +73,15 @@ const StyledButton = styled.button<{ $fz: number; $pb: number; $w?: number; $out
       margin-right: 1.302vw;
     }
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    font-size: ${(props) => transformAdaptiveSize(props.$fz, theme.media.phone)};
+    padding-block: ${(props) => transformAdaptiveSize(props.$pb, theme.media.phone)};
+    width: ${(props) => (props.$w ? transformAdaptiveSize(props.$w, theme.media.phone) : "100%")};
+    border-radius: 2.353vw;
+
+    & > div {
+      margin-right: 2.353vw;
+    }
+  }
 `;

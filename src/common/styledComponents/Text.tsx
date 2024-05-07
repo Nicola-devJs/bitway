@@ -67,6 +67,10 @@ const StyledText = styled.p<{ $s: number; $c: string; $fw?: number }>`
   @media (max-width: ${theme.media.tablet}px) {
     font-size: ${(props) => transformAdaptiveSize(props.$s, theme.media.tablet)};
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    font-size: ${(props) => transformAdaptiveSize(props.$s, theme.media.phone)};
+  }
 `;
 
 const StyledTextBlock = styled.div<{ $mb?: number; $textAlign: "center" | "start" | "end"; $maxWidht?: number }>`

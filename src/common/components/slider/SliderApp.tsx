@@ -1,12 +1,13 @@
 "use client";
 import { theme } from "@/assets/theme/theme";
-import { SliderInfo, CloseModalSlider } from "@/common/UI/modal/styledComponents.tsx/StyledModalAppSlider";
 import { transformAdaptiveSize } from "@/common/helpers/transformValues";
 import React, { FC, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import { NextImage } from "../NextImage";
-import arrowRightSlider from "@/assets/icons/arrow-right-slider.svg";
-import arrowLeftSlider from "@/assets/icons/arrow-left-slider.svg";
+import arrowRightWhiteSlider from "@/assets/icons/slider/arrow-right-w-slider.svg";
+import arrowRightBlackSlider from "@/assets/icons/slider/arrow-right-b-slider.svg";
+import arrowLeftWhiteSlider from "@/assets/icons/slider/arrow-left-w-slider.svg";
+import arrowLeftBlackSlider from "@/assets/icons/slider/arrow-left-b-slider.svg";
 import { TextApp } from "@/common/styledComponents/Text";
 import { playfair } from "@/common/constants/font";
 
@@ -88,7 +89,12 @@ export const SliderApp: FC<IProps> = ({
               onClick={decrementPosition}
               $customPosition
             >
-              <NextImage info={arrowLeftSlider} $height={9.5} $width={13.5} objectFit="contain" />
+              <NextImage
+                info={isFirstSlide ? arrowLeftBlackSlider : arrowLeftWhiteSlider}
+                $height={9.5}
+                $width={13.5}
+                objectFit="contain"
+              />
             </SliderNavigationArrowLeft>
             <SliderNavigationArrowRight
               $disabled={isLastSlide}
@@ -96,7 +102,12 @@ export const SliderApp: FC<IProps> = ({
               onClick={incrementPosition}
               $customPosition
             >
-              <NextImage info={arrowRightSlider} $height={9.5} $width={13.5} objectFit="contain" />
+              <NextImage
+                info={isLastSlide ? arrowRightBlackSlider : arrowRightWhiteSlider}
+                $height={9.5}
+                $width={13.5}
+                objectFit="contain"
+              />
             </SliderNavigationArrowRight>
           </NavigationBlock>
         </SliderTop>
@@ -121,10 +132,20 @@ export const SliderApp: FC<IProps> = ({
         {showArrowsNavigation && (
           <>
             <SliderNavigationArrowLeft $disabled={isFirstSlide} disabled={isFirstSlide} onClick={decrementPosition}>
-              <NextImage info={arrowLeftSlider} $height={9.5} $width={13.5} objectFit="contain" />
+              <NextImage
+                info={isFirstSlide ? arrowLeftBlackSlider : arrowLeftWhiteSlider}
+                $height={9.5}
+                $width={13.5}
+                objectFit="contain"
+              />
             </SliderNavigationArrowLeft>
             <SliderNavigationArrowRight $disabled={isLastSlide} disabled={isLastSlide} onClick={incrementPosition}>
-              <NextImage info={arrowRightSlider} $height={9.5} $width={13.5} objectFit="contain" />
+              <NextImage
+                info={isLastSlide ? arrowRightBlackSlider : arrowRightWhiteSlider}
+                $height={9.5}
+                $width={13.5}
+                objectFit="contain"
+              />
             </SliderNavigationArrowRight>
           </>
         )}
@@ -146,9 +167,15 @@ const StyledSliderApp = styled.div<{ $width?: number; $height?: number }>`
   }
 
   @media (max-width: ${theme.media.tablet}px) {
-    width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width, theme.media.tablet) : "100%")};
+    width: 100%;
     height: ${(props) => (props.$height ? transformAdaptiveSize(props.$height, theme.media.tablet) : "100%")};
     border-radius: 2.604vw;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    width: 100%;
+    height: ${(props) => (props.$height ? transformAdaptiveSize(props.$height, theme.media.phone) : "100%")};
+    border-radius: 0;
   }
 `;
 
@@ -174,6 +201,14 @@ const SliderTop = styled.div`
       max-width: 82.682vw;
     }
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    gap: 3.529vw;
+    flex-direction: column;
+    h2 {
+      max-width: 100%;
+    }
+  }
 `;
 
 const NavigationBlock = styled.div`
@@ -186,6 +221,10 @@ const NavigationBlock = styled.div`
 
   @media (max-width: ${theme.media.tablet}px) {
     gap: 2.604vw;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    gap: 4.706vw;
   }
 `;
 
@@ -203,6 +242,9 @@ const SliderTrackContainer = styled.div<{ $isOneRow: boolean }>`
           @media (max-width: ${theme.media.tablet}px) {
             margin-inline: -1.953vw;
           }
+          @media (max-width: ${theme.media.phone}px) {
+            margin-inline: -3.529vw;
+          }
         `
       : css`
           margin: -1.042vw;
@@ -213,6 +255,9 @@ const SliderTrackContainer = styled.div<{ $isOneRow: boolean }>`
 
           @media (max-width: ${theme.media.tablet}px) {
             margin: -1.953vw;
+          }
+          @media (max-width: ${theme.media.phone}px) {
+            margin: -3.529vw;
           }
         `}
 `;
@@ -253,10 +298,17 @@ const SliderNavigationArrowRight = styled.button<{ $disabled?: boolean; $customP
   }
 
   @media (max-width: ${theme.media.tablet}px) {
-    right: -11.198vw;
+    right: 2.604vw;
     width: 7.292vw;
     height: 7.292vw;
     border-radius: 1.302vw;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    right: 4.706vw;
+    width: 13.176vw;
+    height: 13.176vw;
+    border-radius: 2.353vw;
   }
 `;
 
@@ -268,7 +320,11 @@ const SliderNavigationArrowLeft = styled(SliderNavigationArrowRight)`
   }
 
   @media (max-width: ${theme.media.tablet}px) {
-    left: -11.198vw;
+    left: 2.604vw;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    left: 4.706vw;
   }
 `;
 
@@ -285,6 +341,9 @@ const Slide = styled.div<{ $isOneRow: boolean }>`
           @media (max-width: ${theme.media.tablet}px) {
             padding-inline: 1.953vw;
           }
+          @media (max-width: ${theme.media.phone}px) {
+            padding-inline: 3.529vw;
+          }
         `
       : css`
           padding: 1.042vw;
@@ -295,6 +354,9 @@ const Slide = styled.div<{ $isOneRow: boolean }>`
 
           @media (max-width: ${theme.media.tablet}px) {
             padding: 1.953vw;
+          }
+          @media (max-width: ${theme.media.phone}px) {
+            padding: 3.529vw;
           }
         `}
 `;

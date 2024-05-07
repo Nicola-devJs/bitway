@@ -51,6 +51,18 @@ export const StyledCheckbox = styled.span<{ $error: boolean }>`
       height: 1.563vw;
     }
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    width: 4.706vw;
+    height: 4.706vw;
+    border-radius: 0.471vw;
+    margin-right: 2.353vw;
+
+    &:after {
+      width: 2.824vw;
+      height: 2.824vw;
+    }
+  }
 `;
 
 export const ContainerCheckbox = styled(TextApp)`

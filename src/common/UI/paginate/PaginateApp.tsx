@@ -4,42 +4,46 @@ import React, { FC, useState } from "react";
 import { theme } from "@/assets/theme/theme";
 import { NextImage } from "@/common/components/NextImage";
 import { transformAdaptiveSize } from "@/common/helpers/transformValues";
-import arrowRight from "@/assets/icons/arrow-left-slider.svg";
+import arrowLeftBlack from "@/assets/icons/slider/arrow-left-b-slider.svg";
+import arrowRightBlack from "@/assets/icons/slider/arrow-right-b-slider.svg";
 
 interface IProps {
   sizeItem?: number;
   itemsLenght: number;
   viewCountItems: number;
+  activeIdPage: number;
+  changeIdPage: (idPage: number) => void;
 }
 
-export const PaginateApp: FC<IProps> = ({ sizeItem = 40, itemsLenght, viewCountItems }) => {
-  const [activeItem, setActiveItem] = useState(0);
-
+export const PaginateApp: FC<IProps> = ({ sizeItem = 40, itemsLenght, viewCountItems, activeIdPage, changeIdPage }) => {
   const listPaginate = Array(Math.ceil(itemsLenght / viewCountItems))
     .fill(1)
     .map((_, id) => id + 1);
 
+  const isFirstPage = activeIdPage === 0;
+  const isLastPage = activeIdPage === listPaginate.length - 1;
+
   return (
     <PaginateContainer>
       {listPaginate.map((item, id) => (
-        <PaginateItem key={id} $size={sizeItem} $actvie={activeItem === id} onClick={() => setActiveItem(id)}>
+        <PaginateItem key={id} $size={sizeItem} $actvie={activeIdPage === id} onClick={() => changeIdPage(id)}>
           {item}
         </PaginateItem>
       ))}
       <>
         <PaginateArrowLeft
-          $isActive={activeItem !== 0}
-          disabled={activeItem === 0}
-          onClick={() => setActiveItem(activeItem - 1)}
+          $isDisabled={isFirstPage}
+          disabled={isFirstPage}
+          onClick={() => changeIdPage(activeIdPage - 1)}
         >
-          <NextImage info={arrowRight} $width={12} $height={8} objectFit="contain" />
+          <NextImage info={arrowLeftBlack} $width={12} $height={8} objectFit="contain" />
         </PaginateArrowLeft>
         <PaginateArrowRight
-          $isActive={activeItem !== listPaginate.length - 1}
-          disabled={activeItem === listPaginate.length - 1}
-          onClick={() => setActiveItem(activeItem + 1)}
+          $isDisabled={isLastPage}
+          disabled={isLastPage}
+          onClick={() => changeIdPage(activeIdPage + 1)}
         >
-          <NextImage info={arrowRight} $width={12} $height={8} objectFit="contain" />
+          <NextImage info={arrowRightBlack} $width={12} $height={8} objectFit="contain" />
         </PaginateArrowRight>
       </>
     </PaginateContainer>
@@ -102,7 +106,7 @@ const PaginateItem = styled.div<{ $size: number; $actvie: boolean }>`
   }
 `;
 
-const PaginateArrowRight = styled.button<{ $isActive: boolean }>`
+const PaginateArrowRight = styled.button<{ $isDisabled: boolean }>`
   position: absolute;
   right: 0;
   width: 1.667vw;
@@ -110,24 +114,20 @@ const PaginateArrowRight = styled.button<{ $isActive: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
-  opacity: ${(props) => (props.$isActive ? 1 : 0.5)};
-  transform: rotate(180deg);
+  opacity: ${(props) => (props.$isDisabled ? 0.5 : 1)};
   background-color: transparent;
 
   @media (max-width: ${theme.media.desktop}px) {
-    left: 1.334vw;
     width: 2.002vw;
     height: 2.002vw;
   }
 
   @media (max-width: ${theme.media.tablet}px) {
-    left: 2.083vw;
     width: 3.125vw;
     height: 3.125vw;
   }
 
   @media (max-width: ${theme.media.phone}px) {
-    left: 3.765vw;
     width: 5.647vw;
     height: 5.647vw;
   }
@@ -135,17 +135,4 @@ const PaginateArrowRight = styled.button<{ $isActive: boolean }>`
 
 const PaginateArrowLeft = styled(PaginateArrowRight)`
   left: 0;
-  transform: rotate(0deg);
-
-  @media (max-width: ${theme.media.desktop}px) {
-    right: 1.334vw;
-  }
-
-  @media (max-width: ${theme.media.tablet}px) {
-    right: 2.083vw;
-  }
-
-  @media (max-width: ${theme.media.phone}px) {
-    right: 3.765vw;
-  }
 `;

@@ -16,14 +16,15 @@ import propertiesMockData from "../../../../public/mockData/properties.json";
 import { FormFeedback } from "@/common/components/feedback/FormFeedback";
 import { ButtonApp } from "@/common/UI/button/ButtonApp";
 import { ModalContext } from "@/common/hoc/ModalProvider";
-import { useScreenExtension } from "@/common/hooks/useScreenExtension";
+import { useScreenExtension } from "@/common/hooks/screenExtension";
 
 export const PropertyContentPage = () => {
   // TODO Доработать хук useScreenExtension (использовать массив, с инверсией. В хуке задействовать изначальные значения)
-  const [minDesktopScreen, maxDesktopScreen, maxTabletScreen] = useScreenExtension([
+  const [minDesktopScreen, maxDesktopScreen, maxTabletScreen, maxPhoneScreen] = useScreenExtension([
     { screenExtension: theme.media.desktop },
     { screenExtension: theme.media.desktop, maxScreen: true },
     { screenExtension: theme.media.tablet, maxScreen: true },
+    { screenExtension: theme.media.phone, maxScreen: true },
   ]);
 
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
@@ -59,10 +60,10 @@ export const PropertyContentPage = () => {
       <PropertyContentContainer>
         <TabsApp
           listTabs={[
-            { title: "Descriptions", content: <PropertyDescription /> },
-            { title: "Features", content: "Content" },
-            { title: "Mortgage Calculator", content: "Content" },
-            { title: "Schedule a Tour", content: "Content" },
+            { id: 44, title: "Descriptions", content: <PropertyDescription /> },
+            { id: 2, title: "Features", content: "Content 2" },
+            { id: 5, title: "Mortgage Calculator", content: "Content 3" },
+            { id: 3, title: "Schedule a Tour", content: "Content 4" },
           ]}
         />
         {minDesktopScreen && <FormFeedback />}
@@ -73,7 +74,7 @@ export const PropertyContentPage = () => {
             <PropertyCard typeShow="tile" {...prop} />
           ))}
           titleSlider="Similar Properties"
-          countViewSlide={maxTabletScreen ? 2 : 3}
+          countViewSlide={maxPhoneScreen ? 1 : maxTabletScreen ? 2 : 3}
           countTrack={1}
         />
       </SimilarPropertiesBlock>
@@ -109,6 +110,10 @@ const PropertyTopInfo = styled.div`
       margin-bottom: 1.563vw;
     }
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    flex-direction: column;
+  }
 `;
 
 const PropertyTopActionBlock = styled.div`
@@ -117,6 +122,11 @@ const PropertyTopActionBlock = styled.div`
   align-items: flex-end;
   & > div:first-child {
     flex: 1 1 auto;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    flex-direction: row;
+    margin-top: 3.765vw;
   }
 `;
 

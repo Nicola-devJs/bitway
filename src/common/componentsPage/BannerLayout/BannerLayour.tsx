@@ -15,7 +15,7 @@ export const BannerLayour = () => {
 
   return (
     <BannerContainer>
-      <NextImage info={banner} $fullWidth $height={570}></NextImage>
+      <NextImage info={banner} $fullWidth></NextImage>
       <DescriptionContainer>
         <BannerTitle size={60} className={playfair.className} color={theme.colors.white}>
           {BREADCRUMBS_MENU[pathname]}
@@ -36,9 +36,20 @@ const DescriptionContainer = styled.div`
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
 `;
 
 const BannerTitle = styled(TextApp.Heading)`
-  margin-bottom: 10px;
+  margin-bottom: 0.694vw;
+
+  @media (max-width: ${theme.media.desktop}px) {
+    margin-bottom: 0.834vw;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    margin-bottom: 0;
+  }
 `;
