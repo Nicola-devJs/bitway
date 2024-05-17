@@ -19,6 +19,31 @@ interface FormValues {
 export const AuthLoginPage = () => {
   const { handleSubmit, control } = useForm<FormValues>({ mode: "onBlur" });
 
+  const handler = async (data: FormValues) => {
+    try {
+      const response = await fetch('http://localhost:4000/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        console.log('User logged in successfully', result);
+        //////// !
+        window.location.href = '/';
+      } else {
+        console.error('Error logging in', result);
+        
+      }
+    } catch (error) {
+      console.error('Error logging in', error);
+    }
+  };
+
   const { field: email, fieldState: emailState } = useController({
     control,
     name: "email",
@@ -33,10 +58,6 @@ export const AuthLoginPage = () => {
     control,
     name: "remember",
   });
-
-  const handler = (data: FormValues) => {
-    console.log(data);
-  };
 
   return (
     <AuthContent title="Welcome 👋" subTitle="Please login here">

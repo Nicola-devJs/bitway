@@ -18,8 +18,27 @@ interface FormValues {
 
 export const AuthCreatePage = () => {
   const { handleSubmit, control } = useForm<FormValues>({ mode: "onBlur" });
-  const handler = (data: FormValues) => {
-    console.log(data);
+
+  const handler = async (data: FormValues) => {
+    try {
+      const response = await fetch('http://localhost:4000/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        console.log('User registered successfully', result);
+      } else {
+        console.error('Error registering user', result);
+      }
+    } catch (error) {
+      console.error('Error registering user', error);
+    }
   };
 
   const { field: firstName, fieldState: firstNameState } = useController({
