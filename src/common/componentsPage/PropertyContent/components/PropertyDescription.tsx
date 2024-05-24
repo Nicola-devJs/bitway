@@ -5,6 +5,7 @@ import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import plan from "@/assets/images/main-img.jpg";
 import { ModalContext } from "@/common/hoc/ModalProvider";
+import { YandexMapsApp } from "@/common/components/yandexMap/YMaps";
 
 // TODO Временно
 const plans = [plan, plan, plan, plan];
@@ -90,10 +91,11 @@ export const PropertyDescription = () => {
             ))}
           </FloorPlanBlock>
         </div>
-        {/* TODO Надо подключить тут карту */}
-        {/* <div>
+
+        <div>
           <TextApp.Heading>Location</TextApp.Heading>
-        </div> */}
+          <YandexMapsApp />
+        </div>
       </StyledPropertyDescription>
     </>
   );
