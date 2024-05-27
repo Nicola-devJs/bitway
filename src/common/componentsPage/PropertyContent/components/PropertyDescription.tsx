@@ -1,3 +1,4 @@
+"use client";
 import { theme } from "@/assets/theme/theme";
 import { NextImage } from "@/common/components/NextImage";
 import { TextApp } from "@/common/styledComponents/Text";
@@ -5,7 +6,6 @@ import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import plan from "@/assets/images/main-img.jpg";
 import { ModalContext } from "@/common/hoc/ModalProvider";
-import { YandexMapsApp } from "@/common/components/yandexMap/YMaps";
 
 // TODO Временно
 const plans = [plan, plan, plan, plan];
@@ -90,11 +90,6 @@ export const PropertyDescription = () => {
               <NextImage key={id} info={plan} $fullWidth onClick={openModalSlideHandler(id)} />
             ))}
           </FloorPlanBlock>
-        </div>
-
-        <div>
-          <TextApp.Heading>Location</TextApp.Heading>
-          <YandexMapsApp />
         </div>
       </StyledPropertyDescription>
     </>

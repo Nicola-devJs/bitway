@@ -2,7 +2,7 @@ import { theme } from "@/assets/theme/theme";
 import React, { FC } from "react";
 import styled from "styled-components";
 import { PropertyCard } from "../propertyCard/PropertyCard";
-import { IPropertyCard } from "@/common/interfaces/IProperty";
+import { IPropertyCard } from "@/common/interfaces/object/property";
 
 export type ShowType = "list" | "tile";
 
@@ -16,7 +16,7 @@ export const ListProperties: FC<IProps> = ({ typeShow, countTiles = 3, propertie
   return (
     <StyledListProperties $typeShow={typeShow} $countTiles={countTiles}>
       {properties?.map((prop, id) => (
-        <PropertyCard key={id} typeShow={typeShow} id={id} {...prop} />
+        <PropertyCard key={id} typeShow={typeShow} {...prop} />
       ))}
     </StyledListProperties>
   );

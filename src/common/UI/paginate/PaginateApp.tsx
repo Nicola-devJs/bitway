@@ -9,14 +9,14 @@ import arrowRightBlack from "@/assets/icons/slider/arrow-right-b-slider.svg";
 
 interface IProps {
   sizeItem?: number;
-  itemsLenght: number;
+  countItems: number;
   viewCountItems: number;
   activeIdPage: number;
   changeIdPage: (idPage: number) => void;
 }
 
-export const PaginateApp: FC<IProps> = ({ sizeItem = 40, itemsLenght, viewCountItems, activeIdPage, changeIdPage }) => {
-  const listPaginate = Array(Math.ceil(itemsLenght / viewCountItems))
+export const PaginateApp: FC<IProps> = ({ sizeItem = 40, countItems, viewCountItems, activeIdPage, changeIdPage }) => {
+  const listPaginate = Array(Math.ceil(countItems / viewCountItems))
     .fill(1)
     .map((_, id) => id + 1);
 

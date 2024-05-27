@@ -12,7 +12,7 @@ import iconHeart from "@/assets/icons/property-card/heart.svg";
 import iconLoupe from "@/assets/icons/property-card/loupe.svg";
 import { ShowType } from "../listProperties/ListProperties";
 import { PropertyActions } from "../propertyActions/PropertyActions";
-import { IPropertyCard } from "@/common/interfaces/IProperty";
+import { IPropertyCard } from "@/common/interfaces/object/property";
 import { ModalContext } from "@/common/hoc/ModalProvider";
 import { mockGallery } from "@/common/constants/mockGallery";
 
@@ -24,12 +24,11 @@ const iconComponents = [
   { icon: "car", count: 2 },
 ];
 
-interface IProps extends IPropertyCard {
+interface IProps {
   typeShow: ShowType;
-  id: number;
 }
 
-export const PropertyCard: FC<IProps> = ({ typeShow, id, author, description, heading, price }) => {
+export const PropertyCard: FC<IProps & IPropertyCard> = ({ typeShow, description, heading, price }) => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
   const openModalGalleryHandler = () => {
     // TODO Пофиксить изначальную позицию в модалке
@@ -72,7 +71,7 @@ export const PropertyCard: FC<IProps> = ({ typeShow, id, author, description, he
             <div>
               <NextImage info={cardImg} $width={34} $height={34} />
             </div>
-            <TextApp>{author.name}</TextApp>
+            <TextApp>{"author.name"}</TextApp>
           </Profile>
           <PropertyActions gapActions={8} sizeIcon={18} sizeWrapper={34} />
         </PropertyCardBottom>

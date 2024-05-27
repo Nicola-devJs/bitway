@@ -17,6 +17,7 @@ import { FormFeedback } from "@/common/components/feedback/FormFeedback";
 import { ButtonApp } from "@/common/UI/button/ButtonApp";
 import { ModalContext } from "@/common/hoc/ModalProvider";
 import { useScreenExtension } from "@/common/hooks/screenExtension";
+import { useGetObjectsAllQuery } from "@/redux/services/objects";
 
 export const PropertyContentPage = () => {
   // TODO Доработать хук useScreenExtension (использовать массив, с инверсией. В хуке задействовать изначальные значения)
@@ -26,6 +27,8 @@ export const PropertyContentPage = () => {
     { screenExtension: theme.media.tablet, maxScreen: true },
     { screenExtension: theme.media.phone, maxScreen: true },
   ]);
+
+  const { data: objects } = useGetObjectsAllQuery();
 
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
 
@@ -68,16 +71,18 @@ export const PropertyContentPage = () => {
         />
         {minDesktopScreen && <FormFeedback />}
       </PropertyContentContainer>
-      <SimilarPropertiesBlock>
-        <SliderApp
-          slides={propertiesMockData.map((prop) => (
-            <PropertyCard typeShow="tile" {...prop} />
-          ))}
-          titleSlider="Similar Properties"
-          countViewSlide={maxPhoneScreen ? 1 : maxTabletScreen ? 2 : 3}
-          countTrack={1}
-        />
-      </SimilarPropertiesBlock>
+      {objects && (
+        <SimilarPropertiesBlock>
+          <SliderApp
+            slides={objects.data.map((prop) => (
+              <PropertyCard typeShow="tile" {...prop} />
+            ))}
+            titleSlider="Similar Properties"
+            countViewSlide={maxPhoneScreen ? 1 : maxTabletScreen ? 2 : 3}
+            countTrack={1}
+          />
+        </SimilarPropertiesBlock>
+      )}
     </ContainerApp>
   );
 };

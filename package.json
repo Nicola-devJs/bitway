@@ -9,15 +9,16 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "effector": "^23.2.0",
-    "effector-react": "^23.2.0",
+    "@reduxjs/toolkit": "^2.2.5",
     "next": "^14.2.1",
+    "next-redux-wrapper": "^8.1.0",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.3",
-    "react-yandex-maps": "^4.6.0",
+    "react-redux": "^9.1.2",
     "sass": "^1.71.1",
-    "styled-components": "^6.1.8"
+    "styled-components": "^6.1.8",
+    "swr": "^2.2.5"
   },
   "devDependencies": {
     "@types/node": "^20",

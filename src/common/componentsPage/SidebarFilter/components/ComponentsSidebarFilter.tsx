@@ -2,8 +2,6 @@ import { theme } from "@/assets/theme/theme";
 import { InputApp } from "@/common/UI/input/InputApp";
 import { SelectApp } from "@/common/UI/select/SelectApp";
 import { TextApp } from "@/common/styledComponents/Text";
-import { $location, locationChanged } from "@/models/filterProperties/model";
-import { useUnit } from "effector-react";
 import React, { useState } from "react";
 import styled from "styled-components";
 
@@ -29,7 +27,6 @@ const Categories = () => {
 };
 
 const Location = () => {
-  const [location, setLocation] = useUnit([$location, locationChanged]);
   return (
     <ContainerContent>
       <SelectApp
@@ -38,8 +35,8 @@ const Location = () => {
           { label: "Тирасполь", value: "tiras" },
           { label: "Парканы", value: "parcani" },
         ]}
-        changeHandler={(locale) => setLocation(locale as string)}
-        value={location}
+        changeHandler={(locale) => console.log(locale)}
+        value={"mock"}
       />
     </ContainerContent>
   );

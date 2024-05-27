@@ -1,19 +1,11 @@
+"use client";
 import { theme } from "@/assets/theme/theme";
 import { TextApp } from "@/common/styledComponents/Text";
 import { StaticImageData } from "next/image";
 import styled from "styled-components";
 import { NextImage } from "../../NextImage";
-import { useUnit } from "effector-react";
 import { mainFilter } from "@/common/constants/mockMainFilter";
 import { FC } from "react";
-import {
-  $location,
-  $priceRange,
-  $typeProperty,
-  locationChanged,
-  priceRangeChanged,
-  typePropertyChanged,
-} from "@/models/filterProperties/model";
 
 interface IProps {
   title: string;
@@ -54,21 +46,18 @@ const SearchItem: FC<IProps> = ({ icon_b, icon_w, list, title, value, onChangeHa
 };
 
 export const LocationSearch = () => {
-  const [location, setLocal] = useUnit([$location, locationChanged]);
-
-  return <SearchItem {...mainFilter.location} value={location} onChangeHandler={setLocal} />;
+  // return <SearchItem {...mainFilter.location}  />;
+  return null;
 };
 
 export const PriceSearch = () => {
-  const [priceRange, setPriceRange] = useUnit([$priceRange, priceRangeChanged]);
-
-  return <SearchItem {...mainFilter.price} value={priceRange} onChangeHandler={setPriceRange} />;
+  // return <SearchItem {...mainFilter.price} value={priceRange} onChangeHandler={setPriceRange} />;
+  return null;
 };
 
 export const TypePropertySearch = () => {
-  const [typeProperty, setTypeProperty] = useUnit([$typeProperty, typePropertyChanged]);
-
-  return <SearchItem {...mainFilter.typeProperty} value={typeProperty} onChangeHandler={setTypeProperty} />;
+  // return <SearchItem {...mainFilter.typeProperty} value={typeProperty} onChangeHandler={setTypeProperty} />;
+  return null;
 };
 
 const SearchItemValues = styled.ul`

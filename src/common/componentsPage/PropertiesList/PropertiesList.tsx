@@ -10,14 +10,13 @@ import { ButtonApp } from "@/common/UI/button/ButtonApp";
 import { FilterContext } from "@/common/hoc/FilterProvider";
 import { useScreenExtension } from "@/common/hooks/screenExtension";
 import { theme } from "@/assets/theme/theme";
-import { IPropertyCard } from "@/common/interfaces/IProperty";
+import { IPropertyCard } from "@/common/interfaces/object/property";
 import { SelectApp } from "@/common/UI/select/SelectApp";
-import { useUnit } from "effector-react";
-import { $acivePage } from "@/app/properties/modules/model";
 
-interface IProps {
-  properties: IPropertyCard[];
-}
+import { useGetObjectsAllQuery } from "@/redux/services/objects";
+import { PaginateApp } from "@/common/UI/paginate/PaginateApp";
+import useSWR from "swr";
+import { fetcherAllObjects } from "@/services/objects";
 
 // TODO хардкод по сортировке объектов
 const sortedOptions = [
@@ -25,16 +24,21 @@ const sortedOptions = [
   { label: "low", value: "low" },
 ];
 
-export const PropertiesList: FC<IProps> = ({ properties }) => {
+export const PropertiesList = () => {
   const [showType, setShowType] = useState<ShowType>("tile");
   const [sorted, setSorted] = useState<{ label: string; value: string }>(sortedOptions[0]);
-  const [activePage] = useUnit([$acivePage]);
   const { showFilter } = useContext(FilterContext);
   const [maxTabletScreen, minPhoneScreen] = useScreenExtension([
     { screenExtension: theme.media.tablet, maxScreen: true },
     { screenExtension: theme.media.phone },
   ]);
+  const [page, setPage] = useState(0);
+
   const changeShowTypeHandler = (type: ShowType) => () => setShowType(type);
+  const changeActivePage = (page: number) => setPage(page);
+
+  const { data: objects, isLoading } = useSWR("objects", fetcherAllObjects({ page }));
+  console.log(objects);
 
   return (
     <div style={{ width: "100%" }}>
@@ -73,12 +77,21 @@ export const PropertiesList: FC<IProps> = ({ properties }) => {
           changeHandler={(sort) => setSorted({ label: sort as string, value: sort as string })}
         />
       </PropertiesToolbar>
-      <ListProperties
-        typeShow={showType}
-        countTiles={2}
-        // TODO Временное решение для демонстрации пагинации
-        properties={properties.slice(activePage * 4, (activePage + 1) * 4)}
-      />
+      {isLoading ? (
+        <div>Loading ...</div>
+      ) : (
+        objects && (
+          <>
+            <ListProperties typeShow={showType} countTiles={2} properties={objects.data} />
+            <PaginateApp
+              countItems={objects.items}
+              viewCountItems={4}
+              activeIdPage={page}
+              changeIdPage={changeActivePage}
+            />
+          </>
+        )
+      )}
     </div>
   );
 };
