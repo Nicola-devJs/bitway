@@ -5,13 +5,12 @@ import ComponentsSidebarFilter from "./components/ComponentsSidebarFilter";
 import styled, { css } from "styled-components";
 import { theme } from "@/assets/theme/theme";
 import { ButtonApp } from "@/common/UI/button/ButtonApp";
-import { useScreenExtension } from "@/common/hooks/screenExtension";
 
 import { FilterContext } from "@/common/hoc/FilterProvider";
+import { HiddenBlock } from "@/common/components/hiddenBlock/HiddenBlock";
 
 export const SidebarFilter = () => {
   const { isShowFilter, hideFilter } = useContext(FilterContext);
-  const [maxTabletScreen] = useScreenExtension([{ screenExtension: theme.media.tablet, maxScreen: true }]);
 
   useEffect(() => {
     if (isShowFilter) {
@@ -31,12 +30,10 @@ export const SidebarFilter = () => {
         </ContentContainer>
       ))}
 
-      {maxTabletScreen && (
-        <>
-          <ButtonApp onClick={hideFilter}>Закрыть</ButtonApp>
-          <OverlaySidebar onClick={hideFilter} />
-        </>
-      )}
+      <HiddenBlock mode="min" extension={theme.media.tablet}>
+        <ButtonApp onClick={hideFilter}>Закрыть</ButtonApp>
+        <OverlaySidebar onClick={hideFilter} />
+      </HiddenBlock>
     </StyledSidebar>
   );
 };

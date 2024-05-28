@@ -46,7 +46,7 @@ const SearchItem: FC<IProps> = ({ icon_b, icon_w, list, title, value, onChangeHa
 };
 
 export const LocationSearch = () => {
-  // return <SearchItem {...mainFilter.location}  />;
+  // return <SearchItem {...mainFilter.location} />;
   return null;
 };
 

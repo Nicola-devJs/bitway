@@ -6,13 +6,14 @@ import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 import { FlexContent } from "@/common/styledComponents/Flex";
 import { fetcherAllPropertys } from "@/services/Properties";
 import { Metadata } from "next";
+import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Properties | Bitway",
 };
 
 export default async function Properties() {
-  const Propertys = await fetcherAllPropertys({ page: 1 });
+  const properties = await fetcherAllPropertys();
 
   return (
     <>
@@ -21,7 +22,7 @@ export default async function Properties() {
         <FlexContent $flexGap={50}>
           <FilterProvider>
             <SidebarFilter />
-            <PropertiesList responseProperties={Propertys} />
+            <PropertiesList responseProperties={properties} />
           </FilterProvider>
         </FlexContent>
       </ContainerApp>

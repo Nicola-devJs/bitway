@@ -27,7 +27,7 @@ export const AuthContent: FC<IProps> = ({ children, title, subTitle }) => {
         </TextApp.Heading>
         <TextApp color={theme.colors.gray}>{subTitle}</TextApp>
       </HeaderBlock>
-      {children}
+      <>{children}</>
     </ContentWrappper>
   );
 };

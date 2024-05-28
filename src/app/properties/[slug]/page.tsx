@@ -7,6 +7,7 @@ import React from "react";
 
 export default async function Property({ params }: { params: { slug: string } }) {
   const Property = await fetcherOneProperty(params.slug);
+  console.log(Property);
   return (
     <>
       <ContainerApp>

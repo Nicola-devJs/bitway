@@ -19,7 +19,8 @@ export const PropertiesBlock = ({ title }: { title: string }) => {
       {propertiesMockData.length > 3 ? (
         <SliderApp
           slides={propertiesMockData.map((prop) => (
-            <PropertyCard typeShow="tile" {...prop} />
+            // <PropertyCard typeShow="tile" {...prop} />
+            <div></div>
           ))}
           titleSlider={title}
           countViewSlide={maxPhoneScreen ? 1 : maxTabletScreen ? 2 : 3}
@@ -28,7 +29,7 @@ export const PropertiesBlock = ({ title }: { title: string }) => {
       ) : (
         <>
           <TextApp.Block title={title} $mb={50} />
-          <ListProperties typeShow="tile" properties={propertiesMockData} />
+          {/* <ListProperties typeShow="tile" properties={propertiesMockData} /> */}
         </>
       )}
     </ContainerApp>

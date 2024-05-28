@@ -1,7 +1,7 @@
 "use client";
-import React, { ChangeEvent, InputHTMLAttributes, TextareaHTMLAttributes, useState } from "react";
+import React, { ChangeEvent, InputHTMLAttributes, TextareaHTMLAttributes, useEffect, useState } from "react";
 import { jost } from "@/common/constants/font";
-import { TextApp } from "@/common/styledComponents/Text";
+
 import { ErrorMessage } from "@/common/styledComponents/ErrorMessage";
 import { ContainerInput, InputPasswordEye, StyledInput } from "./components/StyledInputApp";
 import type { ControllerRenderProps, UseControllerReturn } from "react-hook-form";
@@ -11,6 +11,8 @@ import { ContainerCheckbox, StyledCheckbox } from "./components/StyledInputAppCh
 import eyeShow from "@/assets/icons/show-eye.svg";
 import eyeHide from "@/assets/icons/hide-eye.svg";
 import { NextImage } from "@/common/components/NextImage";
+import dynamic from "next/dynamic";
+import { TextApp } from "@/common/styledComponents/Text";
 
 type RangeType = {
   min: number;
@@ -43,6 +45,8 @@ interface IPropsRange {
   children?: React.ReactNode;
 }
 
+// TODO Проблема с гидрацией StyledInput
+
 const InputApp = ({ label, errorMessage, size = 16, ...props }: IProps) => {
   return (
     <ContainerInput>
@@ -57,8 +61,9 @@ const InputApp = ({ label, errorMessage, size = 16, ...props }: IProps) => {
         $error={!!errorMessage}
         $size={size}
         {...props}
-        value={props.value ?? ""}
+        value={props.value || ""}
       />
+
       <ErrorMessage>{errorMessage}</ErrorMessage>
     </ContainerInput>
   );
@@ -169,7 +174,7 @@ InputApp.Text = ({ label, errorMessage, size = 16, ...props }: IPropsTextarea) =
         </TextApp>
       )}
       <StyledInput
-        as="textarea"
+        as={"textarea"}
         className={jost.className}
         $error={!!errorMessage}
         rows={3}

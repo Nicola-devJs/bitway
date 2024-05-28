@@ -18,12 +18,11 @@ import { ButtonApp } from "@/common/UI/button/ButtonApp";
 import { ModalContext } from "@/common/hoc/ModalProvider";
 import { useScreenExtension } from "@/common/hooks/screenExtension";
 import { IPropertyCard } from "@/common/interfaces/property/property";
+import { HiddenBlock } from "@/common/components/hiddenBlock/HiddenBlock";
 
 export const PropertyContentPage: FC<IPropertyCard> = ({ heading, description, price }) => {
   // TODO Доработать хук useScreenExtension (использовать массив, с инверсией. В хуке задействовать изначальные значения)
-  const [minDesktopScreen, maxDesktopScreen, maxTabletScreen, maxPhoneScreen] = useScreenExtension([
-    { screenExtension: theme.media.desktop },
-    { screenExtension: theme.media.desktop, maxScreen: true },
+  const [, maxTabletScreen, maxPhoneScreen] = useScreenExtension([
     { screenExtension: theme.media.tablet, maxScreen: true },
     { screenExtension: theme.media.phone, maxScreen: true },
   ]);
@@ -51,11 +50,11 @@ export const PropertyContentPage: FC<IPropertyCard> = ({ heading, description, p
         </div>
         <PropertyTopActionBlock>
           <PropertyActions sizeIcon={24} sizeWrapper={56} gapActions={20} />
-          {maxDesktopScreen ? (
+          <HiddenBlock mode="min" extension={theme.media.desktop}>
             <ButtonApp onClick={openModalFormFeedback} width={98}>
               Send
             </ButtonApp>
-          ) : null}
+          </HiddenBlock>
         </PropertyTopActionBlock>
       </PropertyTopInfo>
       <PropertyContentContainer>
@@ -67,7 +66,9 @@ export const PropertyContentPage: FC<IPropertyCard> = ({ heading, description, p
             { id: 3, title: "Schedule a Tour", content: "Content 4" },
           ]}
         />
-        {minDesktopScreen && <FormFeedback />}
+        <HiddenBlock mode="max" extension={theme.media.desktop}>
+          <FormFeedback />
+        </HiddenBlock>
       </PropertyContentContainer>
       {/* {objects && (
         <SimilarPropertiesBlock>
