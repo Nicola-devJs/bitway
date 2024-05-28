@@ -17,7 +17,12 @@ interface IProps extends HtmlHTMLAttributes<HTMLDivElement> {
 export const NextImage: FC<IProps> = ({ info, objectFit, ...props }) => {
   return (
     <ImageContainer {...props} $obf={objectFit || "cover"}>
-      <Image src={info} alt="image" />
+      <Image
+        src={info}
+        alt="image"
+        width={props.$fullWidth ? `${1440}` : props.$width}
+        height={props.$fullWidth ? `${0}` : props.$height}
+      />
     </ImageContainer>
   );
 };

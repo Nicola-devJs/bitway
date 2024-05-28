@@ -12,7 +12,7 @@ import iconHeart from "@/assets/icons/property-card/heart.svg";
 import iconLoupe from "@/assets/icons/property-card/loupe.svg";
 import { ShowType } from "../listProperties/ListProperties";
 import { PropertyActions } from "../propertyActions/PropertyActions";
-import { IPropertyCard } from "@/common/interfaces/object/property";
+import { IPropertyCard } from "@/common/interfaces/property/property";
 import { ModalContext } from "@/common/hoc/ModalProvider";
 import { mockGallery } from "@/common/constants/mockGallery";
 
@@ -28,7 +28,15 @@ interface IProps {
   typeShow: ShowType;
 }
 
-export const PropertyCard: FC<IProps & IPropertyCard> = ({ typeShow, description, heading, price }) => {
+export const PropertyCard: FC<IProps & IPropertyCard> = ({
+  typeShow,
+  description,
+  heading,
+  price,
+  category,
+  typeTransaction,
+  id,
+}) => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
   const openModalGalleryHandler = () => {
     // TODO Пофиксить изначальную позицию в модалке
@@ -39,7 +47,7 @@ export const PropertyCard: FC<IProps & IPropertyCard> = ({ typeShow, description
   return (
     <PropertyCardContainer $typeShow={typeShow}>
       <ContainerImage $typeShow={typeShow}>
-        <Link href={`/properties/luxury-apartment-in-california`}>
+        <Link href={`/properties/${id}`}>
           <NextImage info={cardImg} $fullWidth />
         </Link>
         <div className="container-icon heart">
@@ -50,9 +58,9 @@ export const PropertyCard: FC<IProps & IPropertyCard> = ({ typeShow, description
         </div>
       </ContainerImage>
       <PropertyCardContent>
-        <Link href={`/properties/luxury-apartment-in-california`}>
+        <Link href={`/properties/${id}`}>
           <TextApp.Heading className={playfair.className} size={24} weight={700}>
-            {heading}
+            {heading} {category}
           </TextApp.Heading>
         </Link>
         <TextApp size={20}>${price}</TextApp>

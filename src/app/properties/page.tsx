@@ -4,13 +4,16 @@ import { SidebarFilter } from "@/common/componentsPage/SidebarFilter/SidebarFilt
 import FilterProvider from "@/common/hoc/FilterProvider";
 import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 import { FlexContent } from "@/common/styledComponents/Flex";
+import { fetcherAllPropertys } from "@/services/Properties";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Properties | Bitway",
 };
 
-export default function Properties() {
+export default async function Properties() {
+  const Propertys = await fetcherAllPropertys({ page: 1 });
+
   return (
     <>
       <ContainerApp>
@@ -18,7 +21,7 @@ export default function Properties() {
         <FlexContent $flexGap={50}>
           <FilterProvider>
             <SidebarFilter />
-            <PropertiesList />
+            <PropertiesList responseProperties={Propertys} />
           </FilterProvider>
         </FlexContent>
       </ContainerApp>

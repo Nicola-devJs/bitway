@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext, useEffect, FC } from "react";
 import styled from "styled-components";
 import { NextImage } from "../NextImage";
 import { ContainerApp } from "@/common/styledComponents/ContainerApp";
@@ -9,7 +9,11 @@ import { ModalContext } from "@/common/hoc/ModalProvider";
 import { useScreenExtension } from "@/common/hooks/screenExtension";
 import { mockGallery } from "@/common/constants/mockGallery";
 
-export const GalleryApp = () => {
+interface IProps {
+  gallery: string[];
+}
+
+export const GalleryApp: FC<IProps> = ({ gallery }) => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
   const [maxTabletScreen, maxPhoneScreen] = useScreenExtension([
     { screenExtension: theme.media.tablet, maxScreen: true },
@@ -19,33 +23,33 @@ export const GalleryApp = () => {
   const viewPicturies = maxPhoneScreen ? 2 : maxTabletScreen ? 4 : 5;
 
   const openModalSlideHandler = (position: number) => () => {
-    setOptionModalHandler({ type: "gallery", options: { images: mockGallery, initialPosition: position + 1 } });
+    setOptionModalHandler({ type: "gallery", options: { images: gallery, initialPosition: position + 1 } });
     showHandler();
   };
 
   return (
     <>
-      <div style={{ width: "100%" }}>
-        <NextImage info={mockGallery[0]} $fullWidth />
+      <div style={{ width: "100%", overflow: "hidden" }}>
+        <NextImage info={gallery[0]} $fullWidth />
         <ContainerApp>
           <ContainerImages>
-            {mockGallery.slice(1, viewPicturies).map((img, id) => (
+            {gallery.slice(1, viewPicturies).map((img, id) => (
               <NextImage key={id} info={img} $width={212} $height={125} onClick={openModalSlideHandler(id)} />
             ))}
-            {mockGallery.slice(viewPicturies).length === 1 ? (
+            {gallery.slice(viewPicturies).length === 1 ? (
               <NextImage
-                info={mockGallery[viewPicturies]}
+                info={gallery[viewPicturies]}
                 $width={212}
                 $height={125}
                 onClick={openModalSlideHandler(viewPicturies)}
               />
-            ) : mockGallery.slice(viewPicturies).length > 1 ? (
+            ) : gallery.slice(viewPicturies).length > 1 ? (
               <MoreImages
                 className={playfair.className}
                 onClick={openModalSlideHandler(viewPicturies - 1)}
-                $remaining={mockGallery.slice(viewPicturies).length}
+                $remaining={gallery.slice(viewPicturies).length}
               >
-                <NextImage info={mockGallery[viewPicturies]} $width={212} $height={125} />
+                <NextImage info={gallery[viewPicturies]} $width={212} $height={125} />
               </MoreImages>
             ) : null}
           </ContainerImages>

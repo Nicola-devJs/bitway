@@ -1,5 +1,5 @@
 "use client";
-import React, { useContext } from "react";
+import React, { FC, useContext } from "react";
 import styled from "styled-components";
 import { theme } from "@/assets/theme/theme";
 import { playfair } from "@/common/constants/font";
@@ -17,9 +17,9 @@ import { FormFeedback } from "@/common/components/feedback/FormFeedback";
 import { ButtonApp } from "@/common/UI/button/ButtonApp";
 import { ModalContext } from "@/common/hoc/ModalProvider";
 import { useScreenExtension } from "@/common/hooks/screenExtension";
-import { useGetObjectsAllQuery } from "@/redux/services/objects";
+import { IPropertyCard } from "@/common/interfaces/property/property";
 
-export const PropertyContentPage = () => {
+export const PropertyContentPage: FC<IPropertyCard> = ({ heading, description, price }) => {
   // TODO Доработать хук useScreenExtension (использовать массив, с инверсией. В хуке задействовать изначальные значения)
   const [minDesktopScreen, maxDesktopScreen, maxTabletScreen, maxPhoneScreen] = useScreenExtension([
     { screenExtension: theme.media.desktop },
@@ -27,8 +27,6 @@ export const PropertyContentPage = () => {
     { screenExtension: theme.media.tablet, maxScreen: true },
     { screenExtension: theme.media.phone, maxScreen: true },
   ]);
-
-  const { data: objects } = useGetObjectsAllQuery();
 
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
 
@@ -43,13 +41,13 @@ export const PropertyContentPage = () => {
       <PropertyTopInfo>
         <div>
           <TextApp.Heading as="h3" weight={700} size={30} className={playfair.className}>
-            Beton Elegant Villa
+            {heading}
           </TextApp.Heading>
           <LocationText>
             <NextImage info={location} $width={24} $height={24} />
             <TextApp>3891 Ranchview Dr. Richardson, California 62639</TextApp>
           </LocationText>
-          <TextApp.Heading size={24}>$7500000</TextApp.Heading>
+          <TextApp.Heading size={24}>{price} ₽</TextApp.Heading>
         </div>
         <PropertyTopActionBlock>
           <PropertyActions sizeIcon={24} sizeWrapper={56} gapActions={20} />
@@ -71,7 +69,7 @@ export const PropertyContentPage = () => {
         />
         {minDesktopScreen && <FormFeedback />}
       </PropertyContentContainer>
-      {objects && (
+      {/* {objects && (
         <SimilarPropertiesBlock>
           <SliderApp
             slides={objects.data.map((prop) => (
@@ -82,7 +80,7 @@ export const PropertyContentPage = () => {
             countTrack={1}
           />
         </SimilarPropertiesBlock>
-      )}
+      )} */}
     </ContainerApp>
   );
 };

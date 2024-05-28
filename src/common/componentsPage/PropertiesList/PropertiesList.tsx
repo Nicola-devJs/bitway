@@ -10,13 +10,10 @@ import { ButtonApp } from "@/common/UI/button/ButtonApp";
 import { FilterContext } from "@/common/hoc/FilterProvider";
 import { useScreenExtension } from "@/common/hooks/screenExtension";
 import { theme } from "@/assets/theme/theme";
-import { IPropertyCard } from "@/common/interfaces/object/property";
+import { IResponseProperties } from "@/common/interfaces/property/property";
 import { SelectApp } from "@/common/UI/select/SelectApp";
 
-import { useGetObjectsAllQuery } from "@/redux/services/objects";
 import { PaginateApp } from "@/common/UI/paginate/PaginateApp";
-import useSWR from "swr";
-import { fetcherAllObjects } from "@/services/objects";
 
 // TODO хардкод по сортировке объектов
 const sortedOptions = [
@@ -24,7 +21,11 @@ const sortedOptions = [
   { label: "low", value: "low" },
 ];
 
-export const PropertiesList = () => {
+interface IProps {
+  responseProperties: IResponseProperties | undefined;
+}
+
+export const PropertiesList: FC<IProps> = ({ responseProperties }) => {
   const [showType, setShowType] = useState<ShowType>("tile");
   const [sorted, setSorted] = useState<{ label: string; value: string }>(sortedOptions[0]);
   const { showFilter } = useContext(FilterContext);
@@ -36,9 +37,6 @@ export const PropertiesList = () => {
 
   const changeShowTypeHandler = (type: ShowType) => () => setShowType(type);
   const changeActivePage = (page: number) => setPage(page);
-
-  const { data: objects, isLoading } = useSWR("objects", fetcherAllObjects({ page }));
-  console.log(objects);
 
   return (
     <div style={{ width: "100%" }}>
@@ -66,7 +64,9 @@ export const PropertiesList = () => {
                 objectFit="contain"
                 onClick={changeShowTypeHandler("list")}
               />
-              <TextApp>Showing 1–16 of 72 results</TextApp>
+              <TextApp>
+                Showing {responseProperties?.first}–{responseProperties?.last} of {responseProperties?.items} results
+              </TextApp>
             </>
           )}
         </ShowAndCountPropertiesBlock>
@@ -77,20 +77,16 @@ export const PropertiesList = () => {
           changeHandler={(sort) => setSorted({ label: sort as string, value: sort as string })}
         />
       </PropertiesToolbar>
-      {isLoading ? (
-        <div>Loading ...</div>
-      ) : (
-        objects && (
-          <>
-            <ListProperties typeShow={showType} countTiles={2} properties={objects.data} />
-            <PaginateApp
-              countItems={objects.items}
-              viewCountItems={4}
-              activeIdPage={page}
-              changeIdPage={changeActivePage}
-            />
-          </>
-        )
+      {responseProperties && (
+        <>
+          <ListProperties typeShow={showType} countTiles={2} properties={responseProperties.data} />
+          <PaginateApp
+            countItems={responseProperties.items}
+            viewCountItems={4}
+            activeIdPage={page}
+            changeIdPage={changeActivePage}
+          />
+        </>
       )}
     </div>
   );

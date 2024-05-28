@@ -2,7 +2,7 @@ import { theme } from "@/assets/theme/theme";
 import React, { FC } from "react";
 import styled from "styled-components";
 import { PropertyCard } from "../propertyCard/PropertyCard";
-import { IPropertyCard } from "@/common/interfaces/object/property";
+import { IPropertyCard } from "@/common/interfaces/property/property";
 
 export type ShowType = "list" | "tile";
 

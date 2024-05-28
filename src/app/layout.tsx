@@ -3,7 +3,6 @@ import "../../public/global.css";
 import StyledComponentsRegistry from "@/lib/registryStyled";
 import { jost } from "@/common/constants/font";
 import ModalProvider from "@/common/hoc/ModalProvider";
-import { ReduxProvider } from "@/common/hoc/ReduxProvider";
 
 export const metadata: Metadata = {
   title: "Bitway",
@@ -19,9 +18,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={jost.className}>
         <StyledComponentsRegistry>
-          <ModalProvider>
-            <ReduxProvider>{children}</ReduxProvider>
-          </ModalProvider>
+          <ModalProvider>{children}</ModalProvider>
         </StyledComponentsRegistry>
       </body>
     </html>
