@@ -41,6 +41,10 @@ export const SidebarFilter = () => {
 const StyledSidebar = styled.aside<{ $showTabletFilter: boolean }>`
   min-width: 16.944vw;
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    min-width: 244px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     min-width: 20.35vw;
   }
@@ -97,6 +101,11 @@ const ContentContainer = styled.div`
   border-bottom: 1px solid ${theme.colors.grayOpacity(0.1)};
 
   margin-bottom: 1.389vw;
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+  }
 
   @media (max-width: ${theme.media.desktop}px) {
     padding-bottom: 1.668vw;

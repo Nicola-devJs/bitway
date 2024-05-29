@@ -106,14 +106,20 @@ const PropertyCardContainer = styled.article<{ $typeShow: ShowType }>`
     }
   }
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    border-radius: 16px;
+    padding: 20px;
+
+    h5,
+    p {
+      margin-bottom: 10px;
+    }
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     h5,
     p {
       margin-bottom: 0.834vw;
-
-      &.property_card_text {
-        margin-bottom: 0;
-      }
     }
 
     border-radius: 1.334vw;
@@ -124,10 +130,6 @@ const PropertyCardContainer = styled.article<{ $typeShow: ShowType }>`
     h5,
     p {
       margin-bottom: 1.302vw;
-
-      &.property_card_text {
-        margin-bottom: 0;
-      }
     }
 
     border-radius: 2.083vw;
@@ -138,10 +140,6 @@ const PropertyCardContainer = styled.article<{ $typeShow: ShowType }>`
     h5,
     p {
       margin-bottom: 2.353vw;
-
-      &.property_card_text {
-        margin-bottom: 0;
-      }
     }
 
     border-radius: 3.765vw;
@@ -163,7 +161,6 @@ const ContainerImage = styled.div<{ $typeShow: ShowType }>`
 
   .container-icon {
     position: absolute;
-
     right: 1.111vw;
     width: 2.222vw;
     height: 2.222vw;
@@ -187,6 +184,27 @@ const ContainerImage = styled.div<{ $typeShow: ShowType }>`
 
   &:hover .container-icon {
     opacity: 1;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    width: ${(props) => (props.$typeShow === "tile" ? "100%" : "326px")};
+    height: ${(props) => (props.$typeShow === "tile" ? "266px" : "238px")};
+    border-radius: 0.833vw;
+    margin: ${(props) => (props.$typeShow === "tile" ? "0 0 16px 0" : "0 20px 0 0")};
+
+    .container-icon {
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 5px;
+
+      &.heart {
+        top: 16px;
+      }
+      &.loupe {
+        bottom: 16px;
+      }
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {
@@ -275,6 +293,15 @@ const PropertyComponents = styled.div`
     gap: 0.694vw;
   }
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    gap: 20px;
+    margin-block: 16px;
+
+    & > div {
+      gap: 10px;
+    }
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     gap: 1.668vw;
     margin-block: 1.334vw;
@@ -308,6 +335,10 @@ const PropertyCardBottom = styled.div`
   align-items: center;
   justify-content: space-between;
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    padding-top: 16px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     padding-top: 1.334vw;
   }
@@ -328,6 +359,10 @@ const Profile = styled.div`
   & > div {
     border-radius: 50%;
     overflow: hidden;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    gap: 10px;
   }
 
   @media (max-width: ${theme.media.desktop}px) {

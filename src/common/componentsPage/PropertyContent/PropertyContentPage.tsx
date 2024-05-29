@@ -81,6 +81,15 @@ const PropertyTopInfo = styled.div`
     margin-bottom: 0.833vw;
   }
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    margin-block: 50px;
+    padding-bottom: 20px;
+
+    h3 {
+      margin-bottom: 12px;
+    }
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     margin-block: 4.17vw;
     padding-bottom: 1.668vw;
@@ -127,6 +136,14 @@ const LocationText = styled.div`
     margin-right: 0.694vw;
   }
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    margin-bottom: 20px;
+
+    & > div:first-child {
+      margin-right: 10px;
+    }
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     margin-bottom: 1.668vw;
 
@@ -149,7 +166,11 @@ const PropertyContentContainer = styled.div`
   grid-template-columns: 58% auto;
   grid-column-gap: 2.083vw;
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    grid-column-gap: 30px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
-    grid-template-columns: 100%;
+    grid-column-gap: 2.083vw;
   }
 `;

@@ -45,6 +45,10 @@ const DescriptionContainer = styled.div`
 const BannerTitle = styled(TextApp.Heading)`
   margin-bottom: 0.694vw;
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    margin-bottom: 10px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     margin-bottom: 0.834vw;
   }

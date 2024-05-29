@@ -31,6 +31,10 @@ const StyledErrorMessage = styled.span<{ $showError: boolean; $show: "top" | "bo
       : `translateY(1vw)`};
   transition: all 0.2s;
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    ${(props) => (props.$show === "top" ? "right: 0; top: 0;" : `left: 0; bottom: -23px;`)}
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     ${(props) => (props.$show === "top" ? "right: 0; top: 0;" : `left: 0; bottom: -1.918vw;`)}
   }

@@ -73,6 +73,14 @@ const ContainerImages = styled.div`
     overflow: hidden;
   }
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    gap: 20px;
+    margin-top: -62px;
+    & div {
+      border-radius: 10px;
+    }
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     gap: 1.668vw;
     margin-top: -5.171vw;
@@ -107,6 +115,12 @@ const MoreImages = styled.div<{ $remaining: number }>`
     display: flex;
     align-items: center;
     justify-content: center;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    &::after {
+      font-size: 24px;
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {

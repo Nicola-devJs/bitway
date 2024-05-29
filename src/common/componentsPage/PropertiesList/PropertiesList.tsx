@@ -100,6 +100,10 @@ const ShowAndCountPropertiesBlock = styled.div`
     align-items: center;
     gap: 1.389vw;
 
+    @media (min-width: ${theme.media.desktopLarge}px) {
+      gap: 20px;
+    }
+
     @media (max-width: ${theme.media.desktop}px) {
       gap: 1.668vw;
     }

@@ -9,6 +9,10 @@ export const ContainerInput = styled.div`
     margin-bottom: 0.347vw;
     display: inline-block;
 
+    @media (min-width: ${theme.media.desktopLarge}px) {
+      margin-bottom: 5px;
+    }
+
     @media (max-width: ${theme.media.desktop}px) {
       margin-bottom: 0.417vw;
     }
@@ -45,6 +49,13 @@ export const StyledInput = styled.input<{ $error?: boolean; $size: number; $widt
 
   &::placeholder {
     color: ${theme.colors.gray};
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    padding: 16px;
+    border-radius: 10px;
+    width: ${(props) => (props.$width ? `${props.$width}px` : "100%")};
+    font-size: ${(props) => `${props.$size}px`};
   }
 
   @media (max-width: ${theme.media.desktop}px) {
@@ -91,6 +102,11 @@ export const InputPasswordEye = styled.div`
   position: absolute;
   right: 1.111vw;
   bottom: 1.111vw;
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    right: 16px;
+    bottom: 16px;
+  }
 
   @media (max-width: ${theme.media.desktop}px) {
     right: 1.334vw;

@@ -44,12 +44,23 @@ const StyledButton = styled.button<{ $fz: number; $pb: number; $w?: number; $out
   width: ${(props) => (props.$w ? transformAdaptiveSize(props.$w) : "100%")};
   border: 1px solid ${(props) => (props.$outlined ? theme.colors.blue : "transparent")};
   padding-block: ${(props) => transformAdaptiveSize(props.$pb)};
-  border-radius: 0.69vw;
+  border-radius: 0.694vw;
   font-size: ${(props) => transformAdaptiveSize(props.$fz)};
   cursor: pointer;
 
   & > div {
     margin-right: 0.694vw;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    font-size: ${(props) => `${props.$fz}px`};
+    padding-block: ${(props) => `${props.$pb}px`};
+    width: ${(props) => (props.$w ? `${props.$w}px` : "100%")};
+    border-radius: 10px;
+
+    & > div {
+      margin-right: 10px;
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {

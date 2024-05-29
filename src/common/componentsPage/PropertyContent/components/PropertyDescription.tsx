@@ -109,6 +109,19 @@ const StyledPropertyDescription = styled.div`
     }
   }
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    & > div {
+      h5 {
+        margin-bottom: 20px;
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+      }
+    }
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     & > div {
       h5 {
@@ -155,6 +168,12 @@ const StyledPropertyDescription = styled.div`
 const DescriptionBlock = styled.div`
   & p:not(:last-child) {
     margin-bottom: 1.389vw;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    & p:not(:last-child) {
+      margin-bottom: 20px;
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {
@@ -208,6 +227,11 @@ const DetailsTable = styled.ul`
     }
   }
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    grid-row-gap: 16px;
+    grid-column-gap: 152px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     grid-row-gap: 1.334vw;
     grid-column-gap: 12.677vw;
@@ -238,6 +262,10 @@ const FloorPlanBlock = styled.div`
   & > div {
     align-self: center;
     justify-self: center;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    grid-gap: 10px;
   }
 
   @media (max-width: ${theme.media.desktop}px) {

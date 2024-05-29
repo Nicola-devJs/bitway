@@ -38,6 +38,11 @@ const SearchPropertyContainer = styled.div`
 
   border-radius: 0.694vw;
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    margin: -50px 0 100px;
+    border-radius: 10px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     margin: -4vw 0 4.17vw;
 
@@ -76,6 +81,13 @@ const Search = styled(Link)`
   align-items: center;
   margin-inline: 2.778vw 1.389vw;
   cursor: pointer;
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    width: 56px;
+    height: 56px;
+    margin-inline: 40px 20px;
+    border-radius: 10px;
+  }
 
   @media (max-width: ${theme.media.desktop}px) {
     width: 4.671vw;

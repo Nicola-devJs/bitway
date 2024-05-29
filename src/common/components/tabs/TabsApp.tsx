@@ -54,6 +54,15 @@ const TabsNavigate = styled.div`
     margin-left: 2.083vw;
   }
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+
+    & > div {
+      margin-left: 30px;
+    }
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     padding-bottom: 1.251vw;
     margin-bottom: 1.668vw;
@@ -112,6 +121,17 @@ const TabItem = styled.li<{ $active?: boolean }>`
       background-color: ${theme.colors.blue};
       opacity: ${(props) => (props.$active ? 1 : 0)};
       transition: opacity 0.2s ease-in-out;
+    }
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    &:not(:last-child) {
+      margin-right: 30px;
+    }
+
+    p::after {
+      bottom: -14.5px;
+      height: 3px;
     }
   }
 

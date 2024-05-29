@@ -51,6 +51,12 @@ const ArrowRight = styled.span`
   height: 0.66vw;
   margin-inline: 0.556vw;
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    width: 4.5px;
+    height: 9.5px;
+    margin-inline: 8px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     width: 0.375vw;
     height: 0.792vw;
@@ -82,6 +88,10 @@ const StyledBreadcrumbs = styled.p<{ $color: string }>`
 
   ${ArrowRight} {
     background-image: url(${(props) => (props.$color === theme.colors.dark ? arrowRight.src : arrowRightWhite.src)});
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    padding-block: 50px;
   }
 
   @media (max-width: ${theme.media.desktop}px) {

@@ -96,8 +96,28 @@ const SearchItemValues = styled.ul`
     }
   }
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    padding: 20px;
+
+    li {
+      &:not(:last-child) {
+        margin-bottom: 20px;
+      }
+      & > div {
+        width: 50px;
+        height: 50px;
+        border-radius: 10px;
+        margin-right: 10px;
+      }
+    }
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     padding: 1.668vw;
+
+    &:not(:last-child) {
+      margin-bottom: 1.668vw;
+    }
 
     li {
       & > div {
@@ -112,6 +132,10 @@ const SearchItemValues = styled.ul`
   @media (max-width: ${theme.media.tablet}px) {
     padding: 2.604vw;
 
+    &:not(:last-child) {
+      margin-bottom: 2.604vw;
+    }
+
     li {
       & > div {
         width: 6.51vw;
@@ -124,6 +148,10 @@ const SearchItemValues = styled.ul`
 
   @media (max-width: ${theme.media.phone}px) {
     padding: 4.706vw;
+
+    &:not(:last-child) {
+      margin-bottom: 4.706vw;
+    }
 
     li {
       & > div {
@@ -149,6 +177,10 @@ const SearchItemContainer = styled.div`
 
   &:not(:last-child) > div:first-child {
     border-right: 1px solid ${theme.colors.whiteOpacity(0.1)};
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    padding: 20px 0 20px 20px;
   }
 
   @media (max-width: ${theme.media.desktop}px) {
@@ -193,6 +225,16 @@ const SearchPropertyItem = styled.div`
     flex-direction: column;
     h5 {
       flex: 1 1 auto;
+    }
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    padding-inline: 36px;
+
+    & > div:first-child {
+      width: 60px;
+      height: 60px;
+      margin-right: 16px;
     }
   }
 

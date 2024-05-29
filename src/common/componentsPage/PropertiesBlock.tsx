@@ -50,6 +50,10 @@ const PropertiesBlockWrapper = styled.div<PropertiesBlockWrapperStyledType>`
   background-color: ${(props) => props.$bg || "inherit"};
   padding-block: ${(props) => (props.$paddingBlock ? transformAdaptiveSize(props.$paddingBlock) : 0)};
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    padding-block: ${(props) => `${props.$paddingBlock}px` || 0};
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     padding-block: ${(props) =>
       props.$paddingBlock ? transformAdaptiveSize(props.$paddingBlock, theme.media.desktop) : 0};

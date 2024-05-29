@@ -96,6 +96,12 @@ const ContainerContent = styled.div`
     margin-bottom: 1.111vw;
   }
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    & > *:not(:last-child) {
+      margin-bottom: 16px;
+    }
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     & > *:not(:last-child) {
       margin-bottom: 1.334vw;
@@ -111,6 +117,10 @@ const ContainerContent = styled.div`
 
 const TextRange = styled(TextApp)`
   margin-bottom: 1.111vw;
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    margin-bottom: 16px;
+  }
 
   @media (max-width: ${theme.media.desktop}px) {
     margin-bottom: 1.334vw;

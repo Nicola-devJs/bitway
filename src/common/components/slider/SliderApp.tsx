@@ -160,6 +160,12 @@ const StyledSliderApp = styled.div<{ $width?: number; $height?: number }>`
   height: ${(props) => (props.$height ? transformAdaptiveSize(props.$height) : "100%")};
   border-radius: 1.389vw;
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    width: ${(props) => (props.$width ? `${props.$width}px` : "100%")};
+    height: ${(props) => (props.$height ? `${props.$height}px` : "100%")};
+    border-radius: 20px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width, theme.media.desktop) : "100%")};
     height: ${(props) => (props.$height ? transformAdaptiveSize(props.$height, theme.media.desktop) : "100%")};
@@ -186,6 +192,13 @@ const SliderTop = styled.div`
   margin-bottom: 3.472vw;
   h2 {
     max-width: 44.097vw;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    margin-bottom: 50px;
+    h2 {
+      max-width: 635px;
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {
@@ -215,6 +228,10 @@ const NavigationBlock = styled.div`
   display: flex;
   gap: 1.389vw;
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    gap: 20px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     gap: 1.668vw;
   }
@@ -235,6 +252,10 @@ const SliderTrackContainer = styled.div<{ $isOneRow: boolean }>`
       ? css`
           margin-inline: -1.042vw;
 
+          @media (min-width: ${theme.media.desktopLarge}px) {
+            margin-inline: -15px;
+          }
+
           @media (max-width: ${theme.media.desktop}px) {
             margin-inline: -1.251vw;
           }
@@ -248,6 +269,10 @@ const SliderTrackContainer = styled.div<{ $isOneRow: boolean }>`
         `
       : css`
           margin: -1.042vw;
+
+          @media (min-width: ${theme.media.desktopLarge}px) {
+            margin: -15px;
+          }
 
           @media (max-width: ${theme.media.desktop}px) {
             margin: -1.251vw;
@@ -290,6 +315,13 @@ const SliderNavigationArrowRight = styled.button<{ $disabled?: boolean; $customP
       : theme.colors.blue};
   cursor: pointer;
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    width: 56px;
+    height: 56px;
+    border-radius: 10px;
+    right: -86px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     right: -7.173vw;
     width: 4.671vw;
@@ -315,6 +347,10 @@ const SliderNavigationArrowRight = styled.button<{ $disabled?: boolean; $customP
 const SliderNavigationArrowLeft = styled(SliderNavigationArrowRight)`
   left: -5.972vw;
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    left: -86px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     left: -7.173vw;
   }
@@ -334,6 +370,10 @@ const Slide = styled.div<{ $isOneRow: boolean }>`
       ? css`
           padding-inline: 1.042vw;
 
+          @media (min-width: ${theme.media.desktopLarge}px) {
+            padding-inline: 15px;
+          }
+
           @media (max-width: ${theme.media.desktop}px) {
             padding-inline: 1.251vw;
           }
@@ -348,6 +388,9 @@ const Slide = styled.div<{ $isOneRow: boolean }>`
       : css`
           padding: 1.042vw;
 
+          @media (min-width: ${theme.media.desktopLarge}px) {
+            padding: 15px;
+          }
           @media (max-width: ${theme.media.desktop}px) {
             padding: 1.251vw;
           }

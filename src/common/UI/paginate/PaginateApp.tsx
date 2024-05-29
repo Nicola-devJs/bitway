@@ -59,6 +59,12 @@ const PaginateContainer = styled.div`
   padding-inline: 2.778vw;
   width: max-content;
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    gap: 10px;
+    margin: 50px 0 100px auto;
+    padding-inline: 40px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     margin: 4.17vw 0 8.34vw auto;
     padding-inline: 3.336vw;
@@ -88,6 +94,12 @@ const PaginateItem = styled.div<{ $size: number; $actvie: boolean }>`
   font-weight: 500;
   color: ${(props) => (props.$actvie ? theme.colors.white : theme.colors.dark)};
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    width: ${(props) => `${props.$size}px`};
+    height: ${(props) => `${props.$size}px`};
+    border-radius: 5px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     width: ${(props) => transformAdaptiveSize(props.$size, theme.media.desktop)};
     height: ${(props) => transformAdaptiveSize(props.$size, theme.media.desktop)};
@@ -116,6 +128,11 @@ const PaginateArrowRight = styled.button<{ $isDisabled: boolean }>`
   justify-content: center;
   opacity: ${(props) => (props.$isDisabled ? 0.5 : 1)};
   background-color: transparent;
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    width: 24px;
+    height: 24px;
+  }
 
   @media (max-width: ${theme.media.desktop}px) {
     width: 2.002vw;

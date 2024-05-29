@@ -40,6 +40,15 @@ const StyledPropertyActions = styled.div<{ $size: number; $gap: number }>`
     cursor: pointer;
   }
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    gap: ${(props) => `${props.$gap}px`};
+    & > div {
+      border-radius: 5px;
+      width: ${(props) => `${props.$size}px`};
+      height: ${(props) => `${props.$size}px`};
+    }
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     gap: ${(props) => transformAdaptiveSize(props.$gap, theme.media.desktop)};
 

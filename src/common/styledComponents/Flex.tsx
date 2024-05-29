@@ -20,6 +20,10 @@ const StyledFlexContent = styled.div<{ $flexType?: "row" | "column"; $flexGap?: 
   flex-direction: ${(props) => (props.$flexType === "column" ? "column" : "row")};
   gap: ${(props) => (props.$flexGap ? transformAdaptiveSize(props.$flexGap) : 0)};
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    gap: ${(props) => `${props.$flexGap}px` || 0};
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     gap: ${(props) => (props.$flexGap ? transformAdaptiveSize(props.$flexGap, theme.media.desktop) : 0)};
   }

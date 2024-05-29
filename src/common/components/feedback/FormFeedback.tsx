@@ -139,6 +139,15 @@ const StyledFormFeedback = styled.div`
     margin-bottom: 2.083vw;
   }
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    padding: 20px;
+    border-radius: 16px;
+
+    & > h5 {
+      margin-bottom: 30px;
+    }
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     padding: 1.668vw;
     border-radius: 1.334vw;

@@ -75,6 +75,10 @@ const HeaderContainer = styled.header`
   padding-block: 1.042vw;
   background-color: ${theme.colors.white};
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    padding-block: 15px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     padding-block: 1.668vw;
   }
@@ -90,6 +94,10 @@ const HeaderNav = styled.nav`
   justify-content: space-between;
   position: relative;
   gap: 2.083vw;
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    gap: 30px;
+  }
 
   @media (max-width: ${theme.media.desktop}px) {
     gap: 2.502vw;
@@ -126,6 +134,12 @@ const MenuList = styled.ul<{ $showMobileMenu: boolean }>`
 
   li:not(:first-child) {
     margin-left: 2.083vw;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    li:not(:first-child) {
+      margin-left: 30px;
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {

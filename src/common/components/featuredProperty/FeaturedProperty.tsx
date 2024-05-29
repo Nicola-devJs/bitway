@@ -78,6 +78,13 @@ const FeaturedPropertyBlock = styled.div`
     border-radius: 1.111vw;
   }
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    padding-bottom: 200px;
+    .img {
+      border-radius: 16px;
+    }
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     padding-bottom: 16.681vw;
 
@@ -105,6 +112,10 @@ const FeaturedPropertyImageWrapper = styled.div`
   width: 100%;
   height: 34.722vw;
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    height: 500px;
+  }
+
   @media (max-width: ${theme.media.phone}px) {
     height: 47.059vw;
   }
@@ -121,6 +132,19 @@ const FeaturedPropertyInfoBlock = styled.div`
 
   & > *:not(:last-child) {
     margin-bottom: 0.694vw;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    right: 100px;
+    bottom: -100px;
+    padding: 20px;
+
+    border-radius: 10px;
+    width: 500px;
+
+    & > *:not(:last-child) {
+      margin-bottom: 10px;
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {

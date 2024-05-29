@@ -85,6 +85,10 @@ export const AuthLoginPage = () => {
 const TextBottom = styled(TextApp)`
   margin-top: 2.083vw;
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    margin-top: 30px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     margin-bottom: 2.502vw;
     color: ${theme.colors.white};

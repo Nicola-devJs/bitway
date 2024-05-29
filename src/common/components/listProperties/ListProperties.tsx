@@ -28,6 +28,10 @@ const StyledListProperties = styled.div<{ $typeShow: ShowType; $countTiles: numb
   grid-template-columns: ${(props) => (props.$typeShow === "tile" ? "repeat(auto-fill, minmax(360px, 1fr))" : "1fr")};
   gap: 2.083vw;
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    gap: 30px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     gap: 2.502vw;
   }

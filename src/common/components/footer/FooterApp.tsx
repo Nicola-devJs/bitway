@@ -63,6 +63,10 @@ const FooterContainer = styled.footer`
   padding-block: 2.083vw;
   background-color: ${theme.colors.blue};
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    grid-column-gap: 30px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     padding-block: 2.502vw;
   }
@@ -77,6 +81,10 @@ const FooterColumns = styled.div`
   grid-template-columns: 28.6% 15.2% 28.4%;
   grid-column-gap: 3.472vw;
   justify-content: space-between;
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    grid-column-gap: 50px;
+  }
 
   @media (max-width: ${theme.media.desktop}px) {
     grid-column-gap: 4.17vw;
@@ -106,6 +114,15 @@ const FooterBottom = styled.div`
     display: flex;
     align-items: center;
     gap: 2.083vw;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    padding-top: 20px;
+    margin-top: 30px;
+
+    & > div {
+      gap: 30px;
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {
@@ -142,6 +159,10 @@ const Column = styled.div`
   & > *:not(:last-child) {
     margin-bottom: 1.389vw;
 
+    @media (min-width: ${theme.media.desktopLarge}px) {
+      margin-bottom: 20px;
+    }
+
     @media (max-width: ${theme.media.desktop}px) {
       margin-bottom: 1.668vw;
     }
@@ -159,6 +180,10 @@ const Column = styled.div`
 const ContainerSocialIcons = styled.div`
   display: flex;
   gap: 1.111vw;
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    gap: 16px;
+  }
 
   @media (max-width: ${theme.media.desktop}px) {
     gap: 1.334vw;
@@ -190,6 +215,16 @@ const SocialIcon = styled.div<{ $href: string }>`
     background-position: center;
     width: 1.667vw;
     height: 1.667vw;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    width: 48px;
+    height: 48px;
+
+    &:before {
+      width: 24px;
+      height: 24px;
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {
@@ -226,6 +261,10 @@ const SocialIcon = styled.div<{ $href: string }>`
 const ListMenu = styled.ul`
   & > li:not(:last-child) {
     margin-bottom: 1.111vw;
+
+    @media (min-width: ${theme.media.desktopLarge}px) {
+      margin-bottom: 16px;
+    }
 
     @media (max-width: ${theme.media.desktop}px) {
       margin-bottom: 1.334vw;
