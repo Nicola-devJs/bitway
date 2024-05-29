@@ -15,13 +15,8 @@ import { ButtonApp } from "@/common/UI/button/ButtonApp";
 import { ModalContext } from "@/common/hoc/ModalProvider";
 import { IPropertyCard } from "@/common/interfaces/property/property";
 import { HiddenBlock } from "@/common/components/hiddenBlock/HiddenBlock";
-import useSWR from "swr";
-import { fetcherAllPropertys } from "@/services/Properties";
-import { PropertiesBlock } from "../PropertiesBlock";
 
-export const PropertyContentPage: FC<IPropertyCard> = ({ heading, description, price }) => {
-  const { data: properties } = useSWR("properties", fetcherAllPropertys);
-
+export const PropertyContentPage: FC<IPropertyCard> = ({ heading, description, price, plans, phone }) => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
 
   const openModalFormFeedback = () => {
@@ -55,17 +50,15 @@ export const PropertyContentPage: FC<IPropertyCard> = ({ heading, description, p
       <PropertyContentContainer>
         <TabsApp
           listTabs={[
-            { title: "Descriptions", content: <PropertyDescription /> },
-            { title: "Features", content: "Content 2" },
-            { title: "Mortgage Calculator", content: "Content 3" },
-            { title: "Schedule a Tour", content: "Content 4" },
+            { title: "Описание", content: <PropertyDescription description={description} plans={plans} /> },
+            { title: "Параметры", content: "Content 2" },
+            { title: "Особенности", content: "Content 3" },
           ]}
         />
         <HiddenBlock mode="max" extension={theme.media.desktop}>
           <FormFeedback />
         </HiddenBlock>
       </PropertyContentContainer>
-      {properties && <PropertiesBlock properties={properties} $paddingBlock={100} title="Similar Properties" />}
     </ContainerApp>
   );
 };

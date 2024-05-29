@@ -30,7 +30,7 @@ export const fetcherAllPropertysWithPagination = async (
 
 export const fetcherOneProperty = async (id: string): Promise<IPropertyCard> => {
   try {
-    const res = await fetch(`http://localhost:8000/properties/${id}`);
+    const res = await fetch(`http://localhost:8000/properties/${id}`, { cache: "no-cache" });
 
     return res.json();
   } catch (err) {

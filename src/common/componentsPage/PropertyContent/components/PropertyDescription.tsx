@@ -2,15 +2,16 @@
 import { theme } from "@/assets/theme/theme";
 import { NextImage } from "@/common/components/NextImage";
 import { TextApp } from "@/common/styledComponents/Text";
-import React, { useContext, useEffect, useState } from "react";
+import React, { FC, useContext, useEffect, useState } from "react";
 import styled from "styled-components";
-import plan from "@/assets/images/main-img.jpg";
 import { ModalContext } from "@/common/hoc/ModalProvider";
 
-// TODO Временно
-const plans = [plan, plan, plan, plan];
+interface IProps {
+  description: string;
+  plans: string[];
+}
 
-export const PropertyDescription = () => {
+export const PropertyDescription: FC<IProps> = ({ description, plans }) => {
   const { setOptionModalHandler, showHandler } = useContext(ModalContext);
 
   const openModalSlideHandler = (position: number) => () => {
@@ -22,21 +23,7 @@ export const PropertyDescription = () => {
     <>
       <StyledPropertyDescription>
         <DescriptionBlock>
-          <TextApp>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus, eius voluptatum sit fugit, eveniet
-            reprehenderit mollitia cum aliquam sint impedit quia nam doloremque quidem perspiciatis, maxime ratione!
-            Esse, inventore possimus.
-          </TextApp>
-          <TextApp>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus, eius voluptatum sit fugit, eveniet
-            reprehenderit mollitia cum aliquam sint impedit quia nam doloremque quidem perspiciatis, maxime ratione!
-            Esse, inventore possimus.
-          </TextApp>
-          <TextApp>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Possimus, eius voluptatum sit fugit, eveniet
-            reprehenderit mollitia cum aliquam sint impedit quia nam doloremque quidem perspiciatis, maxime ratione!
-            Esse, inventore possimus.
-          </TextApp>
+          <TextApp>{description}</TextApp>
         </DescriptionBlock>
         <div>
           <TextApp.Heading>Details</TextApp.Heading>
