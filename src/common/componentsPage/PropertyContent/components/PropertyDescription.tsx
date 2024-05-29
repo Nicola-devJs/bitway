@@ -232,8 +232,7 @@ const DetailsTable = styled.ul`
 const FloorPlanBlock = styled.div`
   display: grid;
   width: 100%;
-  grid-template-columns: repeat(2, 1fr);
-  grid-auto-rows: minmax(auto, 20.556vw);
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
   grid-gap: 0.694vw;
 
   & > div {
@@ -242,20 +241,14 @@ const FloorPlanBlock = styled.div`
   }
 
   @media (max-width: ${theme.media.desktop}px) {
-    grid-template-columns: repeat(3, 1fr);
-    grid-auto-rows: minmax(auto, 24.687vw);
     grid-gap: 0.834vw;
   }
 
   @media (max-width: ${theme.media.tablet}px) {
-    grid-template-columns: repeat(2, 1fr);
-    grid-auto-rows: minmax(auto, 38.542vw);
     grid-gap: 1.302vw;
   }
 
   @media (max-width: ${theme.media.phone}px) {
-    grid-template-columns: 1fr;
-    grid-auto-rows: minmax(auto, 69.647vw);
     grid-gap: 2.353vw;
   }
 `;

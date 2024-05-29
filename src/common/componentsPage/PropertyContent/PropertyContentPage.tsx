@@ -10,22 +10,17 @@ import { NextImage } from "@/common/components/NextImage";
 import { PropertyActions } from "@/common/components/propertyActions/PropertyActions";
 import { TabsApp } from "@/common/components/tabs/TabsApp";
 import { PropertyDescription } from "./components/PropertyDescription";
-import { SliderApp } from "@/common/components/slider/SliderApp";
-import { PropertyCard } from "@/common/components/propertyCard/PropertyCard";
-import propertiesMockData from "../../../../public/mockData/properties.json";
 import { FormFeedback } from "@/common/components/feedback/FormFeedback";
 import { ButtonApp } from "@/common/UI/button/ButtonApp";
 import { ModalContext } from "@/common/hoc/ModalProvider";
-import { useScreenExtension } from "@/common/hooks/screenExtension";
 import { IPropertyCard } from "@/common/interfaces/property/property";
 import { HiddenBlock } from "@/common/components/hiddenBlock/HiddenBlock";
+import useSWR from "swr";
+import { fetcherAllPropertys } from "@/services/Properties";
+import { PropertiesBlock } from "../PropertiesBlock";
 
 export const PropertyContentPage: FC<IPropertyCard> = ({ heading, description, price }) => {
-  // TODO Доработать хук useScreenExtension (использовать массив, с инверсией. В хуке задействовать изначальные значения)
-  const [, maxTabletScreen, maxPhoneScreen] = useScreenExtension([
-    { screenExtension: theme.media.tablet, maxScreen: true },
-    { screenExtension: theme.media.phone, maxScreen: true },
-  ]);
+  const { data: properties } = useSWR("properties", fetcherAllPropertys);
 
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
 
@@ -60,28 +55,17 @@ export const PropertyContentPage: FC<IPropertyCard> = ({ heading, description, p
       <PropertyContentContainer>
         <TabsApp
           listTabs={[
-            { id: 44, title: "Descriptions", content: <PropertyDescription /> },
-            { id: 2, title: "Features", content: "Content 2" },
-            { id: 5, title: "Mortgage Calculator", content: "Content 3" },
-            { id: 3, title: "Schedule a Tour", content: "Content 4" },
+            { title: "Descriptions", content: <PropertyDescription /> },
+            { title: "Features", content: "Content 2" },
+            { title: "Mortgage Calculator", content: "Content 3" },
+            { title: "Schedule a Tour", content: "Content 4" },
           ]}
         />
         <HiddenBlock mode="max" extension={theme.media.desktop}>
           <FormFeedback />
         </HiddenBlock>
       </PropertyContentContainer>
-      {/* {objects && (
-        <SimilarPropertiesBlock>
-          <SliderApp
-            slides={objects.data.map((prop) => (
-              <PropertyCard typeShow="tile" {...prop} />
-            ))}
-            titleSlider="Similar Properties"
-            countViewSlide={maxPhoneScreen ? 1 : maxTabletScreen ? 2 : 3}
-            countTrack={1}
-          />
-        </SimilarPropertiesBlock>
-      )} */}
+      {properties && <PropertiesBlock properties={properties} $paddingBlock={100} title="Similar Properties" />}
     </ContainerApp>
   );
 };
@@ -167,16 +151,5 @@ const PropertyContentContainer = styled.div`
 
   @media (max-width: ${theme.media.desktop}px) {
     grid-template-columns: 100%;
-  }
-`;
-
-const SimilarPropertiesBlock = styled.div`
-  margin-block: 6.944vw;
-
-  @media (max-width: ${theme.media.desktop}px) {
-    margin-block: 8.34vw;
-  }
-  @media (max-width: ${theme.media.tablet}px) {
-    margin-block: 13.021vw;
   }
 `;

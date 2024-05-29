@@ -25,14 +25,20 @@ export const ListProperties: FC<IProps> = ({ typeShow, countTiles = 3, propertie
 const StyledListProperties = styled.div<{ $typeShow: ShowType; $countTiles: number }>`
   width: 100%;
   display: grid;
-  grid-template-columns: ${(props) => (props.$typeShow === "tile" ? `repeat(${props.$countTiles}, 1fr)` : "1fr")};
-  grid-gap: 2.083vw;
+  grid-template-columns: ${(props) => (props.$typeShow === "tile" ? "repeat(auto-fill, minmax(360px, 1fr))" : "1fr")};
+  gap: 2.083vw;
 
   @media (max-width: ${theme.media.desktop}px) {
-    grid-gap: 2.502vw;
+    gap: 2.502vw;
+  }
+
+  @media (max-width: ${theme.media.tablet}px) {
+    grid-template-columns: ${(props) => (props.$typeShow === "tile" ? "repeat(auto-fill, minmax(250px, 1fr))" : "1fr")};
+    gap: 2.604vw;
   }
 
   @media (max-width: ${theme.media.phone}px) {
     grid-template-columns: 1fr;
+    gap: 4.706vw;
   }
 `;

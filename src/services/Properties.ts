@@ -2,7 +2,20 @@ import { IPropertyCard, IResponseProperties } from "@/common/interfaces/property
 
 type FetcherAllPropertysType = { page?: number; limit?: number } | void;
 
-export const fetcherAllPropertys = async (params: FetcherAllPropertysType): Promise<IResponseProperties> => {
+export const fetcherAllPropertys = async (): Promise<IPropertyCard[]> => {
+  try {
+    const res = await fetch(`http://localhost:8000/properties`);
+
+    return res.json();
+  } catch (err) {
+    console.error(err);
+    throw new Error("Invalid request get all Propertys");
+  }
+};
+
+export const fetcherAllPropertysWithPagination = async (
+  params: FetcherAllPropertysType
+): Promise<IResponseProperties> => {
   try {
     const res = await fetch(
       `http://localhost:8000/properties?_page=${params?.page || 1}&_per_page=${params?.limit || 10}`

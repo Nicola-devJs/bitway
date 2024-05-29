@@ -7,7 +7,6 @@ import { theme } from "@/assets/theme/theme";
 import { playfair } from "@/common/constants/font";
 import { ModalContext } from "@/common/hoc/ModalProvider";
 import { useScreenExtension } from "@/common/hooks/screenExtension";
-import { mockGallery } from "@/common/constants/mockGallery";
 
 interface IProps {
   gallery: string[];

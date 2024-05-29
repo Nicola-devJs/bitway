@@ -1,16 +1,26 @@
-import { HomeHeadingBlock, HomeLatestProperties } from "@/common/componentsPage/MainContent/HomeContentPage";
+import { HomeHeadingBlock } from "@/common/componentsPage/MainContent/HomeContentPage";
 import React from "react";
 
 import { SearchProperty } from "@/common/components/searchProperty/SearchProperty";
 import { FeaturedProperty } from "@/common/components/featuredProperty/FeaturedProperty";
+import { fetcherAllPropertys } from "@/services/Properties";
+import { PropertiesBlock } from "@/common/componentsPage/PropertiesBlock";
+import { theme } from "@/assets/theme/theme";
 
-export default function Home() {
+export default async function Home() {
+  const properties = await fetcherAllPropertys();
+
   return (
     <>
       <HomeHeadingBlock />
       <SearchProperty />
-      <FeaturedProperty />
-      <HomeLatestProperties title="Explore the latest properties available" />
+      <FeaturedProperty properties={properties} />
+      <PropertiesBlock
+        title="Explore the latest properties available"
+        properties={properties}
+        $bg={theme.colors.grayOpacity(0.1)}
+        $paddingBlock={70}
+      />
     </>
   );
 }

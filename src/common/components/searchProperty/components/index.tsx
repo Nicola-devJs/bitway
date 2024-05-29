@@ -13,7 +13,7 @@ interface IProps {
   icon_b: StaticImageData;
   value: string;
   list: string[];
-  onChangeHandler: (payload: string) => string;
+  onChangeHandler?: (payload: string) => string;
 }
 
 const SearchItem: FC<IProps> = ({ icon_b, icon_w, list, title, value, onChangeHandler }) => {
@@ -33,7 +33,7 @@ const SearchItem: FC<IProps> = ({ icon_b, icon_w, list, title, value, onChangeHa
       </SearchPropertyItem>
       <SearchItemValues>
         {list.map((item) => (
-          <li key={item} onClick={() => onChangeHandler(item)}>
+          <li key={item} onClick={() => onChangeHandler?.(item)}>
             <div>
               <NextImage info={icon_b} $width={24} $height={24} objectFit="contain" />
             </div>
@@ -46,18 +46,15 @@ const SearchItem: FC<IProps> = ({ icon_b, icon_w, list, title, value, onChangeHa
 };
 
 export const LocationSearch = () => {
-  // return <SearchItem {...mainFilter.location} />;
-  return null;
+  return <SearchItem {...mainFilter.location} />;
 };
 
 export const PriceSearch = () => {
-  // return <SearchItem {...mainFilter.price} value={priceRange} onChangeHandler={setPriceRange} />;
-  return null;
+  return <SearchItem {...mainFilter.price} />;
 };
 
 export const TypePropertySearch = () => {
-  // return <SearchItem {...mainFilter.typeProperty} value={typeProperty} onChangeHandler={setTypeProperty} />;
-  return null;
+  return <SearchItem {...mainFilter.typeProperty} />;
 };
 
 const SearchItemValues = styled.ul`
@@ -78,7 +75,6 @@ const SearchItemValues = styled.ul`
   li {
     display: flex;
     align-items: center;
-    padding: 0.903vw;
     cursor: pointer;
     &:not(:last-child) {
       margin-bottom: 1.389vw;
@@ -122,6 +118,19 @@ const SearchItemValues = styled.ul`
         height: 6.51vw;
         border-radius: 1.302vw;
         margin-right: 1.302vw;
+      }
+    }
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    padding: 4.706vw;
+
+    li {
+      & > div {
+        width: 11.765vw;
+        height: 11.765vw;
+        border-radius: 2.353vw;
+        margin-right: 2.353vw;
       }
     }
   }

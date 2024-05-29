@@ -12,7 +12,7 @@ interface IProps {
 
 export const HiddenBlock: FC<IProps> = ({ children, mode, extension }) => {
   return (
-    <HiddenBlockStyled $hiddenMode={mode} $ext={extension}>
+    <HiddenBlockStyled $hiddenMode={mode} $ext={extension + 1}>
       {children}
     </HiddenBlockStyled>
   );

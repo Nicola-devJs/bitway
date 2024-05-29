@@ -149,6 +149,10 @@ const Column = styled.div`
     @media (max-width: ${theme.media.tablet}px) {
       margin-bottom: 2.604vw;
     }
+
+    @media (max-width: ${theme.media.phone}px) {
+      margin-bottom: 4.706vw;
+    }
   }
 `;
 
@@ -162,6 +166,10 @@ const ContainerSocialIcons = styled.div`
 
   @media (max-width: ${theme.media.tablet}px) {
     gap: 2.083vw;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    gap: 3.765vw;
   }
 `;
 
@@ -203,6 +211,16 @@ const SocialIcon = styled.div<{ $href: string }>`
       height: 3.125vw;
     }
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    width: 11.294vw;
+    height: 11.294vw;
+
+    &:before {
+      width: 5.647vw;
+      height: 5.647vw;
+    }
+  }
 `;
 
 const ListMenu = styled.ul`
@@ -215,6 +233,10 @@ const ListMenu = styled.ul`
 
     @media (max-width: ${theme.media.tablet}px) {
       margin-bottom: 2.083vw;
+    }
+
+    @media (max-width: ${theme.media.phone}px) {
+      margin-bottom: 3.765vw;
     }
   }
 `;

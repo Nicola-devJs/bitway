@@ -95,6 +95,7 @@ const PropertyCardContainer = styled.article<{ $typeShow: ShowType }>`
   padding: 1.389vw;
   display: flex;
   flex-direction: ${(props) => (props.$typeShow === "tile" ? "column" : "row")};
+  box-shadow: 0px 8px 8px -4px rgba(16, 24, 40, 0.02);
 
   h5,
   p {

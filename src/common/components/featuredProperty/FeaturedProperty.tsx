@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import styled from "styled-components";
 import { NextImage } from "../NextImage";
 import { TextApp } from "@/common/styledComponents/Text";
@@ -8,17 +8,15 @@ import { theme } from "@/assets/theme/theme";
 import { SliderApp } from "../slider/SliderApp";
 import { playfair } from "@/common/constants/font";
 import { LinkApp } from "@/common/UI/link/LinkApp";
-import { propertyCardIconsWhite } from "@/common/constants/constantImages";
-import { mockPropertiesWithImage } from "@/common/constants/mockGallery";
-import { useScreenExtension } from "@/common/hooks/screenExtension";
+import imageProperty from "@/assets/images/main-img.jpg";
+import { IPropertyCard } from "@/common/interfaces/property/property";
 
-export const FeaturedProperty = () => {
-  const [maxTabletScreen, maxPhoneScreen] = useScreenExtension([
-    { screenExtension: theme.media.tablet, maxScreen: true },
-    { screenExtension: theme.media.phone, maxScreen: true },
-  ]);
+interface IProps {
+  properties: IPropertyCard[];
+}
+
+export const FeaturedProperty: FC<IProps> = ({ properties }) => {
   const [propId, setPropId] = useState(0);
-  const conditionHeightScreen = maxPhoneScreen ? 266 : maxTabletScreen ? 350 : 500;
 
   return (
     <ContainerApp>
@@ -31,31 +29,37 @@ export const FeaturedProperty = () => {
         />
         <div style={{ position: "relative" }}>
           <SliderApp
-            slides={mockPropertiesWithImage.slice(0, 5).map((prop) => (
-              <NextImage info={prop.currentImage} $fullWidth $height={conditionHeightScreen} className="img" />
+            slides={properties.slice(0, 5).map((prop) => (
+              <FeaturedPropertyImageWrapper>
+                <NextImage info={imageProperty} $fullWidth className="img" />
+              </FeaturedPropertyImageWrapper>
             ))}
             infinityMode={4000}
-            height={conditionHeightScreen}
             getPosition={setPropId}
           />
           <FeaturedPropertyInfoBlock>
             <TextApp.Heading color={theme.colors.white} size={24} className={playfair.className}>
-              {mockPropertiesWithImage[propId].heading}
+              {properties[propId].heading}
             </TextApp.Heading>
             <TextApp color={theme.colors.white} size={20}>
-              ${mockPropertiesWithImage[propId].price}
+              ${properties[propId].price}
             </TextApp>
-            <TextApp color={theme.colors.white}>{mockPropertiesWithImage[propId].description}</TextApp>
-            <FeaturedPropertyInfoComponents>
-              {Object.keys(mockPropertiesWithImage[propId].components).map((comp) => (
+            <TextApp color={theme.colors.white}>{properties[propId].description}</TextApp>
+            {/* <FeaturedPropertyInfoComponents>
+              {Object.keys(properties[propId]).map((comp) => (
                 <div key={comp}>
                   <NextImage info={propertyCardIconsWhite[comp]} $width={24} />
-                  {/* @ts-ignore */}
-                  <span>{mockPropertiesWithImage[propId].components[comp]}</span>
+                  
+                  <span>{properties[propId].components[comp]}</span>
                 </div>
               ))}
-            </FeaturedPropertyInfoComponents>
-            <LinkApp.Button href="/properties/id" width={182} outlined color={theme.colors.white}>
+            </FeaturedPropertyInfoComponents> */}
+            <LinkApp.Button
+              href={`/properties/${properties[propId].id}`}
+              width={182}
+              outlined
+              color={theme.colors.white}
+            >
               More Details
             </LinkApp.Button>
           </FeaturedPropertyInfoBlock>
@@ -94,6 +98,15 @@ const FeaturedPropertyBlock = styled.div`
     .img {
       border-radius: 3.765vw;
     }
+  }
+`;
+
+const FeaturedPropertyImageWrapper = styled.div`
+  width: 100%;
+  height: 34.722vw;
+
+  @media (max-width: ${theme.media.phone}px) {
+    height: 47.059vw;
   }
 `;
 
