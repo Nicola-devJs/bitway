@@ -38,9 +38,9 @@ export const FeaturedProperty: FC<IProps> = ({ properties }) => {
             getPosition={setPropId}
           />
           <FeaturedPropertyInfoBlock>
-            <TextApp.Heading color={theme.colors.white} size={24} className={playfair.className}>
+            <PropertyHeading color={theme.colors.white} size={24} className={playfair.className}>
               {properties[propId]?.heading}
-            </TextApp.Heading>
+            </PropertyHeading>
             <TextApp color={theme.colors.white} size={20}>
               ${properties[propId]?.price}
             </TextApp>
@@ -180,6 +180,12 @@ const FeaturedPropertyInfoBlock = styled.div`
       margin-bottom: 2.353vw;
     }
   }
+`;
+
+const PropertyHeading = styled(TextApp.Heading)`
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const PropertyDescription = styled(TextApp)`

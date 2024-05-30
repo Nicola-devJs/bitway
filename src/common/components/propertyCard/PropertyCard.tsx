@@ -62,9 +62,9 @@ export const PropertyCard: FC<IProps & IPropertyCard> = ({
       </ContainerImage>
       <PropertyCardContent>
         <Link href={`/properties/${id}`}>
-          <TextApp.Heading className={playfair.className} size={24} weight={700}>
+          <PropertyCardHeading className={playfair.className} size={24} weight={700}>
             {heading} {category}
-          </TextApp.Heading>
+          </PropertyCardHeading>
         </Link>
         <TextApp size={20}>${price}</TextApp>
         <PropertyCardDescription color={theme.colors.gray} className="property_card_text">
@@ -282,6 +282,12 @@ const PropertyCardContent = styled.div`
   .property_card_text {
     flex: 1 1 auto;
   }
+`;
+
+const PropertyCardHeading = styled(TextApp.Heading)`
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 
 const PropertyCardDescription = styled(TextApp)`
