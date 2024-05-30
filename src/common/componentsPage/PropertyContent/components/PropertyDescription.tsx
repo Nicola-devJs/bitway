@@ -26,15 +26,16 @@ export const PropertyDescription: FC<IProps> = ({ description, plans }) => {
         <PropertyContentBlock>
           <TextApp>{description}</TextApp>
         </PropertyContentBlock>
-
-        <div>
-          <TextApp.Heading>Floor Plan</TextApp.Heading>
-          <FloorPlanBlock>
-            {plans.map((plan, id) => (
-              <NextImage key={id} info={plan} $fullWidth onClick={openModalSlideHandler(id)} />
-            ))}
-          </FloorPlanBlock>
-        </div>
+        {plans && (
+          <div>
+            <TextApp.Heading>Планировка объекта</TextApp.Heading>
+            <FloorPlanBlock>
+              {plans.map((plan, id) => (
+                <NextImage key={id} info={plan} $fullWidth $height={278} onClick={openModalSlideHandler(id)} />
+              ))}
+            </FloorPlanBlock>
+          </div>
+        )}
       </PropertyContentBody>
     </>
   );

@@ -72,7 +72,7 @@ export const PropertiesList: FC<IProps> = ({ responseProperties }) => {
           changeHandler={(sort) => setSorted({ label: sort as string, value: sort as string })}
         />
       </PropertiesToolbar>
-      {responseProperties && (
+      {!!responseProperties?.items && (
         <>
           <ListProperties typeShow={showType} countTiles={2} properties={responseProperties.data} />
           <PaginateApp

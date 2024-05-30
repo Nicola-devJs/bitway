@@ -131,7 +131,12 @@ export const SliderApp: FC<IProps> = ({
         {children}
         {showArrowsNavigation && (
           <>
-            <SliderNavigationArrowLeft $disabled={isFirstSlide} disabled={isFirstSlide} onClick={decrementPosition}>
+            <SliderNavigationArrowLeft
+              $disabled={isFirstSlide}
+              disabled={isFirstSlide}
+              onClick={decrementPosition}
+              $isGallary={true}
+            >
               <NextImage
                 info={isFirstSlide ? arrowLeftBlackSlider : arrowLeftWhiteSlider}
                 $height={9.5}
@@ -139,7 +144,12 @@ export const SliderApp: FC<IProps> = ({
                 objectFit="contain"
               />
             </SliderNavigationArrowLeft>
-            <SliderNavigationArrowRight $disabled={isLastSlide} disabled={isLastSlide} onClick={incrementPosition}>
+            <SliderNavigationArrowRight
+              $disabled={isLastSlide}
+              disabled={isLastSlide}
+              onClick={incrementPosition}
+              $isGallary={true}
+            >
               <NextImage
                 info={isLastSlide ? arrowRightBlackSlider : arrowRightWhiteSlider}
                 $height={9.5}
@@ -296,7 +306,11 @@ const SliderTrack = styled.div<{ $pos: number; $slides: number; $countView: numb
   transition: transform 0.2s ease-in-out;
 `;
 
-const SliderNavigationArrowRight = styled.button<{ $disabled?: boolean; $customPosition?: boolean }>`
+const SliderNavigationArrowRight = styled.button<{
+  $disabled?: boolean;
+  $customPosition?: boolean;
+  $isGallary?: boolean;
+}>`
   position: ${(props) => (props.$customPosition ? "static" : "absolute")};
   right: -5.972vw;
   top: 50%;
@@ -334,6 +348,14 @@ const SliderNavigationArrowRight = styled.button<{ $disabled?: boolean; $customP
     width: 7.292vw;
     height: 7.292vw;
     border-radius: 1.302vw;
+    background-color: ${(props) =>
+      props.$disabled
+        ? props.$customPosition
+          ? theme.colors.grayOpacity(0.05)
+          : theme.colors.whiteOpacity(0.2)
+        : props.$isGallary
+        ? theme.colors.blueOpacity(0.7)
+        : theme.colors.blue};
   }
 
   @media (max-width: ${theme.media.phone}px) {

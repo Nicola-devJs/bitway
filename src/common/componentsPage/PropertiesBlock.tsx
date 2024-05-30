@@ -15,9 +15,15 @@ type PropertiesBlockWrapperStyledType = { $bg?: string; $paddingBlock?: number }
 interface IProps {
   title?: string;
   properties: IPropertyCard[];
+  countTrack?: number;
 }
 
-export const PropertiesBlock = ({ title, properties, ...styled }: IProps & PropertiesBlockWrapperStyledType) => {
+export const PropertiesBlock = ({
+  title,
+  properties,
+  countTrack = 1,
+  ...styled
+}: IProps & PropertiesBlockWrapperStyledType) => {
   const [maxTabletScreen, maxPhoneScreen] = useScreenExtension([
     { screenExtension: theme.media.tablet, maxScreen: true },
     { screenExtension: theme.media.phone, maxScreen: true },
@@ -33,7 +39,7 @@ export const PropertiesBlock = ({ title, properties, ...styled }: IProps & Prope
             ))}
             titleSlider={title}
             countViewSlide={maxPhoneScreen ? 1 : maxTabletScreen ? 2 : 3}
-            countTrack={maxPhoneScreen ? 1 : 2}
+            countTrack={countTrack}
           />
         ) : (
           <>
@@ -51,7 +57,7 @@ const PropertiesBlockWrapper = styled.div<PropertiesBlockWrapperStyledType>`
   padding-block: ${(props) => (props.$paddingBlock ? transformAdaptiveSize(props.$paddingBlock) : 0)};
 
   @media (min-width: ${theme.media.desktopLarge}px) {
-    padding-block: ${(props) => `${props.$paddingBlock}px` || 0};
+    padding-block: ${(props) => props.$paddingBlock || 0}px;
   }
 
   @media (max-width: ${theme.media.desktop}px) {

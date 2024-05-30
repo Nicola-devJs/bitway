@@ -14,13 +14,15 @@ export default async function Home() {
     <>
       <HomeHeadingBlock />
       <SearchProperty />
-      <FeaturedProperty properties={properties} />
-      <PropertiesBlock
-        title="Explore the latest properties available"
-        properties={properties}
-        $bg={theme.colors.grayOpacity(0.1)}
-        $paddingBlock={70}
-      />
+      {Boolean(properties.length) && <FeaturedProperty properties={properties} />}
+      {Boolean(properties.length) && (
+        <PropertiesBlock
+          title="Explore the latest properties available"
+          properties={properties}
+          $bg={theme.colors.grayOpacity(0.1)}
+          $paddingBlock={70}
+        />
+      )}
     </>
   );
 }

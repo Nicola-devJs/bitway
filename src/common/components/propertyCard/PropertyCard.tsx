@@ -67,9 +67,9 @@ export const PropertyCard: FC<IProps & IPropertyCard> = ({
           </TextApp.Heading>
         </Link>
         <TextApp size={20}>${price}</TextApp>
-        <TextApp color={theme.colors.gray} className="property_card_text">
+        <PropertyCardDescription color={theme.colors.gray} className="property_card_text">
           {description}
-        </TextApp>
+        </PropertyCardDescription>
         <PropertyComponents>
           {iconComponents.map((comp) => (
             <div key={comp.icon}>
@@ -151,7 +151,7 @@ const PropertyCardContainer = styled.article<{ $typeShow: ShowType }>`
 `;
 
 const ContainerImage = styled.div<{ $typeShow: ShowType }>`
-  width: ${(props) => (props.$typeShow === "tile" ? "100%" : "22.639vw")};
+  min-width: ${(props) => (props.$typeShow === "tile" ? "100%" : "22.639vw")};
   height: ${(props) => (props.$typeShow === "tile" ? "18.472vw" : "16.528vw")};
   border-radius: 0.833vw;
   margin: ${(props) => (props.$typeShow === "tile" ? "0 0 1.111vw 0" : "0 1.389vw 0 0")};
@@ -282,6 +282,15 @@ const PropertyCardContent = styled.div`
   .property_card_text {
     flex: 1 1 auto;
   }
+`;
+
+const PropertyCardDescription = styled(TextApp)`
+  max-height: 70px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 `;
 
 const PropertyComponents = styled.div`

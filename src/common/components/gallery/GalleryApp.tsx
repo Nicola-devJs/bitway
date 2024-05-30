@@ -60,7 +60,7 @@ export const GalleryApp: FC<IProps> = ({ gallery }) => {
 
 const ContainerImages = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: 1.389vw;
   margin-top: -4.306vw;
 

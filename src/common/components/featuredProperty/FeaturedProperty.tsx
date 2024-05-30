@@ -31,7 +31,7 @@ export const FeaturedProperty: FC<IProps> = ({ properties }) => {
           <SliderApp
             slides={properties.slice(0, 5).map((prop) => (
               <FeaturedPropertyImageWrapper>
-                <NextImage info={prop.photos[0]} $fullWidth className="img" />
+                <NextImage info={prop.photos?.[0]} $fullWidth className="img" />
               </FeaturedPropertyImageWrapper>
             ))}
             infinityMode={4000}
@@ -39,12 +39,12 @@ export const FeaturedProperty: FC<IProps> = ({ properties }) => {
           />
           <FeaturedPropertyInfoBlock>
             <TextApp.Heading color={theme.colors.white} size={24} className={playfair.className}>
-              {properties[propId].heading}
+              {properties[propId]?.heading}
             </TextApp.Heading>
             <TextApp color={theme.colors.white} size={20}>
-              ${properties[propId].price}
+              ${properties[propId]?.price}
             </TextApp>
-            <TextApp color={theme.colors.white}>{properties[propId].description}</TextApp>
+            <PropertyDescription color={theme.colors.white}>{properties[propId]?.description}</PropertyDescription>
             {/* <FeaturedPropertyInfoComponents>
               {Object.keys(properties[propId]).map((comp) => (
                 <div key={comp}>
@@ -55,7 +55,7 @@ export const FeaturedProperty: FC<IProps> = ({ properties }) => {
               ))}
             </FeaturedPropertyInfoComponents> */}
             <LinkApp.Button
-              href={`/properties/${properties[propId].id}`}
+              href={`/properties/${properties[propId]?.id}`}
               width={182}
               outlined
               color={theme.colors.white}
@@ -180,6 +180,15 @@ const FeaturedPropertyInfoBlock = styled.div`
       margin-bottom: 2.353vw;
     }
   }
+`;
+
+const PropertyDescription = styled(TextApp)`
+  max-height: 70px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 `;
 
 const FeaturedPropertyInfoComponents = styled.div`
