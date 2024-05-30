@@ -7,7 +7,7 @@ import homeIconBlack from "@/assets/icons/filter-panel/home-b.svg";
 
 const listLocation = ["Тирасполь", "Бендеры", "Дубосары", "Григориополь", "Слободзея", "Каменка"];
 const listPrice = ["$100 - 1,000", "1,000 - 10,000", "10,000 - 100,000"];
-const categoryProperty = ["Дом", "Апартаменты", "Вилла", "Гараж", "Пустой участок"];
+const categoryProperty = ["Дом", "Апартаменты", "Гараж", "Пустой участок"];
 
 export const mainFilter = {
   location: {

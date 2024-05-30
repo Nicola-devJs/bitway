@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useContext, useEffect, FC } from "react";
+import React, { useContext, FC } from "react";
 import styled from "styled-components";
 import { NextImage } from "../NextImage";
 import { ContainerApp } from "@/common/styledComponents/ContainerApp";
@@ -29,7 +29,7 @@ export const GalleryApp: FC<IProps> = ({ gallery }) => {
   return (
     <>
       <div style={{ width: "100%", overflow: "hidden" }}>
-        <NextImage info={gallery[0]} $fullWidth />
+        <NextImage info={gallery[0]} $fullWidth $height={679} />
         <ContainerApp>
           <ContainerImages>
             {gallery.slice(1, viewPicturies).map((img, id) => (

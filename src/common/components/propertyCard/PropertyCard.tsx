@@ -14,7 +14,7 @@ import { ShowType } from "../listProperties/ListProperties";
 import { PropertyActions } from "../propertyActions/PropertyActions";
 import { IPropertyCard } from "@/common/interfaces/property/property";
 import { ModalContext } from "@/common/hoc/ModalProvider";
-import { mockGallery } from "@/common/constants/mockGallery";
+import mockImage from "@/assets/images/main-img.jpg";
 
 interface IProps {}
 
@@ -35,12 +35,13 @@ export const PropertyCard: FC<IProps & IPropertyCard> = ({
   price,
   category,
   typeTransaction,
+  photos,
   id,
 }) => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
   const openModalGalleryHandler = () => {
     // TODO Пофиксить изначальную позицию в модалке
-    setOptionModalHandler({ type: "gallery", options: { images: mockGallery, initialPosition: 0 } });
+    setOptionModalHandler({ type: "gallery", options: { images: photos, initialPosition: 0 } });
     showHandler();
   };
 
@@ -48,14 +49,16 @@ export const PropertyCard: FC<IProps & IPropertyCard> = ({
     <PropertyCardContainer $typeShow={typeShow}>
       <ContainerImage $typeShow={typeShow}>
         <Link href={`/properties/${id}`}>
-          <NextImage info={cardImg} $fullWidth />
+          <NextImage info={photos[0] || mockImage} $fullWidth />
         </Link>
         <div className="container-icon heart">
           <NextImage info={iconHeart} $width={20} $height={20} objectFit="contain" />
         </div>
-        <div className="container-icon loupe" onClick={openModalGalleryHandler}>
-          <NextImage info={iconLoupe} $width={20} $height={20} objectFit="contain" />
-        </div>
+        {photos.length > 1 && (
+          <div className="container-icon loupe" onClick={openModalGalleryHandler}>
+            <NextImage info={iconLoupe} $width={20} $height={20} objectFit="contain" />
+          </div>
+        )}
       </ContainerImage>
       <PropertyCardContent>
         <Link href={`/properties/${id}`}>

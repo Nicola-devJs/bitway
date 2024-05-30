@@ -151,14 +151,14 @@ const StyledFormFeedback = styled.div`
   @media (max-width: ${theme.media.desktop}px) {
     padding: 1.668vw;
     border-radius: 1.334vw;
-    box-shadow: none;
-    padding: 0;
 
     & > h5 {
       margin-bottom: 2.502vw;
     }
   }
   @media (max-width: ${theme.media.tablet}px) {
+    box-shadow: none;
+    padding: 0;
     padding: 2.604vw;
     border-radius: 2.083vw;
 

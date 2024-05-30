@@ -5,7 +5,7 @@ import { StaticImageData } from "next/image";
 import styled from "styled-components";
 import { NextImage } from "../../NextImage";
 import { mainFilter } from "@/common/constants/mockMainFilter";
-import { FC } from "react";
+import { FC, useState } from "react";
 
 interface IProps {
   title: string;
@@ -13,10 +13,18 @@ interface IProps {
   icon_b: StaticImageData;
   value: string;
   list: string[];
-  onChangeHandler?: (payload: string) => string;
+  type: string;
+  onChangeHandler: (payload: [string, string]) => void;
 }
 
-const SearchItem: FC<IProps> = ({ icon_b, icon_w, list, title, value, onChangeHandler }) => {
+export const SearchItem: FC<IProps> = ({ icon_b, icon_w, list, title, value, type, onChangeHandler }) => {
+  const [valueSearch, setValueSearch] = useState(value);
+
+  const handelChangeValueSearch = (itemList: string) => () => {
+    setValueSearch(itemList);
+    onChangeHandler([type, itemList]);
+  };
+
   return (
     <SearchItemContainer key={title}>
       <SearchPropertyItem>
@@ -28,12 +36,12 @@ const SearchItem: FC<IProps> = ({ icon_b, icon_w, list, title, value, onChangeHa
           <TextApp.Heading color={theme.colors.white} size={20}>
             {title}
           </TextApp.Heading>
-          <TextApp color={theme.colors.whiteOpacity(0.5)}>{value}</TextApp>
+          <TextApp color={theme.colors.whiteOpacity(0.5)}>{valueSearch}</TextApp>
         </div>
       </SearchPropertyItem>
       <SearchItemValues>
         {list.map((item) => (
-          <li key={item} onClick={() => onChangeHandler?.(item)}>
+          <li key={item} onClick={handelChangeValueSearch(item)}>
             <div>
               <NextImage info={icon_b} $width={24} $height={24} objectFit="contain" />
             </div>
@@ -43,18 +51,6 @@ const SearchItem: FC<IProps> = ({ icon_b, icon_w, list, title, value, onChangeHa
       </SearchItemValues>
     </SearchItemContainer>
   );
-};
-
-export const LocationSearch = () => {
-  return <SearchItem {...mainFilter.location} />;
-};
-
-export const PriceSearch = () => {
-  return <SearchItem {...mainFilter.price} />;
-};
-
-export const TypePropertySearch = () => {
-  return <SearchItem {...mainFilter.typeProperty} />;
 };
 
 const SearchItemValues = styled.ul`

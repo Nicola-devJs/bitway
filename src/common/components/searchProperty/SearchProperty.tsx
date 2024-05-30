@@ -1,24 +1,33 @@
 "use client";
 import { TextApp } from "@/common/styledComponents/Text";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import searchIcon from "@/assets/icons/filter-panel/search.svg";
 import { NextImage } from "../NextImage";
 import { theme } from "@/assets/theme/theme";
 import { ContainerApp } from "@/common/styledComponents/ContainerApp";
-import { LocationSearch, PriceSearch, TypePropertySearch } from "./components";
+import { SearchItem } from "./components";
 import Link from "next/link";
+import { mainFilter } from "@/common/constants/mockMainFilter";
 
 export const SearchProperty = () => {
+  const [searchParams, setSearchParams] = useState("");
+  const params = new URLSearchParams();
+
+  const changeValuesMainFilter = ([key, value]: [string, string]) => {
+    params.set(key, value);
+    setSearchParams(params.toString());
+  };
+
   return (
     <ContainerApp>
       <SearchPropertyContainer>
         <SearchPropertyRow>
-          <LocationSearch />
-          <PriceSearch />
-          <TypePropertySearch />
+          <SearchItem {...mainFilter.location} onChangeHandler={changeValuesMainFilter} type="location" />
+          <SearchItem {...mainFilter.price} onChangeHandler={changeValuesMainFilter} type="price" />
+          <SearchItem {...mainFilter.typeProperty} onChangeHandler={changeValuesMainFilter} type="typeProperty" />
         </SearchPropertyRow>
-        <Search href="/properties">
+        <Search href={`/properties${searchParams ? "?" + searchParams : searchParams}`}>
           <NextImage info={searchIcon} $width={24} $height={24} objectFit="contain" />
         </Search>
       </SearchPropertyContainer>

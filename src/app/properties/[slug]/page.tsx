@@ -4,19 +4,30 @@ import { PropertiesBlock } from "@/common/componentsPage/PropertiesBlock";
 import { PropertyContentPage } from "@/common/componentsPage/PropertyContent/PropertyContentPage";
 import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 import { fetcherAllPropertys, fetcherOneProperty } from "@/services/Properties";
+import { Metadata } from "next";
 import React from "react";
 
-export default async function Property({ params }: { params: { slug: string } }) {
-  const Property = await fetcherOneProperty(params.slug);
+type Params = { params: { slug: string } };
+
+export async function generateMetadata({ params }: Params): Promise<Metadata> {
+  const property = await fetcherOneProperty(params.slug);
+
+  return {
+    title: `${property.heading} | Bitway`,
+  };
+}
+
+export default async function Property({ params }: Params) {
+  const property = await fetcherOneProperty(params.slug);
   const properties = await fetcherAllPropertys();
 
   return (
     <>
       <ContainerApp>
-        <Breadcrumbs />
+        <Breadcrumbs namePage={property.heading} />
       </ContainerApp>
-      <GalleryApp gallery={Property.photos} />
-      <PropertyContentPage {...Property} />
+      <GalleryApp gallery={property.photos} />
+      <PropertyContentPage {...property} />
       <PropertiesBlock properties={properties} $paddingBlock={100} title="Similar Properties" />
     </>
   );

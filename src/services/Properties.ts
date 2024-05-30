@@ -2,9 +2,11 @@ import { IPropertyCard, IResponseProperties } from "@/common/interfaces/property
 
 type FetcherAllPropertysType = { page?: number; limit?: number } | void;
 
+// TODO Убрать no-cash поставить revalidate
+
 export const fetcherAllPropertys = async (): Promise<IPropertyCard[]> => {
   try {
-    const res = await fetch(`http://localhost:8000/properties`);
+    const res = await fetch(`http://localhost:8000/properties`, { cache: "no-cache" });
 
     return res.json();
   } catch (err) {
@@ -18,7 +20,8 @@ export const fetcherAllPropertysWithPagination = async (
 ): Promise<IResponseProperties> => {
   try {
     const res = await fetch(
-      `http://localhost:8000/properties?_page=${params?.page || 1}&_per_page=${params?.limit || 10}`
+      `http://localhost:8000/properties?_page=${params?.page || 1}&_per_page=${params?.limit || 10}`,
+      { cache: "no-cache" }
     );
 
     return res.json();

@@ -1,4 +1,4 @@
-import { IAddressApartments, IAddressProperty } from "./addressFields";
+import { IAddressProperty } from "./addressFields";
 import {
   IPropertyParamsApartments,
   IPropertyParamsGarage,
@@ -15,11 +15,13 @@ import {
 export interface IAnnouncementTypeFields {
   typeTransaction: string;
   typeProperty: string;
-  category: string;
+  category: CategoriesType;
 }
 export interface IDescriptionFields {
   heading: string;
   description: string;
+  photos: string[];
+  plans: string[];
 }
 
 export interface IPriceFields {
@@ -28,7 +30,7 @@ export interface IPriceFields {
   messengers: string[];
 }
 
-// export type OptionsCategoryValueKeys = (typeof optionsCategory)[number]["value"];
+export type CategoriesType = "apartment" | "house" | "garage" | "plot";
 
 export enum GenericTypeFields {
   Apartment = "apartment",
@@ -38,16 +40,17 @@ export enum GenericTypeFields {
 }
 
 type UniqueTypeFields<T> = T extends GenericTypeFields.Apartment
-  ? IAddressApartments & IPropertyParamsApartments & IPropertyFeaturesApartments
+  ? IPropertyParamsApartments & IPropertyFeaturesApartments
   : T extends GenericTypeFields.House
-  ? IAddressProperty & IPropertyParamsHouse & IPropertyFeaturesHouse
+  ? IPropertyParamsHouse & IPropertyFeaturesHouse
   : T extends GenericTypeFields.Garage
-  ? IAddressProperty & IPropertyParamsGarage & IPropertyFeaturesGarage
+  ? IPropertyParamsGarage & IPropertyFeaturesGarage
   : T extends GenericTypeFields.Plot
-  ? IAddressProperty & IPropertyParamsPlot & IPropertyFeaturesPlot
+  ? IPropertyParamsPlot & IPropertyFeaturesPlot
   : never;
 
 export type IFormFields<T extends GenericTypeFields> = IAnnouncementTypeFields &
   IDescriptionFields &
+  IAddressProperty &
   IPriceFields &
   UniqueTypeFields<T>;

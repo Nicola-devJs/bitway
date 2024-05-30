@@ -6,7 +6,6 @@ import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 import { FlexContent } from "@/common/styledComponents/Flex";
 import { fetcherAllPropertysWithPagination } from "@/services/Properties";
 import { Metadata } from "next";
-import { Suspense } from "react";
 
 export const metadata: Metadata = {
   title: "Properties | Bitway",

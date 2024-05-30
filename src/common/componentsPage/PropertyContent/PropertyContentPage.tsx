@@ -5,7 +5,7 @@ import { theme } from "@/assets/theme/theme";
 import { playfair } from "@/common/constants/font";
 import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 import { TextApp } from "@/common/styledComponents/Text";
-import location from "@/assets/icons/location-b.svg";
+import locationIcon from "@/assets/icons/location-b.svg";
 import { NextImage } from "@/common/components/NextImage";
 import { PropertyActions } from "@/common/components/propertyActions/PropertyActions";
 import { TabsApp } from "@/common/components/tabs/TabsApp";
@@ -15,13 +15,14 @@ import { ButtonApp } from "@/common/UI/button/ButtonApp";
 import { ModalContext } from "@/common/hoc/ModalProvider";
 import { IPropertyCard } from "@/common/interfaces/property/property";
 import { HiddenBlock } from "@/common/components/hiddenBlock/HiddenBlock";
+import { PropertyParams } from "./components/PropertyParams";
+import { PropertyFeatured } from "./components/PropertyFeatured";
 
-export const PropertyContentPage: FC<IPropertyCard> = ({ heading, description, price, plans, phone }) => {
+export const PropertyContentPage: FC<IPropertyCard> = (propertyData) => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
 
   const openModalFormFeedback = () => {
     setOptionModalHandler({ type: "modal", options: { children: <FormFeedback />, width: 700 } });
-
     showHandler();
   };
 
@@ -30,17 +31,17 @@ export const PropertyContentPage: FC<IPropertyCard> = ({ heading, description, p
       <PropertyTopInfo>
         <div>
           <TextApp.Heading as="h3" weight={700} size={30} className={playfair.className}>
-            {heading}
+            {propertyData.heading}
           </TextApp.Heading>
           <LocationText>
-            <NextImage info={location} $width={24} $height={24} />
-            <TextApp>3891 Ranchview Dr. Richardson, California 62639</TextApp>
+            <NextImage info={locationIcon} $width={24} $height={24} />
+            <TextApp>{propertyData.location}</TextApp>
           </LocationText>
-          <TextApp.Heading size={24}>{price} ₽</TextApp.Heading>
+          <TextApp.Heading size={24}>{propertyData.price} ₽</TextApp.Heading>
         </div>
         <PropertyTopActionBlock>
           <PropertyActions sizeIcon={24} sizeWrapper={56} gapActions={20} />
-          <HiddenBlock mode="min" extension={theme.media.desktop}>
+          <HiddenBlock mode="min" extension={theme.media.tablet}>
             <ButtonApp onClick={openModalFormFeedback} width={98}>
               Send
             </ButtonApp>
@@ -50,12 +51,15 @@ export const PropertyContentPage: FC<IPropertyCard> = ({ heading, description, p
       <PropertyContentContainer>
         <TabsApp
           listTabs={[
-            { title: "Описание", content: <PropertyDescription description={description} plans={plans} /> },
-            { title: "Параметры", content: "Content 2" },
-            { title: "Особенности", content: "Content 3" },
+            {
+              title: "Описание",
+              content: <PropertyDescription description={propertyData.description} plans={propertyData.plans} />,
+            },
+            { title: "Параметры", content: <PropertyParams {...propertyData} /> },
+            { title: "Особенности", content: <PropertyFeatured {...propertyData} /> },
           ]}
         />
-        <HiddenBlock mode="max" extension={theme.media.desktop}>
+        <HiddenBlock mode="max" extension={theme.media.tablet}>
           <FormFeedback />
         </HiddenBlock>
       </PropertyContentContainer>
@@ -165,5 +169,109 @@ const PropertyContentContainer = styled.div`
 
   @media (max-width: ${theme.media.desktop}px) {
     grid-column-gap: 2.083vw;
+  }
+
+  @media (max-width: ${theme.media.tablet}px) {
+    grid-column-gap: 0;
+    grid-template-columns: 1fr;
+  }
+`;
+
+export const PropertyContentBody = styled.div`
+  & > div {
+    h5 {
+      margin-bottom: 1.389vw;
+    }
+
+    &:not(:last-child) {
+      margin-bottom: 1.389vw;
+      padding-bottom: 1.389vw;
+      border-bottom: 1px solid ${theme.colors.grayOpacity(0.2)};
+    }
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    & > div {
+      h5 {
+        margin-bottom: 20px;
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 20px;
+        padding-bottom: 20px;
+      }
+    }
+  }
+
+  @media (max-width: ${theme.media.desktop}px) {
+    & > div {
+      h5 {
+        margin-bottom: 1.668vw;
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 1.668vw;
+        padding-bottom: 1.668vw;
+        border-bottom: 1px solid ${theme.colors.grayOpacity(0.2)};
+      }
+    }
+  }
+
+  @media (max-width: ${theme.media.tablet}px) {
+    & > div {
+      h5 {
+        margin-bottom: 2.604vw;
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 2.604vw;
+        padding-bottom: 2.604vw;
+        border-bottom: 1px solid ${theme.colors.grayOpacity(0.2)};
+      }
+    }
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    & > div {
+      h5 {
+        margin-bottom: 4.706vw;
+      }
+
+      &:not(:last-child) {
+        margin-bottom: 4.706vw;
+        padding-bottom: 4.706vw;
+        border-bottom: 1px solid ${theme.colors.grayOpacity(0.2)};
+      }
+    }
+  }
+`;
+
+export const PropertyContentBlock = styled.div`
+  & p:not(:last-child) {
+    margin-bottom: 1.389vw;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    & p:not(:last-child) {
+      margin-bottom: 20px;
+    }
+  }
+
+  @media (max-width: ${theme.media.desktop}px) {
+    & p:not(:last-child) {
+      margin-bottom: 1.668vw;
+    }
+  }
+
+  @media (max-width: ${theme.media.tablet}px) {
+    & p:not(:last-child) {
+      margin-bottom: 2.604vw;
+    }
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    & p:not(:last-child) {
+      margin-bottom: 4.706vw;
+    }
   }
 `;

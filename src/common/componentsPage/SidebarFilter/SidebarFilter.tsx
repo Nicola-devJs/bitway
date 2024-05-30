@@ -8,9 +8,11 @@ import { ButtonApp } from "@/common/UI/button/ButtonApp";
 
 import { FilterContext } from "@/common/hoc/FilterProvider";
 import { HiddenBlock } from "@/common/components/hiddenBlock/HiddenBlock";
+import { useSearchParams } from "next/navigation";
 
 export const SidebarFilter = () => {
   const { isShowFilter, hideFilter } = useContext(FilterContext);
+  const searchParams = useSearchParams();
 
   useEffect(() => {
     if (isShowFilter) {

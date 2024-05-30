@@ -5,6 +5,7 @@ import { TextApp } from "@/common/styledComponents/Text";
 import React, { FC, useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { ModalContext } from "@/common/hoc/ModalProvider";
+import { PropertyContentBlock, PropertyContentBody } from "../PropertyContentPage";
 
 interface IProps {
   description: string;
@@ -21,55 +22,11 @@ export const PropertyDescription: FC<IProps> = ({ description, plans }) => {
 
   return (
     <>
-      <StyledPropertyDescription>
-        <DescriptionBlock>
+      <PropertyContentBody>
+        <PropertyContentBlock>
           <TextApp>{description}</TextApp>
-        </DescriptionBlock>
-        <div>
-          <TextApp.Heading>Details</TextApp.Heading>
-          <DetailsTable>
-            <li>
-              <TextApp weight={700}>Built Up Area (sqft)</TextApp>
-              <TextApp>3240 sqft</TextApp>
-            </li>
-            <li>
-              <TextApp weight={700}>Dimensions</TextApp>
-              <TextApp>40x50</TextApp>
-            </li>
-            <li>
-              <TextApp weight={700}>Carpet Area (sqft)</TextApp>
-              <TextApp>2560 sqft</TextApp>
-            </li>
-            <li>
-              <TextApp weight={700}>Built Year</TextApp>
-              <TextApp>2017</TextApp>
-            </li>
-            <li>
-              <TextApp weight={700}>Parking</TextApp>
-              <TextApp>2</TextApp>
-            </li>
-            <li>
-              <TextApp weight={700}>Bedrooms</TextApp>
-              <TextApp>5</TextApp>
-            </li>
-            <li>
-              <TextApp weight={700}>Bathrooms</TextApp>
-              <TextApp>7</TextApp>
-            </li>
-            <li>
-              <TextApp weight={700}>Balcony</TextApp>
-              <TextApp>2</TextApp>
-            </li>
-            <li>
-              <TextApp weight={700}>Status</TextApp>
-              <TextApp>Ready to Move</TextApp>
-            </li>
-            <li>
-              <TextApp weight={700}>Property Category</TextApp>
-              <TextApp>Villa</TextApp>
-            </li>
-          </DetailsTable>
-        </div>
+        </PropertyContentBlock>
+
         <div>
           <TextApp.Heading>Floor Plan</TextApp.Heading>
           <FloorPlanBlock>
@@ -78,167 +35,10 @@ export const PropertyDescription: FC<IProps> = ({ description, plans }) => {
             ))}
           </FloorPlanBlock>
         </div>
-      </StyledPropertyDescription>
+      </PropertyContentBody>
     </>
   );
 };
-
-const StyledPropertyDescription = styled.div`
-  & > div {
-    h5 {
-      margin-bottom: 1.389vw;
-    }
-
-    &:not(:last-child) {
-      margin-bottom: 1.389vw;
-      padding-bottom: 1.389vw;
-      border-bottom: 1px solid ${theme.colors.grayOpacity(0.2)};
-    }
-  }
-
-  @media (min-width: ${theme.media.desktopLarge}px) {
-    & > div {
-      h5 {
-        margin-bottom: 20px;
-      }
-
-      &:not(:last-child) {
-        margin-bottom: 20px;
-        padding-bottom: 20px;
-      }
-    }
-  }
-
-  @media (max-width: ${theme.media.desktop}px) {
-    & > div {
-      h5 {
-        margin-bottom: 1.668vw;
-      }
-
-      &:not(:last-child) {
-        margin-bottom: 1.668vw;
-        padding-bottom: 1.668vw;
-        border-bottom: 1px solid ${theme.colors.grayOpacity(0.2)};
-      }
-    }
-  }
-
-  @media (max-width: ${theme.media.tablet}px) {
-    & > div {
-      h5 {
-        margin-bottom: 2.604vw;
-      }
-
-      &:not(:last-child) {
-        margin-bottom: 2.604vw;
-        padding-bottom: 2.604vw;
-        border-bottom: 1px solid ${theme.colors.grayOpacity(0.2)};
-      }
-    }
-  }
-
-  @media (max-width: ${theme.media.phone}px) {
-    & > div {
-      h5 {
-        margin-bottom: 4.706vw;
-      }
-
-      &:not(:last-child) {
-        margin-bottom: 4.706vw;
-        padding-bottom: 4.706vw;
-        border-bottom: 1px solid ${theme.colors.grayOpacity(0.2)};
-      }
-    }
-  }
-`;
-
-const DescriptionBlock = styled.div`
-  & p:not(:last-child) {
-    margin-bottom: 1.389vw;
-  }
-
-  @media (min-width: ${theme.media.desktopLarge}px) {
-    & p:not(:last-child) {
-      margin-bottom: 20px;
-    }
-  }
-
-  @media (max-width: ${theme.media.desktop}px) {
-    & p:not(:last-child) {
-      margin-bottom: 1.668vw;
-    }
-  }
-
-  @media (max-width: ${theme.media.tablet}px) {
-    & p:not(:last-child) {
-      margin-bottom: 2.604vw;
-    }
-  }
-
-  @media (max-width: ${theme.media.phone}px) {
-    & p:not(:last-child) {
-      margin-bottom: 4.706vw;
-    }
-  }
-`;
-
-const DetailsTable = styled.ul`
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(5, auto);
-  grid-row-gap: 1.111vw;
-  grid-column-gap: 10.556vw;
-
-  &:after {
-    content: "";
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 1px;
-    height: 100%;
-    background-color: ${theme.colors.grayOpacity(0.2)};
-  }
-
-  li {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    & > p:first-child {
-      margin-right: 20px;
-      &:after {
-        content: ":";
-      }
-    }
-  }
-
-  @media (min-width: ${theme.media.desktopLarge}px) {
-    grid-row-gap: 16px;
-    grid-column-gap: 152px;
-  }
-
-  @media (max-width: ${theme.media.desktop}px) {
-    grid-row-gap: 1.334vw;
-    grid-column-gap: 12.677vw;
-  }
-
-  @media (max-width: ${theme.media.tablet}px) {
-    grid-row-gap: 2.083vw;
-    grid-column-gap: 19.792vw;
-  }
-
-  @media (max-width: ${theme.media.phone}px) {
-    grid-row-gap: 3.765vw;
-    grid-column-gap: 0;
-    grid-template-columns: 1fr;
-
-    &:after {
-      display: none;
-    }
-  }
-`;
 
 const FloorPlanBlock = styled.div`
   display: grid;

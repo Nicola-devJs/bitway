@@ -6,13 +6,12 @@ import { TextApp } from "@/common/styledComponents/Text";
 import React from "react";
 import styled from "styled-components";
 import { LinkApp } from "@/common/UI/link/LinkApp";
-import mainImg from "@/assets/images/main-img.jpg";
 import { NextImage } from "@/common/components/NextImage";
 
 export const HomeHeadingBlock = () => {
   return (
     <>
-      <ContainerApp>
+      {/* <ContainerApp>
         <HeadingBlock>
           <TextApp.Heading as="h1" size={60} className={playfair.className} weight={700}>
             Let’s start search for your dream home
@@ -27,9 +26,14 @@ export const HomeHeadingBlock = () => {
             </LinkApp.Button>
           </div>
         </HeadingBlock>
-      </ContainerApp>
+      </ContainerApp> */}
       <MainImageWrapper>
-        <NextImage info={mainImg} $fullWidth />
+        <NextImage
+          info={
+            "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+          }
+          $fullWidth
+        />
       </MainImageWrapper>
     </>
   );

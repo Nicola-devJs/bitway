@@ -17,10 +17,10 @@ export const PropertyActions: FC<IProps> = ({ sizeIcon, sizeWrapper, gapActions 
   return (
     <StyledPropertyActions $size={sizeWrapper} $gap={gapActions}>
       <div>
-        <NextImage info={iconHeart} $width={sizeIcon} $height={sizeIcon} />
+        <NextImage info={iconHeart} $width={sizeIcon} $height={sizeIcon} objectFit="contain" />
       </div>
       <div>
-        <NextImage info={iconShare} $width={sizeIcon} $height={sizeIcon} />
+        <NextImage info={iconShare} $width={sizeIcon} $height={sizeIcon} objectFit="contain" />
       </div>
     </StyledPropertyActions>
   );

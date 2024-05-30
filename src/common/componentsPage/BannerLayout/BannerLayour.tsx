@@ -15,7 +15,7 @@ export const BannerLayour = () => {
 
   return (
     <BannerContainer>
-      <NextImage info={banner} $fullWidth></NextImage>
+      <NextImage info={banner} $fullWidth $height={570}></NextImage>
       <DescriptionContainer>
         <BannerTitle size={60} className={playfair.className} color={theme.colors.white}>
           {BREADCRUMBS_MENU[pathname]}

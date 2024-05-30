@@ -23,6 +23,7 @@ export const HeaderApp = () => {
       document.body.classList.remove("hide");
     }
   }, [showMobileMenu]);
+
   return (
     <HeaderContainer>
       <ContainerApp>

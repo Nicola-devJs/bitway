@@ -6,7 +6,6 @@ import React, { useState } from "react";
 import styled from "styled-components";
 
 const PropertyType = () => {
-  // TODO Добавить onChange в checkbox
   return (
     <ContainerContent>
       {/* <InputApp.Checkbox label="Buy" />
@@ -30,10 +29,10 @@ const Location = () => {
   return (
     <ContainerContent>
       <SelectApp
-        label="Location"
+        label="Локация"
         options={[
-          { label: "Тирасполь", value: "tiras" },
-          { label: "Парканы", value: "parcani" },
+          { label: "Тирасполь", value: "Тирасполь" },
+          { label: "Парканы", value: "Парканы" },
         ]}
         changeHandler={(locale) => console.log(locale)}
         value={"mock"}
@@ -84,11 +83,11 @@ const PriceRange = () => {
 // TODO Чтобы в AccardionBody открытый селект, нормально отображался, необходимо в экспортируемый объект добавить поле zIndex: number
 
 export default [
-  { label: "Select location", content: <Location />, zIndex: 5 },
-  { label: "Property type", content: <PropertyType /> },
-  { label: "Categories", content: <Categories /> },
-  { label: "Rooms", content: <Rooms />, zIndex: 5 },
-  { label: "Price Range", content: <PriceRange /> },
+  { label: "Выбрать локацию", content: <Location />, zIndex: 5 },
+  { label: "Тип недвижимости", content: <PropertyType /> },
+  { label: "Категория", content: <Categories /> },
+  { label: "Колличество комнат", content: <Rooms />, zIndex: 5 },
+  { label: "Ценовой диапазон", content: <PriceRange /> },
 ];
 
 const ContainerContent = styled.div`

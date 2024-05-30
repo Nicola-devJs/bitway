@@ -31,7 +31,7 @@ export const FeaturedProperty: FC<IProps> = ({ properties }) => {
           <SliderApp
             slides={properties.slice(0, 5).map((prop) => (
               <FeaturedPropertyImageWrapper>
-                <NextImage info={imageProperty} $fullWidth className="img" />
+                <NextImage info={prop.photos[0]} $fullWidth className="img" />
               </FeaturedPropertyImageWrapper>
             ))}
             infinityMode={4000}
