@@ -10,9 +10,8 @@ import { theme } from "@/assets/theme/theme";
 import { TextApp } from "@/common/styledComponents/Text";
 import { validateEmail, validatePassword } from "@/common/constants/validation";
 import { fetcherAuthLogin } from "@/services/Auth";
-import { writingToken } from "@/common/helpers/writingToken";
+import { setCookie, writingToken } from "@/common/helpers/writingToken";
 import { useRouter } from "next/navigation";
-import useSWR from "swr";
 import { useCustomQuery } from "@/common/hooks/customQuery";
 
 interface FormValues {
@@ -46,8 +45,8 @@ export const AuthLoginPage = () => {
 
     const res = await advancedFetcher(user);
 
-    // writingToken(res.token);
-    // router.push("/");
+    writingToken(res.token);
+    router.push("/");
   };
 
   return (

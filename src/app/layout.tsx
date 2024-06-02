@@ -3,7 +3,7 @@ import "../../public/global.css";
 import StyledComponentsRegistry from "@/lib/registryStyled";
 import { jost } from "@/common/constants/font";
 import ModalProvider from "@/common/hoc/ModalProvider";
-import { cookies } from "next/headers";
+import { UserProvider } from "@/common/hoc/UserProvider";
 
 export const metadata: Metadata = {
   title: "Bitway",
@@ -15,14 +15,13 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const token = cookies().get("token");
-  console.log("TOKEN", token?.value);
-
   return (
     <html lang="en">
       <body className={jost.className}>
         <StyledComponentsRegistry>
-          <ModalProvider>{children}</ModalProvider>
+          <UserProvider>
+            <ModalProvider>{children}</ModalProvider>
+          </UserProvider>
         </StyledComponentsRegistry>
       </body>
     </html>

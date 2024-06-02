@@ -43,6 +43,7 @@ const StyledButton = styled.button<{ $fz: number; $pb: number; $w?: number; $out
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 
   font-family: inherit;
   font-weight: 400;
@@ -120,8 +121,9 @@ const CyrcleLoader = styled.div`
   position: relative;
   width: 24px;
   height: 24px;
-  margin-left: 16px;
   animation: ${loaderScale} 1s infinite ease-in-out;
+  position: absolute;
+  z-index: 1;
 
   div {
     position: absolute;

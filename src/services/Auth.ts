@@ -121,11 +121,10 @@ export const fetcherAuthChangePassword = async (body: {
 export const fetcherAuthMe = async (token: string): Promise<IUserResponse> => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_AUTH}/me`, {
-      method: "POST",
+      method: "GET",
       headers: {
-        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ token }),
     });
 
     const data = await res.json();

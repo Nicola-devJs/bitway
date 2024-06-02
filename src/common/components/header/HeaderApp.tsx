@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import Link from "next/link";
 import { theme } from "@/assets/theme/theme";
@@ -11,6 +11,48 @@ import { HEADER_NAVMENU } from "@/common/constants/mockMenu";
 import { NextImage } from "../NextImage";
 import iconMenu from "@/assets/icons/icon-menu.svg";
 import { HiddenBlock } from "../hiddenBlock/HiddenBlock";
+import { UserContext } from "@/common/hoc/UserProvider";
+import { Status } from "@/common/constants/status";
+import { ButtonApp } from "@/common/UI/button/ButtonApp";
+import { FlexContent } from "@/common/styledComponents/Flex";
+import { deleteCookie } from "@/common/helpers/writingToken";
+import { ModalContext } from "@/common/hoc/ModalProvider";
+
+const AuthButtons = ({ width }: { width?: number }) => {
+  const { user } = useContext(UserContext);
+  const { showHandler, setOptionModalHandler } = useContext(ModalContext);
+
+  const handelLogout = () => {
+    setOptionModalHandler({
+      type: "alert",
+      options: {
+        title: "Вы действительно хотите выйти",
+        textButton: "Выйти",
+        buttonHandler: () => deleteCookie("token"),
+      },
+    });
+    showHandler();
+  };
+
+  return (
+    <>
+      {user?.status === Status.SUCCESS ? (
+        <FlexContent $flexGap={20} $align="center">
+          <LinkApp.Button href={process.env.NEXT_PUBLIC_ADMIN_API!} width={width}>
+            Cabinet
+          </LinkApp.Button>
+          <ButtonApp width={width} onClick={handelLogout} outlined>
+            Logout
+          </ButtonApp>
+        </FlexContent>
+      ) : (
+        <LinkApp.Button href="/auth/login" width={width}>
+          Login
+        </LinkApp.Button>
+      )}
+    </>
+  );
+};
 
 export const HeaderApp = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
@@ -57,14 +99,12 @@ export const HeaderApp = () => {
             <HiddenBlock mode="min" extension={theme.media.tablet}>
               <OverlayMobileMenu onClick={() => setShowMobileMenu(false)} />
               <HiddenBlock mode="min" extension={theme.media.phone}>
-                <LinkApp.Button href="/auth/login">Login</LinkApp.Button>
+                <AuthButtons />
               </HiddenBlock>
             </HiddenBlock>
           </MenuList>
           <HiddenBlock mode="max" extension={theme.media.phone}>
-            <LinkApp.Button href="/auth/login" width={98}>
-              Login
-            </LinkApp.Button>
+            <AuthButtons width={98} />
           </HiddenBlock>
         </HeaderNav>
       </ContainerApp>
