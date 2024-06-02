@@ -7,6 +7,10 @@ import { InputApp } from "@/common/UI/input/InputApp";
 import { LinkApp } from "@/common/UI/link/LinkApp";
 import { theme } from "@/assets/theme/theme";
 import { validateEmail, validateName, validatePassword, validateRequired } from "@/common/constants/validation";
+import { fetcherAuthCreate } from "@/services/Auth";
+import { writingToken } from "@/common/helpers/writingToken";
+import { useRouter } from "next/navigation";
+import { useCustomQuery } from "@/common/hooks/customQuery";
 
 interface FormValues {
   firstName: string;
@@ -17,10 +21,9 @@ interface FormValues {
 }
 
 export const AuthCreatePage = () => {
+  const { advancedFetcher, isLoading } = useCustomQuery(fetcherAuthCreate);
+  const router = useRouter();
   const { handleSubmit, control } = useForm<FormValues>({ mode: "onBlur" });
-  const handler = (data: FormValues) => {
-    console.log(data);
-  };
 
   const { field: firstName, fieldState: firstNameState } = useController({
     control,
@@ -40,11 +43,19 @@ export const AuthCreatePage = () => {
   });
   const { field: agree, fieldState: agreeState } = useController({ control, name: "agree", rules: validateRequired() });
 
+  const handler = async (data: FormValues) => {
+    const { agree, ...newUser } = data;
+    const res = await advancedFetcher(newUser);
+
+    writingToken(res.token);
+    router.push("/");
+  };
+
   return (
-    <AuthContent title="Create New Account" subTitle="Please enter details">
+    <AuthContent title="Create New Account" subTitle="Please enter details" linkBack="/auth/login">
       <form onSubmit={handleSubmit(handler)}>
         <InputApp
-          placeholder="Enter first name ..."
+          placeholder="First name"
           label="First name"
           value={firstName.value}
           onChange={firstName.onChange}
@@ -52,7 +63,7 @@ export const AuthCreatePage = () => {
           errorMessage={firstNameState.error?.message}
         />
         <InputApp
-          placeholder="Enter last name ..."
+          placeholder="Last name"
           label="Last name"
           value={lastName.value}
           onChange={lastName.onChange}
@@ -60,7 +71,7 @@ export const AuthCreatePage = () => {
           errorMessage={lastNameState.error?.message}
         />
         <InputApp
-          placeholder="Enter Email ..."
+          placeholder="Email Address"
           type="email"
           label="Email Address"
           value={email.value}
@@ -69,7 +80,7 @@ export const AuthCreatePage = () => {
           errorMessage={emailState.error?.message}
         />
         <InputApp.Password
-          placeholder="Enter Email ..."
+          placeholder="Password"
           label="Password"
           value={password.value}
           onChange={password.onChange}
@@ -90,7 +101,7 @@ export const AuthCreatePage = () => {
           onBlur={agree.onBlur}
           errorMessage={agreeState.error?.message}
         />
-        <ButtonApp>Signup</ButtonApp>
+        <ButtonApp loading={isLoading}>Signup</ButtonApp>
       </form>
     </AuthContent>
   );

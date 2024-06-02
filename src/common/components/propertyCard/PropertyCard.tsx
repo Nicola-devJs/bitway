@@ -15,6 +15,7 @@ import { PropertyActions } from "../propertyActions/PropertyActions";
 import { IPropertyCard } from "@/common/interfaces/property/property";
 import { ModalContext } from "@/common/hoc/ModalProvider";
 import mockImage from "@/assets/images/main-img.jpg";
+import { setPathnameImage } from "@/common/helpers/getValidPathnameImg";
 
 interface IProps {}
 
@@ -36,7 +37,7 @@ export const PropertyCard: FC<IProps & IPropertyCard> = ({
   category,
   typeTransaction,
   photos,
-  id,
+  _id,
 }) => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
   const openModalGalleryHandler = () => {
@@ -48,8 +49,8 @@ export const PropertyCard: FC<IProps & IPropertyCard> = ({
   return (
     <PropertyCardContainer $typeShow={typeShow}>
       <ContainerImage $typeShow={typeShow}>
-        <Link href={`/properties/${id}`}>
-          <NextImage info={photos[0] || mockImage} $fullWidth />
+        <Link href={`/properties/${_id}`}>
+          <NextImage info={setPathnameImage(0, photos) || mockImage} $fullWidth />
         </Link>
         <div className="container-icon heart">
           <NextImage info={iconHeart} $width={20} $height={20} objectFit="contain" />
@@ -61,7 +62,7 @@ export const PropertyCard: FC<IProps & IPropertyCard> = ({
         )}
       </ContainerImage>
       <PropertyCardContent>
-        <Link href={`/properties/${id}`}>
+        <Link href={`/properties/${_id}`}>
           <PropertyCardHeading className={playfair.className} size={24} weight={700}>
             {heading} {category}
           </PropertyCardHeading>
@@ -157,6 +158,9 @@ const ContainerImage = styled.div<{ $typeShow: ShowType }>`
   margin: ${(props) => (props.$typeShow === "tile" ? "0 0 1.111vw 0" : "0 1.389vw 0 0")};
   overflow: hidden;
   position: relative;
+  background: url(${mockImage.src}) no-repeat;
+  background-size: cover;
+  background-position: center;
 
   a {
     height: inherit;

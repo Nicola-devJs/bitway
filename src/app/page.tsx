@@ -14,11 +14,11 @@ export default async function Home() {
     <>
       <HomeHeadingBlock />
       <SearchProperty />
-      {Boolean(properties.length) && <FeaturedProperty properties={properties} />}
-      {Boolean(properties.length) && (
+      {properties && !!properties.objects.length && <FeaturedProperty properties={properties.objects} />}
+      {properties && !!properties.objects.length && (
         <PropertiesBlock
           title="Explore the latest properties available"
-          properties={properties}
+          properties={properties.objects}
           $bg={theme.colors.grayOpacity(0.1)}
           $paddingBlock={70}
         />

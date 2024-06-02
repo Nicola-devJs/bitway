@@ -13,14 +13,15 @@ interface IProps {
   children?: React.ReactNode;
   title: string;
   subTitle: string;
+  linkBack?: string;
 }
 
-export const AuthContent: FC<IProps> = ({ children, title, subTitle }) => {
-  const { back } = useRouter();
+export const AuthContent: FC<IProps> = ({ children, title, subTitle, linkBack }) => {
+  const roter = useRouter();
 
   return (
     <ContentWrappper>
-      <GoBack onClick={() => back()}>Back</GoBack>
+      {linkBack && <GoBack onClick={() => roter.push(linkBack)}>Back</GoBack>}
       <HeaderBlock>
         <TextApp.Heading size={30} className={playfair.className} weight={700}>
           {title}

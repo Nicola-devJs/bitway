@@ -10,5 +10,5 @@ export const metadata: Metadata = {
 export default async function Page() {
   const properties = await fetcherAllPropertys();
 
-  return <PropertiesBlock properties={properties} $bg={theme.colors.grayOpacity(0.1)} $paddingBlock={70} />;
+  return <PropertiesBlock properties={properties.objects} $bg={theme.colors.grayOpacity(0.1)} $paddingBlock={70} />;
 }

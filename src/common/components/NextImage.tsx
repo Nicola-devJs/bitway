@@ -12,14 +12,15 @@ interface IProps extends HtmlHTMLAttributes<HTMLDivElement> {
   $width?: number;
   $height?: number;
   $fullWidth?: boolean;
+  alt?: string;
 }
 
-export const NextImage: FC<IProps> = ({ info, objectFit, ...props }) => {
+export const NextImage: FC<IProps> = ({ info, objectFit, alt = "invalid image", ...props }) => {
   return (
     <ImageContainer {...props} $obf={objectFit || "cover"}>
       <Image
         src={info}
-        alt="image"
+        alt={alt}
         width={props.$fullWidth ? `${1440}` : props.$width}
         height={props.$fullWidth ? `${0}` : props.$height}
       />

@@ -22,7 +22,7 @@ const sortedOptions = [
 ];
 
 interface IProps {
-  responseProperties: IResponseProperties | undefined;
+  responseProperties: IResponseProperties;
 }
 
 export const PropertiesList: FC<IProps> = ({ responseProperties }) => {
@@ -61,7 +61,7 @@ export const PropertiesList: FC<IProps> = ({ responseProperties }) => {
               onClick={changeShowTypeHandler("list")}
             />
             <TextApp>
-              Showing {responseProperties?.first}–{responseProperties?.last} of {responseProperties?.items} results
+              Showing {responseProperties.limit}–{responseProperties.limit} of {responseProperties.items} results
             </TextApp>
           </HiddenBlock>
         </ShowAndCountPropertiesBlock>
@@ -72,17 +72,13 @@ export const PropertiesList: FC<IProps> = ({ responseProperties }) => {
           changeHandler={(sort) => setSorted({ label: sort as string, value: sort as string })}
         />
       </PropertiesToolbar>
-      {!!responseProperties?.items && (
-        <>
-          <ListProperties typeShow={showType} countTiles={2} properties={responseProperties.data} />
-          <PaginateApp
-            countItems={responseProperties.items}
-            viewCountItems={4}
-            activeIdPage={page}
-            changeIdPage={changeActivePage}
-          />
-        </>
-      )}
+      <ListProperties typeShow={showType} properties={responseProperties.objects} />
+      <PaginateApp
+        countItems={responseProperties.items}
+        viewCountItems={4}
+        activeIdPage={page}
+        changeIdPage={changeActivePage}
+      />
     </div>
   );
 };

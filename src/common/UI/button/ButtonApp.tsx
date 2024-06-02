@@ -1,6 +1,6 @@
 "use client";
 import React, { ButtonHTMLAttributes, FC, ReactNode } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { theme } from "@/assets/theme/theme";
 import { transformAdaptiveSize } from "@/common/helpers/transformValues";
 import { NextImage } from "@/common/components/NextImage";
@@ -13,6 +13,7 @@ interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   width?: number;
   outlined?: boolean;
   icon?: keyof typeof feedbackButtonIcons;
+  loading?: boolean;
 }
 
 export const ButtonApp: FC<IProps> = ({
@@ -22,12 +23,18 @@ export const ButtonApp: FC<IProps> = ({
   width,
   outlined,
   icon,
+  loading,
   ...props
 }) => {
   return (
     <StyledButton $fz={fontSize} $pb={paddingBlock} $w={width} $outlined={outlined} onClick={props.onClick} {...props}>
       {icon && <NextImage info={feedbackButtonIcons[icon]} $width={24} $height={24} objectFit="contain" />}
       {children}
+      {loading && (
+        <CyrcleLoader>
+          <div></div>
+        </CyrcleLoader>
+      )}
     </StyledButton>
   );
 };
@@ -94,5 +101,51 @@ const StyledButton = styled.button<{ $fz: number; $pb: number; $w?: number; $out
     & > div {
       margin-right: 2.353vw;
     }
+  }
+`;
+
+const loaderScale = keyframes`
+   0% {
+      transform: rotate(0deg);
+   }
+   50% {
+      transform: rotate(180deg);
+   }
+   100% {
+      transform: rotate(360deg);
+   }
+`;
+
+const CyrcleLoader = styled.div`
+  position: relative;
+  width: 24px;
+  height: 24px;
+  margin-left: 16px;
+  animation: ${loaderScale} 1s infinite ease-in-out;
+
+  div {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 22px;
+    height: 22px;
+    background-color: transparent;
+    border-radius: 50%;
+  }
+
+  div::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    padding: 2px;
+    background: linear-gradient(to right, ${theme.colors.white}, ${theme.colors.blue});
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    box-sizing: border-box;
   }
 `;

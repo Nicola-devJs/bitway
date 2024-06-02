@@ -4,7 +4,7 @@ import { SidebarFilter } from "@/common/componentsPage/SidebarFilter/SidebarFilt
 import FilterProvider from "@/common/hoc/FilterProvider";
 import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 import { FlexContent } from "@/common/styledComponents/Flex";
-import { fetcherAllPropertysWithPagination } from "@/services/Properties";
+import { fetcherAllPropertys } from "@/services/Properties";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function Properties() {
-  const properties = await fetcherAllPropertysWithPagination();
+  const properties = await fetcherAllPropertys();
 
   return (
     <>

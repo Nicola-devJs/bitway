@@ -131,6 +131,7 @@ InputApp.Code = ({ codes }: IPropsCode) => {
           value={code.field.value ?? ""}
           onChange={changeHandler(code.field)}
           onBlur={code.field.onBlur}
+          placeholder=""
           $error={!!code.fieldState.error?.message}
         />
       ))}

@@ -1,12 +1,13 @@
 "use client";
 import React, { useContext } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useController, useForm } from "react-hook-form";
 import { AuthContent } from ".";
 import { ButtonApp } from "@/common/UI/button/ButtonApp";
 import { InputApp } from "@/common/UI/input/InputApp";
 import { validateRequired } from "@/common/constants/validation";
 import { ModalContext } from "@/common/hoc/ModalProvider";
+import { fetcherAuthOTP } from "@/services/Auth";
 
 interface FormValues {
   code1: number;
@@ -17,22 +18,16 @@ interface FormValues {
 }
 
 export const AuthOTPPage = () => {
-  const { push } = useRouter();
-  const { showHandler, setOptionModalHandler } = useContext(ModalContext);
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const { handleSubmit, control } = useForm<FormValues>({ mode: "onBlur" });
+  const emailValue = searchParams.get("email");
 
-  const handler = (data: FormValues) => {
-    console.log(Object.values(data).join(""));
-    setOptionModalHandler({
-      type: "alert",
-      options: {
-        title: "Password Changed Successfully",
-        text: "Your password has been updated successfully",
-        textButton: "Back to Login",
-        buttonHandler: () => push("/auth/login"),
-      },
-    });
-    showHandler();
+  const handler = async (data: FormValues) => {
+    const code = Object.values(data).join("");
+    await fetcherAuthOTP({ code });
+
+    router.push(`/auth/change?email=${emailValue}`);
   };
 
   const arrayCodes = Array(5)
@@ -43,7 +38,8 @@ export const AuthOTPPage = () => {
     <>
       <AuthContent
         title="Enter OTP"
-        subTitle="We have share a code of your registered email address mark.allen@example.com"
+        subTitle={`Мы поделились кодом вашего зарегистрированного адреса электронной почты ${emailValue}`}
+        linkBack="/auth/forgot"
       >
         <form onSubmit={handleSubmit(handler)}>
           <InputApp.Code codes={arrayCodes as any} />

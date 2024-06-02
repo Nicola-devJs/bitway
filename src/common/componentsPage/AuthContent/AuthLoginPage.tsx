@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import { useController, useForm } from "react-hook-form";
 import { AuthContent } from ".";
@@ -9,6 +9,11 @@ import { LinkApp } from "@/common/UI/link/LinkApp";
 import { theme } from "@/assets/theme/theme";
 import { TextApp } from "@/common/styledComponents/Text";
 import { validateEmail, validatePassword } from "@/common/constants/validation";
+import { fetcherAuthLogin } from "@/services/Auth";
+import { writingToken } from "@/common/helpers/writingToken";
+import { useRouter } from "next/navigation";
+import useSWR from "swr";
+import { useCustomQuery } from "@/common/hooks/customQuery";
 
 interface FormValues {
   email: string;
@@ -17,7 +22,9 @@ interface FormValues {
 }
 
 export const AuthLoginPage = () => {
+  const router = useRouter();
   const { handleSubmit, control } = useForm<FormValues>({ mode: "onBlur" });
+  const { advancedFetcher, isLoading } = useCustomQuery(fetcherAuthLogin);
 
   const { field: email, fieldState: emailState } = useController({
     control,
@@ -34,12 +41,17 @@ export const AuthLoginPage = () => {
     name: "remember",
   });
 
-  const handler = (data: FormValues) => {
-    console.log(data);
+  const handler = async (data: FormValues) => {
+    const { remember, ...user } = data;
+
+    const res = await advancedFetcher(user);
+
+    // writingToken(res.token);
+    // router.push("/");
   };
 
   return (
-    <AuthContent title="Welcome 👋" subTitle="Please login here">
+    <AuthContent title="Welcome 👋" subTitle="Please login here" linkBack="/">
       <form onSubmit={handleSubmit(handler)}>
         <InputApp
           placeholder="Email"
@@ -70,7 +82,7 @@ export const AuthLoginPage = () => {
             Forgot Password?
           </LinkApp>
         </div>
-        <ButtonApp>Login</ButtonApp>
+        <ButtonApp loading={isLoading}>Login</ButtonApp>
       </form>
       <TextBottom>
         Если вы еще не зарегестрированы, перейдите по{" "}

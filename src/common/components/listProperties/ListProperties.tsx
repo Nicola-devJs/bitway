@@ -8,13 +8,13 @@ export type ShowType = "list" | "tile";
 
 interface IProps {
   typeShow: ShowType;
-  countTiles?: number;
+
   properties: IPropertyCard[];
 }
 
-export const ListProperties: FC<IProps> = ({ typeShow, countTiles = 3, properties }) => {
+export const ListProperties: FC<IProps> = ({ typeShow, properties }) => {
   return (
-    <StyledListProperties $typeShow={typeShow} $countTiles={countTiles}>
+    <StyledListProperties $typeShow={typeShow}>
       {properties?.map((prop, id) => (
         <PropertyCard key={id} typeShow={typeShow} {...prop} />
       ))}
@@ -22,7 +22,7 @@ export const ListProperties: FC<IProps> = ({ typeShow, countTiles = 3, propertie
   );
 };
 
-const StyledListProperties = styled.div<{ $typeShow: ShowType; $countTiles: number }>`
+const StyledListProperties = styled.div<{ $typeShow: ShowType }>`
   width: 100%;
   display: grid;
   grid-template-columns: ${(props) => (props.$typeShow === "tile" ? "repeat(auto-fill, minmax(360px, 1fr))" : "1fr")};

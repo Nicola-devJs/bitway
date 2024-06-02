@@ -7,6 +7,7 @@ import { theme } from "@/assets/theme/theme";
 import { playfair } from "@/common/constants/font";
 import { ModalContext } from "@/common/hoc/ModalProvider";
 import { useScreenExtension } from "@/common/hooks/screenExtension";
+import mockImage from "@/assets/images/main-img.jpg";
 
 interface IProps {
   gallery: string[];
@@ -19,6 +20,8 @@ export const GalleryApp: FC<IProps> = ({ gallery }) => {
     { screenExtension: theme.media.phone, maxScreen: true },
   ]);
 
+  console.log(gallery);
+
   const viewPicturies = maxPhoneScreen ? 2 : maxTabletScreen ? 4 : 5;
 
   const openModalSlideHandler = (position: number) => () => {
@@ -29,7 +32,7 @@ export const GalleryApp: FC<IProps> = ({ gallery }) => {
   return (
     <>
       <div style={{ width: "100%", overflow: "hidden" }}>
-        <NextImage info={gallery[0]} $fullWidth $height={679} />
+        <NextImage info={gallery[0] || mockImage} $fullWidth $height={679} />
         <ContainerApp>
           <ContainerImages>
             {gallery.slice(1, viewPicturies).map((img, id) => (

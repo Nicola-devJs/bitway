@@ -10,6 +10,7 @@ import { playfair } from "@/common/constants/font";
 import { LinkApp } from "@/common/UI/link/LinkApp";
 import imageProperty from "@/assets/images/main-img.jpg";
 import { IPropertyCard } from "@/common/interfaces/property/property";
+import { setPathnameImage } from "@/common/helpers/getValidPathnameImg";
 
 interface IProps {
   properties: IPropertyCard[];
@@ -22,8 +23,8 @@ export const FeaturedProperty: FC<IProps> = ({ properties }) => {
     <ContainerApp>
       <FeaturedPropertyBlock>
         <TextApp.Block
-          title="Featured Properties"
-          text="Using it can make you sound like you have been studying english for a long time. Here’s the challenge"
+          title="Популярная недвижимость"
+          text="Перед вами список самых посещаемых объектов на сайте, присмотритесь к ним, возможно это то что вы ищите"
           $mb={50}
           textAlign="center"
         />
@@ -31,7 +32,7 @@ export const FeaturedProperty: FC<IProps> = ({ properties }) => {
           <SliderApp
             slides={properties.slice(0, 5).map((prop) => (
               <FeaturedPropertyImageWrapper>
-                <NextImage info={prop.photos?.[0]} $fullWidth className="img" />
+                <NextImage info={setPathnameImage(0, prop.photos) || imageProperty} $fullWidth className="img" />
               </FeaturedPropertyImageWrapper>
             ))}
             infinityMode={4000}
@@ -42,7 +43,7 @@ export const FeaturedProperty: FC<IProps> = ({ properties }) => {
               {properties[propId]?.heading}
             </PropertyHeading>
             <TextApp color={theme.colors.white} size={20}>
-              ${properties[propId]?.price}
+              {properties[propId]?.price} ₽
             </TextApp>
             <PropertyDescription color={theme.colors.white}>{properties[propId]?.description}</PropertyDescription>
             {/* <FeaturedPropertyInfoComponents>
@@ -55,12 +56,12 @@ export const FeaturedProperty: FC<IProps> = ({ properties }) => {
               ))}
             </FeaturedPropertyInfoComponents> */}
             <LinkApp.Button
-              href={`/properties/${properties[propId]?.id}`}
+              href={`/properties/${properties[propId]?._id}`}
               width={182}
               outlined
               color={theme.colors.white}
             >
-              More Details
+              Узнать больше
             </LinkApp.Button>
           </FeaturedPropertyInfoBlock>
         </div>
@@ -111,13 +112,27 @@ const FeaturedPropertyBlock = styled.div`
 const FeaturedPropertyImageWrapper = styled.div`
   width: 100%;
   height: 34.722vw;
+  background: url(${imageProperty.src}) no-repeat;
+  background-size: cover;
+  background-position: center;
+  border-radius: 1.111vw;
 
   @media (min-width: ${theme.media.desktopLarge}px) {
     height: 500px;
+    border-radius: 16px;
+  }
+
+  @media (max-width: ${theme.media.desktop}px) {
+    border-radius: 1.334vw;
+  }
+
+  @media (max-width: ${theme.media.tablet}px) {
+    border-radius: 2.083vw;
   }
 
   @media (max-width: ${theme.media.phone}px) {
     height: 47.059vw;
+    border-radius: 3.765vw;
   }
 `;
 
