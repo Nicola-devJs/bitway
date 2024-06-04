@@ -125,6 +125,7 @@ export const fetcherAuthMe = async (token: string): Promise<IUserResponse> => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
+      cache: "no-cache",
     });
 
     const data = await res.json();

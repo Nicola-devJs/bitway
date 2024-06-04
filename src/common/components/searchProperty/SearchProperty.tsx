@@ -9,25 +9,58 @@ import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 import { SearchItem } from "./components";
 import Link from "next/link";
 import { mainFilter } from "@/common/constants/mockMainFilter";
+import { useController, useForm } from "react-hook-form";
+import { useRouter } from "next/navigation";
 
+interface IFormValues {
+  location: string;
+  price: string;
+  typeProperty: string;
+}
+// href={`/properties${searchParams ? "?" + searchParams : searchParams}
 export const SearchProperty = () => {
-  const [searchParams, setSearchParams] = useState("");
-  const params = new URLSearchParams();
+  const { control, handleSubmit } = useForm<IFormValues>();
+  const router = useRouter();
 
-  const changeValuesMainFilter = ([key, value]: [string, string]) => {
-    params.set(key, value);
-    setSearchParams(params.toString());
+  const { field: location } = useController({
+    control,
+    name: "location",
+    defaultValue: mainFilter.location.defaultValue.value,
+  });
+  const { field: price } = useController({
+    control,
+    name: "price",
+    defaultValue: mainFilter.price.defaultValue.value,
+  });
+  const { field: typeProperty } = useController({
+    control,
+    name: "typeProperty",
+    defaultValue: mainFilter.typeProperty.defaultValue.value,
+  });
+
+  const setStringSearchParams = (entriesParams: [string, string][]) => {
+    const params = new URLSearchParams();
+    for (let [key, value] of entriesParams) {
+      params.set(key, value);
+    }
+
+    return params.toString();
+  };
+
+  const navigateToSearchParams = (params: IFormValues) => {
+    const searchParams = setStringSearchParams(Object.entries(params));
+    router.push(`properties/?${searchParams}`);
   };
 
   return (
     <ContainerApp>
       <SearchPropertyContainer>
         <SearchPropertyRow>
-          <SearchItem {...mainFilter.location} onChangeHandler={changeValuesMainFilter} type="location" />
-          <SearchItem {...mainFilter.price} onChangeHandler={changeValuesMainFilter} type="price" />
-          <SearchItem {...mainFilter.typeProperty} onChangeHandler={changeValuesMainFilter} type="typeProperty" />
+          <SearchItem {...mainFilter.location} {...location} />
+          <SearchItem {...mainFilter.price} {...price} />
+          <SearchItem {...mainFilter.typeProperty} {...typeProperty} />
         </SearchPropertyRow>
-        <Search href={`/properties${searchParams ? "?" + searchParams : searchParams}`}>
+        <Search onClick={handleSubmit(navigateToSearchParams)}>
           <NextImage info={searchIcon} $width={24} $height={24} objectFit="contain" />
         </Search>
       </SearchPropertyContainer>
@@ -35,7 +68,7 @@ export const SearchProperty = () => {
   );
 };
 
-const SearchPropertyContainer = styled.div`
+const SearchPropertyContainer = styled.form`
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -80,7 +113,7 @@ const SearchPropertyRow = styled.div`
   }
 `;
 
-const Search = styled(Link)`
+const Search = styled.button`
   width: 3.889vw;
   height: 3.889vw;
   border-radius: 0.694vw;

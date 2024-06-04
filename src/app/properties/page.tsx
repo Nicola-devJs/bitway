@@ -11,9 +11,12 @@ export const metadata: Metadata = {
   title: "Properties | Bitway",
 };
 
-export default async function Properties() {
+type PageParams = { params: Record<string, string>; searchParams: Record<string, string> };
+
+export default async function Properties({ searchParams }: PageParams) {
   const properties = await fetcherAllPropertys();
 
+  console.log(JSON.parse(searchParams.price));
   return (
     <>
       <ContainerApp>

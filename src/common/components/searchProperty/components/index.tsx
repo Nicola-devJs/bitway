@@ -4,54 +4,55 @@ import { TextApp } from "@/common/styledComponents/Text";
 import { StaticImageData } from "next/image";
 import styled from "styled-components";
 import { NextImage } from "../../NextImage";
-import { mainFilter } from "@/common/constants/mockMainFilter";
-import { FC, useState } from "react";
+import { generateMainFilterParams } from "@/common/constants/mockMainFilter";
+import { forwardRef, useEffect, useMemo } from "react";
 
-interface IProps {
-  title: string;
-  icon_w: StaticImageData;
-  icon_b: StaticImageData;
+interface IProps extends Exclude<generateMainFilterParams, "key" | "defaultValue"> {
+  onChange: (payload: string) => void;
   value: string;
-  list: string[];
-  type: string;
-  onChangeHandler: (payload: [string, string]) => void;
 }
 
-export const SearchItem: FC<IProps> = ({ icon_b, icon_w, list, title, value, type, onChangeHandler }) => {
-  const [valueSearch, setValueSearch] = useState(value);
+export const SearchItem = forwardRef<HTMLInputElement, IProps>(
+  ({ iconB, iconW, list, title, value, onChange }, ref) => {
+    const handelChangeValueSearch = (searchValue: string) => () => {
+      onChange(searchValue);
+    };
 
-  const handelChangeValueSearch = (itemList: string) => () => {
-    setValueSearch(itemList);
-    onChangeHandler([type, itemList]);
-  };
+    const currentFilterItem = list.find((item) => item.value === value);
 
-  return (
-    <SearchItemContainer key={title}>
-      <SearchPropertyItem>
-        <div>
-          <NextImage info={icon_w} $width={24} $height={24} objectFit="contain" />
-        </div>
+    return (
+      <SearchItemContainer key={title}>
+        <SearchPropertyItem>
+          <div>
+            <NextImage info={iconW} $width={24} $height={24} objectFit="contain" />
+          </div>
 
-        <div>
-          <TextApp.Heading color={theme.colors.white} size={20}>
-            {title}
-          </TextApp.Heading>
-          <TextApp color={theme.colors.whiteOpacity(0.5)}>{valueSearch}</TextApp>
-        </div>
-      </SearchPropertyItem>
-      <SearchItemValues>
-        {list.map((item) => (
-          <li key={item} onClick={handelChangeValueSearch(item)}>
-            <div>
-              <NextImage info={icon_b} $width={24} $height={24} objectFit="contain" />
-            </div>
-            {item}
-          </li>
-        ))}
-      </SearchItemValues>
-    </SearchItemContainer>
-  );
-};
+          <div>
+            <TextApp.Heading color={theme.colors.white} size={20}>
+              {title}
+            </TextApp.Heading>
+            <InputSearch
+              color={theme.colors.whiteOpacity(0.5)}
+              value={currentFilterItem?.label || ""}
+              readOnly
+              ref={ref}
+            />
+          </div>
+        </SearchPropertyItem>
+        <SearchItemValues>
+          {list.map((item) => (
+            <li key={item.value} onClick={handelChangeValueSearch(item.value)}>
+              <div>
+                <NextImage info={iconB} $width={24} $height={24} objectFit="contain" />
+              </div>
+              {item.label}
+            </li>
+          ))}
+        </SearchItemValues>
+      </SearchItemContainer>
+    );
+  }
+);
 
 const SearchItemValues = styled.ul`
   position: absolute;
@@ -256,5 +257,29 @@ const SearchPropertyItem = styled.div`
       height: 14.118vw;
       margin-right: 3.765vw;
     }
+  }
+`;
+
+const InputSearch = styled.input`
+  border: 0;
+  font: inherit;
+  background-color: transparent;
+  font-size: 1.111vw;
+  color: ${theme.colors.whiteOpacity(0.5)};
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    font-size: 16px;
+  }
+
+  @media (max-width: ${theme.media.desktop}px) {
+    font-size: 1.334vw;
+  }
+
+  @media (max-width: ${theme.media.tablet}px) {
+    font-size: 2.083vw;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    font-size: 3.765vw;
   }
 `;

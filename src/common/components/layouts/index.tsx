@@ -1,18 +1,12 @@
 "use client";
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import { usePathname } from "next/navigation";
 import MainLayout from "./MainLayout";
 import AuthLayout from "./AuthLayout";
 import { IUserResponse } from "@/common/interfaces/IAuth";
-import { UserContext } from "@/common/hoc/UserProvider";
 
-export default function Layout({ children, user }: { children: React.ReactNode; user: IUserResponse | null }) {
-  const { changeUser } = useContext(UserContext);
+export default function Layout({ children }: { children: React.ReactNode }) {
   const path = usePathname();
-
-  useEffect(() => {
-    changeUser(user);
-  }, []);
 
   return (
     <>

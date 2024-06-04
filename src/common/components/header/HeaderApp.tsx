@@ -11,16 +11,22 @@ import { HEADER_NAVMENU } from "@/common/constants/mockMenu";
 import { NextImage } from "../NextImage";
 import iconMenu from "@/assets/icons/icon-menu.svg";
 import { HiddenBlock } from "../hiddenBlock/HiddenBlock";
-import { UserContext } from "@/common/hoc/UserProvider";
 import { Status } from "@/common/constants/status";
 import { ButtonApp } from "@/common/UI/button/ButtonApp";
 import { FlexContent } from "@/common/styledComponents/Flex";
-import { deleteCookie } from "@/common/helpers/writingToken";
+import { deleteCookie, getCookie } from "@/common/helpers/writingToken";
 import { ModalContext } from "@/common/hoc/ModalProvider";
+import { fetcherAuthMe } from "@/services/Auth";
+import { IUserResponse } from "@/common/interfaces/IAuth";
 
 const AuthButtons = ({ width }: { width?: number }) => {
-  const { user } = useContext(UserContext);
+  const [checkUser, setCheckUser] = useState<IUserResponse | null>(null);
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
+
+  const handleDeleteCookie = () => {
+    deleteCookie("token");
+    setCheckUser(null);
+  };
 
   const handelLogout = () => {
     setOptionModalHandler({
@@ -28,15 +34,20 @@ const AuthButtons = ({ width }: { width?: number }) => {
       options: {
         title: "Вы действительно хотите выйти",
         textButton: "Выйти",
-        buttonHandler: () => deleteCookie("token"),
+        buttonHandler: handleDeleteCookie,
       },
     });
     showHandler();
   };
 
+  useEffect(() => {
+    const token = getCookie("token");
+    token && fetcherAuthMe(token).then((user) => setCheckUser(user));
+  }, []);
+
   return (
     <>
-      {user?.status === Status.SUCCESS ? (
+      {checkUser?.status === Status.SUCCESS ? (
         <FlexContent $flexGap={20} $align="center">
           <LinkApp.Button href={process.env.NEXT_PUBLIC_ADMIN_API!} width={width}>
             Cabinet

@@ -29,7 +29,7 @@ export const PropertiesList: FC<IProps> = ({ responseProperties }) => {
   const [showType, setShowType] = useState<ShowType>("tile");
   const [sorted, setSorted] = useState<{ label: string; value: string }>(sortedOptions[0]);
   const { showFilter } = useContext(FilterContext);
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(responseProperties.page);
 
   const changeShowTypeHandler = (type: ShowType) => () => setShowType(type);
   const changeActivePage = (page: number) => setPage(page);
@@ -61,7 +61,8 @@ export const PropertiesList: FC<IProps> = ({ responseProperties }) => {
               onClick={changeShowTypeHandler("list")}
             />
             <TextApp>
-              Showing {responseProperties.limit}–{responseProperties.limit} of {responseProperties.items} results
+              Showing {responseProperties.objects.length}–{responseProperties.objects.length} of{" "}
+              {responseProperties.objects.length} results
             </TextApp>
           </HiddenBlock>
         </ShowAndCountPropertiesBlock>
@@ -73,12 +74,7 @@ export const PropertiesList: FC<IProps> = ({ responseProperties }) => {
         />
       </PropertiesToolbar>
       <ListProperties typeShow={showType} properties={responseProperties.objects} />
-      <PaginateApp
-        countItems={responseProperties.items}
-        viewCountItems={4}
-        activeIdPage={page}
-        changeIdPage={changeActivePage}
-      />
+      <PaginateApp amountPages={responseProperties.amountPages} activePage={page} changeActivePage={changeActivePage} />
     </div>
   );
 };

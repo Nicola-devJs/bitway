@@ -5,30 +5,69 @@ import locationIconBlack from "@/assets/icons/filter-panel/location-b.svg";
 import dollarIconBlack from "@/assets/icons/filter-panel/coin-dollar-b.svg";
 import homeIconBlack from "@/assets/icons/filter-panel/home-b.svg";
 
-const listLocation = ["Тирасполь", "Бендеры", "Дубосары", "Григориополь", "Слободзея", "Каменка"];
-const listPrice = ["$100 - 1,000", "1,000 - 10,000", "10,000 - 100,000"];
-const categoryProperty = ["Дом", "Апартаменты", "Гараж", "Пустой участок"];
+const listLocation: FilterOptionType[] = [
+  { label: "Тирасполь", value: "Tiraspol" },
+  { label: "Бендеры", value: "Bendery" },
+  { label: "Дубосары", value: "Dubosary" },
+  { label: "Григориополь", value: "Grigorioply" },
+  { label: "Слободзея", value: "Slobodzea" },
+  { label: "Каменка", value: "Kamenka" },
+];
+const listPrice: FilterOptionType[] = [
+  { label: "100 - 1,000", value: JSON.stringify({ from: 100, to: 1000 }) },
+  { label: "1,000 - 10,000", value: JSON.stringify({ from: 1000, to: 10000 }) },
+  { label: "10,000 - 100,000", value: JSON.stringify({ from: 10000, to: 100000 }) },
+];
+const categoryProperty: FilterOptionType[] = [
+  { label: "Дом", value: "house" },
+  { label: "Апартаменты", value: "apartment" },
+  { label: "Гараж", value: "garage" },
+  { label: "Пустой участок", value: "plot" },
+];
 
-export const mainFilter = {
-  location: {
+type FilterOptionType = { label: string; value: string };
+
+export type generateMainFilterParams = {
+  key: string;
+  title: string;
+  iconW: any;
+  iconB: any;
+  defaultValue: FilterOptionType;
+  list: FilterOptionType[];
+};
+
+const generateMainFilter = (
+  params: generateMainFilterParams[]
+): Record<generateMainFilterParams["key"], Exclude<generateMainFilterParams, "key">> => {
+  return params.reduce((resultFilter, filterItem) => {
+    const { key, ...others } = filterItem;
+    return { ...resultFilter, [filterItem.key]: others };
+  }, {});
+};
+
+export const mainFilter = generateMainFilter([
+  {
+    key: "location",
+    defaultValue: listLocation[0],
     title: "Расположение",
-    icon_w: locationIconWhite,
-    icon_b: locationIconBlack,
-    value: listLocation[0],
+    iconB: locationIconBlack,
+    iconW: locationIconWhite,
     list: listLocation,
   },
-  price: {
+  {
+    key: "price",
+    defaultValue: listPrice[0],
     title: "Стоимость",
-    icon_w: dollarIconWhite,
-    icon_b: dollarIconBlack,
-    value: listPrice[0],
+    iconB: dollarIconBlack,
+    iconW: dollarIconWhite,
     list: listPrice,
   },
-  typeProperty: {
+  {
+    key: "typeProperty",
+    defaultValue: categoryProperty[0],
     title: "Тип строения",
-    icon_w: homeIconWhite,
-    icon_b: homeIconBlack,
-    value: categoryProperty[0],
+    iconB: homeIconBlack,
+    iconW: homeIconWhite,
     list: categoryProperty,
   },
-};
+]);

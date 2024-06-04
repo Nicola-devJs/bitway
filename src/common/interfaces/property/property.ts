@@ -7,7 +7,6 @@ export type IPropertyCard = {
 
 export interface IResponseProperties {
   objects: IPropertyCard[];
-  items: number;
   page: number;
   amountPages: number;
   limit: number;

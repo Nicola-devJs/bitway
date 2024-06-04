@@ -8,40 +8,37 @@ import arrowLeftBlack from "@/assets/icons/slider/arrow-left-b-slider.svg";
 import arrowRightBlack from "@/assets/icons/slider/arrow-right-b-slider.svg";
 
 interface IProps {
-  sizeItem?: number;
-  countItems: number;
-  viewCountItems: number;
-  activeIdPage: number;
-  changeIdPage: (idPage: number) => void;
+  sizePage?: number;
+  activePage: number;
+  changeActivePage: (idPage: number) => void;
+  amountPages: number;
 }
 
-export const PaginateApp: FC<IProps> = ({ sizeItem = 40, countItems, viewCountItems, activeIdPage, changeIdPage }) => {
-  const listPaginate = Array(Math.ceil(countItems / viewCountItems))
-    .fill(1)
-    .map((_, id) => id + 1);
-
-  const isFirstPage = activeIdPage === 0;
-  const isLastPage = activeIdPage === listPaginate.length - 1;
+export const PaginateApp: FC<IProps> = ({ sizePage = 40, amountPages, activePage, changeActivePage }) => {
+  const isFirstPage = activePage === 1;
+  const isLastPage = activePage === amountPages;
 
   return (
     <PaginateContainer>
-      {listPaginate.map((item, id) => (
-        <PaginateItem key={id} $size={sizeItem} $actvie={activeIdPage === id} onClick={() => changeIdPage(id)}>
-          {item}
-        </PaginateItem>
-      ))}
+      {Array(amountPages)
+        .fill(" ")
+        .map((_, id) => (
+          <PaginateItem key={id} $size={sizePage} $actvie={activePage === id + 1} onClick={() => changeActivePage(id)}>
+            {id + 1}
+          </PaginateItem>
+        ))}
       <>
         <PaginateArrowLeft
           $isDisabled={isFirstPage}
           disabled={isFirstPage}
-          onClick={() => changeIdPage(activeIdPage - 1)}
+          onClick={() => changeActivePage(activePage - 1)}
         >
           <NextImage info={arrowLeftBlack} $width={12} $height={8} objectFit="contain" />
         </PaginateArrowLeft>
         <PaginateArrowRight
           $isDisabled={isLastPage}
           disabled={isLastPage}
-          onClick={() => changeIdPage(activeIdPage + 1)}
+          onClick={() => changeActivePage(activePage + 1)}
         >
           <NextImage info={arrowRightBlack} $width={12} $height={8} objectFit="contain" />
         </PaginateArrowRight>
