@@ -8,7 +8,7 @@ import { LinkApp } from "@/common/UI/link/LinkApp";
 import { theme } from "@/assets/theme/theme";
 import { validateEmail, validateName, validatePassword, validateRequired } from "@/common/constants/validation";
 import { fetcherAuthCreate } from "@/services/Auth";
-import { writingToken } from "@/common/helpers/writingToken";
+import { writingToken } from "@/common/helpers/cookie";
 import { useRouter } from "next/navigation";
 import { useCustomQuery } from "@/common/hooks/customQuery";
 

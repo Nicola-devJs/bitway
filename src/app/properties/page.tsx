@@ -8,7 +8,7 @@ import { fetcherAllPropertys } from "@/services/Properties";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Properties | Bitway",
+  title: "Properties | NestHaven",
 };
 
 type PageParams = { params: Record<string, string>; searchParams: Record<string, string> };
@@ -16,17 +16,20 @@ type PageParams = { params: Record<string, string>; searchParams: Record<string,
 export default async function Properties({ searchParams }: PageParams) {
   const properties = await fetcherAllPropertys();
 
-  console.log(JSON.parse(searchParams.price));
   return (
     <>
       <ContainerApp>
         <Breadcrumbs />
-        <FlexContent $flexGap={50}>
-          <FilterProvider>
-            <SidebarFilter />
-            <PropertiesList responseProperties={properties} />
-          </FilterProvider>
-        </FlexContent>
+        {properties?.objects.length ? (
+          <FlexContent $flexGap={50}>
+            <FilterProvider>
+              <SidebarFilter />
+              <PropertiesList responseProperties={properties} />
+            </FilterProvider>
+          </FlexContent>
+        ) : (
+          <div>Объектов не найдено</div>
+        )}
       </ContainerApp>
     </>
   );

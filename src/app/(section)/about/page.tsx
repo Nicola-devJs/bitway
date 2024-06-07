@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "About | Bitway",
+  title: "About | NestHaven",
 };
 
 export default function About() {

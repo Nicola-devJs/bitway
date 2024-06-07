@@ -14,7 +14,7 @@ import { HiddenBlock } from "../hiddenBlock/HiddenBlock";
 import { Status } from "@/common/constants/status";
 import { ButtonApp } from "@/common/UI/button/ButtonApp";
 import { FlexContent } from "@/common/styledComponents/Flex";
-import { deleteCookie, getCookie } from "@/common/helpers/writingToken";
+import { deleteCookie, getCookie } from "@/common/helpers/cookie";
 import { ModalContext } from "@/common/hoc/ModalProvider";
 import { fetcherAuthMe } from "@/services/Auth";
 import { IUserResponse } from "@/common/interfaces/IAuth";

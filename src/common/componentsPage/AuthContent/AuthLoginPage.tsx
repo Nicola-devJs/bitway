@@ -10,7 +10,7 @@ import { theme } from "@/assets/theme/theme";
 import { TextApp } from "@/common/styledComponents/Text";
 import { validateEmail, validatePassword } from "@/common/constants/validation";
 import { fetcherAuthLogin } from "@/services/Auth";
-import { setCookie, writingToken } from "@/common/helpers/writingToken";
+import { setCookie, writingToken } from "@/common/helpers/cookie";
 import { useRouter } from "next/navigation";
 import { useCustomQuery } from "@/common/hooks/customQuery";
 

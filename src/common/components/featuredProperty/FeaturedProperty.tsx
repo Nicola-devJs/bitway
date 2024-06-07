@@ -10,7 +10,6 @@ import { playfair } from "@/common/constants/font";
 import { LinkApp } from "@/common/UI/link/LinkApp";
 import imageProperty from "@/assets/images/main-img.jpg";
 import { IPropertyCard } from "@/common/interfaces/property/property";
-import { setPathnameImage } from "@/common/helpers/getValidPathnameImg";
 
 interface IProps {
   properties: IPropertyCard[];
@@ -32,7 +31,7 @@ export const FeaturedProperty: FC<IProps> = ({ properties }) => {
           <SliderApp
             slides={properties.slice(0, 5).map((prop) => (
               <FeaturedPropertyImageWrapper>
-                <NextImage info={setPathnameImage(0, prop.photos) || imageProperty} $fullWidth className="img" />
+                <NextImage info={prop.photos[0] || imageProperty} $fullWidth className="img" />
               </FeaturedPropertyImageWrapper>
             ))}
             infinityMode={4000}
@@ -112,9 +111,6 @@ const FeaturedPropertyBlock = styled.div`
 const FeaturedPropertyImageWrapper = styled.div`
   width: 100%;
   height: 34.722vw;
-  background: url(${imageProperty.src}) no-repeat;
-  background-size: cover;
-  background-position: center;
   border-radius: 1.111vw;
 
   @media (min-width: ${theme.media.desktopLarge}px) {

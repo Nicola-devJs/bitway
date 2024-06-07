@@ -15,7 +15,6 @@ import { PropertyActions } from "../propertyActions/PropertyActions";
 import { IPropertyCard } from "@/common/interfaces/property/property";
 import { ModalContext } from "@/common/hoc/ModalProvider";
 import mockImage from "@/assets/images/main-img.jpg";
-import { setPathnameImage } from "@/common/helpers/getValidPathnameImg";
 
 interface IProps {}
 
@@ -37,11 +36,11 @@ export const PropertyCard: FC<IProps & IPropertyCard> = ({
   category,
   typeTransaction,
   photos,
+  user,
   _id,
 }) => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
   const openModalGalleryHandler = () => {
-    // TODO Пофиксить изначальную позицию в модалке
     setOptionModalHandler({ type: "gallery", options: { images: photos, initialPosition: 0 } });
     showHandler();
   };
@@ -50,7 +49,7 @@ export const PropertyCard: FC<IProps & IPropertyCard> = ({
     <PropertyCardContainer $typeShow={typeShow}>
       <ContainerImage $typeShow={typeShow}>
         <Link href={`/properties/${_id}`}>
-          <NextImage info={setPathnameImage(0, photos) || mockImage} $fullWidth />
+          <NextImage info={photos[0] || mockImage} $fullWidth />
         </Link>
         <div className="container-icon heart">
           <NextImage info={iconHeart} $width={20} $height={20} objectFit="contain" />
@@ -80,10 +79,10 @@ export const PropertyCard: FC<IProps & IPropertyCard> = ({
         </PropertyComponents>
         <PropertyCardBottom>
           <Profile>
-            <div>
-              <NextImage info={cardImg} $width={34} $height={34} />
-            </div>
-            <TextApp>{"author.name"}</TextApp>
+            <NextImage info={cardImg} $width={34} $height={34} />
+            <TextApp>
+              {user.firstName} {user.lastName}
+            </TextApp>
           </Profile>
           <PropertyActions gapActions={8} sizeIcon={18} sizeWrapper={34} />
         </PropertyCardBottom>
@@ -158,9 +157,6 @@ const ContainerImage = styled.div<{ $typeShow: ShowType }>`
   margin: ${(props) => (props.$typeShow === "tile" ? "0 0 1.111vw 0" : "0 1.389vw 0 0")};
   overflow: hidden;
   position: relative;
-  background: url(${mockImage.src}) no-repeat;
-  background-size: cover;
-  background-position: center;
 
   a {
     height: inherit;
@@ -381,6 +377,10 @@ const Profile = styled.div`
   & > div {
     border-radius: 50%;
     overflow: hidden;
+  }
+
+  & > p {
+    margin-bottom: 0;
   }
 
   @media (min-width: ${theme.media.desktopLarge}px) {

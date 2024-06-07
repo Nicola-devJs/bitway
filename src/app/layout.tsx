@@ -5,8 +5,8 @@ import { jost } from "@/common/constants/font";
 import ModalProvider from "@/common/hoc/ModalProvider";
 
 export const metadata: Metadata = {
-  title: "Bitway",
-  description: "Bitway created by next",
+  title: "NestHaven",
+  description: "NestHaven created by Stas Malyshev",
 };
 
 export default async function RootLayout({

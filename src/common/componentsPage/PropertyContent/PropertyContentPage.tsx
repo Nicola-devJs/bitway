@@ -18,11 +18,16 @@ import { HiddenBlock } from "@/common/components/hiddenBlock/HiddenBlock";
 import { PropertyParams } from "./components/PropertyParams";
 import { PropertyFeatured } from "./components/PropertyFeatured";
 
-export const PropertyContentPage: FC<IPropertyCard> = (propertyData) => {
+interface IProps {
+  property: IPropertyCard;
+}
+
+export const PropertyContentPage: FC<IProps> = ({ property }) => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
+  const authorName = `${property.user.firstName} ${property.user.lastName}`;
 
   const openModalFormFeedback = () => {
-    setOptionModalHandler({ type: "modal", options: { children: <FormFeedback />, width: 700 } });
+    setOptionModalHandler({ type: "modal", options: { children: <FormFeedback author={authorName} />, width: 700 } });
     showHandler();
   };
 
@@ -31,13 +36,13 @@ export const PropertyContentPage: FC<IPropertyCard> = (propertyData) => {
       <PropertyTopInfo>
         <div>
           <TextApp.Heading as="h3" weight={700} size={30} className={playfair.className}>
-            {propertyData.heading}
+            {property.heading}
           </TextApp.Heading>
           <LocationText>
             <NextImage info={locationIcon} $width={24} $height={24} />
-            <TextApp>{propertyData.location}</TextApp>
+            <TextApp>{property.location}</TextApp>
           </LocationText>
-          <TextApp.Heading size={24}>{propertyData.price} ₽</TextApp.Heading>
+          <TextApp.Heading size={24}>{property.price} ₽</TextApp.Heading>
         </div>
         <PropertyTopActionBlock>
           <PropertyActions sizeIcon={24} sizeWrapper={56} gapActions={20} />
@@ -53,14 +58,14 @@ export const PropertyContentPage: FC<IPropertyCard> = (propertyData) => {
           listTabs={[
             {
               title: "Описание",
-              content: <PropertyDescription description={propertyData.description} plans={propertyData.plans} />,
+              content: <PropertyDescription description={property.description} plans={property.plans} />,
             },
-            { title: "Параметры", content: <PropertyParams {...propertyData} /> },
-            { title: "Особенности", content: <PropertyFeatured {...propertyData} /> },
+            { title: "Параметры", content: <PropertyParams {...property} /> },
+            { title: "Особенности", content: <PropertyFeatured {...property} /> },
           ]}
         />
         <HiddenBlock mode="max" extension={theme.media.tablet}>
-          <FormFeedback />
+          <FormFeedback author={authorName} />
         </HiddenBlock>
       </PropertyContentContainer>
     </ContainerApp>

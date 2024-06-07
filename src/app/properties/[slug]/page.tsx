@@ -13,7 +13,7 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
   const property = await fetcherOneProperty(params.slug);
 
   return {
-    title: `${property.heading} | Bitway`,
+    title: `${property.object.heading} | NestHaven`,
   };
 }
 
@@ -21,14 +21,16 @@ export default async function Property({ params }: Params) {
   const property = await fetcherOneProperty(params.slug);
   const properties = await fetcherAllPropertys();
 
+  console.log(property);
+
   return (
     <>
       <ContainerApp>
-        <Breadcrumbs namePage={property.heading} />
+        <Breadcrumbs namePage={property.object.heading} />
       </ContainerApp>
       {/* <GalleryApp gallery={property.photos} /> */}
-      <PropertyContentPage {...property} />
-      <PropertiesBlock properties={properties.objects} $paddingBlock={100} title="Similar Properties" />
+      <PropertyContentPage property={property.object} />
+      <PropertiesBlock properties={property.similarObjects} $paddingBlock={100} title="Similar Properties" />
     </>
   );
 }

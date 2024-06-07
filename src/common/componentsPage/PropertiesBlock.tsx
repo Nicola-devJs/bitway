@@ -32,20 +32,24 @@ export const PropertiesBlock = ({
   return (
     <PropertiesBlockWrapper {...styled}>
       <ContainerApp>
-        {properties.length > 3 ? (
-          <SliderApp
-            slides={properties.map((prop) => (
-              <PropertyCard typeShow="tile" {...prop} />
-            ))}
-            titleSlider={title}
-            countViewSlide={maxPhoneScreen ? 1 : maxTabletScreen ? 2 : 3}
-            countTrack={countTrack}
-          />
+        {properties.length !== 0 ? (
+          properties.length > 3 ? (
+            <SliderApp
+              slides={properties.map((prop) => (
+                <PropertyCard typeShow="tile" {...prop} />
+              ))}
+              titleSlider={title}
+              countViewSlide={maxPhoneScreen ? 1 : maxTabletScreen ? 2 : 3}
+              countTrack={countTrack}
+            />
+          ) : (
+            <>
+              {title && <TextApp.Block title={title} $mb={50} />}
+              <ListProperties typeShow="tile" properties={properties} />
+            </>
+          )
         ) : (
-          <>
-            {title && <TextApp.Block title={title} $mb={50} />}
-            <ListProperties typeShow="tile" properties={properties} />
-          </>
+          <div>Объектов не найдено</div>
         )}
       </ContainerApp>
     </PropertiesBlockWrapper>

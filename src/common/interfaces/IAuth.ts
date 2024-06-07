@@ -10,14 +10,15 @@ export interface ICreateUser extends IAuthUser {
   lastName: string;
 }
 
+export interface IUserData {
+  createdAt: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  updatedAt: string;
+  _id: string;
+}
 export interface IUserResponse {
   status: Status;
-  userData: {
-    createdAt: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    updatedAt: string;
-    _id: string;
-  };
+  userData: IUserData;
 }

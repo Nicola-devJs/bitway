@@ -4,7 +4,7 @@ import { fetcherAllPropertys } from "@/services/Properties";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Featured | Bitway",
+  title: "Featured | NestHaven",
 };
 
 export default async function Page() {

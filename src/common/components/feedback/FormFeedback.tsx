@@ -1,7 +1,7 @@
 "use client";
 import { theme } from "@/assets/theme/theme";
 import { TextApp } from "@/common/styledComponents/Text";
-import React, { useContext } from "react";
+import React, { FC, useContext } from "react";
 import { useController, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { NextImage } from "../NextImage";
@@ -21,7 +21,11 @@ interface FormValues {
   message: string;
 }
 
-export const FormFeedback = () => {
+interface IProps {
+  author: string;
+}
+
+export const FormFeedback: FC<IProps> = ({ author }) => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
   const { handleSubmit, control } = useForm<FormValues>({ mode: "onBlur" });
 
@@ -65,14 +69,14 @@ export const FormFeedback = () => {
 
   return (
     <StyledFormFeedback>
-      <TextApp.Heading>Agent Details</TextApp.Heading>
+      <TextApp.Heading>Напишите автору объявления</TextApp.Heading>
       <AgentInfoBlock>
         <NextImage info={agentAvatar} $width={70} $height={70} />
         <div>
           <TextApp.Heading size={24} className={playfair.className}>
-            Leasie Willions
+            {author}
           </TextApp.Heading>
-          <TextApp color={theme.colors.gray}>Real Estate Agent</TextApp>
+          <TextApp color={theme.colors.gray}>Собственник</TextApp>
         </div>
       </AgentInfoBlock>
       <FormFeedbackBlock>
