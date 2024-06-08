@@ -30,26 +30,34 @@ export const GalleryApp: FC<IProps> = ({ gallery }) => {
   return (
     <>
       <div style={{ width: "100%", overflow: "hidden" }}>
-        <NextImage info={gallery[0] || mockImage} $fullWidth $height={679} />
+        <ContainerImage>
+          <NextImage info={gallery[0] || mockImage} $fullWidth $height={679} />
+        </ContainerImage>
         <ContainerApp>
           <ContainerImages>
             {gallery.slice(1, viewPicturies).map((img, id) => (
-              <NextImage key={id} info={img} $width={212} $height={125} onClick={openModalSlideHandler(id)} />
+              <ContainerImage>
+                <NextImage key={id} info={img} $width={212} $height={125} onClick={openModalSlideHandler(id)} />
+              </ContainerImage>
             ))}
             {gallery.slice(viewPicturies).length === 1 ? (
-              <NextImage
-                info={gallery[viewPicturies]}
-                $width={212}
-                $height={125}
-                onClick={openModalSlideHandler(viewPicturies)}
-              />
+              <ContainerImage>
+                <NextImage
+                  info={gallery[viewPicturies]}
+                  $width={212}
+                  $height={125}
+                  onClick={openModalSlideHandler(viewPicturies)}
+                />
+              </ContainerImage>
             ) : gallery.slice(viewPicturies).length > 1 ? (
               <MoreImages
                 className={playfair.className}
                 onClick={openModalSlideHandler(viewPicturies - 1)}
                 $remaining={gallery.slice(viewPicturies).length}
               >
-                <NextImage info={gallery[viewPicturies]} $width={212} $height={125} />
+                <ContainerImage>
+                  <NextImage info={gallery[viewPicturies]} $width={212} $height={125} />
+                </ContainerImage>
               </MoreImages>
             ) : null}
           </ContainerImages>
@@ -141,4 +149,11 @@ const MoreImages = styled.div<{ $remaining: number }>`
       font-size: 5.647vw;
     }
   }
+`;
+
+const ContainerImage = styled.div`
+  background-image: url(${mockImage.src});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 `;

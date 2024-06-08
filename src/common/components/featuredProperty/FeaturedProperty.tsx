@@ -112,6 +112,10 @@ const FeaturedPropertyImageWrapper = styled.div`
   width: 100%;
   height: 34.722vw;
   border-radius: 1.111vw;
+  background-image: url(${imageProperty.src});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 
   @media (min-width: ${theme.media.desktopLarge}px) {
     height: 500px;

@@ -169,6 +169,10 @@ const ContainerImage = styled.div<{ $typeShow: ShowType }>`
   height: ${(props) => (props.$typeShow === "tile" ? "18.472vw" : "16.528vw")};
   border-radius: 0.833vw;
   margin: ${(props) => (props.$typeShow === "tile" ? "0 0 1.111vw 0" : "0 1.389vw 0 0")};
+  background-image: url(${mockImage.src});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   overflow: hidden;
   position: relative;
 

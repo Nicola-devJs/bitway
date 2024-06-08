@@ -6,7 +6,7 @@ import React, { FC, useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { ModalContext } from "@/common/hoc/ModalProvider";
 import { PropertyContentBlock, PropertyContentBody } from "../PropertyContentPage";
-
+import mockImage from "@/assets/images/main-img.jpg";
 interface IProps {
   description: string;
   plans: string[];
@@ -26,12 +26,14 @@ export const PropertyDescription: FC<IProps> = ({ description, plans }) => {
         <PropertyContentBlock>
           <TextApp>{description}</TextApp>
         </PropertyContentBlock>
-        {plans && (
+        {!!plans.length && (
           <div>
             <TextApp.Heading>Планировка объекта</TextApp.Heading>
             <FloorPlanBlock>
               {plans.map((plan, id) => (
-                <NextImage key={id} info={plan} $fullWidth $height={278} onClick={openModalSlideHandler(id)} />
+                <ContainerFloorPlan>
+                  <NextImage key={id} info={plan} $fullWidth $height={278} onClick={openModalSlideHandler(id)} />
+                </ContainerFloorPlan>
               ))}
             </FloorPlanBlock>
           </div>
@@ -67,4 +69,11 @@ const FloorPlanBlock = styled.div`
   @media (max-width: ${theme.media.phone}px) {
     grid-gap: 2.353vw;
   }
+`;
+
+const ContainerFloorPlan = styled.div`
+  background-image: url(${mockImage.src});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
 `;
