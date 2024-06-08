@@ -5,24 +5,31 @@ import locationIconBlack from "@/assets/icons/filter-panel/location-b.svg";
 import dollarIconBlack from "@/assets/icons/filter-panel/coin-dollar-b.svg";
 import homeIconBlack from "@/assets/icons/filter-panel/home-b.svg";
 
-const listLocation: FilterOptionType[] = [
-  { label: "Тирасполь", value: "Tiraspol" },
-  { label: "Бендеры", value: "Bendery" },
-  { label: "Дубосары", value: "Dubosary" },
-  { label: "Григориополь", value: "Grigorioply" },
-  { label: "Слободзея", value: "Slobodzea" },
-  { label: "Каменка", value: "Kamenka" },
+export const listLocation: FilterOptionType[] = [
+  { label: "Тирасполь", value: "Тирасполь" },
+  { label: "Бендеры", value: "Бендеры" },
+  { label: "Дубосары", value: "Дубосары" },
+  { label: "Григориополь", value: "Григориополь" },
+  { label: "Слободзея", value: "Слободзея" },
+  { label: "Каменка", value: "Каменка" },
 ];
-const listPrice: FilterOptionType[] = [
+export const listPrice: FilterOptionType[] = [
   { label: "100 - 1,000", value: JSON.stringify({ from: 100, to: 1000 }) },
   { label: "1,000 - 10,000", value: JSON.stringify({ from: 1000, to: 10000 }) },
   { label: "10,000 - 100,000", value: JSON.stringify({ from: 10000, to: 100000 }) },
 ];
-const categoryProperty: FilterOptionType[] = [
-  { label: "Дом", value: "house" },
-  { label: "Апартаменты", value: "apartment" },
-  { label: "Гараж", value: "garage" },
-  { label: "Пустой участок", value: "plot" },
+export const categoryProperty: FilterOptionType[] = [
+  { label: "Дом", value: "Дом" },
+  { label: "Апартаменты", value: "Апартаменты" },
+  { label: "Гараж", value: "Гараж" },
+  { label: "Пустой участок", value: "Пустой участок" },
+];
+
+export const listFloor: FilterOptionType[] = [
+  { label: "1", value: "1" },
+  { label: "2", value: "2" },
+  { label: "3", value: "3" },
+  { label: "4", value: "4" },
 ];
 
 type FilterOptionType = { label: string; value: string };

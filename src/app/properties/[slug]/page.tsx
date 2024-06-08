@@ -28,7 +28,7 @@ export default async function Property({ params }: Params) {
       <ContainerApp>
         <Breadcrumbs namePage={property.object.heading} />
       </ContainerApp>
-      {/* <GalleryApp gallery={property.photos} /> */}
+      <GalleryApp gallery={property.object.photos} />
       <PropertyContentPage property={property.object} />
       <PropertiesBlock properties={property.similarObjects} $paddingBlock={100} title="Similar Properties" />
     </>

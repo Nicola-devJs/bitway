@@ -142,7 +142,7 @@ InputApp.Code = ({ codes }: IPropsCode) => {
 InputApp.Phone = ({ label, errorMessage, onChange, size = 16, ...props }: IProps) => {
   const phoneHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value.replace(/[^+\d]/g, "");
-    onChange(value);
+    onChange?.(value);
   };
 
   return (

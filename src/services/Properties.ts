@@ -6,7 +6,7 @@ type FetcherAllPropertysType = { page?: number; limit?: number } | void;
 
 export const fetcherAllPropertys = async (): Promise<IResponseProperties> => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/properties`, { cache: "no-cache" });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/properties/`, { cache: "no-cache" });
 
     return res.json();
   } catch (err) {
