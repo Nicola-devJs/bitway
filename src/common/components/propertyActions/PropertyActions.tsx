@@ -4,6 +4,7 @@ import React, { FC } from "react";
 import styled from "styled-components";
 import iconShare from "@/assets/icons/property-card/share.svg";
 import iconHeart from "@/assets/icons/property-card/heart.svg";
+import iconHeartActive from "@/assets/icons/property-card/heart_active.svg";
 import { NextImage } from "../NextImage";
 import { transformAdaptiveSize } from "@/common/helpers/transformValues";
 
@@ -11,15 +12,30 @@ interface IProps {
   sizeIcon: number;
   sizeWrapper: number;
   gapActions: number;
+  handleFavouriteProperty: () => void;
+  handleShareProperty?: () => void;
+  isActiveHeart: boolean;
 }
 
-export const PropertyActions: FC<IProps> = ({ sizeIcon, sizeWrapper, gapActions }) => {
+export const PropertyActions: FC<IProps> = ({
+  sizeIcon,
+  sizeWrapper,
+  gapActions,
+  handleFavouriteProperty,
+  handleShareProperty,
+  isActiveHeart,
+}) => {
   return (
     <StyledPropertyActions $size={sizeWrapper} $gap={gapActions}>
-      <div>
-        <NextImage info={iconHeart} $width={sizeIcon} $height={sizeIcon} objectFit="contain" />
+      <div onClick={handleFavouriteProperty}>
+        <NextImage
+          info={isActiveHeart ? iconHeartActive : iconHeart}
+          $width={sizeIcon}
+          $height={sizeIcon}
+          objectFit="contain"
+        />
       </div>
-      <div>
+      <div onClick={handleShareProperty}>
         <NextImage info={iconShare} $width={sizeIcon} $height={sizeIcon} objectFit="contain" />
       </div>
     </StyledPropertyActions>

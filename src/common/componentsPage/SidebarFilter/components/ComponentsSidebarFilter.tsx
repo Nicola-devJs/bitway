@@ -3,10 +3,13 @@ import { InputApp } from "@/common/UI/input/InputApp";
 import { SelectApp } from "@/common/UI/select/SelectApp";
 import { categoryProperty, listFloor, listLocation } from "@/common/constants/mockMainFilter";
 import { TextApp } from "@/common/styledComponents/Text";
+import { ReadonlyURLSearchParams } from "next/navigation";
 import React, { useState } from "react";
 import styled from "styled-components";
 
-const PropertyType = () => {
+type SearchParamsType = { searchParams?: ReadonlyURLSearchParams };
+
+const PropertyType = ({ searchParams }: SearchParamsType) => {
   return (
     <ContainerContent>
       <InputApp.Checkbox label="Продажа" onChange={(data) => console.log(data)} />
@@ -15,25 +18,39 @@ const PropertyType = () => {
   );
 };
 
-const Categories = () => {
+const Categories = ({ searchParams }: SearchParamsType) => {
+  const value = searchParams?.get("typeProperty");
+
   return (
     <ContainerContent>
       {categoryProperty.map((category) => (
-        <InputApp.Checkbox label={category.value} key={category.value} onChange={(data) => console.log(data)} />
+        <InputApp.Checkbox
+          label={category.value}
+          key={category.value}
+          checked={category.value === value}
+          onChange={(data) => console.log(data)}
+        />
       ))}
     </ContainerContent>
   );
 };
 
-const Location = () => {
+const Location = ({ searchParams }: SearchParamsType) => {
+  const value = searchParams?.get("location");
+
   return (
     <ContainerContent>
-      <SelectApp label="Локация" options={listLocation} changeHandler={(locale) => console.log(locale)} />
+      <SelectApp
+        label="Локация"
+        options={listLocation}
+        changeHandler={(locale) => console.log(locale)}
+        value={value || ""}
+      />
     </ContainerContent>
   );
 };
 
-const Rooms = () => {
+const Rooms = ({ searchParams }: SearchParamsType) => {
   return (
     <ContainerContent>
       <SelectApp label="Rooms" options={listFloor} changeHandler={(locale) => console.log(locale)} />
@@ -41,16 +58,18 @@ const Rooms = () => {
   );
 };
 
-const PriceRange = () => {
+const PriceRange = ({ searchParams }: SearchParamsType) => {
+  const value = searchParams?.get("price");
+  const rangeData: { from: number; to: number } = JSON.parse(value || "{}");
   const priceMax = 100;
-  const [rangeState, setRangeState] = useState({ min: 0, max: priceMax });
+  const [rangeState, setRangeState] = useState({ min: rangeData.from, max: rangeData.to });
 
   return (
     <ContainerContent>
       <InputApp.Range
-        min={0}
-        max={priceMax}
-        priceGap={priceMax * 0.1}
+        min={rangeData.from}
+        max={rangeData.to}
+        priceGap={rangeData.to * 0.1}
         rangeState={rangeState}
         setRangeState={setRangeState}
       >

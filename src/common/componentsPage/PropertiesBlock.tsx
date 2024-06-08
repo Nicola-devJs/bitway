@@ -36,7 +36,7 @@ export const PropertiesBlock = ({
           properties.length > 3 ? (
             <SliderApp
               slides={properties.map((prop) => (
-                <PropertyCard typeShow="tile" {...prop} />
+                <PropertyCard typeShow="tile" property={prop} />
               ))}
               titleSlider={title}
               countViewSlide={maxPhoneScreen ? 1 : maxTabletScreen ? 2 : 3}

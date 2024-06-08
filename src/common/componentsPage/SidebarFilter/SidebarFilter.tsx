@@ -9,6 +9,7 @@ import { ButtonApp } from "@/common/UI/button/ButtonApp";
 import { FilterContext } from "@/common/hoc/FilterProvider";
 import { HiddenBlock } from "@/common/components/hiddenBlock/HiddenBlock";
 import { useSearchParams } from "next/navigation";
+import React from "react";
 
 export const SidebarFilter = () => {
   const { isShowFilter, hideFilter } = useContext(FilterContext);
@@ -27,7 +28,7 @@ export const SidebarFilter = () => {
       {ComponentsSidebarFilter.map((filter, id) => (
         <ContentContainer key={id}>
           <Accordion label={filter.label} zIndex={filter.zIndex} initialView={true}>
-            {filter.content}
+            {React.createElement(filter.content.type, { ...filter.content.props, searchParams })}
           </Accordion>
         </ContentContainer>
       ))}

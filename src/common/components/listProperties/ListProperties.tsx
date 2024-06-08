@@ -16,7 +16,7 @@ export const ListProperties: FC<IProps> = ({ typeShow, properties }) => {
   return (
     <StyledListProperties $typeShow={typeShow}>
       {properties?.map((prop, id) => (
-        <PropertyCard key={id} typeShow={typeShow} {...prop} />
+        <PropertyCard key={id} typeShow={typeShow} property={prop} />
       ))}
     </StyledListProperties>
   );

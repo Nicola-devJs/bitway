@@ -20,8 +20,6 @@ export const GalleryApp: FC<IProps> = ({ gallery }) => {
     { screenExtension: theme.media.phone, maxScreen: true },
   ]);
 
-  console.log(gallery);
-
   const viewPicturies = maxPhoneScreen ? 2 : maxTabletScreen ? 4 : 5;
 
   const openModalSlideHandler = (position: number) => () => {

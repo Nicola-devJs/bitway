@@ -3,7 +3,7 @@ import { GalleryApp } from "@/common/components/gallery/GalleryApp";
 import { PropertiesBlock } from "@/common/componentsPage/PropertiesBlock";
 import { PropertyContentPage } from "@/common/componentsPage/PropertyContent/PropertyContentPage";
 import { ContainerApp } from "@/common/styledComponents/ContainerApp";
-import { fetcherAllPropertys, fetcherOneProperty } from "@/services/Properties";
+import { fetcherOneProperty } from "@/services/Properties";
 import { Metadata } from "next";
 import React from "react";
 
@@ -19,9 +19,6 @@ export async function generateMetadata({ params }: Params): Promise<Metadata> {
 
 export default async function Property({ params }: Params) {
   const property = await fetcherOneProperty(params.slug);
-  const properties = await fetcherAllPropertys();
-
-  console.log(property);
 
   return (
     <>

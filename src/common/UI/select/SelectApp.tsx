@@ -34,7 +34,7 @@ interface IPropsSorted extends IPropsSwitcher {
   value: string;
 }
 
-const SelectApp = ({ label, errorMessage, options = [], changeHandler, size = 16, ...props }: IProps) => {
+const SelectApp = ({ label, errorMessage, options = [], changeHandler, size = 16, value, ...props }: IProps) => {
   const [openSelect, setOpenSelect] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
 
@@ -75,9 +75,9 @@ const SelectApp = ({ label, errorMessage, options = [], changeHandler, size = 16
           className={jost.className}
           $error={!!errorMessage}
           onMouseDown={openSelectHandler}
-          value={props.value || "Не выбран"}
           readOnly
           $size={size}
+          value={value || "Не выбран"}
           {...props}
         />
         <NextImage info={arrowSelect} $width={17} onClick={() => setOpenSelect((prev) => !prev)} />

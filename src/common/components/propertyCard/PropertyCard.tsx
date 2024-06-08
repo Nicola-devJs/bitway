@@ -1,6 +1,6 @@
 "use client";
 import { theme } from "@/assets/theme/theme";
-import React, { FC, useContext } from "react";
+import React, { FC, useContext, useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import { NextImage } from "../NextImage";
@@ -9,12 +9,15 @@ import { TextApp } from "@/common/styledComponents/Text";
 import { playfair } from "@/common/constants/font";
 import { propertyCardIconsBlack } from "@/common/constants/constantImages";
 import iconHeart from "@/assets/icons/property-card/heart.svg";
+import iconHeartActive from "@/assets/icons/property-card/heart_active.svg";
 import iconLoupe from "@/assets/icons/property-card/loupe.svg";
 import { ShowType } from "../listProperties/ListProperties";
 import { PropertyActions } from "../propertyActions/PropertyActions";
 import { IPropertyCard } from "@/common/interfaces/property/property";
 import { ModalContext } from "@/common/hoc/ModalProvider";
 import mockImage from "@/assets/images/main-img.jpg";
+import { fetcherAddFavourite } from "@/services/Properties";
+import { getCookie } from "@/common/helpers/cookie";
 
 interface IProps {}
 
@@ -26,49 +29,53 @@ const iconComponents = [
 
 interface IProps {
   typeShow: ShowType;
+  property: IPropertyCard;
 }
 
-export const PropertyCard: FC<IProps & IPropertyCard> = ({
-  typeShow,
-  description,
-  heading,
-  price,
-  category,
-  typeTransaction,
-  photos,
-  user,
-  _id,
-}) => {
+// TODO Добавить в оповещение после добавления / удаления избранных
+
+export const PropertyCard: FC<IProps> = ({ typeShow, property }) => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
+  const [isFavourite, setFavourite] = useState(property.favourite);
   const openModalGalleryHandler = () => {
-    setOptionModalHandler({ type: "gallery", options: { images: photos, initialPosition: 0 } });
+    setOptionModalHandler({ type: "gallery", options: { images: property.photos, initialPosition: 0 } });
     showHandler();
+  };
+
+  const toggleFavouriteProperty = async () => {
+    const token = getCookie("token");
+    if (!token) {
+      return;
+    }
+
+    const res = await fetcherAddFavourite({ ...property, favourite: isFavourite }, token);
+    setFavourite((prev) => !prev);
   };
 
   return (
     <PropertyCardContainer $typeShow={typeShow}>
       <ContainerImage $typeShow={typeShow}>
-        <Link href={`/properties/${_id}`}>
-          <NextImage info={photos[0] || mockImage} $fullWidth />
+        <Link href={`/properties/${property._id}`}>
+          <NextImage info={property.photos[0] || mockImage} $fullWidth />
         </Link>
-        <div className="container-icon heart">
-          <NextImage info={iconHeart} $width={20} $height={20} objectFit="contain" />
+        <div className="container-icon heart" onClick={toggleFavouriteProperty}>
+          <NextImage info={isFavourite ? iconHeartActive : iconHeart} $width={20} $height={20} objectFit="contain" />
         </div>
-        {photos.length > 1 && (
+        {property.photos.length > 1 && (
           <div className="container-icon loupe" onClick={openModalGalleryHandler}>
             <NextImage info={iconLoupe} $width={20} $height={20} objectFit="contain" />
           </div>
         )}
       </ContainerImage>
       <PropertyCardContent>
-        <Link href={`/properties/${_id}`}>
+        <Link href={`/properties/${property._id}`}>
           <PropertyCardHeading className={playfair.className} size={24} weight={700}>
-            {heading} {category}
+            {property.heading}
           </PropertyCardHeading>
         </Link>
-        <TextApp size={20}>${price}</TextApp>
+        <TextApp size={20}>${property.price}</TextApp>
         <PropertyCardDescription color={theme.colors.gray} className="property_card_text">
-          {description}
+          {property.description}
         </PropertyCardDescription>
         <PropertyComponents>
           {iconComponents.map((comp) => (
@@ -81,10 +88,16 @@ export const PropertyCard: FC<IProps & IPropertyCard> = ({
           <Profile>
             <NextImage info={cardImg} $width={34} $height={34} />
             <TextApp>
-              {user.firstName} {user.lastName}
+              {property.user.firstName} {property.user.lastName}
             </TextApp>
           </Profile>
-          <PropertyActions gapActions={8} sizeIcon={18} sizeWrapper={34} />
+          <PropertyActions
+            gapActions={8}
+            sizeIcon={18}
+            sizeWrapper={34}
+            handleFavouriteProperty={toggleFavouriteProperty}
+            isActiveHeart={isFavourite}
+          />
         </PropertyCardBottom>
       </PropertyCardContent>
     </PropertyCardContainer>
@@ -94,6 +107,7 @@ export const PropertyCard: FC<IProps & IPropertyCard> = ({
 const PropertyCardContainer = styled.article<{ $typeShow: ShowType }>`
   background-color: ${theme.colors.white};
   width: 100%;
+  height: 100%;
   border-radius: 1.111vw;
   padding: 1.389vw;
   display: flex;

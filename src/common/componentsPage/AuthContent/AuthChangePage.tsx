@@ -30,7 +30,6 @@ export const AuthChangePage = () => {
     const data = { password, email };
 
     const res = await advancedFetcher(data);
-    console.log(res);
 
     await setOptionModalHandler({
       type: "alert",

@@ -1,5 +1,5 @@
 "use client";
-import React, { FC, useContext } from "react";
+import React, { FC, useContext, useState } from "react";
 import styled from "styled-components";
 import { theme } from "@/assets/theme/theme";
 import { playfair } from "@/common/constants/font";
@@ -17,6 +17,8 @@ import { IPropertyCard } from "@/common/interfaces/property/property";
 import { HiddenBlock } from "@/common/components/hiddenBlock/HiddenBlock";
 import { PropertyParams } from "./components/PropertyParams";
 import { PropertyFeatured } from "./components/PropertyFeatured";
+import { getCookie } from "@/common/helpers/cookie";
+import { fetcherAddFavourite } from "@/services/Properties";
 
 interface IProps {
   property: IPropertyCard;
@@ -24,11 +26,22 @@ interface IProps {
 
 export const PropertyContentPage: FC<IProps> = ({ property }) => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
+  const [isFavourite, setFavourite] = useState(property.favourite);
   const authorName = `${property.user.firstName} ${property.user.lastName}`;
 
   const openModalFormFeedback = () => {
     setOptionModalHandler({ type: "modal", options: { children: <FormFeedback author={authorName} />, width: 700 } });
     showHandler();
+  };
+
+  const toggleFavouriteProperty = async () => {
+    const token = getCookie("token");
+    if (!token) {
+      return;
+    }
+
+    const res = await fetcherAddFavourite({ ...property, favourite: isFavourite }, token);
+    setFavourite((prev) => !prev);
   };
 
   return (
@@ -45,7 +58,13 @@ export const PropertyContentPage: FC<IProps> = ({ property }) => {
           <TextApp.Heading size={24}>{property.price} ₽</TextApp.Heading>
         </div>
         <PropertyTopActionBlock>
-          <PropertyActions sizeIcon={24} sizeWrapper={56} gapActions={20} />
+          <PropertyActions
+            sizeIcon={24}
+            sizeWrapper={56}
+            gapActions={20}
+            isActiveHeart={isFavourite}
+            handleFavouriteProperty={toggleFavouriteProperty}
+          />
           <HiddenBlock mode="min" extension={theme.media.tablet}>
             <ButtonApp onClick={openModalFormFeedback} width={98}>
               Send

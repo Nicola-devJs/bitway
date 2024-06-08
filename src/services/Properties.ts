@@ -25,3 +25,40 @@ export const fetcherOneProperty = async (id: string): Promise<IResponseProperty>
     throw new Error("Invalid request get one Property");
   }
 };
+
+export const fetcherAddFavourite = async (property: IPropertyCard, token: string) => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/properties`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${token}`,
+      },
+      body: JSON.stringify(property),
+      cache: "no-cache",
+    });
+
+    return res.json();
+  } catch (err) {
+    console.error(err);
+    throw new Error("Invalid request get one Property");
+  }
+};
+
+export const fetcherGetAllFavourite = async (token?: string): Promise<IResponseProperties> => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/auth/me/favourites`, {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+
+      cache: "no-cache",
+    });
+
+    return res.json();
+  } catch (err) {
+    console.error(err);
+    throw new Error("Invalid request get one Property");
+  }
+};
