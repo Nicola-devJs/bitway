@@ -34,9 +34,9 @@ export const AuthChangePage = () => {
     await setOptionModalHandler({
       type: "alert",
       options: {
-        title: "Password Changed Successfully",
-        text: "Your password has been updated successfully",
-        textButton: "Back to Login",
+        title: "Пароль изменен успешно",
+        text: "Ваш пароль обновлен успешно",
+        textButton: "Вернуться на страницу входа",
         buttonHandler: () => router.push("/auth/login"),
       },
     });
@@ -59,25 +59,25 @@ export const AuthChangePage = () => {
 
   return (
     <>
-      <AuthContent title="Enter OTP" subTitle={`Вы можете изменить свой пароль`}>
+      <AuthContent title="Новый пароль" subTitle={`Вы можете изменить свой пароль`}>
         <form onSubmit={handleSubmit(handler)}>
           <InputApp.Password
-            placeholder="Password"
-            label="Password"
+            placeholder="Введите пароль"
+            label="Пароль"
             value={password.value}
             onChange={password.onChange}
             onBlur={password.onBlur}
             errorMessage={passwordState.error?.message}
           />
           <InputApp.Password
-            placeholder="Password"
-            label="Password again"
+            placeholder="Введите пароль повторно"
+            label="Повтор пароля"
             value={againPassword.value}
             onChange={againPassword.onChange}
             onBlur={againPassword.onBlur}
             errorMessage={againPasswordState.error?.message}
           />
-          <ButtonApp loading={isLoading}>Change</ButtonApp>
+          <ButtonApp loading={isLoading}>Изменить</ButtonApp>
         </form>
       </AuthContent>
     </>

@@ -26,7 +26,7 @@ export const fetcherOneProperty = async (id: string): Promise<IResponseProperty>
   }
 };
 
-export const fetcherAddFavourite = async (property: IPropertyCard, token: string) => {
+export const fetcherSwitchFavourite = async (property: IPropertyCard, token: string) => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/properties`, {
       method: "POST",

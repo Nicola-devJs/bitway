@@ -81,15 +81,15 @@ export const FormFeedback: FC<IProps> = ({ author }) => {
       </AgentInfoBlock>
       <FormFeedbackBlock>
         <InputApp
-          label="Name"
-          placeholder="Enter Your Name"
+          label="Имя"
+          placeholder="Введите ваше имя"
           value={name.value}
           onChange={name.onChange}
           onBlur={name.onBlur}
           errorMessage={nameState.error?.message}
         />
         <InputApp
-          placeholder="Enter Your Email"
+          placeholder="Введите ваш email"
           type="email"
           label="Email"
           value={email.value}
@@ -98,23 +98,23 @@ export const FormFeedback: FC<IProps> = ({ author }) => {
           errorMessage={emailState.error?.message}
         />
         <InputApp.Phone
-          placeholder="Enter Your Phone"
-          label="Phone"
+          placeholder="Введите ваш телефон"
+          label="Телефон"
           value={phone.value}
           onChange={phone.onChange}
           onBlur={phone.onBlur}
           errorMessage={phoneState.error?.message}
         />
         <InputApp.Text
-          placeholder="Enter Your Message"
-          label="Message"
+          placeholder="Напишите ваше сообщение"
+          label="Сообщение"
           value={message.value}
           onChange={message.onChange}
           onBlur={message.onBlur}
           errorMessage={messageState.error?.message}
         />
         <CommunicationBlock>
-          <ButtonApp onClick={handleSubmit(sendMessageHandler)}>Send Enquiry</ButtonApp>
+          <ButtonApp onClick={handleSubmit(sendMessageHandler)}>Отправить</ButtonApp>
 
           <LinkApp.Button href="https://t.me/" outlined icon="telegram">
             Telegram

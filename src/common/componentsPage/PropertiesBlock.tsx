@@ -32,8 +32,8 @@ export const PropertiesBlock = ({
   return (
     <PropertiesBlockWrapper {...styled}>
       <ContainerApp>
-        {properties.length !== 0 ? (
-          properties.length > 3 ? (
+        {properties?.length !== 0 ? (
+          properties?.length > 3 ? (
             <SliderApp
               slides={properties.map((prop) => (
                 <PropertyCard typeShow="tile" property={prop} />

@@ -17,8 +17,8 @@ import { HiddenBlock } from "@/common/components/hiddenBlock/HiddenBlock";
 
 // TODO хардкод по сортировке объектов
 const sortedOptions = [
-  { label: "hight", value: "hight" },
-  { label: "low", value: "low" },
+  { label: "возрастанию", value: "hight" },
+  { label: "убыванию", value: "low" },
 ];
 
 interface IProps {
@@ -40,7 +40,7 @@ export const PropertiesList: FC<IProps> = ({ responseProperties }) => {
         <ShowAndCountPropertiesBlock>
           <HiddenBlock mode="min" extension={theme.media.tablet}>
             <ButtonApp width={98} onClick={showFilter}>
-              Filter
+              Фильтр
             </ButtonApp>
           </HiddenBlock>
 
@@ -61,13 +61,13 @@ export const PropertiesList: FC<IProps> = ({ responseProperties }) => {
               onClick={changeShowTypeHandler("list")}
             />
             <TextApp>
-              Showing {responseProperties.objects.length}–{responseProperties.objects.length} of{" "}
-              {responseProperties.objects.length} results
+              Показано {responseProperties.objects.length}–{responseProperties.objects.length} из{" "}
+              {responseProperties.objects.length} результатов
             </TextApp>
           </HiddenBlock>
         </ShowAndCountPropertiesBlock>
         <SelectApp.Sorted
-          label="Sorted by"
+          label="Сортировать по"
           options={sortedOptions}
           value={sorted.label}
           changeHandler={(sort) => setSorted({ label: sort as string, value: sort as string })}

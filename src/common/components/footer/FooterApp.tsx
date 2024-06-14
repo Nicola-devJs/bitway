@@ -18,9 +18,9 @@ export const FooterApp = () => {
           <Column>
             <LogoApp isWhite size={123} />
             <TextApp color={theme.colors.white}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, repudiandae minima. Ea hic pariatur a
-              totam voluptas ipsam doloremque, id quod sit sed error repellendus voluptates eligendi qui doloribus
-              architecto?
+              Nest Haven – это веб-сервис, предоставляющий пользователям возможность поиска, просмотра и взаимодействия
+              с недвижимостью. Основные функции включают поиск недвижимости по различным параметрам, просмотр подробной
+              информации об объектах, добавление объектов в избранное и многое другое.
             </TextApp>
           </Column>
           {FOOTER_NAVMENU.map((itemMenu) => (
@@ -38,8 +38,8 @@ export const FooterApp = () => {
             </Column>
           ))}
           <Column>
-            <TextApp.Heading color={theme.colors.white}>Our Location</TextApp.Heading>
-            <TextApp color={theme.colors.white}>2972 Westheimer Rd. Santa Ana, Illinois 85486 </TextApp>
+            <TextApp.Heading color={theme.colors.white}>Место положения</TextApp.Heading>
+            <TextApp color={theme.colors.white}>Приднестровье г. Тирасполь, ул. Чеканая, 179 (б)</TextApp>
             <ContainerSocialIcons>
               <SocialIcon $href={twitter.src} />
               <SocialIcon $href={facebook.src} />
@@ -48,7 +48,7 @@ export const FooterApp = () => {
           </Column>
         </FooterColumns>
         <FooterBottom>
-          <span>Copyright 2022 flora. All Rights Reserved</span>
+          <span>Copyright 2024 PMR. All Rights Reserved</span>
           <div>
             <span>Terms & Conditions</span>
             <span>Privacy Policy</span>

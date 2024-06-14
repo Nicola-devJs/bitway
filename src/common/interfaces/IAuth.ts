@@ -15,6 +15,7 @@ export interface IUserData {
   email: string;
   firstName: string;
   lastName: string;
+  favouriteObject: string[];
   updatedAt: string;
   _id: string;
 }

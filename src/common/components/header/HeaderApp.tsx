@@ -50,15 +50,15 @@ const AuthButtons = ({ width }: { width?: number }) => {
       {checkUser?.status === Status.SUCCESS ? (
         <FlexContent $flexGap={20} $align="center">
           <LinkApp.Button href={process.env.NEXT_PUBLIC_ADMIN_API!} width={width}>
-            Cabinet
+            Кабинет
           </LinkApp.Button>
           <ButtonApp width={width} onClick={handelLogout} outlined>
-            Logout
+            Выйти
           </ButtonApp>
         </FlexContent>
       ) : (
         <LinkApp.Button href="/auth/login" width={width}>
-          Login
+          Войти
         </LinkApp.Button>
       )}
     </>

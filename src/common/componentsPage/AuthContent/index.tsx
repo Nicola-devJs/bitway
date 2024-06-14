@@ -21,7 +21,7 @@ export const AuthContent: FC<IProps> = ({ children, title, subTitle, linkBack })
 
   return (
     <ContentWrappper>
-      {linkBack && <GoBack onClick={() => roter.push(linkBack)}>Back</GoBack>}
+      {linkBack && <GoBack onClick={() => roter.push(linkBack)}>Назад</GoBack>}
       <HeaderBlock>
         <TextApp.Heading size={30} className={playfair.className} weight={700}>
           {title}

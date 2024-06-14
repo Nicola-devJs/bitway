@@ -1,25 +1,25 @@
 export const HEADER_NAVMENU = [
-  { label: "Home", path: "/" },
-  { label: "Properties", path: "/properties" },
-  { label: "About", path: "/about" },
-  { label: "Featured", path: "/featured" },
+  { label: "Главная", path: "/" },
+  { label: "Недвижимость", path: "/properties" },
+  { label: "О нас", path: "/about" },
+  { label: "Избранное", path: "/featured" },
 ];
 
 export const BREADCRUMBS_MENU: Record<string, string> = {
-  "/": "Home",
-  "/properties": "Properties",
-  "/about": "About Us",
-  "/featured": "Featured",
+  "/": "Главная",
+  "/properties": "Недвижимость",
+  "/about": "О нас",
+  "/featured": "Избранное",
 };
 
 export const FOOTER_NAVMENU = [
   {
-    label: "About",
+    label: "О нас",
     childs: [
-      { label: "Home", path: "/" },
-      { label: "Properties", path: "/properties" },
-      { label: "About us", path: "/about" },
-      { label: "Featured", path: "/featured" },
+      { label: "Главная", path: "/" },
+      { label: "Недвижимость", path: "/properties" },
+      { label: "О нас", path: "/about" },
+      { label: "Избранное", path: "/featured" },
     ],
   },
 ];

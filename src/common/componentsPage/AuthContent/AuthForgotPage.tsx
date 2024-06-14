@@ -28,21 +28,21 @@ export const AuthForgotPage = () => {
 
   return (
     <AuthContent
-      title="Forgot Password"
-      subTitle="Enter your registered email address. we’ll send you a code to reset your password."
+      title="Забыли пароль"
+      subTitle="Введите зарегистрированный адрес электронной почты. Мы вышлем вам код для сброса пароля."
       linkBack="/auth/login"
     >
       <form onSubmit={handleSubmit(handler)}>
         <InputApp
-          placeholder="Enter Email"
+          placeholder="Введите email"
           type="email"
-          label="Email Address"
+          label="Email"
           value={email.value}
           onChange={email.onChange}
           onBlur={email.onBlur}
           errorMessage={emailState.error?.message}
         />
-        <ButtonApp loading={isLoading}>Send OTP</ButtonApp>
+        <ButtonApp loading={isLoading}>Отправить код</ButtonApp>
       </form>
     </AuthContent>
   );

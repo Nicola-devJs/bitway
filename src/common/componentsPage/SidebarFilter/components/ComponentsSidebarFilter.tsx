@@ -53,7 +53,7 @@ const Location = ({ searchParams }: SearchParamsType) => {
 const Rooms = ({ searchParams }: SearchParamsType) => {
   return (
     <ContainerContent>
-      <SelectApp label="Rooms" options={listFloor} changeHandler={(locale) => console.log(locale)} />
+      <SelectApp label="Комнаты" options={listFloor} changeHandler={(locale) => console.log(locale)} />
     </ContainerContent>
   );
 };
@@ -74,7 +74,7 @@ const PriceRange = ({ searchParams }: SearchParamsType) => {
         setRangeState={setRangeState}
       >
         <TextRange>
-          Price: ${rangeState.min} - ${rangeState.max}
+          Стоимость: ${rangeState.min} - ${rangeState.max}
         </TextRange>
       </InputApp.Range>
     </ContainerContent>

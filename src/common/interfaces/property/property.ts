@@ -4,7 +4,6 @@ import { IUserData } from "../IAuth";
 
 export type IPropertyCard = {
   _id: string;
-  favourite: boolean;
   user: IUserData;
 } & IFormFields<GenericTypeFields>;
 

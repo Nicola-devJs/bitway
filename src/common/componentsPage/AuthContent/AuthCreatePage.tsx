@@ -52,36 +52,36 @@ export const AuthCreatePage = () => {
   };
 
   return (
-    <AuthContent title="Create New Account" subTitle="Please enter details" linkBack="/auth/login">
+    <AuthContent title="Создать новый аккаунт" subTitle="Пожалуйста введите свои данные ниже" linkBack="/auth/login">
       <form onSubmit={handleSubmit(handler)}>
         <InputApp
-          placeholder="First name"
-          label="First name"
+          placeholder="Введите имя"
+          label="Имя"
           value={firstName.value}
           onChange={firstName.onChange}
           onBlur={firstName.onBlur}
           errorMessage={firstNameState.error?.message}
         />
         <InputApp
-          placeholder="Last name"
-          label="Last name"
+          placeholder="Введите фамилию"
+          label="Фамилию"
           value={lastName.value}
           onChange={lastName.onChange}
           onBlur={lastName.onBlur}
           errorMessage={lastNameState.error?.message}
         />
         <InputApp
-          placeholder="Email Address"
+          placeholder="Введите email"
           type="email"
-          label="Email Address"
+          label="Email"
           value={email.value}
           onChange={email.onChange}
           onBlur={email.onBlur}
           errorMessage={emailState.error?.message}
         />
         <InputApp.Password
-          placeholder="Password"
-          label="Password"
+          placeholder="Введите пароль"
+          label="Пароль"
           value={password.value}
           onChange={password.onChange}
           onBlur={password.onBlur}
@@ -90,9 +90,9 @@ export const AuthCreatePage = () => {
         <InputApp.Checkbox
           label={
             <span>
-              I agree to the{" "}
+              Я согласен с{" "}
               <LinkApp color={theme.colors.blue} href="#" notViewUnderline>
-                Terms & Conditions
+                обработкой данный
               </LinkApp>{" "}
             </span>
           }
@@ -101,7 +101,7 @@ export const AuthCreatePage = () => {
           onBlur={agree.onBlur}
           errorMessage={agreeState.error?.message}
         />
-        <ButtonApp loading={isLoading}>Signup</ButtonApp>
+        <ButtonApp loading={isLoading}>Зарегистрироваться</ButtonApp>
       </form>
     </AuthContent>
   );

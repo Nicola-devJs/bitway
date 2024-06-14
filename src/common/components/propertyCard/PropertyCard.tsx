@@ -16,7 +16,7 @@ import { PropertyActions } from "../propertyActions/PropertyActions";
 import { IPropertyCard } from "@/common/interfaces/property/property";
 import { ModalContext } from "@/common/hoc/ModalProvider";
 import mockImage from "@/assets/images/main-img.jpg";
-import { fetcherAddFavourite } from "@/services/Properties";
+import { fetcherSwitchFavourite } from "@/services/Properties";
 import { getCookie } from "@/common/helpers/cookie";
 
 interface IProps {}
@@ -36,7 +36,7 @@ interface IProps {
 
 export const PropertyCard: FC<IProps> = ({ typeShow, property }) => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
-  const [isFavourite, setFavourite] = useState(property.favourite);
+  const [isFavourite, setFavourite] = useState(property.user.favouriteObject.includes(property._id));
   const openModalGalleryHandler = () => {
     setOptionModalHandler({ type: "gallery", options: { images: property.photos, initialPosition: 0 } });
     showHandler();
@@ -48,7 +48,7 @@ export const PropertyCard: FC<IProps> = ({ typeShow, property }) => {
       return;
     }
 
-    const res = await fetcherAddFavourite({ ...property, favourite: isFavourite }, token);
+    const res = await fetcherSwitchFavourite(property, token);
     setFavourite((prev) => !prev);
   };
 

@@ -37,13 +37,13 @@ export const AuthOTPPage = () => {
   return (
     <>
       <AuthContent
-        title="Enter OTP"
+        title="Введите код"
         subTitle={`Мы поделились кодом вашего зарегистрированного адреса электронной почты ${emailValue}`}
         linkBack="/auth/forgot"
       >
         <form onSubmit={handleSubmit(handler)}>
           <InputApp.Code codes={arrayCodes as any} />
-          <ButtonApp>Verify</ButtonApp>
+          <ButtonApp>Проверить</ButtonApp>
         </form>
       </AuthContent>
     </>

@@ -50,20 +50,24 @@ export const AuthLoginPage = () => {
   };
 
   return (
-    <AuthContent title="Welcome 👋" subTitle="Please login here" linkBack="/">
+    <AuthContent
+      title="Добро пожаловать 👋"
+      subTitle="Чтобы получить полный доступ к сервису, авторизируйтесь ниже"
+      linkBack="/"
+    >
       <form onSubmit={handleSubmit(handler)}>
         <InputApp
-          placeholder="Email"
+          placeholder="Введите email"
           type="email"
-          label="Email Address"
+          label="Email"
           value={email.value}
           onChange={email.onChange}
           onBlur={email.onBlur}
           errorMessage={emailState.error?.message}
         />
         <InputApp.Password
-          placeholder="Password"
-          label="Password"
+          placeholder="Введите пароль"
+          label="Пароль"
           value={password.value}
           onChange={password.onChange}
           onBlur={password.onBlur}
@@ -71,17 +75,17 @@ export const AuthLoginPage = () => {
         />
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <InputApp.Checkbox
-            label={<span>Remember Me</span>}
+            label={<span>Запомнить меня</span>}
             checked={remember.value ?? false}
             onChange={remember.onChange}
             onBlur={remember.onBlur}
             errorMessage={rememberState.error?.message}
           />
           <LinkApp color={theme.colors.blue} href="/auth/forgot" notViewUnderline>
-            Forgot Password?
+            Забыли пароль?
           </LinkApp>
         </div>
-        <ButtonApp loading={isLoading}>Login</ButtonApp>
+        <ButtonApp loading={isLoading}>Войти</ButtonApp>
       </form>
       <TextBottom>
         Если вы еще не зарегестрированы, перейдите по{" "}

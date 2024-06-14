@@ -18,7 +18,7 @@ import { HiddenBlock } from "@/common/components/hiddenBlock/HiddenBlock";
 import { PropertyParams } from "./components/PropertyParams";
 import { PropertyFeatured } from "./components/PropertyFeatured";
 import { getCookie } from "@/common/helpers/cookie";
-import { fetcherAddFavourite } from "@/services/Properties";
+import { fetcherSwitchFavourite } from "@/services/Properties";
 
 interface IProps {
   property: IPropertyCard;
@@ -26,7 +26,7 @@ interface IProps {
 
 export const PropertyContentPage: FC<IProps> = ({ property }) => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
-  const [isFavourite, setFavourite] = useState(property.favourite);
+  const [isFavourite, setFavourite] = useState(property.user.favouriteObject.includes(property._id));
   const authorName = `${property.user.firstName} ${property.user.lastName}`;
 
   const openModalFormFeedback = () => {
@@ -40,7 +40,7 @@ export const PropertyContentPage: FC<IProps> = ({ property }) => {
       return;
     }
 
-    const res = await fetcherAddFavourite({ ...property, favourite: isFavourite }, token);
+    const res = await fetcherSwitchFavourite(property, token);
     setFavourite((prev) => !prev);
   };
 
@@ -67,7 +67,7 @@ export const PropertyContentPage: FC<IProps> = ({ property }) => {
           />
           <HiddenBlock mode="min" extension={theme.media.tablet}>
             <ButtonApp onClick={openModalFormFeedback} width={98}>
-              Send
+              Отправить
             </ButtonApp>
           </HiddenBlock>
         </PropertyTopActionBlock>
