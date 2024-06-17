@@ -20,7 +20,14 @@ export const validateName = (requiredMessage: string = "Required"): RegisterOpti
 
 export const validatePhone = (requiredMessage: string = "Required"): RegisterOptions => ({
   required: { value: true, message: requiredMessage },
-  validate: (value = "") => (!value || !/^\+\d{11}$/.test(value) ? "Не корректный телефон" : true),
+  validate: (value: string = "") => {
+    const resultResponse = value.length > 12 ? `больше на ${value.length - 12}` : `меньше на ${12 - value.length}`;
+    return !value.startsWith("+")
+      ? "Номер должен начинаться с +"
+      : !value || !/^\+\d{11}$/.test(value)
+      ? `Не корректный телефон, ${resultResponse} символов`
+      : true;
+  },
 });
 
 export const validateRequired = (requiredMessage: string = "Required"): RegisterOptions => ({

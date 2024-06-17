@@ -1,4 +1,4 @@
-import { Status } from "../constants/status";
+import { Status } from "../constants/user";
 
 export interface IAuthUser {
   email: string;
@@ -22,4 +22,10 @@ export interface IUserData {
 export interface IUserResponse {
   status: Status;
   userData: IUserData;
+}
+
+export interface IUserStorage {
+  email: string;
+  userName: string;
+  favouriteObject: string[];
 }

@@ -13,32 +13,40 @@ import { validateEmail, validateName, validatePhone } from "@/common/constants/v
 import { LinkApp } from "@/common/UI/link/LinkApp";
 
 import { ModalContext } from "@/common/hoc/ModalProvider";
+import { fetcherSendMessage } from "@/services/User";
+import { getStorageValue } from "@/common/helpers/storage";
+import { USER_KEY } from "@/common/constants/user";
+import { IUserStorage } from "@/common/interfaces/IAuth";
 
 interface FormValues {
   name: string;
   email: string;
-  phone: number;
+  phone: string;
   message: string;
 }
 
 interface IProps {
   author: string;
+  propertyId: string;
 }
 
-export const FormFeedback: FC<IProps> = ({ author }) => {
+export const FormFeedback: FC<IProps> = ({ author, propertyId }) => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
-  const { handleSubmit, control } = useForm<FormValues>({ mode: "onBlur" });
+  const { handleSubmit, control, reset } = useForm<FormValues>({ mode: "onBlur" });
+  const user = getStorageValue<IUserStorage>(USER_KEY);
 
   const { field: name, fieldState: nameState } = useController({
     control,
     name: "name",
     rules: validateName(),
+    defaultValue: user?.userName ?? "",
   });
 
   const { field: email, fieldState: emailState } = useController({
     control,
     name: "email",
     rules: validateEmail(),
+    defaultValue: user?.email ?? "",
   });
 
   const { field: phone, fieldState: phoneState } = useController({
@@ -53,18 +61,23 @@ export const FormFeedback: FC<IProps> = ({ author }) => {
     rules: { maxLength: { value: 180, message: "Слишком большое сообщение" } },
   });
 
-  const sendMessageHandler = (data: FormValues) => {
-    console.log(data);
+  const sendMessageHandler = async (data: FormValues) => {
+    try {
+      await fetcherSendMessage(propertyId, data);
 
-    setOptionModalHandler({
-      type: "alert",
-      options: {
-        title: "Отправка сообщения выполнилась успешно",
-        text: "Ваш запрос обработается в течении одного рабочего дня, мы с вами свяжемся :)",
-        textButton: "Закрыть",
-      },
-    });
-    showHandler();
+      await setOptionModalHandler({
+        type: "alert",
+        options: {
+          title: "Отправка сообщения выполнилась успешно",
+          text: "Ваш запрос обработается в течении одного рабочего дня, мы с вами свяжемся :)",
+          textButton: "Закрыть",
+        },
+      });
+      showHandler();
+      reset();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

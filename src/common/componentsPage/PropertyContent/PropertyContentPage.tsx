@@ -19,6 +19,9 @@ import { PropertyParams } from "./components/PropertyParams";
 import { PropertyFeatured } from "./components/PropertyFeatured";
 import { getCookie } from "@/common/helpers/cookie";
 import { fetcherSwitchFavourite } from "@/services/Properties";
+import { USER_KEY } from "@/common/constants/user";
+import { getStorageValue } from "@/common/helpers/storage";
+import { IUserStorage } from "@/common/interfaces/IAuth";
 
 interface IProps {
   property: IPropertyCard;
@@ -26,13 +29,12 @@ interface IProps {
 
 export const PropertyContentPage: FC<IProps> = ({ property }) => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
-  const [isFavourite, setFavourite] = useState(property.user.favouriteObject.includes(property._id));
+  const user = getStorageValue<IUserStorage>(USER_KEY);
+  const isFavoriteObject = user?.favouriteObject.includes(property._id) ?? false;
+  const [isFavourite, setFavourite] = useState(isFavoriteObject);
   const authorName = `${property.user.firstName} ${property.user.lastName}`;
 
-  const openModalFormFeedback = () => {
-    setOptionModalHandler({ type: "modal", options: { children: <FormFeedback author={authorName} />, width: 700 } });
-    showHandler();
-  };
+  const FeedBack = <FormFeedback author={authorName} propertyId={property._id} />;
 
   const toggleFavouriteProperty = async () => {
     const token = getCookie("token");
@@ -42,6 +44,14 @@ export const PropertyContentPage: FC<IProps> = ({ property }) => {
 
     const res = await fetcherSwitchFavourite(property, token);
     setFavourite((prev) => !prev);
+  };
+
+  const openModalFormFeedback = () => {
+    setOptionModalHandler({
+      type: "modal",
+      options: { children: FeedBack, width: 700 },
+    });
+    showHandler();
   };
 
   return (
@@ -84,7 +94,7 @@ export const PropertyContentPage: FC<IProps> = ({ property }) => {
           ]}
         />
         <HiddenBlock mode="max" extension={theme.media.tablet}>
-          <FormFeedback author={authorName} />
+          {FeedBack}
         </HiddenBlock>
       </PropertyContentContainer>
     </ContainerApp>

@@ -18,6 +18,9 @@ import { ModalContext } from "@/common/hoc/ModalProvider";
 import mockImage from "@/assets/images/main-img.jpg";
 import { fetcherSwitchFavourite } from "@/services/Properties";
 import { getCookie } from "@/common/helpers/cookie";
+import { USER_KEY } from "@/common/constants/user";
+import { getStorageValue } from "@/common/helpers/storage";
+import { IUserStorage } from "@/common/interfaces/IAuth";
 
 interface IProps {}
 
@@ -36,7 +39,10 @@ interface IProps {
 
 export const PropertyCard: FC<IProps> = ({ typeShow, property }) => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
-  const [isFavourite, setFavourite] = useState(property.user.favouriteObject.includes(property._id));
+  const user = getStorageValue<IUserStorage>(USER_KEY);
+  const isFavoriteObject = user?.favouriteObject.includes(property._id) ?? false;
+
+  const [isFavourite, setFavourite] = useState(isFavoriteObject);
   const openModalGalleryHandler = () => {
     setOptionModalHandler({ type: "gallery", options: { images: property.photos, initialPosition: 0 } });
     showHandler();

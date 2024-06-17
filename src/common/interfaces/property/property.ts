@@ -1,4 +1,4 @@
-import { Status } from "@/common/constants/status";
+import { Status } from "@/common/constants/user";
 import { GenericTypeFields, IFormFields } from "./fields/formFields";
 import { IUserData } from "../IAuth";
 

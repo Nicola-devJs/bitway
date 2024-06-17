@@ -11,7 +11,7 @@ import { HEADER_NAVMENU } from "@/common/constants/mockMenu";
 import { NextImage } from "../NextImage";
 import iconMenu from "@/assets/icons/icon-menu.svg";
 import { HiddenBlock } from "../hiddenBlock/HiddenBlock";
-import { Status } from "@/common/constants/status";
+import { Status, USER_KEY } from "@/common/constants/user";
 import { ButtonApp } from "@/common/UI/button/ButtonApp";
 import { FlexContent } from "@/common/styledComponents/Flex";
 import { deleteCookie, getCookie } from "@/common/helpers/cookie";
@@ -25,6 +25,7 @@ const AuthButtons = ({ width }: { width?: number }) => {
 
   const handleDeleteCookie = () => {
     deleteCookie("token");
+    localStorage.removeItem(USER_KEY);
     setCheckUser(null);
   };
 
@@ -40,9 +41,20 @@ const AuthButtons = ({ width }: { width?: number }) => {
     showHandler();
   };
 
+  const registrateUser = (user: IUserResponse) => {
+    const userValue = {
+      email: user.userData.email,
+      userName: `${user.userData.firstName} ${user.userData.lastName}`,
+      favouriteObject: user.userData.favouriteObject,
+    };
+
+    localStorage.setItem(USER_KEY, JSON.stringify(userValue));
+    setCheckUser(user);
+  };
+
   useEffect(() => {
     const token = getCookie("token");
-    token && fetcherAuthMe(token).then((user) => setCheckUser(user));
+    token && fetcherAuthMe(token).then(registrateUser);
   }, []);
 
   return (
