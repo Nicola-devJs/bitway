@@ -41,7 +41,7 @@ interface IPropsRange {
   max: number;
   priceGap: number;
   rangeState: RangeType;
-  setRangeState: React.Dispatch<React.SetStateAction<RangeType>>;
+  setRangeState: (value: RangeType) => void;
   children?: React.ReactNode;
 }
 
@@ -199,13 +199,9 @@ InputApp.Range = ({ min, max, priceGap, children, rangeState, setRangeState }: I
   };
 
   const minThumbRangeUpHandler = () =>
-    rollbackRangeState((differenceRange) =>
-      setRangeState((prevRangeState) => ({ ...prevRangeState, min: prevRangeState.min - differenceRange }))
-    );
+    rollbackRangeState((differenceRange) => setRangeState({ ...rangeState, min: rangeState.min - differenceRange }));
   const maxThumbRangeUpHandler = () =>
-    rollbackRangeState((differenceRange) =>
-      setRangeState((prevRangeState) => ({ ...prevRangeState, max: prevRangeState.max + differenceRange }))
-    );
+    rollbackRangeState((differenceRange) => setRangeState({ ...rangeState, max: rangeState.max + differenceRange }));
   return (
     <div>
       {children}
@@ -218,9 +214,7 @@ InputApp.Range = ({ min, max, priceGap, children, rangeState, setRangeState }: I
       <div style={{ position: "relative" }}>
         <RangeInput
           type="range"
-          onChange={(e) =>
-            thumbRangeHandler(() => setRangeState((prevRangeState) => ({ ...prevRangeState, min: +e.target.value })))
-          }
+          onChange={(e) => thumbRangeHandler(() => setRangeState({ ...rangeState, min: +e.target.value }))}
           onMouseUp={minThumbRangeUpHandler}
           onTouchEnd={minThumbRangeUpHandler}
           min={min}
@@ -231,9 +225,7 @@ InputApp.Range = ({ min, max, priceGap, children, rangeState, setRangeState }: I
           type="range"
           min={min}
           max={max}
-          onChange={(e) =>
-            thumbRangeHandler(() => setRangeState((prevRangeState) => ({ ...prevRangeState, max: +e.target.value })))
-          }
+          onChange={(e) => thumbRangeHandler(() => setRangeState({ ...rangeState, max: +e.target.value }))}
           onMouseUp={maxThumbRangeUpHandler}
           onTouchEnd={maxThumbRangeUpHandler}
           value={rangeState.max}

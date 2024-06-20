@@ -5,7 +5,7 @@ import { StaticImageData } from "next/image";
 import styled from "styled-components";
 import { NextImage } from "../../NextImage";
 import { generateMainFilterParams } from "@/common/constants/mockMainFilter";
-import { forwardRef, useEffect, useMemo } from "react";
+import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
 
 interface IProps extends Exclude<generateMainFilterParams, "key" | "defaultValue"> {
   onChange: (payload: string) => void;
@@ -14,15 +14,35 @@ interface IProps extends Exclude<generateMainFilterParams, "key" | "defaultValue
 
 export const SearchItem = forwardRef<HTMLInputElement, IProps>(
   ({ iconB, iconW, list, title, value, onChange }, ref) => {
+    const [isActiveSelect, setActiveSelect] = useState(false);
+    const selectRef = useRef<HTMLDivElement>(null);
+
     const handelChangeValueSearch = (searchValue: string) => () => {
       onChange(searchValue);
+      if (searchValue !== value) {
+        setActiveSelect(false);
+      }
     };
 
     const currentFilterItem = list.find((item) => item.value === value);
 
+    const closeSelectOptions = (ev: any) => {
+      if (!selectRef.current!.contains(ev.target)) {
+        setActiveSelect(false);
+      }
+    };
+
+    useEffect(() => {
+      document.addEventListener("click", closeSelectOptions);
+
+      return () => {
+        document.removeEventListener("click", closeSelectOptions);
+      };
+    }, []);
+
     return (
-      <SearchItemContainer key={title}>
-        <SearchPropertyItem>
+      <SearchItemContainer key={title} ref={selectRef}>
+        <SearchPropertyItem onClick={() => setActiveSelect((prevMode) => !prevMode)}>
           <div>
             <NextImage info={iconW} $width={24} $height={24} objectFit="contain" />
           </div>
@@ -39,7 +59,7 @@ export const SearchItem = forwardRef<HTMLInputElement, IProps>(
             />
           </div>
         </SearchPropertyItem>
-        <SearchItemValues>
+        <SearchItemValues className={isActiveSelect ? "open" : ""}>
           {list.map((item) => (
             <li key={item.value} onClick={handelChangeValueSearch(item.value)}>
               <div>
@@ -68,6 +88,13 @@ const SearchItemValues = styled.ul`
   visibility: hidden;
   pointer-events: none;
   transition: all 0.2s ease-in-out;
+
+  &.open {
+    transform: translateY(0px);
+    opacity: 1;
+    visibility: visible;
+    pointer-events: all;
+  }
 
   li {
     display: flex;
@@ -165,13 +192,6 @@ const SearchItemContainer = styled.div`
   position: relative;
   padding: 1.389vw 0 1.389vw 1.389vw;
 
-  &:hover ${SearchItemValues} {
-    transform: translateY(0px);
-    opacity: 1;
-    visibility: visible;
-    pointer-events: all;
-  }
-
   &:not(:last-child) > div:first-child {
     border-right: 1px solid ${theme.colors.whiteOpacity(0.1)};
   }
@@ -196,7 +216,7 @@ const SearchItemContainer = styled.div`
 
 const SearchPropertyItem = styled.div`
   display: flex;
-
+  cursor: pointer;
   padding-inline: 2.5vw;
 
   &:first-child {

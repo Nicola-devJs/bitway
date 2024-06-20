@@ -8,8 +8,8 @@ import cardImg from "@/assets/images/main-img.jpg";
 import { TextApp } from "@/common/styledComponents/Text";
 import { playfair } from "@/common/constants/font";
 import { propertyCardIconsBlack } from "@/common/constants/constantImages";
-import iconHeart from "@/assets/icons/property-card/heart.svg";
-import iconHeartActive from "@/assets/icons/property-card/heart_active.svg";
+import iconFavoriteBorder from "@/assets/icons/property-card/favorite_border.svg";
+import iconFavorite from "@/assets/icons/property-card/favorite.svg";
 import iconLoupe from "@/assets/icons/property-card/loupe.svg";
 import { ShowType } from "../listProperties/ListProperties";
 import { PropertyActions } from "../propertyActions/PropertyActions";
@@ -65,7 +65,12 @@ export const PropertyCard: FC<IProps> = ({ typeShow, property }) => {
           <NextImage info={property.photos[0] || mockImage} $fullWidth />
         </Link>
         <div className="container-icon heart" onClick={toggleFavouriteProperty}>
-          <NextImage info={isFavourite ? iconHeartActive : iconHeart} $width={20} $height={20} objectFit="contain" />
+          <NextImage
+            info={isFavourite ? iconFavorite : iconFavoriteBorder}
+            $width={20}
+            $height={20}
+            objectFit="contain"
+          />
         </div>
         {property.photos.length > 1 && (
           <div className="container-icon loupe" onClick={openModalGalleryHandler}>

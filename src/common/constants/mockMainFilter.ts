@@ -70,7 +70,7 @@ export const mainFilter = generateMainFilter([
     list: listPrice,
   },
   {
-    key: "typeProperty",
+    key: "category",
     defaultValue: categoryProperty[0],
     title: "Тип строения",
     iconB: homeIconBlack,

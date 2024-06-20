@@ -3,8 +3,8 @@ import { theme } from "@/assets/theme/theme";
 import React, { FC } from "react";
 import styled from "styled-components";
 import iconShare from "@/assets/icons/property-card/share.svg";
-import iconHeart from "@/assets/icons/property-card/heart.svg";
-import iconHeartActive from "@/assets/icons/property-card/heart_active.svg";
+import iconFavoriteBorder from "@/assets/icons/property-card/favorite_border.svg";
+import iconFavorite from "@/assets/icons/property-card/favorite.svg";
 import { NextImage } from "../NextImage";
 import { transformAdaptiveSize } from "@/common/helpers/transformValues";
 
@@ -29,7 +29,7 @@ export const PropertyActions: FC<IProps> = ({
     <StyledPropertyActions $size={sizeWrapper} $gap={gapActions}>
       <div onClick={handleFavouriteProperty}>
         <NextImage
-          info={isActiveHeart ? iconHeartActive : iconHeart}
+          info={isActiveHeart ? iconFavorite : iconFavoriteBorder}
           $width={sizeIcon}
           $height={sizeIcon}
           objectFit="contain"

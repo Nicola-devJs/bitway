@@ -13,13 +13,13 @@ import {
   SelectSortedContainer,
 } from "./styledComponents/StyledSelectApp";
 
-type OptionType = { label: string; value: string | number };
+type OptionType = { label: string; value: string };
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   errorMessage?: string;
   options: OptionType[];
-  changeHandler: (selected: string | number) => void;
+  changeHandler: (selected: string) => void;
   size?: number;
 }
 
@@ -49,7 +49,7 @@ const SelectApp = ({ label, errorMessage, options = [], changeHandler, size = 16
     }
   };
 
-  const selectHandler = (value: string | number) => () => {
+  const selectHandler = (value: string) => () => {
     changeHandler(value);
     setOpenSelect(false);
   };

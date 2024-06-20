@@ -1,7 +1,5 @@
 "use client";
 import { useContext, useEffect } from "react";
-import { Accordion } from "@/common/components/accordion/Accordion";
-import ComponentsSidebarFilter from "./components/ComponentsSidebarFilter";
 import styled, { css } from "styled-components";
 import { theme } from "@/assets/theme/theme";
 import { ButtonApp } from "@/common/UI/button/ButtonApp";
@@ -10,10 +8,17 @@ import { FilterContext } from "@/common/hoc/FilterProvider";
 import { HiddenBlock } from "@/common/components/hiddenBlock/HiddenBlock";
 import { useSearchParams } from "next/navigation";
 import React from "react";
+import { SidebarFilters } from "./components";
 
 export const SidebarFilter = () => {
   const { isShowFilter, hideFilter } = useContext(FilterContext);
   const searchParams = useSearchParams();
+
+  const defaultValues = {
+    location: searchParams.get("location"),
+    price: JSON.parse(searchParams.get("price") || "{}"),
+    category: searchParams.get("category"),
+  };
 
   useEffect(() => {
     if (isShowFilter) {
@@ -25,14 +30,7 @@ export const SidebarFilter = () => {
 
   return (
     <StyledSidebar $showTabletFilter={isShowFilter}>
-      {ComponentsSidebarFilter.map((filter, id) => (
-        <ContentContainer key={id}>
-          <Accordion label={filter.label} zIndex={filter.zIndex} initialView={true}>
-            {React.createElement(filter.content.type, { ...filter.content.props, searchParams })}
-          </Accordion>
-        </ContentContainer>
-      ))}
-
+      <SidebarFilters defaultValues={defaultValues} />
       <HiddenBlock mode="min" extension={theme.media.tablet}>
         <ButtonApp onClick={hideFilter}>Закрыть</ButtonApp>
         <OverlaySidebar onClick={hideFilter} />
@@ -96,32 +94,4 @@ const OverlaySidebar = styled.div`
   opacity: 0;
   transition: opacity 0.2s ease-in 0.1s;
   width: 100%;
-`;
-
-const ContentContainer = styled.div`
-  width: 100%;
-  padding-bottom: 1.389vw;
-  border-bottom: 1px solid ${theme.colors.grayOpacity(0.1)};
-
-  margin-bottom: 1.389vw;
-
-  @media (min-width: ${theme.media.desktopLarge}px) {
-    padding-bottom: 20px;
-    margin-bottom: 20px;
-  }
-
-  @media (max-width: ${theme.media.desktop}px) {
-    padding-bottom: 1.668vw;
-    margin-bottom: 1.668vw;
-  }
-
-  @media (max-width: ${theme.media.tablet}px) {
-    padding-bottom: 2.604vw;
-    margin-bottom: 2.604vw;
-  }
-
-  @media (max-width: ${theme.media.phone}px) {
-    padding-bottom: 4.706vw;
-    margin-bottom: 4.706vw;
-  }
 `;

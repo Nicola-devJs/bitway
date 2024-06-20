@@ -15,9 +15,9 @@ import { useRouter } from "next/navigation";
 interface IFormValues {
   location: string;
   price: string;
-  typeProperty: string;
+  category: string;
 }
-// href={`/properties${searchParams ? "?" + searchParams : searchParams}
+
 export const SearchProperty = () => {
   const { control, handleSubmit } = useForm<IFormValues>();
   const router = useRouter();
@@ -32,10 +32,10 @@ export const SearchProperty = () => {
     name: "price",
     defaultValue: mainFilter.price.defaultValue.value,
   });
-  const { field: typeProperty } = useController({
+  const { field: category } = useController({
     control,
-    name: "typeProperty",
-    defaultValue: mainFilter.typeProperty.defaultValue.value,
+    name: "category",
+    defaultValue: mainFilter.category.defaultValue.value,
   });
 
   const setStringSearchParams = (entriesParams: [string, string][]) => {
@@ -58,7 +58,7 @@ export const SearchProperty = () => {
         <SearchPropertyRow>
           <SearchItem {...mainFilter.location} {...location} />
           <SearchItem {...mainFilter.price} {...price} />
-          <SearchItem {...mainFilter.typeProperty} {...typeProperty} />
+          <SearchItem {...mainFilter.category} {...category} />
         </SearchPropertyRow>
         <Search onClick={handleSubmit(navigateToSearchParams)}>
           <NextImage info={searchIcon} $width={24} $height={24} objectFit="contain" />

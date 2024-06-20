@@ -3,93 +3,100 @@ import { InputApp } from "@/common/UI/input/InputApp";
 import { SelectApp } from "@/common/UI/select/SelectApp";
 import { categoryProperty, listFloor, listLocation } from "@/common/constants/mockMainFilter";
 import { TextApp } from "@/common/styledComponents/Text";
-import { ReadonlyURLSearchParams } from "next/navigation";
-import React, { useState } from "react";
+import React, { ChangeEvent, useRef, useState } from "react";
 import styled from "styled-components";
+import { useDebounce } from "@/common/hooks/debounce";
 
-type SearchParamsType = { searchParams?: ReadonlyURLSearchParams };
+interface IProps<T> {
+  value: T;
+  onChange: (value: T) => void;
+}
 
-const PropertyType = ({ searchParams }: SearchParamsType) => {
+const value1 = "Продажа";
+const value2 = "Аренда";
+
+export const TypeTransaction = ({ value, onChange }: IProps<Array<string>>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.name;
+
+    if (value.includes(event.target.name)) {
+      onChange(value.filter((val) => val !== newValue));
+    } else {
+      onChange([...value, newValue]);
+    }
+  };
+
   return (
     <ContainerContent>
-      <InputApp.Checkbox label="Продажа" onChange={(data) => console.log(data)} />
-      <InputApp.Checkbox label="Аренда" onChange={(data) => console.log(data)} />
+      <InputApp.Checkbox label={value1} name={value1} onChange={handleChange} checked={value.includes(value1)} />
+      <InputApp.Checkbox label={value2} name={value2} onChange={handleChange} checked={value.includes(value2)} />
     </ContainerContent>
   );
 };
 
-const Categories = ({ searchParams }: SearchParamsType) => {
-  const value = searchParams?.get("typeProperty");
+export const Categories = ({ value, onChange }: IProps<Array<string>>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.name;
+
+    if (value.includes(event.target.name)) {
+      onChange(value.filter((val) => val !== newValue));
+    } else {
+      onChange([...value, newValue]);
+    }
+  };
 
   return (
     <ContainerContent>
       {categoryProperty.map((category) => (
         <InputApp.Checkbox
           label={category.value}
+          name={category.value}
           key={category.value}
-          checked={category.value === value}
-          onChange={(data) => console.log(data)}
+          checked={value.includes(category.value)}
+          onChange={handleChange}
         />
       ))}
     </ContainerContent>
   );
 };
 
-const Location = ({ searchParams }: SearchParamsType) => {
-  const value = searchParams?.get("location");
-
+export const Location = ({ value, onChange }: IProps<string>) => {
   return (
     <ContainerContent>
-      <SelectApp
-        label="Локация"
-        options={listLocation}
-        changeHandler={(locale) => console.log(locale)}
-        value={value || ""}
-      />
+      <SelectApp label="Локация" options={listLocation} changeHandler={onChange} value={value} />
     </ContainerContent>
   );
 };
 
-const Rooms = ({ searchParams }: SearchParamsType) => {
+export const Rooms = ({ value, onChange }: IProps<string>) => {
   return (
     <ContainerContent>
-      <SelectApp label="Комнаты" options={listFloor} changeHandler={(locale) => console.log(locale)} />
+      <SelectApp label="Комнаты" options={listFloor} changeHandler={onChange} value={value} />
     </ContainerContent>
   );
 };
 
-const PriceRange = ({ searchParams }: SearchParamsType) => {
-  const value = searchParams?.get("price");
-  const rangeData: { from: number; to: number } = JSON.parse(value || "{}");
-  const priceMax = 100;
-  const [rangeState, setRangeState] = useState({ min: rangeData.from, max: rangeData.to });
+export const PriceRange = ({ value, onChange }: IProps<{ from: number; to: number }>) => {
+  const handleSetRangeState = (state: { min: number; max: number }) => {
+    onChange({ from: state.min, to: state.max });
+  };
 
   return (
     <ContainerContent>
       <InputApp.Range
-        min={rangeData.from}
-        max={rangeData.to}
-        priceGap={rangeData.to * 0.1}
-        rangeState={rangeState}
-        setRangeState={setRangeState}
+        min={value.from}
+        max={value.to}
+        priceGap={value.to * 0.1}
+        rangeState={{ min: value.from, max: value.to }}
+        setRangeState={handleSetRangeState}
       >
         <TextRange>
-          Стоимость: ${rangeState.min} - ${rangeState.max}
+          Стоимость: ${value.from} - ${value.to}
         </TextRange>
       </InputApp.Range>
     </ContainerContent>
   );
 };
-
-// TODO Чтобы в AccardionBody открытый селект, нормально отображался, необходимо в экспортируемый объект добавить поле zIndex: number
-
-export default [
-  { label: "Выбрать локацию", content: <Location />, zIndex: 5 },
-  { label: "Тип недвижимости", content: <PropertyType /> },
-  { label: "Категория", content: <Categories /> },
-  { label: "Колличество комнат", content: <Rooms />, zIndex: 5 },
-  { label: "Ценовой диапазон", content: <PriceRange /> },
-];
 
 const ContainerContent = styled.div`
   & > *:not(:last-child) {

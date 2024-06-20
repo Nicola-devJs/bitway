@@ -1,9 +1,7 @@
 "use client";
 import { theme } from "@/assets/theme/theme";
-import { SelectApp } from "@/common/UI/select/SelectApp";
-import { transformAdaptiveSize } from "@/common/helpers/transformValues";
 import { TextApp } from "@/common/styledComponents/Text";
-import React, { FC, useEffect, useMemo, useRef, useState } from "react";
+import React, { FC, useState } from "react";
 import styled from "styled-components";
 
 type ListTabsType = { title: string; content: React.ReactNode };
