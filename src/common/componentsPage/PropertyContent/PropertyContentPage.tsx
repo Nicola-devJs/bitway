@@ -19,15 +19,17 @@ import { PropertyParams } from "./components/PropertyParams";
 import { PropertyFeatured } from "./components/PropertyFeatured";
 import { getCookie } from "@/common/helpers/cookie";
 import { fetcherSwitchFavourite } from "@/services/Properties";
-import { USER_KEY } from "@/common/constants/user";
+import { Status, USER_KEY } from "@/common/constants/user";
 import { getStorageValue } from "@/common/helpers/storage";
 import { IUserStorage } from "@/common/interfaces/IAuth";
+import { NotificationContext } from "@/common/hoc/NotificationProvider";
 
 interface IProps {
   property: IPropertyCard;
 }
 
 export const PropertyContentPage: FC<IProps> = ({ property }) => {
+  const { addNotification } = useContext(NotificationContext);
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
   const user = getStorageValue<IUserStorage>(USER_KEY);
   const isFavoriteObject = user?.favouriteObject.includes(property._id) ?? false;
@@ -42,8 +44,11 @@ export const PropertyContentPage: FC<IProps> = ({ property }) => {
       return;
     }
 
-    const res = await fetcherSwitchFavourite(property, token);
-    setFavourite((prev) => !prev);
+    const isFavorite = await fetcherSwitchFavourite(property, token);
+    if (isFavorite.status === Status.SUCCESS) {
+      setFavourite(isFavorite.favouriteValue);
+      addNotification({ text: isFavorite.message, type: Status.SUCCESS });
+    }
   };
 
   const openModalFormFeedback = () => {
@@ -59,13 +64,13 @@ export const PropertyContentPage: FC<IProps> = ({ property }) => {
       <PropertyTopInfo>
         <div>
           <TextApp.Heading as="h3" weight={700} size={30} className={playfair.className}>
-            {property.heading}
+            {property?.heading}
           </TextApp.Heading>
           <LocationText>
             <NextImage info={locationIcon} $width={24} $height={24} />
-            <TextApp>{property.location}</TextApp>
+            <TextApp>{property?.location}</TextApp>
           </LocationText>
-          <TextApp.Heading size={24}>{property.price} ₽</TextApp.Heading>
+          <TextApp.Heading size={24}>{property?.price} ₽</TextApp.Heading>
         </div>
         <PropertyTopActionBlock>
           <PropertyActions

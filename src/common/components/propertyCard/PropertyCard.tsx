@@ -18,9 +18,10 @@ import { ModalContext } from "@/common/hoc/ModalProvider";
 import mockImage from "@/assets/images/main-img.jpg";
 import { fetcherSwitchFavourite } from "@/services/Properties";
 import { getCookie } from "@/common/helpers/cookie";
-import { USER_KEY } from "@/common/constants/user";
+import { Status, USER_KEY } from "@/common/constants/user";
 import { getStorageValue } from "@/common/helpers/storage";
 import { IUserStorage } from "@/common/interfaces/IAuth";
+import { NotificationContext } from "@/common/hoc/NotificationProvider";
 
 interface IProps {}
 
@@ -38,9 +39,10 @@ interface IProps {
 // TODO Добавить в оповещение после добавления / удаления избранных
 
 export const PropertyCard: FC<IProps> = ({ typeShow, property }) => {
+  const { addNotification } = useContext(NotificationContext);
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
   const user = getStorageValue<IUserStorage>(USER_KEY);
-  const isFavoriteObject = user?.favouriteObject.includes(property._id) ?? false;
+  const isFavoriteObject = Boolean(user?.favouriteObject.includes(property._id));
 
   const [isFavourite, setFavourite] = useState(isFavoriteObject);
   const openModalGalleryHandler = () => {
@@ -54,8 +56,11 @@ export const PropertyCard: FC<IProps> = ({ typeShow, property }) => {
       return;
     }
 
-    const res = await fetcherSwitchFavourite(property, token);
-    setFavourite((prev) => !prev);
+    const isFavorite = await fetcherSwitchFavourite(property, token);
+    if (isFavorite.status === Status.SUCCESS) {
+      setFavourite(isFavorite.favouriteValue);
+      addNotification({ text: isFavorite.message, type: Status.SUCCESS });
+    }
   };
 
   return (

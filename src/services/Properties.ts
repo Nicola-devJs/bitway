@@ -1,12 +1,17 @@
-import { IPropertyCard, IResponseProperties, IResponseProperty } from "@/common/interfaces/property/property";
+import {
+  IFavoriteProperty,
+  IPropertyCard,
+  IResponseProperties,
+  IResponseProperty,
+} from "@/common/interfaces/property/property";
 
 type FetcherAllPropertysType = { page?: number; limit?: number } | void;
 
 // TODO Убрать no-cash поставить revalidate
 
-export const fetcherAllPropertys = async (): Promise<IResponseProperties> => {
+export const fetcherAllPropertys = async (params = ""): Promise<IResponseProperties> => {
   try {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/properties/`, { cache: "no-cache" });
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/properties?${params}`, { cache: "no-cache" });
 
     return res.json();
   } catch (err) {
@@ -26,7 +31,7 @@ export const fetcherOneProperty = async (id: string): Promise<IResponseProperty>
   }
 };
 
-export const fetcherSwitchFavourite = async (property: IPropertyCard, token: string) => {
+export const fetcherSwitchFavourite = async (property: IPropertyCard, token: string): Promise<IFavoriteProperty> => {
   try {
     const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}/properties`, {
       method: "POST",

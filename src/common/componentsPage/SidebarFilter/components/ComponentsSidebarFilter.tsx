@@ -1,21 +1,23 @@
 import { theme } from "@/assets/theme/theme";
 import { InputApp } from "@/common/UI/input/InputApp";
-import { SelectApp } from "@/common/UI/select/SelectApp";
-import { categoryProperty, listFloor, listLocation } from "@/common/constants/mockMainFilter";
+import { OptionType, SelectApp } from "@/common/UI/select/SelectApp";
+
 import { TextApp } from "@/common/styledComponents/Text";
-import React, { ChangeEvent, useRef, useState } from "react";
+import React, { ChangeEvent } from "react";
 import styled from "styled-components";
 import { useDebounce } from "@/common/hooks/debounce";
 
 interface IProps<T> {
   value: T;
   onChange: (value: T) => void;
+  options: { value: string; label: string }[];
 }
 
-const value1 = "Продажа";
-const value2 = "Аренда";
+interface ISelectProps<T> extends IProps<T> {
+  label?: string;
+}
 
-export const TypeTransaction = ({ value, onChange }: IProps<Array<string>>) => {
+export const CheckboxesFilter = ({ value, onChange, options }: IProps<Array<string>>) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.name;
 
@@ -28,50 +30,33 @@ export const TypeTransaction = ({ value, onChange }: IProps<Array<string>>) => {
 
   return (
     <ContainerContent>
-      <InputApp.Checkbox label={value1} name={value1} onChange={handleChange} checked={value.includes(value1)} />
-      <InputApp.Checkbox label={value2} name={value2} onChange={handleChange} checked={value.includes(value2)} />
-    </ContainerContent>
-  );
-};
-
-export const Categories = ({ value, onChange }: IProps<Array<string>>) => {
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.target.name;
-
-    if (value.includes(event.target.name)) {
-      onChange(value.filter((val) => val !== newValue));
-    } else {
-      onChange([...value, newValue]);
-    }
-  };
-
-  return (
-    <ContainerContent>
-      {categoryProperty.map((category) => (
+      {options.map((type) => (
         <InputApp.Checkbox
-          label={category.value}
-          name={category.value}
-          key={category.value}
-          checked={value.includes(category.value)}
+          label={type.label}
+          name={type.value}
+          key={type.value}
           onChange={handleChange}
+          checked={value.includes(type.value)}
         />
       ))}
     </ContainerContent>
   );
 };
 
-export const Location = ({ value, onChange }: IProps<string>) => {
-  return (
-    <ContainerContent>
-      <SelectApp label="Локация" options={listLocation} changeHandler={onChange} value={value} />
-    </ContainerContent>
-  );
-};
+export const SelectFilter = ({ value, onChange, label, options }: ISelectProps<string>) => {
+  const handleSelect = (option: OptionType) => {
+    onChange(option.value);
+  };
 
-export const Rooms = ({ value, onChange }: IProps<string>) => {
   return (
     <ContainerContent>
-      <SelectApp label="Комнаты" options={listFloor} changeHandler={onChange} value={value} />
+      <SelectApp
+        label={label}
+        options={[...options, { label: "Очистить", value: "" }]}
+        changeHandler={handleSelect}
+        value={{ value, label: value }}
+        hideSelected
+      />
     </ContainerContent>
   );
 };

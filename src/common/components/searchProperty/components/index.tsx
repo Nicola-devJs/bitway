@@ -1,78 +1,56 @@
 "use client";
 import { theme } from "@/assets/theme/theme";
 import { TextApp } from "@/common/styledComponents/Text";
-import { StaticImageData } from "next/image";
 import styled from "styled-components";
 import { NextImage } from "../../NextImage";
-import { generateMainFilterParams } from "@/common/constants/mockMainFilter";
-import { forwardRef, useEffect, useMemo, useRef, useState } from "react";
+import { IMainFilterParams } from "@/common/constants/filter";
+import { ReactNode, useEffect, useRef, useState } from "react";
+import { OptionType } from "@/common/UI/select/SelectApp";
+import { StaticImageData } from "next/image";
 
-interface IProps extends Exclude<generateMainFilterParams, "key" | "defaultValue"> {
-  onChange: (payload: string) => void;
+interface ISearchProps {
+  iconW: StaticImageData;
   value: string;
+  title: string;
+  children: ReactNode;
 }
 
-export const SearchItem = forwardRef<HTMLInputElement, IProps>(
-  ({ iconB, iconW, list, title, value, onChange }, ref) => {
-    const [isActiveSelect, setActiveSelect] = useState(false);
-    const selectRef = useRef<HTMLDivElement>(null);
+export const SearchItem = ({ iconW, value, title, children }: ISearchProps) => {
+  const [isActiveSelect, setActiveSelect] = useState(false);
+  const selectRef = useRef<HTMLDivElement>(null);
 
-    const handelChangeValueSearch = (searchValue: string) => () => {
-      onChange(searchValue);
-      if (searchValue !== value) {
-        setActiveSelect(false);
-      }
+  const closeSelectOptions = (ev: any) => {
+    if (!selectRef.current!.contains(ev.target)) {
+      setActiveSelect(false);
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("click", closeSelectOptions);
+
+    return () => {
+      document.removeEventListener("click", closeSelectOptions);
     };
+  }, []);
 
-    const currentFilterItem = list.find((item) => item.value === value);
+  return (
+    <SearchItemContainer ref={selectRef}>
+      <SearchPropertyItem onClick={() => setActiveSelect((prevMode) => !prevMode)}>
+        <div>
+          <NextImage info={iconW} $width={24} $height={24} objectFit="contain" />
+        </div>
 
-    const closeSelectOptions = (ev: any) => {
-      if (!selectRef.current!.contains(ev.target)) {
-        setActiveSelect(false);
-      }
-    };
-
-    useEffect(() => {
-      document.addEventListener("click", closeSelectOptions);
-
-      return () => {
-        document.removeEventListener("click", closeSelectOptions);
-      };
-    }, []);
-
-    return (
-      <SearchItemContainer key={title} ref={selectRef}>
-        <SearchPropertyItem onClick={() => setActiveSelect((prevMode) => !prevMode)}>
-          <div>
-            <NextImage info={iconW} $width={24} $height={24} objectFit="contain" />
-          </div>
-
-          <div>
-            <TextApp.Heading color={theme.colors.white} size={20}>
-              {title}
-            </TextApp.Heading>
-            <InputSearch
-              color={theme.colors.whiteOpacity(0.5)}
-              value={currentFilterItem?.label || ""}
-              readOnly
-              ref={ref}
-            />
-          </div>
-        </SearchPropertyItem>
-        <SearchItemValues className={isActiveSelect ? "open" : ""}>
-          {list.map((item) => (
-            <li key={item.value} onClick={handelChangeValueSearch(item.value)}>
-              <div>
-                <NextImage info={iconB} $width={24} $height={24} objectFit="contain" />
-              </div>
-              {item.label}
-            </li>
-          ))}
-        </SearchItemValues>
-      </SearchItemContainer>
-    );
-  }
-);
+        <div>
+          <TextApp.Heading color={theme.colors.white} size={20}>
+            {title}
+          </TextApp.Heading>
+          <InputSearch color={theme.colors.whiteOpacity(0.5)} value={value || "Выберите фильтр"} readOnly />
+        </div>
+      </SearchPropertyItem>
+      <SearchItemValues className={isActiveSelect ? "open" : ""}>{children}</SearchItemValues>
+    </SearchItemContainer>
+  );
+};
 
 const SearchItemValues = styled.ul`
   position: absolute;
@@ -286,6 +264,7 @@ const InputSearch = styled.input`
   background-color: transparent;
   font-size: 1.111vw;
   color: ${theme.colors.whiteOpacity(0.5)};
+  pointer-events: none;
 
   @media (min-width: ${theme.media.desktopLarge}px) {
     font-size: 16px;

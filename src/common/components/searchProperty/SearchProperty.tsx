@@ -1,66 +1,85 @@
 "use client";
-import { TextApp } from "@/common/styledComponents/Text";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import searchIcon from "@/assets/icons/filter-panel/search.svg";
 import { NextImage } from "../NextImage";
 import { theme } from "@/assets/theme/theme";
 import { ContainerApp } from "@/common/styledComponents/ContainerApp";
-import { SearchItem } from "./components";
-import Link from "next/link";
-import { mainFilter } from "@/common/constants/mockMainFilter";
-import { useController, useForm } from "react-hook-form";
-import { useRouter } from "next/navigation";
-
-interface IFormValues {
-  location: string;
-  price: string;
-  category: string;
-}
+import { mainFilter } from "@/common/constants/filter";
+import { useRouter, useSearchParams } from "next/navigation";
+import { generateSearchParams } from "@/common/helpers/searchParams";
+import { SelectSearch } from "./components/SelectSearch";
+import { RangeSearch } from "./components/RangeSearch";
 
 export const SearchProperty = () => {
-  const { control, handleSubmit } = useForm<IFormValues>();
-  const router = useRouter();
-
-  const { field: location } = useController({
-    control,
-    name: "location",
-    defaultValue: mainFilter.location.defaultValue.value,
-  });
-  const { field: price } = useController({
-    control,
-    name: "price",
-    defaultValue: mainFilter.price.defaultValue.value,
-  });
-  const { field: category } = useController({
-    control,
-    name: "category",
-    defaultValue: mainFilter.category.defaultValue.value,
+  const { push } = useRouter();
+  const initialSearchParams = useSearchParams();
+  const [searchValues, setSearchValues] = useState({
+    location: "",
+    category: "",
+    price: { priceFrom: "", priceTo: "" },
   });
 
-  const setStringSearchParams = (entriesParams: [string, string][]) => {
-    const params = new URLSearchParams();
-    for (let [key, value] of entriesParams) {
-      params.set(key, value);
-    }
-
-    return params.toString();
+  const navigateToSearchParams = (searchParams: string) => {
+    // push(`properties?${searchParams}`);
+    console.log(searchParams);
   };
 
-  const navigateToSearchParams = (params: IFormValues) => {
-    const searchParams = setStringSearchParams(Object.entries(params));
-    router.push(`properties/?${searchParams}`);
+  function fetchingPropetiesWithFilters() {
+    const {
+      price: { priceFrom, priceTo },
+      ...otherSearchValues
+    } = searchValues;
+
+    console.log(searchValues);
+
+    const searchParams = generateSearchParams(
+      { ...otherSearchValues, priceFrom, priceTo },
+      initialSearchParams.toString()
+    );
+
+    navigateToSearchParams(searchParams);
+  }
+
+  const changeSearchValues = (filter: typeof searchValues) => {
+    setSearchValues(filter);
+  };
+
+  const handleSetFilterType = (filter: string) => {
+    return (value: any) => {
+      switch (filter) {
+        case "location":
+          changeSearchValues({ ...searchValues, location: value });
+          break;
+        case "category":
+          changeSearchValues({ ...searchValues, category: value });
+          break;
+        case "price":
+          changeSearchValues({ ...searchValues, price: value });
+          break;
+        default:
+          changeSearchValues(searchValues);
+      }
+    };
   };
 
   return (
     <ContainerApp>
       <SearchPropertyContainer>
         <SearchPropertyRow>
-          <SearchItem {...mainFilter.location} {...location} />
-          <SearchItem {...mainFilter.price} {...price} />
-          <SearchItem {...mainFilter.category} {...category} />
+          <SelectSearch
+            props={mainFilter.location}
+            value={searchValues.location}
+            onChange={handleSetFilterType("location")}
+          />
+          <RangeSearch props={mainFilter.price} value={searchValues.price} onChange={handleSetFilterType("price")} />
+          <SelectSearch
+            props={mainFilter.category}
+            value={searchValues.category}
+            onChange={handleSetFilterType("category")}
+          />
         </SearchPropertyRow>
-        <Search onClick={handleSubmit(navigateToSearchParams)}>
+        <Search onClick={fetchingPropetiesWithFilters}>
           <NextImage info={searchIcon} $width={24} $height={24} objectFit="contain" />
         </Search>
       </SearchPropertyContainer>
@@ -68,7 +87,7 @@ export const SearchProperty = () => {
   );
 };
 
-const SearchPropertyContainer = styled.form`
+const SearchPropertyContainer = styled.div`
   display: flex;
   justify-content: flex-start;
   align-items: center;

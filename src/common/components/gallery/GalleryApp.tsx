@@ -13,7 +13,7 @@ interface IProps {
   gallery: string[];
 }
 
-export const GalleryApp: FC<IProps> = ({ gallery }) => {
+export const GalleryApp: FC<IProps> = ({ gallery = [] }) => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
   const [maxTabletScreen, maxPhoneScreen] = useScreenExtension([
     { screenExtension: theme.media.tablet, maxScreen: true },

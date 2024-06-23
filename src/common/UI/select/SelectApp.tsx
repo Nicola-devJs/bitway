@@ -13,34 +13,26 @@ import {
   SelectSortedContainer,
 } from "./styledComponents/StyledSelectApp";
 
-type OptionType = { label: string; value: string };
+export type OptionType = { label: string; value: string };
 
-interface IProps extends InputHTMLAttributes<HTMLInputElement> {
+interface IProps {
   label?: string;
   errorMessage?: string;
   options: OptionType[];
-  changeHandler: (selected: string) => void;
+  changeHandler: (selected: OptionType) => void;
+  value: OptionType;
   size?: number;
-}
-
-interface IPropsSwitcher {
-  options: OptionType[];
-  changeHandler: (selected: string | number) => void;
   viewSide?: "left" | "right";
+  hideSelected?: boolean;
 }
 
-interface IPropsSorted extends IPropsSwitcher {
-  label: string;
-  value: string;
-}
-
-const SelectApp = ({ label, errorMessage, options = [], changeHandler, size = 16, value, ...props }: IProps) => {
+const SelectApp = ({ label, errorMessage, options = [], changeHandler, size = 16, value, hideSelected }: IProps) => {
   const [openSelect, setOpenSelect] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
 
   const openSelectHandler: React.MouseEventHandler<HTMLDivElement> = (e) => {
     e.preventDefault();
-    setOpenSelect(true);
+    setOpenSelect((prevState) => !prevState);
   };
 
   const closeSelectOptions = (ev: any) => {
@@ -49,9 +41,19 @@ const SelectApp = ({ label, errorMessage, options = [], changeHandler, size = 16
     }
   };
 
-  const selectHandler = (value: string) => () => {
-    changeHandler(value);
-    setOpenSelect(false);
+  const selectHandler = (option: OptionType) => () => {
+    if (option.value !== value.value) {
+      changeHandler(option);
+      setOpenSelect(false);
+    }
+  };
+
+  const getOptions = () => {
+    if (hideSelected) {
+      return options.filter((option) => option.value !== value.value);
+    } else {
+      return options;
+    }
   };
 
   useEffect(() => {
@@ -77,16 +79,15 @@ const SelectApp = ({ label, errorMessage, options = [], changeHandler, size = 16
           onMouseDown={openSelectHandler}
           readOnly
           $size={size}
-          value={value || "Не выбран"}
-          {...props}
+          value={value.label || "Не выбран"}
         />
         <NextImage info={arrowSelect} $width={17} onClick={() => setOpenSelect((prev) => !prev)} />
         <ErrorMessage>{errorMessage}</ErrorMessage>
       </ContainerInput>
       <ContainerOptions $isOpen={openSelect} $viewSize={"right"}>
-        {options.length ? (
-          options.map((opt) => (
-            <div key={opt.value} onClick={selectHandler(opt.value)}>
+        {getOptions().length ? (
+          getOptions().map((opt) => (
+            <div key={opt.value} onClick={selectHandler(opt)}>
               {opt.label}
             </div>
           ))
@@ -98,7 +99,7 @@ const SelectApp = ({ label, errorMessage, options = [], changeHandler, size = 16
   );
 };
 
-SelectApp.Switcher = ({ options = [], changeHandler, viewSide = "right" }: IPropsSwitcher) => {
+SelectApp.Sorted = ({ options = [], changeHandler, viewSide = "left", label, value }: IProps) => {
   const [openSelect, setOpenSelect] = useState(false);
   const selectRef = useRef<HTMLDivElement>(null);
 
@@ -108,50 +109,11 @@ SelectApp.Switcher = ({ options = [], changeHandler, viewSide = "right" }: IProp
     }
   };
 
-  const selectHandler = (value: string | number) => () => {
-    changeHandler(value);
-    setOpenSelect(false);
-  };
-
-  useEffect(() => {
-    document.addEventListener("click", closeSelectOptions);
-
-    return () => {
-      document.removeEventListener("click", closeSelectOptions);
-    };
-  }, []);
-
-  return (
-    <ContainerSelect ref={selectRef} $width="max-content">
-      <NextImage info={doubleArrow} $width={17} $height={17} onClick={() => setOpenSelect((prev) => !prev)} />
-      <ContainerOptions $isOpen={openSelect} $viewSize={viewSide} $width="max-content">
-        {options.length ? (
-          options.map((opt) => (
-            <div key={opt.value} onClick={selectHandler(opt.value)}>
-              {opt.label}
-            </div>
-          ))
-        ) : (
-          <div>Пустой список</div>
-        )}
-      </ContainerOptions>
-    </ContainerSelect>
-  );
-};
-
-SelectApp.Sorted = ({ options = [], changeHandler, viewSide = "left", label, value }: IPropsSorted) => {
-  const [openSelect, setOpenSelect] = useState(false);
-  const selectRef = useRef<HTMLDivElement>(null);
-
-  const closeSelectOptions = (ev: any) => {
-    if (!selectRef.current!.contains(ev.target)) {
+  const selectHandler = (option: OptionType) => () => {
+    if (option.value !== value.value) {
+      changeHandler(option);
       setOpenSelect(false);
     }
-  };
-
-  const selectHandler = (value: string | number) => () => {
-    changeHandler(value);
-    setOpenSelect(false);
   };
 
   const toggleSelectSortedHandler = () => {
@@ -170,14 +132,14 @@ SelectApp.Sorted = ({ options = [], changeHandler, viewSide = "left", label, val
     <ContainerSelect ref={selectRef} $width="max-content">
       <SelectSortedContainer $isOpen={openSelect} onClick={toggleSelectSortedHandler}>
         <TextApp>
-          {label}: {value}
+          {label}: {value.label}
         </TextApp>{" "}
         <NextImage info={arrowSelect} $width={17} objectFit="contain" />
       </SelectSortedContainer>
       <ContainerOptions $isOpen={openSelect} $viewSize={viewSide}>
         {options.length ? (
           options.map((opt) => (
-            <div key={opt.value} onClick={selectHandler(opt.value)}>
+            <div key={opt.value} onClick={selectHandler(opt)}>
               {opt.label}
             </div>
           ))

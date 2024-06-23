@@ -18,7 +18,7 @@ export default async function Home() {
       {properties?.objects.length ? <FeaturedProperty properties={properties.objects} /> : null}
       {properties?.objects.length ? (
         <PropertiesBlock
-          title="Ознакомьтесь с последними предложениями недвижимости"
+          title="Последние предложения недвижимости"
           properties={properties.objects}
           $bg={theme.colors.grayOpacity(0.1)}
           $paddingBlock={70}

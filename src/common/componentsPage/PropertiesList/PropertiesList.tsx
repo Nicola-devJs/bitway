@@ -10,29 +10,46 @@ import { ButtonApp } from "@/common/UI/button/ButtonApp";
 import { FilterContext } from "@/common/hoc/FilterProvider";
 import { theme } from "@/assets/theme/theme";
 import { IResponseProperties } from "@/common/interfaces/property/property";
-import { SelectApp } from "@/common/UI/select/SelectApp";
+import { OptionType, SelectApp } from "@/common/UI/select/SelectApp";
 
 import { PaginateApp } from "@/common/UI/paginate/PaginateApp";
 import { HiddenBlock } from "@/common/components/hiddenBlock/HiddenBlock";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { generateSearchParams } from "@/common/helpers/searchParams";
 
 // TODO хардкод по сортировке объектов
 const sortedOptions = [
-  { label: "возрастанию", value: "hight" },
-  { label: "убыванию", value: "low" },
+  { label: "новым", value: "desc" },
+  { label: "старым", value: "asc" },
 ];
 
 interface IProps {
   responseProperties: IResponseProperties;
 }
 
-export const PropertiesList: FC<IProps> = ({ responseProperties }) => {
+export const PropertiesBlock: FC<IProps> = ({ responseProperties }) => {
+  const initialSearchParams = useSearchParams();
+  const getinitialSort =
+    sortedOptions.find((sort) => sort.value === initialSearchParams.get("_order")) || sortedOptions[0];
+
   const [showType, setShowType] = useState<ShowType>("tile");
-  const [sorted, setSorted] = useState<{ label: string; value: string }>(sortedOptions[0]);
+  const [sorted, setSorted] = useState<OptionType>(getinitialSort);
   const { showFilter } = useContext(FilterContext);
   const [page, setPage] = useState(responseProperties.page);
+  const { push } = useRouter();
+  const pathname = usePathname();
+
+  const navigateToSearchParams = (params: Record<string, string>) => {
+    const searchParams = generateSearchParams(params, initialSearchParams.toString());
+    push(`${window.location.origin}${pathname}?${searchParams}`);
+  };
 
   const changeShowTypeHandler = (type: ShowType) => () => setShowType(type);
   const changeActivePage = (page: number) => setPage(page);
+  const changeSort = (sort: OptionType) => {
+    navigateToSearchParams({ _order: sort.value });
+    setSorted(sort);
+  };
 
   return (
     <div style={{ width: "100%" }}>
@@ -66,12 +83,7 @@ export const PropertiesList: FC<IProps> = ({ responseProperties }) => {
             </TextApp>
           </HiddenBlock>
         </ShowAndCountPropertiesBlock>
-        <SelectApp.Sorted
-          label="Сортировать по"
-          options={sortedOptions}
-          value={sorted.label}
-          changeHandler={(sort) => setSorted({ label: sort as string, value: sort as string })}
-        />
+        <SelectApp.Sorted label="Сортировать по" options={sortedOptions} value={sorted} changeHandler={changeSort} />
       </PropertiesToolbar>
       <ListProperties typeShow={showType} properties={responseProperties.objects} />
       <PaginateApp amountPages={responseProperties.amountPages} activePage={page} changeActivePage={changeActivePage} />

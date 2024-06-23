@@ -2,12 +2,20 @@ import { theme } from "@/assets/theme/theme";
 import { Accordion } from "@/common/components/accordion/Accordion";
 import { FC, ReactNode, useEffect, useReducer, useState } from "react";
 import styled from "styled-components";
-import { TypeTransaction, Location, Categories, PriceRange, Rooms } from "./ComponentsSidebarFilter";
+import { SelectFilter, CheckboxesFilter } from "./ComponentsSidebarFilter";
+import {
+  categoryProperty,
+  optionsRoom,
+  optionLocation,
+  optionsPropertyType,
+  optionsTransactionType,
+} from "@/common/constants/filter";
 import { useDebounce } from "@/common/hooks/debounce";
 import { useSearchParams } from "next/navigation";
+import { generateSearchParams } from "../../../helpers/searchParams";
 
 interface IProps {
-  defaultValues: { location: string | null; price: { from: number; to: number }; category: string | null };
+  setSearchParams: (searchParams: string) => void;
 }
 
 interface IFilterContainer {
@@ -16,30 +24,22 @@ interface IFilterContainer {
   children: ReactNode;
 }
 
-const generateSearchParams = (filters: Record<string, any>) => {
-  const params = new URLSearchParams();
+export const SidebarFilters: FC<IProps> = ({ setSearchParams }) => {
+  const initialSearchParams = useSearchParams();
 
-  for (const [key, value] of Object.entries(filters)) {
-    params.append(key, value);
-  }
-
-  console.log(params.getAll("typeTransaction"));
-};
-
-export const SidebarFilters: FC<IProps> = ({ defaultValues }) => {
   const fetchingPropetiesWithFiltersDebounce = useDebounce(fetchingPropetiesWithFilters);
   const [filterStorage, setFilterStorage] = useState({
-    location: defaultValues.location || "",
-    typeTransaction: [],
-    category: defaultValues.category ? [defaultValues.category] : [],
-    rooms: "",
+    location: initialSearchParams.getAll("location"),
+    typeTransaction: initialSearchParams.getAll("typeTransaction"),
+    typeProperty: initialSearchParams.getAll("typeProperty"),
+    category: initialSearchParams.get("category") || "",
     // price: defaultValues.price || { from: 0, to: 0 },
   });
 
-  // TODO Доделать метод
-
   function fetchingPropetiesWithFilters(filters: typeof filterStorage) {
-    generateSearchParams(filters);
+    const searchParams = generateSearchParams(filters, initialSearchParams.toString());
+
+    setSearchParams(searchParams);
   }
 
   const changeFilterStorage = (filter: typeof filterStorage) => {
@@ -59,11 +59,11 @@ export const SidebarFilters: FC<IProps> = ({ defaultValues }) => {
         case "typeTransaction":
           changeFilterStorage({ ...filterStorage, typeTransaction: value });
           break;
+        case "typeProperty":
+          changeFilterStorage({ ...filterStorage, typeProperty: value });
+          break;
         case "category":
           changeFilterStorage({ ...filterStorage, category: value });
-          break;
-        case "rooms":
-          changeFilterStorage({ ...filterStorage, rooms: value });
           break;
         // case "price":
         //   changeFilterStorage({ ...filterStorage, price: value });
@@ -76,20 +76,36 @@ export const SidebarFilters: FC<IProps> = ({ defaultValues }) => {
 
   return (
     <>
-      <FilterContainer label={"Выбрать локацию"} zIndex={5}>
-        <Location value={filterStorage.location} onChange={handleSetFilterType("location")} />
+      <FilterContainer label={"Выбрать локацию"} zIndex={7}>
+        <CheckboxesFilter
+          value={filterStorage.location}
+          onChange={handleSetFilterType("location")}
+          options={optionLocation}
+        />
       </FilterContainer>
 
       <FilterContainer label={"Сделка"}>
-        <TypeTransaction value={filterStorage.typeTransaction} onChange={handleSetFilterType("typeTransaction")} />
+        <CheckboxesFilter
+          value={filterStorage.typeTransaction}
+          onChange={handleSetFilterType("typeTransaction")}
+          options={optionsTransactionType}
+        />
       </FilterContainer>
 
-      <FilterContainer label={"Категория"}>
-        <Categories value={filterStorage.category} onChange={handleSetFilterType("category")} />
+      <FilterContainer label={"Недвижимость"}>
+        <CheckboxesFilter
+          value={filterStorage.typeProperty}
+          onChange={handleSetFilterType("typeProperty")}
+          options={optionsPropertyType}
+        />
       </FilterContainer>
 
-      <FilterContainer label={"Колличество комнат"} zIndex={5}>
-        <Rooms value={filterStorage.rooms} onChange={handleSetFilterType("rooms")} />
+      <FilterContainer label={"Категория"} zIndex={6}>
+        <SelectFilter
+          value={filterStorage.category}
+          onChange={handleSetFilterType("category")}
+          options={categoryProperty}
+        />
       </FilterContainer>
 
       {/* <FilterContainer label={"Ценовой диапазон"}>

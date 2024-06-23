@@ -3,6 +3,7 @@ import "../../public/global.css";
 import StyledComponentsRegistry from "@/lib/registryStyled";
 import { jost } from "@/common/constants/font";
 import ModalProvider from "@/common/hoc/ModalProvider";
+import { NotificationProvider } from "@/common/hoc/NotificationProvider";
 
 export const metadata: Metadata = {
   title: "NestHaven",
@@ -18,7 +19,9 @@ export default async function RootLayout({
     <html lang="en">
       <body className={jost.className}>
         <StyledComponentsRegistry>
-          <ModalProvider>{children}</ModalProvider>
+          <ModalProvider>
+            <NotificationProvider>{children}</NotificationProvider>
+          </ModalProvider>
         </StyledComponentsRegistry>
       </body>
     </html>

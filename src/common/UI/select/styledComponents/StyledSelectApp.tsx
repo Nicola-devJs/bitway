@@ -123,7 +123,7 @@ export const ContainerOptions = styled.div<{ $isOpen: boolean; $viewSize: "left"
   top: calc(100% + 0.694vw);
   right: 0;
   ${(props) => props.$viewSize === "right" && "left: 0;"}
-  z-index: 2;
+  z-index: 99;
   border-radius: 0.694vw;
   background-color: ${theme.colors.white};
   border: 1px solid ${theme.colors.grayOpacity(0.2)};

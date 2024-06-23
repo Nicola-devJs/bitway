@@ -20,3 +20,9 @@ export interface IResponseProperty {
   similarObjects: IPropertyCard[];
   status: Status;
 }
+
+export interface IFavoriteProperty {
+  status: Status;
+  message: string;
+  favouriteValue: boolean;
+}

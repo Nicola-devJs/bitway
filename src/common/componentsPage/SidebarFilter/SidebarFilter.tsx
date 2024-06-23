@@ -6,18 +6,17 @@ import { ButtonApp } from "@/common/UI/button/ButtonApp";
 
 import { FilterContext } from "@/common/hoc/FilterProvider";
 import { HiddenBlock } from "@/common/components/hiddenBlock/HiddenBlock";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import React from "react";
 import { SidebarFilters } from "./components";
 
 export const SidebarFilter = () => {
   const { isShowFilter, hideFilter } = useContext(FilterContext);
-  const searchParams = useSearchParams();
+  const { push } = useRouter();
+  const pathname = usePathname();
 
-  const defaultValues = {
-    location: searchParams.get("location"),
-    price: JSON.parse(searchParams.get("price") || "{}"),
-    category: searchParams.get("category"),
+  const navigateToSearchParams = (searchParams: string) => {
+    push(`${window.location.origin}${pathname}?${searchParams}`);
   };
 
   useEffect(() => {
@@ -30,7 +29,7 @@ export const SidebarFilter = () => {
 
   return (
     <StyledSidebar $showTabletFilter={isShowFilter}>
-      <SidebarFilters defaultValues={defaultValues} />
+      <SidebarFilters setSearchParams={navigateToSearchParams} />
       <HiddenBlock mode="min" extension={theme.media.tablet}>
         <ButtonApp onClick={hideFilter}>Закрыть</ButtonApp>
         <OverlaySidebar onClick={hideFilter} />

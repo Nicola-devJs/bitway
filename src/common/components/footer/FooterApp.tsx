@@ -78,7 +78,7 @@ const FooterContainer = styled.footer`
 
 const FooterColumns = styled.div`
   display: grid;
-  grid-template-columns: 28.6% 15.2% 28.4%;
+  grid-template-columns: 30.6% 15.2% 28.4%;
   grid-column-gap: 3.472vw;
   justify-content: space-between;
 
