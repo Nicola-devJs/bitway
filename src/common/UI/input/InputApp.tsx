@@ -1,28 +1,23 @@
 "use client";
-import React, { ChangeEvent, InputHTMLAttributes, TextareaHTMLAttributes, useEffect, useState } from "react";
+import React, { ChangeEvent, ChangeEventHandler, InputHTMLAttributes, TextareaHTMLAttributes, useState } from "react";
 import { jost } from "@/common/constants/font";
-
 import { ErrorMessage } from "@/common/styledComponents/ErrorMessage";
 import { ContainerInput, InputPasswordEye, StyledInput } from "./components/StyledInputApp";
 import type { ControllerRenderProps, UseControllerReturn } from "react-hook-form";
-import { RangeContainer, RangeProgress, RangeInput } from "./components/StyledInputAppRange";
+import { ClearButton } from "./components/StyledInputAppRange";
 import { ContainerCode } from "./components/StyledInputAppCode";
 import { ContainerCheckbox, StyledCheckbox } from "./components/StyledInputAppCheckbox";
 import eyeShow from "@/assets/icons/show-eye.svg";
 import eyeHide from "@/assets/icons/hide-eye.svg";
 import { NextImage } from "@/common/components/NextImage";
-import dynamic from "next/dynamic";
 import { TextApp } from "@/common/styledComponents/Text";
-
-type RangeType = {
-  min: number;
-  max: number;
-};
+import { FlexContent } from "@/common/styledComponents/Flex";
 
 interface IProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: React.ReactNode;
   errorMessage?: string;
   size?: number;
+  padding?: number;
   onChange: (...event: any[]) => void;
 }
 
@@ -30,6 +25,7 @@ interface IPropsTextarea extends TextareaHTMLAttributes<HTMLTextAreaElement> {
   label?: React.ReactNode;
   errorMessage?: string;
   size?: number;
+  padding?: number;
 }
 
 interface IPropsCode {
@@ -37,17 +33,16 @@ interface IPropsCode {
 }
 
 interface IPropsRange {
-  min: number;
-  max: number;
-  priceGap: number;
-  rangeState: RangeType;
-  setRangeState: (value: RangeType) => void;
-  children?: React.ReactNode;
+  from: string;
+  to: string;
+  onChangeFrom: (value: string) => void;
+  onChangeTo: (value: string) => void;
+  onClear: () => void;
 }
 
 // TODO Проблема с гидрацией StyledInput
 
-const InputApp = ({ label, errorMessage, size = 16, ...props }: IProps) => {
+const InputApp = ({ label, errorMessage, size = 16, padding = 16, ...props }: IProps) => {
   return (
     <ContainerInput>
       {label && (
@@ -60,6 +55,7 @@ const InputApp = ({ label, errorMessage, size = 16, ...props }: IProps) => {
         className={jost.className}
         $error={!!errorMessage}
         $size={size}
+        $padding={padding}
         {...props}
         value={props.value || ""}
       />
@@ -69,7 +65,7 @@ const InputApp = ({ label, errorMessage, size = 16, ...props }: IProps) => {
   );
 };
 
-InputApp.Password = ({ label, errorMessage, size = 16, ...props }: IProps) => {
+InputApp.Password = ({ label, errorMessage, size = 16, padding = 16, ...props }: IProps) => {
   const [isShowPassword, setShowPassword] = useState(false);
   return (
     <ContainerInput>
@@ -84,6 +80,7 @@ InputApp.Password = ({ label, errorMessage, size = 16, ...props }: IProps) => {
         $error={!!errorMessage}
         $size={size}
         $pr={50}
+        $padding={padding}
         {...props}
         value={props.value ?? ""}
       />
@@ -125,6 +122,7 @@ InputApp.Code = ({ codes }: IPropsCode) => {
           type="text"
           $size={24}
           $width={70}
+          $padding={16}
           className={jost.className}
           style={{ textAlign: "center", fontWeight: 700 }}
           tabIndex={id + 1}
@@ -139,7 +137,7 @@ InputApp.Code = ({ codes }: IPropsCode) => {
   );
 };
 
-InputApp.Phone = ({ label, errorMessage, onChange, size = 16, ...props }: IProps) => {
+InputApp.Phone = ({ label, errorMessage, onChange, size = 16, padding = 16, ...props }: IProps) => {
   const phoneHandler = (event: ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value.replace(/[^+\d]/g, "");
     onChange?.(value);
@@ -158,6 +156,7 @@ InputApp.Phone = ({ label, errorMessage, onChange, size = 16, ...props }: IProps
         $error={!!errorMessage}
         onChange={phoneHandler}
         $size={size}
+        $padding={padding}
         {...props}
         value={props.value ?? ""}
       />
@@ -166,7 +165,7 @@ InputApp.Phone = ({ label, errorMessage, onChange, size = 16, ...props }: IProps
   );
 };
 
-InputApp.Text = ({ label, errorMessage, size = 16, ...props }: IPropsTextarea) => {
+InputApp.Text = ({ label, errorMessage, size = 16, padding = 16, ...props }: IPropsTextarea) => {
   return (
     <ContainerInput>
       {label && (
@@ -180,6 +179,7 @@ InputApp.Text = ({ label, errorMessage, size = 16, ...props }: IPropsTextarea) =
         $error={!!errorMessage}
         rows={3}
         $size={size}
+        $padding={padding}
         {...props}
         value={props.value ?? ""}
       />
@@ -188,50 +188,31 @@ InputApp.Text = ({ label, errorMessage, size = 16, ...props }: IPropsTextarea) =
   );
 };
 
-InputApp.Range = ({ min, max, priceGap, children, rangeState, setRangeState }: IPropsRange) => {
-  const thumbRangeHandler = (changeStateHandler: () => void) =>
-    rangeState.max - rangeState.min >= priceGap && changeStateHandler();
-  const rollbackRangeState = (changeStateHandler: (diff: number) => void) => {
-    const differenceRange = priceGap - (rangeState.max - rangeState.min);
-    if (differenceRange > 0) {
-      changeStateHandler(differenceRange);
-    }
+InputApp.Range = ({ from, to, onChangeFrom, onChangeTo, onClear }: IPropsRange) => {
+  const handleChangeFrom: ChangeEventHandler<HTMLInputElement> = (event) => {
+    const newFrom = event.target.value;
+
+    onChangeFrom(newFrom);
   };
 
-  const minThumbRangeUpHandler = () =>
-    rollbackRangeState((differenceRange) => setRangeState({ ...rangeState, min: rangeState.min - differenceRange }));
-  const maxThumbRangeUpHandler = () =>
-    rollbackRangeState((differenceRange) => setRangeState({ ...rangeState, max: rangeState.max + differenceRange }));
+  const handleChangeTo: ChangeEventHandler<HTMLInputElement> = (event) => {
+    const newTo = event.target.value;
+
+    onChangeTo(newTo);
+  };
+
   return (
-    <div>
-      {children}
-      <RangeContainer>
-        <RangeProgress
-          $minPrecent={Math.trunc((rangeState.min / max) * 100)}
-          $maxPrecent={Math.trunc(100 - (rangeState.max / max) * 100)}
-        />
-      </RangeContainer>
-      <div style={{ position: "relative" }}>
-        <RangeInput
-          type="range"
-          onChange={(e) => thumbRangeHandler(() => setRangeState({ ...rangeState, min: +e.target.value }))}
-          onMouseUp={minThumbRangeUpHandler}
-          onTouchEnd={minThumbRangeUpHandler}
-          min={min}
-          max={max}
-          value={rangeState.min}
-        />
-        <RangeInput
-          type="range"
-          min={min}
-          max={max}
-          onChange={(e) => thumbRangeHandler(() => setRangeState({ ...rangeState, max: +e.target.value }))}
-          onMouseUp={maxThumbRangeUpHandler}
-          onTouchEnd={maxThumbRangeUpHandler}
-          value={rangeState.max}
-        />
-      </div>
-    </div>
+    <>
+      <FlexContent $align="center" $flexGap={16}>
+        <InputApp type="number" label={"От"} onChange={handleChangeFrom} value={from} padding={12} />
+        <InputApp type="number" label={"По"} onChange={handleChangeTo} value={to} padding={12} />
+      </FlexContent>
+      {(from || to) && (
+        <ClearButton onClick={onClear} outlined>
+          Очистить
+        </ClearButton>
+      )}
+    </>
   );
 };
 

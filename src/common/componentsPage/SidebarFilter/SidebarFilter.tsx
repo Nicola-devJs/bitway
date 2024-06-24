@@ -6,7 +6,7 @@ import { ButtonApp } from "@/common/UI/button/ButtonApp";
 
 import { FilterContext } from "@/common/hoc/FilterProvider";
 import { HiddenBlock } from "@/common/components/hiddenBlock/HiddenBlock";
-import { useSearchParams, useRouter, usePathname } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 import React from "react";
 import { SidebarFilters } from "./components";
 
@@ -16,7 +16,7 @@ export const SidebarFilter = () => {
   const pathname = usePathname();
 
   const navigateToSearchParams = (searchParams: string) => {
-    push(`${window.location.origin}${pathname}?${searchParams}`);
+    push(`${window.location.origin}${pathname}?${searchParams}`, { scroll: false });
   };
 
   useEffect(() => {
@@ -39,14 +39,14 @@ export const SidebarFilter = () => {
 };
 
 const StyledSidebar = styled.aside<{ $showTabletFilter: boolean }>`
-  min-width: 16.944vw;
+  max-width: 16.944vw;
 
   @media (min-width: ${theme.media.desktopLarge}px) {
-    min-width: 244px;
+    max-width: 244px;
   }
 
   @media (max-width: ${theme.media.desktop}px) {
-    min-width: 20.35vw;
+    max-width: 20.35vw;
   }
 
   @media (max-width: ${theme.media.tablet}px) {

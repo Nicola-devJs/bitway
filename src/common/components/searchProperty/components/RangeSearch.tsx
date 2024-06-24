@@ -1,9 +1,7 @@
 import { IMainFilterParams } from "@/common/constants/filter";
 import React, { ChangeEventHandler, useState } from "react";
 import { SearchItem } from ".";
-import { OptionType } from "@/common/UI/select/SelectApp";
 import { InputApp } from "@/common/UI/input/InputApp";
-import { FlexContent } from "@/common/styledComponents/Flex";
 
 interface IValue {
   priceFrom: string;
@@ -17,12 +15,12 @@ interface IProps {
 }
 
 export const RangeSearch = ({ props: { iconW, title }, value, onChange }: IProps) => {
-  const changeRangeFrom: ChangeEventHandler<HTMLInputElement> = (event) => {
-    onChange({ ...value, priceFrom: event.target.value });
+  const changeRangeFrom = (from: string) => {
+    onChange({ ...value, priceFrom: from });
   };
 
-  const changeRangeTo: ChangeEventHandler<HTMLInputElement> = (event) => {
-    onChange({ ...value, priceTo: event.target.value });
+  const changeRangeTo = (to: string) => {
+    onChange({ ...value, priceTo: to });
   };
 
   const parserValue = () => {
@@ -31,12 +29,19 @@ export const RangeSearch = ({ props: { iconW, title }, value, onChange }: IProps
     return `${fromValue} ${toValue}`.trim();
   };
 
+  const handleClear = () => {
+    onChange({ priceFrom: "", priceTo: "" });
+  };
+
   return (
     <SearchItem iconW={iconW} title={title} value={parserValue() || "Введите диапазон"}>
-      <FlexContent $align="center" $flexGap={16}>
-        <InputApp type="number" label={"От"} onChange={changeRangeFrom} value={value.priceFrom} />
-        <InputApp type="number" label={"По"} onChange={changeRangeTo} value={value.priceTo} />
-      </FlexContent>
+      <InputApp.Range
+        from={value.priceFrom}
+        to={value.priceTo}
+        onChangeFrom={changeRangeFrom}
+        onChangeTo={changeRangeTo}
+        onClear={handleClear}
+      />
     </SearchItem>
   );
 };

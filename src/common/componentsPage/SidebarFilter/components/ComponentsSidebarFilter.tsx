@@ -3,9 +3,8 @@ import { InputApp } from "@/common/UI/input/InputApp";
 import { OptionType, SelectApp } from "@/common/UI/select/SelectApp";
 
 import { TextApp } from "@/common/styledComponents/Text";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, ChangeEventHandler } from "react";
 import styled from "styled-components";
-import { useDebounce } from "@/common/hooks/debounce";
 
 interface IProps<T> {
   value: T;
@@ -61,24 +60,35 @@ export const SelectFilter = ({ value, onChange, label, options }: ISelectProps<s
   );
 };
 
-export const PriceRange = ({ value, onChange }: IProps<{ from: number; to: number }>) => {
-  const handleSetRangeState = (state: { min: number; max: number }) => {
-    onChange({ from: state.min, to: state.max });
+export const PriceRange = ({ value, onChange }: Omit<IProps<{ priceFrom: string; priceTo: string }>, "options">) => {
+  const changeRangeFrom = (from: string) => {
+    onChange({ ...value, priceFrom: from });
   };
 
+  const changeRangeTo = (to: string) => {
+    onChange({ ...value, priceTo: to });
+  };
+
+  const parserValue = () => {
+    const fromValue = value.priceFrom ? `от ${value.priceFrom} ₽` : "";
+    const toValue = value.priceTo ? `по ${value.priceTo} ₽` : "";
+    const viewPriceText = `${fromValue} ${toValue}`.trim() || "неопределена";
+    return `Стоимость: ${viewPriceText}`;
+  };
+
+  const handleClear = () => {
+    onChange({ priceFrom: "", priceTo: "" });
+  };
   return (
     <ContainerContent>
+      <TextRange>{parserValue()}</TextRange>
       <InputApp.Range
-        min={value.from}
-        max={value.to}
-        priceGap={value.to * 0.1}
-        rangeState={{ min: value.from, max: value.to }}
-        setRangeState={handleSetRangeState}
-      >
-        <TextRange>
-          Стоимость: ${value.from} - ${value.to}
-        </TextRange>
-      </InputApp.Range>
+        from={value.priceFrom}
+        to={value.priceTo}
+        onChangeFrom={changeRangeFrom}
+        onChangeTo={changeRangeTo}
+        onClear={handleClear}
+      ></InputApp.Range>
     </ContainerContent>
   );
 };

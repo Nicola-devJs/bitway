@@ -2,7 +2,7 @@ import { theme } from "@/assets/theme/theme";
 import { Accordion } from "@/common/components/accordion/Accordion";
 import { FC, ReactNode, useEffect, useReducer, useState } from "react";
 import styled from "styled-components";
-import { SelectFilter, CheckboxesFilter } from "./ComponentsSidebarFilter";
+import { SelectFilter, CheckboxesFilter, PriceRange } from "./ComponentsSidebarFilter";
 import {
   categoryProperty,
   optionsRoom,
@@ -27,19 +27,27 @@ interface IFilterContainer {
 export const SidebarFilters: FC<IProps> = ({ setSearchParams }) => {
   const initialSearchParams = useSearchParams();
 
-  const fetchingPropetiesWithFiltersDebounce = useDebounce(fetchingPropetiesWithFilters);
+  const setSearchParamsDebounce = useDebounce(setSearchParams);
   const [filterStorage, setFilterStorage] = useState({
     location: initialSearchParams.getAll("location"),
     typeTransaction: initialSearchParams.getAll("typeTransaction"),
     typeProperty: initialSearchParams.getAll("typeProperty"),
     category: initialSearchParams.get("category") || "",
-    // price: defaultValues.price || { from: 0, to: 0 },
+    price: { priceFrom: initialSearchParams.get("priceFrom") || "", priceTo: initialSearchParams.get("priceTo") || "" },
   });
 
   function fetchingPropetiesWithFilters(filters: typeof filterStorage) {
-    const searchParams = generateSearchParams(filters, initialSearchParams.toString());
+    const {
+      price: { priceFrom, priceTo },
+      ...otherfilterStorage
+    } = filters;
 
-    setSearchParams(searchParams);
+    const searchParams = generateSearchParams(
+      { ...otherfilterStorage, priceFrom, priceTo },
+      initialSearchParams.toString()
+    );
+
+    setSearchParamsDebounce(searchParams);
   }
 
   const changeFilterStorage = (filter: typeof filterStorage) => {
@@ -47,7 +55,7 @@ export const SidebarFilters: FC<IProps> = ({ setSearchParams }) => {
   };
 
   useEffect(() => {
-    fetchingPropetiesWithFiltersDebounce(filterStorage);
+    fetchingPropetiesWithFilters(filterStorage);
   }, [filterStorage]);
 
   const handleSetFilterType = (filter: string) => {
@@ -65,9 +73,9 @@ export const SidebarFilters: FC<IProps> = ({ setSearchParams }) => {
         case "category":
           changeFilterStorage({ ...filterStorage, category: value });
           break;
-        // case "price":
-        //   changeFilterStorage({ ...filterStorage, price: value });
-        //   break;
+        case "price":
+          changeFilterStorage({ ...filterStorage, price: value });
+          break;
         default:
           changeFilterStorage(filterStorage);
       }
@@ -108,9 +116,9 @@ export const SidebarFilters: FC<IProps> = ({ setSearchParams }) => {
         />
       </FilterContainer>
 
-      {/* <FilterContainer label={"Ценовой диапазон"}>
+      <FilterContainer label={"Ценовой диапазон"}>
         <PriceRange value={filterStorage.price} onChange={handleSetFilterType("price")} />
-      </FilterContainer> */}
+      </FilterContainer>
     </>
   );
 };

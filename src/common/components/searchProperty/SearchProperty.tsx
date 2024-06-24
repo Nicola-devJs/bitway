@@ -21,7 +21,7 @@ export const SearchProperty = () => {
   });
 
   const navigateToSearchParams = (searchParams: string) => {
-    // push(`properties?${searchParams}`);
+    push(`properties?${searchParams}`);
     console.log(searchParams);
   };
 
@@ -30,8 +30,6 @@ export const SearchProperty = () => {
       price: { priceFrom, priceTo },
       ...otherSearchValues
     } = searchValues;
-
-    console.log(searchValues);
 
     const searchParams = generateSearchParams(
       { ...otherSearchValues, priceFrom, priceTo },

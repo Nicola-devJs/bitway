@@ -27,10 +27,16 @@ export const ContainerInput = styled.div`
   }
 `;
 
-export const StyledInput = styled.input<{ $error?: boolean; $size: number; $width?: number; $pr?: number }>`
+export const StyledInput = styled.input<{
+  $error?: boolean;
+  $size: number;
+  $width?: number;
+  $pr?: number;
+  $padding: number;
+}>`
   width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width) : "100%")};
   border: 1px solid ${(props) => (props.$error ? theme.colors.red : theme.colors.blue)};
-  padding: 1.111vw;
+  padding: ${(props) => transformAdaptiveSize(props.$padding)};
   border-radius: 0.694vw;
   color: ${theme.colors.dark};
   font-weight: 500;
@@ -56,7 +62,7 @@ export const StyledInput = styled.input<{ $error?: boolean; $size: number; $widt
   }
 
   @media (min-width: ${theme.media.desktopLarge}px) {
-    padding: 16px;
+    padding: ${(props) => props.$padding}px;
     border-radius: 10px;
     width: ${(props) => (props.$width ? `${props.$width}px` : "100%")};
     font-size: ${(props) => `${props.$size}px`};
@@ -64,7 +70,7 @@ export const StyledInput = styled.input<{ $error?: boolean; $size: number; $widt
 
   @media (max-width: ${theme.media.desktop}px) {
     width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width, theme.media.desktop) : "100%")};
-    padding: 1.334vw;
+    padding: ${(props) => transformAdaptiveSize(props.$padding, theme.media.desktop)};
     font-size: ${(props) => transformAdaptiveSize(props.$size, theme.media.desktop)};
     border-radius: 0.834vw;
 
@@ -77,7 +83,7 @@ export const StyledInput = styled.input<{ $error?: boolean; $size: number; $widt
 
   @media (max-width: ${theme.media.tablet}px) {
     width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width, theme.media.tablet) : "100%")};
-    padding: 2.083vw;
+    padding: ${(props) => transformAdaptiveSize(props.$padding, theme.media.tablet)};
     font-size: ${(props) => transformAdaptiveSize(props.$size, theme.media.tablet)};
     border-radius: 1.302vw;
 
@@ -90,7 +96,7 @@ export const StyledInput = styled.input<{ $error?: boolean; $size: number; $widt
 
   @media (max-width: ${theme.media.phone}px) {
     width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width, theme.media.phone) : "100%")};
-    padding: 3.765vw;
+    padding: ${(props) => transformAdaptiveSize(props.$padding, theme.media.phone)};
     font-size: ${(props) => transformAdaptiveSize(props.$size, theme.media.phone)};
     border-radius: 2.353vw;
 

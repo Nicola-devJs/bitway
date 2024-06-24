@@ -18,7 +18,7 @@ export default async function Properties({ searchParams }: PageParams) {
   const paramsString = generateSearchParams(searchParams);
   const properties = await fetcherAllPropertys(paramsString);
 
-  console.log(properties);
+  
 
   return (
     <>
