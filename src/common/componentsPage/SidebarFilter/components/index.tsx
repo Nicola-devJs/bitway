@@ -1,83 +1,79 @@
 import { theme } from "@/assets/theme/theme";
 import { Accordion } from "@/common/components/accordion/Accordion";
-import { FC, ReactNode, useEffect, useReducer, useState } from "react";
+import { FC, ReactNode, useEffect, useMemo, useReducer, useState } from "react";
 import styled from "styled-components";
-import { SelectFilter, CheckboxesFilter, PriceRange } from "./ComponentsSidebarFilter";
+import { SelectFilter, CheckboxesFilter, InputRange } from "./ComponentsSidebarFilter";
 import {
-  categoryProperty,
+  optionsCategory,
   optionsRoom,
-  optionLocation,
+  optionsLocation,
   optionsPropertyType,
   optionsTransactionType,
 } from "@/common/constants/filter";
 import { useDebounce } from "@/common/hooks/debounce";
 import { useSearchParams } from "next/navigation";
 import { generateSearchParams } from "../../../helpers/searchParams";
+import { DynamicFilters } from "./dynamicFilters/DynamicFilters";
+import { FilterContainer } from "./FilterContainer";
+import { parserRangeText } from "../halpers";
 
 interface IProps {
   setSearchParams: (searchParams: string) => void;
 }
 
-interface IFilterContainer {
-  label: string;
-  zIndex?: number;
-  children: ReactNode;
-}
-
 export const SidebarFilters: FC<IProps> = ({ setSearchParams }) => {
   const initialSearchParams = useSearchParams();
-
   const setSearchParamsDebounce = useDebounce(setSearchParams);
   const [filterStorage, setFilterStorage] = useState({
     location: initialSearchParams.getAll("location"),
     typeTransaction: initialSearchParams.getAll("typeTransaction"),
     typeProperty: initialSearchParams.getAll("typeProperty"),
     category: initialSearchParams.get("category") || "",
-    price: { priceFrom: initialSearchParams.get("priceFrom") || "", priceTo: initialSearchParams.get("priceTo") || "" },
+    price: [initialSearchParams.get("priceFrom") || "", initialSearchParams.get("priceTo") || ""] as [string, string],
   });
 
-  function fetchingPropetiesWithFilters(filters: typeof filterStorage) {
-    const {
-      price: { priceFrom, priceTo },
-      ...otherfilterStorage
-    } = filters;
-
-    const searchParams = generateSearchParams(
-      { ...otherfilterStorage, priceFrom, priceTo },
-      initialSearchParams.toString()
-    );
+  function fetchingPropetiesWithFilters(filters: Record<string, string | string[]>) {
+    const searchParams = generateSearchParams(filters, initialSearchParams.toString());
 
     setSearchParamsDebounce(searchParams);
   }
 
-  const changeFilterStorage = (filter: typeof filterStorage) => {
-    setFilterStorage(filter);
+  const fetchingPropetiesWithDynamicFilters = (dynamicFilter: Record<string, string | string[]>) => {
+    const updatedDynamicFilter = { ...dynamicFilter, category: filterStorage.category };
+    const searchParams = generateSearchParams(updatedDynamicFilter, initialSearchParams.toString());
+
+    setSearchParamsDebounce(searchParams);
   };
 
   useEffect(() => {
-    fetchingPropetiesWithFilters(filterStorage);
+    const {
+      price: [priceFrom, priceTo],
+      ...otherfilterStorage
+    } = filterStorage;
+
+    fetchingPropetiesWithFilters({ ...otherfilterStorage, priceFrom, priceTo });
   }, [filterStorage]);
 
-  const handleSetFilterType = (filter: string) => {
+  const handleSetFilterType = (filter: keyof typeof filterStorage) => {
     return (value: any) => {
       switch (filter) {
         case "location":
-          changeFilterStorage({ ...filterStorage, location: value });
+          setFilterStorage({ ...filterStorage, location: value });
           break;
         case "typeTransaction":
-          changeFilterStorage({ ...filterStorage, typeTransaction: value });
+          setFilterStorage({ ...filterStorage, typeTransaction: value });
           break;
         case "typeProperty":
-          changeFilterStorage({ ...filterStorage, typeProperty: value });
+          setFilterStorage({ ...filterStorage, typeProperty: value });
           break;
         case "category":
-          changeFilterStorage({ ...filterStorage, category: value });
+          setFilterStorage({ ...filterStorage, category: value });
           break;
         case "price":
-          changeFilterStorage({ ...filterStorage, price: value });
+          setFilterStorage({ ...filterStorage, price: value });
           break;
         default:
-          changeFilterStorage(filterStorage);
+          setFilterStorage(filterStorage);
       }
     };
   };
@@ -88,7 +84,7 @@ export const SidebarFilters: FC<IProps> = ({ setSearchParams }) => {
         <CheckboxesFilter
           value={filterStorage.location}
           onChange={handleSetFilterType("location")}
-          options={optionLocation}
+          options={optionsLocation}
         />
       </FilterContainer>
 
@@ -108,55 +104,23 @@ export const SidebarFilters: FC<IProps> = ({ setSearchParams }) => {
         />
       </FilterContainer>
 
+      <FilterContainer label={"Ценовой диапазон"}>
+        <InputRange
+          value={filterStorage.price}
+          onChange={handleSetFilterType("price")}
+          parserText={parserRangeText(filterStorage.price[0], filterStorage.price[1], "Стоимость", "₽")}
+        />
+      </FilterContainer>
+
       <FilterContainer label={"Категория"} zIndex={6}>
         <SelectFilter
           value={filterStorage.category}
           onChange={handleSetFilterType("category")}
-          options={categoryProperty}
+          options={optionsCategory}
         />
       </FilterContainer>
 
-      <FilterContainer label={"Ценовой диапазон"}>
-        <PriceRange value={filterStorage.price} onChange={handleSetFilterType("price")} />
-      </FilterContainer>
+      <DynamicFilters category={filterStorage.category} onChangeDynamicFilter={fetchingPropetiesWithDynamicFilters} />
     </>
   );
 };
-
-const FilterContainer: FC<IFilterContainer> = ({ children, label, zIndex }) => {
-  return (
-    <ContentContainer>
-      <Accordion label={label} zIndex={zIndex} initialView={true}>
-        {children}
-      </Accordion>
-    </ContentContainer>
-  );
-};
-
-const ContentContainer = styled.div`
-  width: 100%;
-  padding-bottom: 1.389vw;
-  border-bottom: 1px solid ${theme.colors.grayOpacity(0.1)};
-
-  margin-bottom: 1.389vw;
-
-  @media (min-width: ${theme.media.desktopLarge}px) {
-    padding-bottom: 20px;
-    margin-bottom: 20px;
-  }
-
-  @media (max-width: ${theme.media.desktop}px) {
-    padding-bottom: 1.668vw;
-    margin-bottom: 1.668vw;
-  }
-
-  @media (max-width: ${theme.media.tablet}px) {
-    padding-bottom: 2.604vw;
-    margin-bottom: 2.604vw;
-  }
-
-  @media (max-width: ${theme.media.phone}px) {
-    padding-bottom: 4.706vw;
-    margin-bottom: 4.706vw;
-  }
-`;

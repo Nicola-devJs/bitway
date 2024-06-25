@@ -5,7 +5,7 @@ import locationIconBlack from "@/assets/icons/filter-panel/location-b.svg";
 import dollarIconBlack from "@/assets/icons/filter-panel/coin-dollar-b.svg";
 import homeIconBlack from "@/assets/icons/filter-panel/home-b.svg";
 
-export const optionLocation: FilterOptionType[] = [
+export const optionsLocation: FilterOptionType[] = [
   { label: "Тирасполь", value: "Тирасполь" },
   { label: "Бендеры", value: "Бендеры" },
   { label: "Дубоссарский р-н", value: "Дубоссарский р-н" },
@@ -15,7 +15,7 @@ export const optionLocation: FilterOptionType[] = [
   { label: "Рыбницкий р-н", value: "Рыбницкий р-н" },
 ];
 
-export const categoryProperty: FilterOptionType[] = [
+export const optionsCategory: FilterOptionType[] = [
   { label: "Дом", value: "Дом" },
   { label: "Квартира", value: "Квартира" },
   { label: "Гараж", value: "Гараж" },
@@ -23,11 +23,11 @@ export const categoryProperty: FilterOptionType[] = [
 ];
 
 export const optionsRoom: FilterOptionType[] = [
-  { label: "1", value: "1" },
-  { label: "2", value: "2" },
-  { label: "3", value: "3" },
-  { label: "4", value: "4" },
-  { label: "5", value: "5" },
+  { label: "Однокомнатная", value: "1" },
+  { label: "Двухкомнатная", value: "2" },
+  { label: "Трехкомнатная", value: "3" },
+  { label: "Четырехкомнатная", value: "4" },
+  { label: "Пятикомнатная", value: "5" },
 ];
 
 export const optionsPropertyType: FilterOptionType[] = [
@@ -44,6 +44,41 @@ export const optionsTypeStructure = [
   { value: "Кирпичный", label: "Кирпичный" },
   { value: "Монолитный", label: "Монолитный" },
   { value: "Панельный", label: "Панельный" },
+  { value: "Кательцовый", label: "Кательцовый" },
+];
+
+export const optionsFloorApartament: FilterOptionType[] = [
+  { label: "Одноэтажный", value: "1" },
+  { label: "Двухэтажный", value: "2" },
+  { label: "Трехэтажный", value: "3" },
+  { label: "Пятиэтажный", value: "5" },
+  { label: "Девятиэтажный", value: "9" },
+];
+
+export const optionsFloorHouse: FilterOptionType[] = [
+  { label: "Одноэтажный", value: "1" },
+  { label: "Двухэтажный", value: "2" },
+  { label: "Трехэтажный", value: "3" },
+  { label: "Четырехэтажный", value: "4" },
+  { label: "Пятиэтажный", value: "5" },
+];
+
+export const optionsParking = [
+  { value: "Наземная", label: "Наземная" },
+  { value: "Подземная", label: "Подземная" },
+];
+
+export const optionsRenovation = [
+  { value: "Евро", label: "Евро" },
+  { value: "Косметический", label: "Косметический" },
+  { value: "Дизайнерский", label: "Дизайнерский" },
+  { value: "Без ремонта", label: "Без ремонта" },
+];
+
+export const optionsHeating = [
+  { value: "Газовое", label: "Газовое" },
+  { value: "Электрическое", label: "Электрическое" },
+  { value: "Нет", label: "Нет" },
 ];
 
 type FilterOptionType = { label: string; value: string };
@@ -71,7 +106,7 @@ export const mainFilter = generateMainFilter([
     title: "Расположение",
     iconB: locationIconBlack,
     iconW: locationIconWhite,
-    list: optionLocation,
+    list: optionsLocation,
   },
   {
     key: "price",
@@ -84,6 +119,6 @@ export const mainFilter = generateMainFilter([
     title: "Тип строения",
     iconB: homeIconBlack,
     iconW: homeIconWhite,
-    list: categoryProperty,
+    list: optionsCategory,
   },
 ]);

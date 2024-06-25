@@ -16,6 +16,10 @@ interface ISelectProps<T> extends IProps<T> {
   label?: string;
 }
 
+interface IInputRange extends Omit<IProps<[string, string]>, "options"> {
+  parserText: string;
+}
+
 export const CheckboxesFilter = ({ value, onChange, options }: IProps<Array<string>>) => {
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = event.target.name;
@@ -60,31 +64,24 @@ export const SelectFilter = ({ value, onChange, label, options }: ISelectProps<s
   );
 };
 
-export const PriceRange = ({ value, onChange }: Omit<IProps<{ priceFrom: string; priceTo: string }>, "options">) => {
-  const changeRangeFrom = (from: string) => {
-    onChange({ ...value, priceFrom: from });
+export const InputRange = ({ value: [from, to], onChange, parserText }: IInputRange) => {
+  const changeRangeFrom = (newFrom: string) => {
+    onChange([newFrom, to]);
   };
 
-  const changeRangeTo = (to: string) => {
-    onChange({ ...value, priceTo: to });
-  };
-
-  const parserValue = () => {
-    const fromValue = value.priceFrom ? `от ${value.priceFrom} ₽` : "";
-    const toValue = value.priceTo ? `по ${value.priceTo} ₽` : "";
-    const viewPriceText = `${fromValue} ${toValue}`.trim() || "неопределена";
-    return `Стоимость: ${viewPriceText}`;
+  const changeRangeTo = (newTo: string) => {
+    onChange([from, newTo]);
   };
 
   const handleClear = () => {
-    onChange({ priceFrom: "", priceTo: "" });
+    onChange(["", ""]);
   };
   return (
     <ContainerContent>
-      <TextRange>{parserValue()}</TextRange>
+      <TextRange>{parserText}</TextRange>
       <InputApp.Range
-        from={value.priceFrom}
-        to={value.priceTo}
+        from={from}
+        to={to}
         onChangeFrom={changeRangeFrom}
         onChangeTo={changeRangeTo}
         onClear={handleClear}
