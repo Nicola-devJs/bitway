@@ -21,8 +21,6 @@ export const paramFields: PropertyParamsFields = {
   floorHouse: "Этажность дома",
   generalArea: "Общая площадь",
   livingArea: "Жилая площадь",
-  number: "Номер квартиры",
-  numberFloor: "Номер этажа",
   numberRooms: "Колличество комнат",
   typeStructure: "Материал постройки",
 };

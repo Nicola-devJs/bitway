@@ -1,6 +1,6 @@
 export const writingToken = (token: string) => {
   let date = new Date((Date.now() + 86400e3) * 7);
-  setCookie("token", token, { "max-age": date, "secure": true, "samesite": "strict", "path": "/" });
+  setCookie("token", token, { "max-age": +date, "secure": true, "samesite": "strict", "path": "/" });
 };
 
 export function getCookie(name: string) {

@@ -2,9 +2,5 @@ import { AuthCreatePage } from "@/common/componentsPage/AuthContent/AuthCreatePa
 import React from "react";
 
 export default function AuthCreate() {
-  return (
-    <>
-      <AuthCreatePage />
-    </>
-  );
+  return <AuthCreatePage />;
 }

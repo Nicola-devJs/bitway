@@ -6,18 +6,23 @@ import { TextApp } from "@/common/styledComponents/Text";
 import { PropertyFeaturedFields } from "@/common/interfaces/property/fields/featuresFields";
 import { theme } from "@/assets/theme/theme";
 import styled from "styled-components";
+import { getValueProperty } from "../helper";
 
-export const PropertyFeatured: FC<IPropertyCard> = (propertyData) => {
+interface IProps {
+  property: IPropertyCard;
+}
+
+export const PropertyFeatured: FC<IProps> = ({ property }) => {
   return (
     <PropertyContentBody>
       <PropertyContentBody>
         <div>
           <DetailsTable>
-            {Object.keys(propertyData).map((featuredKey) =>
+            {Object.keys(property).map((featuredKey) =>
               featuredFields[featuredKey as keyof PropertyFeaturedFields] ? (
                 <li>
                   <TextApp weight={700}>{featuredFields[featuredKey as keyof PropertyFeaturedFields]}</TextApp>
-                  <TextApp>{propertyData[featuredKey as keyof IPropertyCard]}</TextApp>
+                  <TextApp>{getValueProperty(featuredKey, property)}</TextApp>
                 </li>
               ) : null
             )}

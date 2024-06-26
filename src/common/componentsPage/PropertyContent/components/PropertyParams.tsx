@@ -1,3 +1,4 @@
+"use client";
 import React, { FC } from "react";
 import { PropertyContentBody } from "../PropertyContentPage";
 import { theme } from "@/assets/theme/theme";
@@ -5,18 +6,25 @@ import { TextApp } from "@/common/styledComponents/Text";
 import styled from "styled-components";
 import { IPropertyCard } from "@/common/interfaces/property/property";
 import { paramFields } from "../constants/propertyFieldsConst";
-import { PropertyParamsFields } from "@/common/interfaces/property/fields/paramsFields";
+import type { PropertyParamsFields } from "@/common/interfaces/property/fields/paramsFields";
+import { getValueProperty } from "../helper";
 
-export const PropertyParams: FC<IPropertyCard> = (propertyData) => {
+interface IProps {
+  property: IPropertyCard;
+}
+
+export const PropertyParams: FC<IProps> = ({ property }) => {
+  console.log(property);
+
   return (
     <PropertyContentBody>
       <div>
         <DetailsTable>
-          {Object.keys(propertyData).map((propertyKey) =>
+          {Object.keys(property).map((propertyKey) =>
             paramFields[propertyKey as keyof PropertyParamsFields] ? (
               <li>
                 <TextApp weight={700}>{paramFields[propertyKey as keyof PropertyParamsFields]}</TextApp>
-                <TextApp>{propertyData[propertyKey as keyof IPropertyCard]}</TextApp>
+                <TextApp>{getValueProperty(propertyKey, property)}</TextApp>
               </li>
             ) : null
           )}

@@ -3,9 +3,5 @@ import { AuthChangePage } from "@/common/componentsPage/AuthContent/AuthChangePa
 import React from "react";
 
 export default function AuthChange() {
-  return (
-    <>
-      <AuthChangePage />
-    </>
-  );
+  return <AuthChangePage />;
 }

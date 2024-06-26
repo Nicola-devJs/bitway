@@ -2,9 +2,5 @@ import { AuthForgotPage } from "@/common/componentsPage/AuthContent/AuthForgotPa
 import React from "react";
 
 export default function AuthForgot() {
-  return (
-    <>
-      <AuthForgotPage />
-    </>
-  );
+  return <AuthForgotPage />;
 }

@@ -94,8 +94,8 @@ export const PropertyContentPage: FC<IProps> = ({ property }) => {
               title: "Описание",
               content: <PropertyDescription description={property.description} plans={property.plans} />,
             },
-            { title: "Параметры", content: <PropertyParams {...property} /> },
-            { title: "Особенности", content: <PropertyFeatured {...property} /> },
+            { title: "Параметры", content: <PropertyParams property={property} /> },
+            { title: "Особенности", content: <PropertyFeatured property={property} /> },
           ]}
         />
         <HiddenBlock mode="max" extension={theme.media.tablet}>
