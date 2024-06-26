@@ -23,6 +23,17 @@ export const ContainerInput = styled.div<{ $isOpen: boolean }>`
     transition: transform 0.2s ease-in;
   }
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    label {
+      margin-bottom: 5px;
+    }
+
+    div {
+      bottom: 20px;
+      right: 23px;
+    }
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     label {
       margin-bottom: 0.417vw;
@@ -76,6 +87,13 @@ export const StyledInput = styled.input<{ $error?: boolean; $size: number; $widt
     color: ${theme.colors.gray};
   }
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    width: ${(props) => `${props.$width}px` || "100%"};
+    padding: 13px 5px 13px 20px;
+    border-radius: 10px;
+    font-size: ${(props) => `${props.$size}px`};
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width, theme.media.desktop) : "100%")};
     padding: 1.084vw 4.17vw 1.084vw 1.668vw;
@@ -105,7 +123,7 @@ export const ContainerOptions = styled.div<{ $isOpen: boolean; $viewSize: "left"
   top: calc(100% + 0.694vw);
   right: 0;
   ${(props) => props.$viewSize === "right" && "left: 0;"}
-  z-index: 2;
+  z-index: 99;
   border-radius: 0.694vw;
   background-color: ${theme.colors.white};
   border: 1px solid ${theme.colors.grayOpacity(0.2)};
@@ -123,6 +141,16 @@ export const ContainerOptions = styled.div<{ $isOpen: boolean; $viewSize: "left"
 
     &:hover {
       background-color: ${theme.colors.grayOpacity(0.1)};
+    }
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    top: calc(100% + 10px);
+    border-radius: 10px;
+    padding-block: 10px;
+
+    & > div {
+      padding: 13px 20px;
     }
   }
 
@@ -167,6 +195,10 @@ export const SelectSortedContainer = styled.div<{ $isOpen: boolean }>`
     cursor: pointer;
     transform: ${(props) => (props.$isOpen ? "rotate(180deg)" : "rotate(0deg)")};
     transition: transform 0.2s ease-in;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    gap: 10px;
   }
 
   @media (max-width: ${theme.media.desktop}px) {

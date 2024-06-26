@@ -1,5 +1,5 @@
 {
-  "name": "yarn.bitway",
+  "name": "nesthaven",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -9,15 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "effector": "^23.2.0",
-    "effector-react": "^23.2.0",
     "next": "^14.2.1",
     "react": "^18",
     "react-dom": "^18",
     "react-hook-form": "^7.51.3",
-    "react-yandex-maps": "^4.6.0",
     "sass": "^1.71.1",
-    "styled-components": "^6.1.8"
+    "styled-components": "^6.1.8",
+    "swr": "^2.2.5"
   },
   "devDependencies": {
     "@types/node": "^20",

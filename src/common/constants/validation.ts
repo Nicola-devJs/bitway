@@ -6,12 +6,11 @@ export const validateEmail = (requiredMessage: string = "Required"): RegisterOpt
   pattern: { value: emailRegexp, message: "Не правильный формат email" },
 });
 
+// TODO validation pass !/(?=.*[a-z]+)(?=.*[A-Z]+)(?=.*\d+)/.test(value)
+
 export const validatePassword = (requiredMessage: string = "Required"): RegisterOptions => ({
   required: { value: true, message: requiredMessage },
-  validate: (value = "") =>
-    !value || value.length < 6 || value.length > 26 || !/(?=.*[a-z]+)(?=.*[A-Z]+)(?=.*\d+)/.test(value)
-      ? "Не корректный пароль"
-      : true,
+  validate: (value = "") => (!value || value.length < 5 || value.length > 26 ? "Не корректный пароль" : true),
 });
 
 export const validateName = (requiredMessage: string = "Required"): RegisterOptions => ({
@@ -21,7 +20,14 @@ export const validateName = (requiredMessage: string = "Required"): RegisterOpti
 
 export const validatePhone = (requiredMessage: string = "Required"): RegisterOptions => ({
   required: { value: true, message: requiredMessage },
-  validate: (value = "") => (!value || !/^\+\d{11}$/.test(value) ? "Не корректный телефон" : true),
+  validate: (value: string = "") => {
+    const resultResponse = value.length > 12 ? `больше на ${value.length - 12}` : `меньше на ${12 - value.length}`;
+    return !value.startsWith("+")
+      ? "Номер должен начинаться с +"
+      : !value || !/^\+\d{11}$/.test(value)
+      ? `Не корректный телефон, ${resultResponse} символов`
+      : true;
+  },
 });
 
 export const validateRequired = (requiredMessage: string = "Required"): RegisterOptions => ({

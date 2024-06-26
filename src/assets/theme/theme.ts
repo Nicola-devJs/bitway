@@ -11,6 +11,7 @@ export const theme = {
     darkOpacity: (procent: number) => `rgba(15, 16, 21, ${procent})`,
   },
   media: {
+    desktopLarge: 1440,
     desktop: 1199,
     tablet: 768,
     phone: 425,

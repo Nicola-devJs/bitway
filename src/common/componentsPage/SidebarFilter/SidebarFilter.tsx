@@ -1,17 +1,23 @@
 "use client";
 import { useContext, useEffect } from "react";
-import { Accordion } from "@/common/components/accordion/Accordion";
-import ComponentsSidebarFilter from "./components/ComponentsSidebarFilter";
 import styled, { css } from "styled-components";
 import { theme } from "@/assets/theme/theme";
 import { ButtonApp } from "@/common/UI/button/ButtonApp";
-import { useScreenExtension } from "@/common/hooks/screenExtension";
 
 import { FilterContext } from "@/common/hoc/FilterProvider";
+import { HiddenBlock } from "@/common/components/hiddenBlock/HiddenBlock";
+import { useRouter, usePathname } from "next/navigation";
+import React from "react";
+import { SidebarFilters } from "./components";
 
 export const SidebarFilter = () => {
   const { isShowFilter, hideFilter } = useContext(FilterContext);
-  const [maxTabletScreen] = useScreenExtension([{ screenExtension: theme.media.tablet, maxScreen: true }]);
+  const { push } = useRouter();
+  const pathname = usePathname();
+
+  const navigateToSearchParams = (searchParams: string) => {
+    push(`${window.location.origin}${pathname}?${searchParams}`, { scroll: false });
+  };
 
   useEffect(() => {
     if (isShowFilter) {
@@ -23,29 +29,24 @@ export const SidebarFilter = () => {
 
   return (
     <StyledSidebar $showTabletFilter={isShowFilter}>
-      {ComponentsSidebarFilter.map((filter, id) => (
-        <ContentContainer key={id}>
-          <Accordion label={filter.label} zIndex={filter.zIndex} initialView={true}>
-            {filter.content}
-          </Accordion>
-        </ContentContainer>
-      ))}
-
-      {maxTabletScreen && (
-        <>
-          <ButtonApp onClick={hideFilter}>Закрыть</ButtonApp>
-          <OverlaySidebar onClick={hideFilter} />
-        </>
-      )}
+      <SidebarFilters setSearchParams={navigateToSearchParams} />
+      <HiddenBlock mode="min" extension={theme.media.tablet}>
+        <ButtonApp onClick={hideFilter}>Закрыть</ButtonApp>
+        <OverlaySidebar onClick={hideFilter} />
+      </HiddenBlock>
     </StyledSidebar>
   );
 };
 
 const StyledSidebar = styled.aside<{ $showTabletFilter: boolean }>`
-  min-width: 16.944vw;
+  max-width: 16.944vw;
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    max-width: 244px;
+  }
 
   @media (max-width: ${theme.media.desktop}px) {
-    min-width: 20.35vw;
+    max-width: 20.35vw;
   }
 
   @media (max-width: ${theme.media.tablet}px) {
@@ -92,27 +93,4 @@ const OverlaySidebar = styled.div`
   opacity: 0;
   transition: opacity 0.2s ease-in 0.1s;
   width: 100%;
-`;
-
-const ContentContainer = styled.div`
-  width: 100%;
-  padding-bottom: 1.389vw;
-  border-bottom: 1px solid ${theme.colors.grayOpacity(0.1)};
-
-  margin-bottom: 1.389vw;
-
-  @media (max-width: ${theme.media.desktop}px) {
-    padding-bottom: 1.668vw;
-    margin-bottom: 1.668vw;
-  }
-
-  @media (max-width: ${theme.media.tablet}px) {
-    padding-bottom: 2.604vw;
-    margin-bottom: 2.604vw;
-  }
-
-  @media (max-width: ${theme.media.phone}px) {
-    padding-bottom: 4.706vw;
-    margin-bottom: 4.706vw;
-  }
 `;

@@ -1,6 +1,6 @@
 "use client";
 import { usePathname } from "next/navigation";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import Link from "next/link";
 import { theme } from "@/assets/theme/theme";
@@ -8,17 +8,78 @@ import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 import { LogoApp } from "../logo/LogoApp";
 import { LinkApp } from "@/common/UI/link/LinkApp";
 import { HEADER_NAVMENU } from "@/common/constants/mockMenu";
-import { useScreenExtension } from "@/common/hooks/screenExtension";
 import { NextImage } from "../NextImage";
 import iconMenu from "@/assets/icons/icon-menu.svg";
+import { HiddenBlock } from "../hiddenBlock/HiddenBlock";
+import { Status, USER_KEY } from "@/common/constants/user";
+import { ButtonApp } from "@/common/UI/button/ButtonApp";
+import { FlexContent } from "@/common/styledComponents/Flex";
+import { deleteCookie, getCookie } from "@/common/helpers/cookie";
+import { ModalContext } from "@/common/hoc/ModalProvider";
+import { fetcherAuthMe } from "@/services/Auth";
+import { IUserResponse } from "@/common/interfaces/IAuth";
+
+const AuthButtons = ({ width }: { width?: number }) => {
+  const [checkUser, setCheckUser] = useState<IUserResponse | null>(null);
+  const { showHandler, setOptionModalHandler } = useContext(ModalContext);
+
+  const handleDeleteCookie = () => {
+    deleteCookie("token");
+    localStorage.removeItem(USER_KEY);
+    setCheckUser(null);
+  };
+
+  const handelLogout = () => {
+    setOptionModalHandler({
+      type: "alert",
+      options: {
+        title: "Вы действительно хотите выйти",
+        textButton: "Выйти",
+        buttonHandler: handleDeleteCookie,
+      },
+    });
+    showHandler();
+  };
+
+  const registrateUser = (user: IUserResponse) => {
+    const userValue = {
+      email: user.userData.email,
+      userName: `${user.userData.firstName} ${user.userData.lastName}`,
+      favouriteObject: user.userData.favouriteObject,
+    };
+
+    localStorage.setItem(USER_KEY, JSON.stringify(userValue));
+    setCheckUser(user);
+  };
+
+  useEffect(() => {
+    const token = getCookie("token");
+    token && fetcherAuthMe(token).then(registrateUser);
+  }, []);
+
+  return (
+    <>
+      {checkUser?.status === Status.SUCCESS ? (
+        <FlexContent $flexGap={20} $align="center">
+          <LinkApp.Button href={process.env.NEXT_PUBLIC_ADMIN_API!} width={width}>
+            Кабинет
+          </LinkApp.Button>
+          <ButtonApp width={width} onClick={handelLogout} outlined>
+            Выйти
+          </ButtonApp>
+        </FlexContent>
+      ) : (
+        <LinkApp.Button href="/auth/login" width={width}>
+          Войти
+        </LinkApp.Button>
+      )}
+    </>
+  );
+};
 
 export const HeaderApp = () => {
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   const pathname = usePathname();
-  const [maxTabletScreen, maxPhoneScreen] = useScreenExtension([
-    { screenExtension: theme.media.tablet, maxScreen: true },
-    { screenExtension: theme.media.phone, maxScreen: true },
-  ]);
 
   useEffect(() => {
     if (showMobileMenu) {
@@ -27,6 +88,7 @@ export const HeaderApp = () => {
       document.body.classList.remove("hide");
     }
   }, [showMobileMenu]);
+
   return (
     <HeaderContainer>
       <ContainerApp>
@@ -34,18 +96,16 @@ export const HeaderApp = () => {
           <Link href="/">
             <LogoApp size={147.6} />
           </Link>
-          {maxTabletScreen && (
-            <>
-              <NextImage
-                info={iconMenu}
-                $width={48}
-                $height={48}
-                objectFit="contain"
-                style={{ transform: "rotate(180deg)" }}
-                onClick={() => setShowMobileMenu((showState) => !showState)}
-              />
-            </>
-          )}
+          <HiddenBlock mode="min" extension={theme.media.tablet}>
+            <NextImage
+              info={iconMenu}
+              $width={48}
+              $height={48}
+              objectFit="contain"
+              style={{ transform: "rotate(180deg)" }}
+              onClick={() => setShowMobileMenu((showState) => !showState)}
+            />
+          </HiddenBlock>
 
           <MenuList $showMobileMenu={showMobileMenu}>
             {HEADER_NAVMENU.map((itemMenu) => (
@@ -59,19 +119,16 @@ export const HeaderApp = () => {
                 </LinkApp>
               </li>
             ))}
-            {maxTabletScreen && (
-              <>
-                <OverlayMobileMenu onClick={() => setShowMobileMenu(false)} />
-                {maxPhoneScreen && <LinkApp.Button href="/auth/login">Login</LinkApp.Button>}
-              </>
-            )}
+            <HiddenBlock mode="min" extension={theme.media.tablet}>
+              <OverlayMobileMenu onClick={() => setShowMobileMenu(false)} />
+              <HiddenBlock mode="min" extension={theme.media.phone}>
+                <AuthButtons />
+              </HiddenBlock>
+            </HiddenBlock>
           </MenuList>
-
-          {!maxPhoneScreen && (
-            <LinkApp.Button href="/auth/login" width={98}>
-              Login
-            </LinkApp.Button>
-          )}
+          <HiddenBlock mode="max" extension={theme.media.phone}>
+            <AuthButtons width={98} />
+          </HiddenBlock>
         </HeaderNav>
       </ContainerApp>
     </HeaderContainer>
@@ -81,6 +138,10 @@ export const HeaderApp = () => {
 const HeaderContainer = styled.header`
   padding-block: 1.042vw;
   background-color: ${theme.colors.white};
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    padding-block: 15px;
+  }
 
   @media (max-width: ${theme.media.desktop}px) {
     padding-block: 1.668vw;
@@ -97,6 +158,10 @@ const HeaderNav = styled.nav`
   justify-content: space-between;
   position: relative;
   gap: 2.083vw;
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    gap: 30px;
+  }
 
   @media (max-width: ${theme.media.desktop}px) {
     gap: 2.502vw;
@@ -133,6 +198,12 @@ const MenuList = styled.ul<{ $showMobileMenu: boolean }>`
 
   li:not(:first-child) {
     margin-left: 2.083vw;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    li:not(:first-child) {
+      margin-left: 30px;
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {
@@ -196,6 +267,7 @@ const MenuList = styled.ul<{ $showMobileMenu: boolean }>`
     }
     & > *:last-child {
       grid-column: 1/3;
+      width: 100%;
     }
   }
 `;

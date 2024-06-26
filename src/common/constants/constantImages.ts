@@ -22,6 +22,7 @@ export const authPages: ConstImagesType = {
   create: imgCreate,
   forgot: imgForgot,
   otp: imgOtp,
+  change: imgCreate,
 };
 
 export const propertyCardIconsBlack: ConstImagesType = {

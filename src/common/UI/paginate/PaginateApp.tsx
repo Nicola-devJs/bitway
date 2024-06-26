@@ -8,40 +8,37 @@ import arrowLeftBlack from "@/assets/icons/slider/arrow-left-b-slider.svg";
 import arrowRightBlack from "@/assets/icons/slider/arrow-right-b-slider.svg";
 
 interface IProps {
-  sizeItem?: number;
-  itemsLenght: number;
-  viewCountItems: number;
-  activeIdPage: number;
-  changeIdPage: (idPage: number) => void;
+  sizePage?: number;
+  activePage: number;
+  changeActivePage: (idPage: number) => void;
+  amountPages: number;
 }
 
-export const PaginateApp: FC<IProps> = ({ sizeItem = 40, itemsLenght, viewCountItems, activeIdPage, changeIdPage }) => {
-  const listPaginate = Array(Math.ceil(itemsLenght / viewCountItems))
-    .fill(1)
-    .map((_, id) => id + 1);
-
-  const isFirstPage = activeIdPage === 0;
-  const isLastPage = activeIdPage === listPaginate.length - 1;
+export const PaginateApp: FC<IProps> = ({ sizePage = 40, amountPages, activePage, changeActivePage }) => {
+  const isFirstPage = activePage === 1;
+  const isLastPage = activePage === amountPages;
 
   return (
     <PaginateContainer>
-      {listPaginate.map((item, id) => (
-        <PaginateItem key={id} $size={sizeItem} $actvie={activeIdPage === id} onClick={() => changeIdPage(id)}>
-          {item}
-        </PaginateItem>
-      ))}
+      {Array(amountPages)
+        .fill(" ")
+        .map((_, id) => (
+          <PaginateItem key={id} $size={sizePage} $actvie={activePage === id + 1} onClick={() => changeActivePage(id)}>
+            {id + 1}
+          </PaginateItem>
+        ))}
       <>
         <PaginateArrowLeft
           $isDisabled={isFirstPage}
           disabled={isFirstPage}
-          onClick={() => changeIdPage(activeIdPage - 1)}
+          onClick={() => changeActivePage(activePage - 1)}
         >
           <NextImage info={arrowLeftBlack} $width={12} $height={8} objectFit="contain" />
         </PaginateArrowLeft>
         <PaginateArrowRight
           $isDisabled={isLastPage}
           disabled={isLastPage}
-          onClick={() => changeIdPage(activeIdPage + 1)}
+          onClick={() => changeActivePage(activePage + 1)}
         >
           <NextImage info={arrowRightBlack} $width={12} $height={8} objectFit="contain" />
         </PaginateArrowRight>
@@ -58,6 +55,12 @@ const PaginateContainer = styled.div`
   margin: 3.472vw 0 6.944vw auto;
   padding-inline: 2.778vw;
   width: max-content;
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    gap: 10px;
+    margin: 50px 0 100px auto;
+    padding-inline: 40px;
+  }
 
   @media (max-width: ${theme.media.desktop}px) {
     margin: 4.17vw 0 8.34vw auto;
@@ -88,6 +91,12 @@ const PaginateItem = styled.div<{ $size: number; $actvie: boolean }>`
   font-weight: 500;
   color: ${(props) => (props.$actvie ? theme.colors.white : theme.colors.dark)};
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    width: ${(props) => `${props.$size}px`};
+    height: ${(props) => `${props.$size}px`};
+    border-radius: 5px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     width: ${(props) => transformAdaptiveSize(props.$size, theme.media.desktop)};
     height: ${(props) => transformAdaptiveSize(props.$size, theme.media.desktop)};
@@ -116,6 +125,11 @@ const PaginateArrowRight = styled.button<{ $isDisabled: boolean }>`
   justify-content: center;
   opacity: ${(props) => (props.$isDisabled ? 0.5 : 1)};
   background-color: transparent;
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    width: 24px;
+    height: 24px;
+  }
 
   @media (max-width: ${theme.media.desktop}px) {
     width: 2.002vw;

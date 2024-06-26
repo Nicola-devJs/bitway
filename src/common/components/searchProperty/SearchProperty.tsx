@@ -1,24 +1,83 @@
 "use client";
-import { TextApp } from "@/common/styledComponents/Text";
-import React, { useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import searchIcon from "@/assets/icons/filter-panel/search.svg";
 import { NextImage } from "../NextImage";
 import { theme } from "@/assets/theme/theme";
 import { ContainerApp } from "@/common/styledComponents/ContainerApp";
-import { LocationSearch, PriceSearch, TypePropertySearch } from "./components";
-import Link from "next/link";
+import { mainFilter } from "@/common/constants/filter";
+import { useRouter, useSearchParams } from "next/navigation";
+import { generateSearchParams } from "@/common/helpers/searchParams";
+import { SelectSearch } from "./components/SelectSearch";
+import { RangeSearch } from "./components/RangeSearch";
 
 export const SearchProperty = () => {
+  const { push } = useRouter();
+  const initialSearchParams = useSearchParams();
+  const [searchValues, setSearchValues] = useState({
+    location: "",
+    category: "",
+    price: { priceFrom: "", priceTo: "" },
+  });
+
+  const navigateToSearchParams = (searchParams: string) => {
+    push(`properties?${searchParams}`);
+    console.log(searchParams);
+  };
+
+  function fetchingPropetiesWithFilters() {
+    const {
+      price: { priceFrom, priceTo },
+      ...otherSearchValues
+    } = searchValues;
+
+    const searchParams = generateSearchParams(
+      { ...otherSearchValues, priceFrom, priceTo },
+      initialSearchParams.toString()
+    );
+
+    navigateToSearchParams(searchParams);
+  }
+
+  const changeSearchValues = (filter: typeof searchValues) => {
+    setSearchValues(filter);
+  };
+
+  const handleSetFilterType = (filter: string) => {
+    return (value: any) => {
+      switch (filter) {
+        case "location":
+          changeSearchValues({ ...searchValues, location: value });
+          break;
+        case "category":
+          changeSearchValues({ ...searchValues, category: value });
+          break;
+        case "price":
+          changeSearchValues({ ...searchValues, price: value });
+          break;
+        default:
+          changeSearchValues(searchValues);
+      }
+    };
+  };
+
   return (
     <ContainerApp>
       <SearchPropertyContainer>
         <SearchPropertyRow>
-          <LocationSearch />
-          <PriceSearch />
-          <TypePropertySearch />
+          <SelectSearch
+            props={mainFilter.location}
+            value={searchValues.location}
+            onChange={handleSetFilterType("location")}
+          />
+          <RangeSearch props={mainFilter.price} value={searchValues.price} onChange={handleSetFilterType("price")} />
+          <SelectSearch
+            props={mainFilter.category}
+            value={searchValues.category}
+            onChange={handleSetFilterType("category")}
+          />
         </SearchPropertyRow>
-        <Search href="/properties">
+        <Search onClick={fetchingPropetiesWithFilters}>
           <NextImage info={searchIcon} $width={24} $height={24} objectFit="contain" />
         </Search>
       </SearchPropertyContainer>
@@ -37,6 +96,11 @@ const SearchPropertyContainer = styled.div`
   z-index: 2;
 
   border-radius: 0.694vw;
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    margin: -50px 0 100px;
+    border-radius: 10px;
+  }
 
   @media (max-width: ${theme.media.desktop}px) {
     margin: -4vw 0 4.17vw;
@@ -66,7 +130,7 @@ const SearchPropertyRow = styled.div`
   }
 `;
 
-const Search = styled(Link)`
+const Search = styled.button`
   width: 3.889vw;
   height: 3.889vw;
   border-radius: 0.694vw;
@@ -76,6 +140,13 @@ const Search = styled(Link)`
   align-items: center;
   margin-inline: 2.778vw 1.389vw;
   cursor: pointer;
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    width: 56px;
+    height: 56px;
+    margin-inline: 40px 20px;
+    border-radius: 10px;
+  }
 
   @media (max-width: ${theme.media.desktop}px) {
     width: 4.671vw;

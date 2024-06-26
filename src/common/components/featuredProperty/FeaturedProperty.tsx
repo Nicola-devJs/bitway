@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { FC, useState } from "react";
 import styled from "styled-components";
 import { NextImage } from "../NextImage";
 import { TextApp } from "@/common/styledComponents/Text";
@@ -8,55 +8,59 @@ import { theme } from "@/assets/theme/theme";
 import { SliderApp } from "../slider/SliderApp";
 import { playfair } from "@/common/constants/font";
 import { LinkApp } from "@/common/UI/link/LinkApp";
-import { propertyCardIconsWhite } from "@/common/constants/constantImages";
-import { mockPropertiesWithImage } from "@/common/constants/mockGallery";
-import { useScreenExtension } from "@/common/hooks/screenExtension";
+import imageProperty from "@/assets/images/main-img.jpg";
+import { IPropertyCard } from "@/common/interfaces/property/property";
 
-export const FeaturedProperty = () => {
-  const [maxTabletScreen, maxPhoneScreen] = useScreenExtension([
-    { screenExtension: theme.media.tablet, maxScreen: true },
-    { screenExtension: theme.media.phone, maxScreen: true },
-  ]);
+interface IProps {
+  properties: IPropertyCard[];
+}
+
+export const FeaturedProperty: FC<IProps> = ({ properties }) => {
   const [propId, setPropId] = useState(0);
-  const conditionHeightScreen = maxPhoneScreen ? 266 : maxTabletScreen ? 350 : 500;
 
   return (
     <ContainerApp>
       <FeaturedPropertyBlock>
         <TextApp.Block
-          title="Featured Properties"
-          text="Using it can make you sound like you have been studying english for a long time. Here’s the challenge"
+          title="Популярная недвижимость"
+          text="Перед вами список самых посещаемых объектов на сайте, присмотритесь к ним, возможно это то что вы ищите"
           $mb={50}
           textAlign="center"
         />
         <div style={{ position: "relative" }}>
           <SliderApp
-            slides={mockPropertiesWithImage.slice(0, 5).map((prop) => (
-              <NextImage info={prop.currentImage} $fullWidth $height={conditionHeightScreen} className="img" />
+            slides={properties.slice(0, 5).map((prop) => (
+              <FeaturedPropertyImageWrapper>
+                <NextImage info={prop.photos[0] || imageProperty} $fullWidth className="img" />
+              </FeaturedPropertyImageWrapper>
             ))}
             infinityMode={4000}
-            height={conditionHeightScreen}
             getPosition={setPropId}
           />
           <FeaturedPropertyInfoBlock>
-            <TextApp.Heading color={theme.colors.white} size={24} className={playfair.className}>
-              {mockPropertiesWithImage[propId].heading}
-            </TextApp.Heading>
+            <PropertyHeading color={theme.colors.white} size={24} className={playfair.className}>
+              {properties[propId]?.heading}
+            </PropertyHeading>
             <TextApp color={theme.colors.white} size={20}>
-              ${mockPropertiesWithImage[propId].price}
+              {properties[propId]?.price} ₽
             </TextApp>
-            <TextApp color={theme.colors.white}>{mockPropertiesWithImage[propId].description}</TextApp>
-            <FeaturedPropertyInfoComponents>
-              {Object.keys(mockPropertiesWithImage[propId].components).map((comp) => (
+            <PropertyDescription color={theme.colors.white}>{properties[propId]?.description}</PropertyDescription>
+            {/* <FeaturedPropertyInfoComponents>
+              {Object.keys(properties[propId]).map((comp) => (
                 <div key={comp}>
                   <NextImage info={propertyCardIconsWhite[comp]} $width={24} />
-                  {/* @ts-ignore */}
-                  <span>{mockPropertiesWithImage[propId].components[comp]}</span>
+                  
+                  <span>{properties[propId].components[comp]}</span>
                 </div>
               ))}
-            </FeaturedPropertyInfoComponents>
-            <LinkApp.Button href="/properties/id" width={182} outlined color={theme.colors.white}>
-              More Details
+            </FeaturedPropertyInfoComponents> */}
+            <LinkApp.Button
+              href={`/properties/${properties[propId]?._id}`}
+              width={182}
+              outlined
+              color={theme.colors.white}
+            >
+              Узнать больше
             </LinkApp.Button>
           </FeaturedPropertyInfoBlock>
         </div>
@@ -72,6 +76,13 @@ const FeaturedPropertyBlock = styled.div`
   .img {
     overflow: hidden;
     border-radius: 1.111vw;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    padding-bottom: 200px;
+    .img {
+      border-radius: 16px;
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {
@@ -97,6 +108,34 @@ const FeaturedPropertyBlock = styled.div`
   }
 `;
 
+const FeaturedPropertyImageWrapper = styled.div`
+  width: 100%;
+  height: 34.722vw;
+  border-radius: 1.111vw;
+  background-image: url(${imageProperty.src});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    height: 500px;
+    border-radius: 16px;
+  }
+
+  @media (max-width: ${theme.media.desktop}px) {
+    border-radius: 1.334vw;
+  }
+
+  @media (max-width: ${theme.media.tablet}px) {
+    border-radius: 2.083vw;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    height: 47.059vw;
+    border-radius: 3.765vw;
+  }
+`;
+
 const FeaturedPropertyInfoBlock = styled.div`
   position: absolute;
   right: 6.944vw;
@@ -108,6 +147,19 @@ const FeaturedPropertyInfoBlock = styled.div`
 
   & > *:not(:last-child) {
     margin-bottom: 0.694vw;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    right: 100px;
+    bottom: -100px;
+    padding: 20px;
+
+    border-radius: 10px;
+    width: 500px;
+
+    & > *:not(:last-child) {
+      margin-bottom: 10px;
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {
@@ -143,6 +195,21 @@ const FeaturedPropertyInfoBlock = styled.div`
       margin-bottom: 2.353vw;
     }
   }
+`;
+
+const PropertyHeading = styled(TextApp.Heading)`
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const PropertyDescription = styled(TextApp)`
+  max-height: 70px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
 `;
 
 const FeaturedPropertyInfoComponents = styled.div`

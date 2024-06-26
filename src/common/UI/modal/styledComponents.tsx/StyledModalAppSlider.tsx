@@ -16,6 +16,13 @@ const SliderInfo = styled.div`
   opacity: 0;
   transition: opacity 0.2s ease-in-out;
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    bottom: 20px;
+    width: 144px;
+    padding: 16px;
+    border-radius: 10px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     padding: 1.334vw;
     border-radius: 0.834vw;

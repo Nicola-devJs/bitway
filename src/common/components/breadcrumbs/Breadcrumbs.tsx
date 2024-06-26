@@ -10,25 +10,28 @@ import { BREADCRUMBS_MENU } from "@/common/constants/mockMenu";
 
 interface IProps extends HTMLAttributes<HTMLParagraphElement> {
   color?: string;
+  namePage?: string;
 }
 
-export const Breadcrumbs: FC<IProps> = ({ color = theme.colors.dark, ...props }) => {
+export const Breadcrumbs: FC<IProps> = ({ color = theme.colors.dark, namePage, ...props }) => {
   const pathname: string[] = [];
-  usePathname()
-    .split("/")
-    .forEach((path, id) => {
-      if (id % 2 !== 0) {
-        pathname.push(">");
-      }
-      pathname.push("/" + path);
-    });
+
+  const pathnameArray = usePathname().split("/");
+  namePage && pathnameArray.push(namePage);
+
+  pathnameArray.forEach((path, id) => {
+    if (id % 2 !== 0) {
+      pathname.push(">");
+    }
+    pathname.push("/" + path);
+  });
 
   return (
     <StyledBreadcrumbs $color={color} {...props}>
       {pathname.map((path, id, pathnamesArray) => (
         <React.Fragment key={id}>
           {pathnamesArray.length - 1 === id ? (
-            <span>{BREADCRUMBS_MENU[path]}</span>
+            <span>{BREADCRUMBS_MENU[path] || path.slice(1)}</span>
           ) : path === ">" ? (
             <ArrowRight />
           ) : (
@@ -50,6 +53,12 @@ const ArrowRight = styled.span`
   width: 0.313vw;
   height: 0.66vw;
   margin-inline: 0.556vw;
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    width: 4.5px;
+    height: 9.5px;
+    margin-inline: 8px;
+  }
 
   @media (max-width: ${theme.media.desktop}px) {
     width: 0.375vw;
@@ -82,6 +91,10 @@ const StyledBreadcrumbs = styled.p<{ $color: string }>`
 
   ${ArrowRight} {
     background-image: url(${(props) => (props.$color === theme.colors.dark ? arrowRight.src : arrowRightWhite.src)});
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    padding-block: 50px;
   }
 
   @media (max-width: ${theme.media.desktop}px) {

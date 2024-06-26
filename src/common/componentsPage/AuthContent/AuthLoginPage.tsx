@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useCallback, useState } from "react";
 import styled from "styled-components";
 import { useController, useForm } from "react-hook-form";
 import { AuthContent } from ".";
@@ -9,6 +9,10 @@ import { LinkApp } from "@/common/UI/link/LinkApp";
 import { theme } from "@/assets/theme/theme";
 import { TextApp } from "@/common/styledComponents/Text";
 import { validateEmail, validatePassword } from "@/common/constants/validation";
+import { fetcherAuthLogin } from "@/services/Auth";
+import { setCookie, writingToken } from "@/common/helpers/cookie";
+import { useRouter } from "next/navigation";
+import { useCustomQuery } from "@/common/hooks/customQuery";
 
 interface FormValues {
   email: string;
@@ -17,7 +21,9 @@ interface FormValues {
 }
 
 export const AuthLoginPage = () => {
+  const router = useRouter();
   const { handleSubmit, control } = useForm<FormValues>({ mode: "onBlur" });
+  const { advancedFetcher, isLoading } = useCustomQuery(fetcherAuthLogin);
 
   const { field: email, fieldState: emailState } = useController({
     control,
@@ -34,25 +40,34 @@ export const AuthLoginPage = () => {
     name: "remember",
   });
 
-  const handler = (data: FormValues) => {
-    console.log(data);
+  const handler = async (data: FormValues) => {
+    const { remember, ...user } = data;
+
+    const res = await advancedFetcher(user);
+
+    writingToken(res.token);
+    router.push("/");
   };
 
   return (
-    <AuthContent title="Welcome 👋" subTitle="Please login here">
+    <AuthContent
+      title="Добро пожаловать 👋"
+      subTitle="Чтобы получить полный доступ к сервису, авторизируйтесь ниже"
+      linkBack="/"
+    >
       <form onSubmit={handleSubmit(handler)}>
         <InputApp
-          placeholder="Email"
+          placeholder="Введите email"
           type="email"
-          label="Email Address"
+          label="Email"
           value={email.value}
           onChange={email.onChange}
           onBlur={email.onBlur}
           errorMessage={emailState.error?.message}
         />
         <InputApp.Password
-          placeholder="Password"
-          label="Password"
+          placeholder="Введите пароль"
+          label="Пароль"
           value={password.value}
           onChange={password.onChange}
           onBlur={password.onBlur}
@@ -60,17 +75,17 @@ export const AuthLoginPage = () => {
         />
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <InputApp.Checkbox
-            label={<span>Remember Me</span>}
+            label={<span>Запомнить меня</span>}
             checked={remember.value ?? false}
             onChange={remember.onChange}
             onBlur={remember.onBlur}
             errorMessage={rememberState.error?.message}
           />
           <LinkApp color={theme.colors.blue} href="/auth/forgot" notViewUnderline>
-            Forgot Password?
+            Забыли пароль?
           </LinkApp>
         </div>
-        <ButtonApp>Login</ButtonApp>
+        <ButtonApp loading={isLoading}>Войти</ButtonApp>
       </form>
       <TextBottom>
         Если вы еще не зарегестрированы, перейдите по{" "}
@@ -84,6 +99,10 @@ export const AuthLoginPage = () => {
 
 const TextBottom = styled(TextApp)`
   margin-top: 2.083vw;
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    margin-top: 30px;
+  }
 
   @media (max-width: ${theme.media.desktop}px) {
     margin-bottom: 2.502vw;

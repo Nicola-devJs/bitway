@@ -7,6 +7,10 @@ import { InputApp } from "@/common/UI/input/InputApp";
 import { LinkApp } from "@/common/UI/link/LinkApp";
 import { theme } from "@/assets/theme/theme";
 import { validateEmail, validateName, validatePassword, validateRequired } from "@/common/constants/validation";
+import { fetcherAuthCreate } from "@/services/Auth";
+import { writingToken } from "@/common/helpers/cookie";
+import { useRouter } from "next/navigation";
+import { useCustomQuery } from "@/common/hooks/customQuery";
 
 interface FormValues {
   firstName: string;
@@ -17,10 +21,9 @@ interface FormValues {
 }
 
 export const AuthCreatePage = () => {
+  const { advancedFetcher, isLoading } = useCustomQuery(fetcherAuthCreate);
+  const router = useRouter();
   const { handleSubmit, control } = useForm<FormValues>({ mode: "onBlur" });
-  const handler = (data: FormValues) => {
-    console.log(data);
-  };
 
   const { field: firstName, fieldState: firstNameState } = useController({
     control,
@@ -40,37 +43,45 @@ export const AuthCreatePage = () => {
   });
   const { field: agree, fieldState: agreeState } = useController({ control, name: "agree", rules: validateRequired() });
 
+  const handler = async (data: FormValues) => {
+    const { agree, ...newUser } = data;
+    const res = await advancedFetcher(newUser);
+
+    writingToken(res.token);
+    router.push("/");
+  };
+
   return (
-    <AuthContent title="Create New Account" subTitle="Please enter details">
+    <AuthContent title="Создать новый аккаунт" subTitle="Пожалуйста введите свои данные ниже" linkBack="/auth/login">
       <form onSubmit={handleSubmit(handler)}>
         <InputApp
-          placeholder="Enter first name ..."
-          label="First name"
+          placeholder="Введите имя"
+          label="Имя"
           value={firstName.value}
           onChange={firstName.onChange}
           onBlur={firstName.onBlur}
           errorMessage={firstNameState.error?.message}
         />
         <InputApp
-          placeholder="Enter last name ..."
-          label="Last name"
+          placeholder="Введите фамилию"
+          label="Фамилию"
           value={lastName.value}
           onChange={lastName.onChange}
           onBlur={lastName.onBlur}
           errorMessage={lastNameState.error?.message}
         />
         <InputApp
-          placeholder="Enter Email ..."
+          placeholder="Введите email"
           type="email"
-          label="Email Address"
+          label="Email"
           value={email.value}
           onChange={email.onChange}
           onBlur={email.onBlur}
           errorMessage={emailState.error?.message}
         />
         <InputApp.Password
-          placeholder="Enter Email ..."
-          label="Password"
+          placeholder="Введите пароль"
+          label="Пароль"
           value={password.value}
           onChange={password.onChange}
           onBlur={password.onBlur}
@@ -79,9 +90,9 @@ export const AuthCreatePage = () => {
         <InputApp.Checkbox
           label={
             <span>
-              I agree to the{" "}
+              Я согласен с{" "}
               <LinkApp color={theme.colors.blue} href="#" notViewUnderline>
-                Terms & Conditions
+                обработкой данный
               </LinkApp>{" "}
             </span>
           }
@@ -90,7 +101,7 @@ export const AuthCreatePage = () => {
           onBlur={agree.onBlur}
           errorMessage={agreeState.error?.message}
         />
-        <ButtonApp>Signup</ButtonApp>
+        <ButtonApp loading={isLoading}>Зарегистрироваться</ButtonApp>
       </form>
     </AuthContent>
   );

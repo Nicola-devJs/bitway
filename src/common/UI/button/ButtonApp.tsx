@@ -1,6 +1,6 @@
 "use client";
 import React, { ButtonHTMLAttributes, FC, ReactNode } from "react";
-import styled from "styled-components";
+import styled, { keyframes } from "styled-components";
 import { theme } from "@/assets/theme/theme";
 import { transformAdaptiveSize } from "@/common/helpers/transformValues";
 import { NextImage } from "@/common/components/NextImage";
@@ -13,6 +13,7 @@ interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   width?: number;
   outlined?: boolean;
   icon?: keyof typeof feedbackButtonIcons;
+  loading?: boolean;
 }
 
 export const ButtonApp: FC<IProps> = ({
@@ -22,12 +23,18 @@ export const ButtonApp: FC<IProps> = ({
   width,
   outlined,
   icon,
+  loading,
   ...props
 }) => {
   return (
     <StyledButton $fz={fontSize} $pb={paddingBlock} $w={width} $outlined={outlined} onClick={props.onClick} {...props}>
       {icon && <NextImage info={feedbackButtonIcons[icon]} $width={24} $height={24} objectFit="contain" />}
       {children}
+      {loading && (
+        <CyrcleLoader>
+          <div></div>
+        </CyrcleLoader>
+      )}
     </StyledButton>
   );
 };
@@ -36,6 +43,7 @@ const StyledButton = styled.button<{ $fz: number; $pb: number; $w?: number; $out
   display: flex;
   align-items: center;
   justify-content: center;
+  position: relative;
 
   font-family: inherit;
   font-weight: 400;
@@ -44,12 +52,23 @@ const StyledButton = styled.button<{ $fz: number; $pb: number; $w?: number; $out
   width: ${(props) => (props.$w ? transformAdaptiveSize(props.$w) : "100%")};
   border: 1px solid ${(props) => (props.$outlined ? theme.colors.blue : "transparent")};
   padding-block: ${(props) => transformAdaptiveSize(props.$pb)};
-  border-radius: 0.69vw;
+  border-radius: 0.694vw;
   font-size: ${(props) => transformAdaptiveSize(props.$fz)};
   cursor: pointer;
 
   & > div {
     margin-right: 0.694vw;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    font-size: ${(props) => `${props.$fz}px`};
+    padding-block: ${(props) => `${props.$pb}px`};
+    width: ${(props) => (props.$w ? `${props.$w}px` : "100%")};
+    border-radius: 10px;
+
+    & > div {
+      margin-right: 10px;
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {
@@ -83,5 +102,52 @@ const StyledButton = styled.button<{ $fz: number; $pb: number; $w?: number; $out
     & > div {
       margin-right: 2.353vw;
     }
+  }
+`;
+
+const loaderScale = keyframes`
+   0% {
+      transform: rotate(0deg);
+   }
+   50% {
+      transform: rotate(180deg);
+   }
+   100% {
+      transform: rotate(360deg);
+   }
+`;
+
+const CyrcleLoader = styled.div`
+  position: relative;
+  width: 24px;
+  height: 24px;
+  animation: ${loaderScale} 1s infinite ease-in-out;
+  position: absolute;
+  z-index: 1;
+
+  div {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 22px;
+    height: 22px;
+    background-color: transparent;
+    border-radius: 50%;
+  }
+
+  div::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    padding: 2px;
+    background: linear-gradient(to right, ${theme.colors.white}, ${theme.colors.blue});
+    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+    -webkit-mask-composite: destination-out;
+    mask-composite: exclude;
+    box-sizing: border-box;
   }
 `;

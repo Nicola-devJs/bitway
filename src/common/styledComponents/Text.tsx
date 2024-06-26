@@ -60,6 +60,10 @@ const StyledText = styled.p<{ $s: number; $c: string; $fw?: number }>`
   color: ${(props) => props.$c};
   font-size: ${(props) => transformAdaptiveSize(props.$s)};
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    font-size: ${(props) => props.$s}px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     font-size: ${(props) => transformAdaptiveSize(props.$s, theme.media.desktop)};
   }
@@ -82,6 +86,14 @@ const StyledTextBlock = styled.div<{ $mb?: number; $textAlign: "center" | "start
 
   p {
     margin-top: 0.694vw;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    ${(props) => props.$mb && `margin-bottom: ${props.$mb}px;`}
+    max-width: ${(props) => props.$maxWidht}px;
+    p {
+      margin-top: 10px;
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {

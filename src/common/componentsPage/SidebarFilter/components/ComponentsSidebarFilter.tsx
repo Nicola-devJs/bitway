@@ -1,102 +1,104 @@
 import { theme } from "@/assets/theme/theme";
 import { InputApp } from "@/common/UI/input/InputApp";
-import { SelectApp } from "@/common/UI/select/SelectApp";
+import { OptionType, SelectApp } from "@/common/UI/select/SelectApp";
+
 import { TextApp } from "@/common/styledComponents/Text";
-import { $location, locationChanged } from "@/models/filterProperties/model";
-import { useUnit } from "effector-react";
-import React, { useState } from "react";
+import React, { ChangeEvent, ChangeEventHandler } from "react";
 import styled from "styled-components";
 
-const PropertyType = () => {
-  // TODO Добавить onChange в checkbox
+interface IProps<T> {
+  value: T;
+  onChange: (value: T) => void;
+  options: { value: string; label: string }[];
+}
+
+interface ISelectProps<T> extends IProps<T> {
+  label?: string;
+}
+
+interface IInputRange extends Omit<IProps<[string, string]>, "options"> {
+  parserText: string;
+}
+
+export const CheckboxesFilter = ({ value, onChange, options }: IProps<Array<string>>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.name;
+
+    if (value.includes(event.target.name)) {
+      onChange(value.filter((val) => val !== newValue));
+    } else {
+      onChange([...value, newValue]);
+    }
+  };
+
   return (
     <ContainerContent>
-      {/* <InputApp.Checkbox label="Buy" />
-      <InputApp.Checkbox label="Rent" /> */}
+      {options.map((type) => (
+        <InputApp.Checkbox
+          label={type.label}
+          name={type.value}
+          key={type.value}
+          onChange={handleChange}
+          checked={value.includes(type.value)}
+        />
+      ))}
     </ContainerContent>
   );
 };
 
-const Categories = () => {
-  return (
-    <ContainerContent>
-      {/* <InputApp.Checkbox label="Apartment" />
-      <InputApp.Checkbox label="Villa" />
-      <InputApp.Checkbox label="Duplex" />
-      <InputApp.Checkbox label="Houses" /> */}
-    </ContainerContent>
-  );
-};
+export const SelectFilter = ({ value, onChange, label, options }: ISelectProps<string>) => {
+  const handleSelect = (option: OptionType) => {
+    onChange(option.value);
+  };
 
-const Location = () => {
-  const [location, setLocation] = useUnit([$location, locationChanged]);
   return (
     <ContainerContent>
       <SelectApp
-        label="Location"
-        options={[
-          { label: "Тирасполь", value: "tiras" },
-          { label: "Парканы", value: "parcani" },
-        ]}
-        changeHandler={(locale) => setLocation(locale as string)}
-        value={location}
+        label={label}
+        options={[...options, { label: "Очистить", value: "" }]}
+        changeHandler={handleSelect}
+        value={{ value, label: value }}
+        hideSelected
       />
     </ContainerContent>
   );
 };
 
-const Rooms = () => {
+export const InputRange = ({ value: [from, to], onChange, parserText }: IInputRange) => {
+  const changeRangeFrom = (newFrom: string) => {
+    onChange([newFrom, to]);
+  };
+
+  const changeRangeTo = (newTo: string) => {
+    onChange([from, newTo]);
+  };
+
+  const handleClear = () => {
+    onChange(["", ""]);
+  };
   return (
     <ContainerContent>
-      {/* <SelectApp
-        label="Rooms"
-        options={
-          [
-            { label: "1", value: 1 },
-            { label: "2", value: 2 },
-            { label: "3", value: 3 },
-            { label: "Четырех комнатная", value: 4 },
-          ]
-        }
-      /> */}
-    </ContainerContent>
-  );
-};
-
-const PriceRange = () => {
-  const priceMax = 100;
-  const [rangeState, setRangeState] = useState({ min: 0, max: priceMax });
-
-  return (
-    <ContainerContent>
+      <TextRange>{parserText}</TextRange>
       <InputApp.Range
-        min={0}
-        max={priceMax}
-        priceGap={priceMax * 0.1}
-        rangeState={rangeState}
-        setRangeState={setRangeState}
-      >
-        <TextRange>
-          Price: ${rangeState.min} - ${rangeState.max}
-        </TextRange>
-      </InputApp.Range>
+        from={from}
+        to={to}
+        onChangeFrom={changeRangeFrom}
+        onChangeTo={changeRangeTo}
+        onClear={handleClear}
+      ></InputApp.Range>
     </ContainerContent>
   );
 };
-
-// TODO Чтобы в AccardionBody открытый селект, нормально отображался, необходимо в экспортируемый объект добавить поле zIndex: number
-
-export default [
-  { label: "Select location", content: <Location />, zIndex: 5 },
-  { label: "Property type", content: <PropertyType /> },
-  { label: "Categories", content: <Categories /> },
-  { label: "Rooms", content: <Rooms />, zIndex: 5 },
-  { label: "Price Range", content: <PriceRange /> },
-];
 
 const ContainerContent = styled.div`
   & > *:not(:last-child) {
     margin-bottom: 1.111vw;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    & > *:not(:last-child) {
+      margin-bottom: 16px;
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {
@@ -114,6 +116,10 @@ const ContainerContent = styled.div`
 
 const TextRange = styled(TextApp)`
   margin-bottom: 1.111vw;
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    margin-bottom: 16px;
+  }
 
   @media (max-width: ${theme.media.desktop}px) {
     margin-bottom: 1.334vw;

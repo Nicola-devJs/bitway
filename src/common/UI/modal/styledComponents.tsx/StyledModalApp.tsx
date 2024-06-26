@@ -12,6 +12,12 @@ const ModalBody = styled.div<{ $width: number }>`
   position: relative;
   overflow: auto;
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    width: ${(props) => `${props.$width}px`};
+    border-radius: 20px;
+    padding: 30px 20px 23px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     width: ${(props) => transformAdaptiveSize(props.$width, theme.media.desktop)};
     border-radius: 1.668vw;
@@ -43,6 +49,11 @@ const ModalClose = styled.div`
   opacity: 0;
   transition: opacity 0.2s ease-in-out;
   cursor: pointer;
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    top: 20px;
+    right: 20px;
+  }
 
   @media (max-width: ${theme.media.desktop}px) {
     top: 1.668vw;
@@ -95,12 +106,6 @@ const ModalOverlay = styled.div`
       transform: translateY(0px);
     }
   }
-
-  @media (max-width: ${theme.media.phone}px) {
-    &.show {
-      /* background-color: ${theme.colors.white}; */
-    }
-  }
 `;
 
 const ModalContent = styled.div`
@@ -115,6 +120,16 @@ const ModalContent = styled.div`
 
   & p {
     margin-bottom: 2.083vw;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    & h5 {
+      margin-bottom: 10px;
+    }
+
+    & p {
+      margin-bottom: 30px;
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {
@@ -184,6 +199,27 @@ const IconAlertModal = styled.div`
     background-repeat: no-repeat;
     width: 1.389vw;
     height: 1.389vw;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 42px;
+
+    &::before {
+      width: 86px;
+      height: 86px;
+    }
+
+    &::after {
+      width: 108px;
+      height: 108px;
+    }
+
+    & span {
+      width: 20px;
+      height: 20px;
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {

@@ -2,8 +2,8 @@ import { Metadata } from "next";
 import React from "react";
 
 export const metadata: Metadata = {
-  title: "Auth | Bitway",
-  description: "Registration in servise bitway",
+  title: "Auth | NestHaven",
+  description: "Registration in servise NestHaven",
 };
 
 export default function AuthLayout({ children }: { children: React.ReactNode }) {

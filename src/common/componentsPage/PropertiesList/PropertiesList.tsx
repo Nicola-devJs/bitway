@@ -8,77 +8,85 @@ import tileStyleIcon from "@/assets/icons/tile-style.svg";
 import { TextApp } from "@/common/styledComponents/Text";
 import { ButtonApp } from "@/common/UI/button/ButtonApp";
 import { FilterContext } from "@/common/hoc/FilterProvider";
-import { useScreenExtension } from "@/common/hooks/screenExtension";
 import { theme } from "@/assets/theme/theme";
-import { IPropertyCard } from "@/common/interfaces/IProperty";
-import { SelectApp } from "@/common/UI/select/SelectApp";
-import { useUnit } from "effector-react";
-import { $acivePage } from "@/app/properties/modules/model";
+import { IResponseProperties } from "@/common/interfaces/property/property";
+import { OptionType, SelectApp } from "@/common/UI/select/SelectApp";
 
-interface IProps {
-  properties: IPropertyCard[];
-}
+import { PaginateApp } from "@/common/UI/paginate/PaginateApp";
+import { HiddenBlock } from "@/common/components/hiddenBlock/HiddenBlock";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { generateSearchParams } from "@/common/helpers/searchParams";
 
 // TODO хардкод по сортировке объектов
 const sortedOptions = [
-  { label: "hight", value: "hight" },
-  { label: "low", value: "low" },
+  { label: "новым", value: "desc" },
+  { label: "старым", value: "asc" },
 ];
 
-export const PropertiesList: FC<IProps> = ({ properties }) => {
+interface IProps {
+  responseProperties: IResponseProperties;
+}
+
+export const PropertiesBlock: FC<IProps> = ({ responseProperties }) => {
+  const initialSearchParams = useSearchParams();
+  const getinitialSort =
+    sortedOptions.find((sort) => sort.value === initialSearchParams.get("_order")) || sortedOptions[0];
+
   const [showType, setShowType] = useState<ShowType>("tile");
-  const [sorted, setSorted] = useState<{ label: string; value: string }>(sortedOptions[0]);
-  const [activePage] = useUnit([$acivePage]);
+  const [sorted, setSorted] = useState<OptionType>(getinitialSort);
   const { showFilter } = useContext(FilterContext);
-  const [maxTabletScreen, minPhoneScreen] = useScreenExtension([
-    { screenExtension: theme.media.tablet, maxScreen: true },
-    { screenExtension: theme.media.phone },
-  ]);
+  const [page, setPage] = useState(responseProperties.page);
+  const { push } = useRouter();
+  const pathname = usePathname();
+
+  const navigateToSearchParams = (params: Record<string, string>) => {
+    const searchParams = generateSearchParams(params, initialSearchParams.toString());
+    push(`${window.location.origin}${pathname}?${searchParams}`);
+  };
+
   const changeShowTypeHandler = (type: ShowType) => () => setShowType(type);
+  const changeActivePage = (page: number) => setPage(page);
+  const changeSort = (sort: OptionType) => {
+    navigateToSearchParams({ _order: sort.value });
+    setSorted(sort);
+  };
 
   return (
     <div style={{ width: "100%" }}>
       <PropertiesToolbar>
         <ShowAndCountPropertiesBlock>
-          {maxTabletScreen && (
+          <HiddenBlock mode="min" extension={theme.media.tablet}>
             <ButtonApp width={98} onClick={showFilter}>
-              Filter
+              Фильтр
             </ButtonApp>
-          )}
-          {minPhoneScreen && (
-            <>
-              <NextImage
-                info={tileStyleIcon}
-                $width={24}
-                $height={24}
-                objectFit="contain"
-                onClick={changeShowTypeHandler("tile")}
-              />
+          </HiddenBlock>
 
-              <NextImage
-                info={listStyleIcon}
-                $width={24}
-                $height={24}
-                objectFit="contain"
-                onClick={changeShowTypeHandler("list")}
-              />
-              <TextApp>Showing 1–16 of 72 results</TextApp>
-            </>
-          )}
+          <HiddenBlock mode="max" extension={theme.media.phone}>
+            <NextImage
+              info={tileStyleIcon}
+              $width={24}
+              $height={24}
+              objectFit="contain"
+              onClick={changeShowTypeHandler("tile")}
+            />
+
+            <NextImage
+              info={listStyleIcon}
+              $width={24}
+              $height={24}
+              objectFit="contain"
+              onClick={changeShowTypeHandler("list")}
+            />
+            <TextApp>
+              Показано {responseProperties.objects.length}–{responseProperties.objects.length} из{" "}
+              {responseProperties.objects.length} результатов
+            </TextApp>
+          </HiddenBlock>
         </ShowAndCountPropertiesBlock>
-        <SelectApp.Sorted
-          label="Sorted by"
-          options={sortedOptions}
-          value={sorted.label}
-          changeHandler={(sort) => setSorted({ label: sort as string, value: sort as string })}
-        />
+        <SelectApp.Sorted label="Сортировать по" options={sortedOptions} value={sorted} changeHandler={changeSort} />
       </PropertiesToolbar>
-      <ListProperties
-        typeShow={showType}
-        countTiles={2}
-        // TODO Временное решение для демонстрации пагинации
-        properties={properties.slice(activePage * 4, (activePage + 1) * 4)}
-      />
+      <ListProperties typeShow={showType} properties={responseProperties.objects} />
+      <PaginateApp amountPages={responseProperties.amountPages} activePage={page} changeActivePage={changeActivePage} />
     </div>
   );
 };
@@ -90,15 +98,22 @@ const PropertiesToolbar = styled.div`
 `;
 
 const ShowAndCountPropertiesBlock = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1.389vw;
+  &,
+  & > div {
+    display: flex;
+    align-items: center;
+    gap: 1.389vw;
 
-  @media (max-width: ${theme.media.desktop}px) {
-    gap: 1.668vw;
-  }
+    @media (min-width: ${theme.media.desktopLarge}px) {
+      gap: 20px;
+    }
 
-  @media (max-width: ${theme.media.tablet}px) {
-    gap: 2.604vw;
+    @media (max-width: ${theme.media.desktop}px) {
+      gap: 1.668vw;
+    }
+
+    @media (max-width: ${theme.media.tablet}px) {
+      gap: 2.604vw;
+    }
   }
 `;

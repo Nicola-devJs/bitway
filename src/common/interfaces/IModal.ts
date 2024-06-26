@@ -8,7 +8,7 @@ interface IModal {
 
 export interface IAlertProps extends IModal {
   title: string;
-  text: string;
+  text?: string;
   textButton: string;
   buttonHandler?: () => void;
 }

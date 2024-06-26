@@ -5,22 +5,14 @@ import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 import { TextApp } from "@/common/styledComponents/Text";
 import React from "react";
 import styled from "styled-components";
-import { PropertiesBlock } from "../PropertiesBlock";
 import { LinkApp } from "@/common/UI/link/LinkApp";
-import mainImg from "@/assets/images/main-img.jpg";
 import { NextImage } from "@/common/components/NextImage";
-import { useScreenExtension } from "@/common/hooks/screenExtension";
+import mainImage from "@/assets/images/main-img.jpg";
 
 export const HomeHeadingBlock = () => {
-  const [maxTabletScreen, maxPhoneScreen] = useScreenExtension([
-    { screenExtension: theme.media.tablet, maxScreen: true },
-    { screenExtension: theme.media.phone, maxScreen: true },
-  ]);
-  const conditionHeightScreen = maxPhoneScreen ? 300 : maxTabletScreen ? 400 : 650;
-
   return (
     <>
-      <ContainerApp>
+      {/* <ContainerApp>
         <HeadingBlock>
           <TextApp.Heading as="h1" size={60} className={playfair.className} weight={700}>
             Let’s start search for your dream home
@@ -35,17 +27,11 @@ export const HomeHeadingBlock = () => {
             </LinkApp.Button>
           </div>
         </HeadingBlock>
-      </ContainerApp>
-      <NextImage info={mainImg} $fullWidth $height={conditionHeightScreen} />
+      </ContainerApp> */}
+      <MainImageWrapper>
+        <NextImage info={mainImage} $fullWidth />
+      </MainImageWrapper>
     </>
-  );
-};
-
-export const HomeLatestProperties = ({ title }: { title: string }) => {
-  return (
-    <LatestPropertiesBlock>
-      <PropertiesBlock title={title} />
-    </LatestPropertiesBlock>
   );
 };
 
@@ -64,6 +50,19 @@ const HeadingBlock = styled.div`
 
   p {
     margin-bottom: 2.083vw;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    gap: 30px;
+    margin-block: 50px;
+
+    div {
+      width: 457px;
+    }
+
+    p {
+      margin-bottom: 30px;
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {
@@ -88,15 +87,15 @@ const HeadingBlock = styled.div`
   }
 `;
 
-const LatestPropertiesBlock = styled.div`
-  background-color: ${theme.colors.grayOpacity(0.1)};
-  padding-block: 4.861vw;
+const MainImageWrapper = styled.div`
+  width: 100%;
+  height: 45.208vw;
 
-  @media (max-width: ${theme.media.desktop}px) {
-    padding-block: 5.838vw;
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    height: 651px;
   }
 
-  @media (max-width: ${theme.media.tablet}px) {
-    padding-block: 9.115vw;
+  @media (max-width: ${theme.media.phone}px) {
+    height: 58.824vw;
   }
 `;

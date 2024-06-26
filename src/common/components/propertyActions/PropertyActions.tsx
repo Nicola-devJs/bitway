@@ -3,7 +3,8 @@ import { theme } from "@/assets/theme/theme";
 import React, { FC } from "react";
 import styled from "styled-components";
 import iconShare from "@/assets/icons/property-card/share.svg";
-import iconHeart from "@/assets/icons/property-card/heart.svg";
+import iconFavoriteBorder from "@/assets/icons/property-card/favorite_border.svg";
+import iconFavorite from "@/assets/icons/property-card/favorite.svg";
 import { NextImage } from "../NextImage";
 import { transformAdaptiveSize } from "@/common/helpers/transformValues";
 
@@ -11,16 +12,31 @@ interface IProps {
   sizeIcon: number;
   sizeWrapper: number;
   gapActions: number;
+  handleFavouriteProperty: () => void;
+  handleShareProperty?: () => void;
+  isActiveHeart: boolean;
 }
 
-export const PropertyActions: FC<IProps> = ({ sizeIcon, sizeWrapper, gapActions }) => {
+export const PropertyActions: FC<IProps> = ({
+  sizeIcon,
+  sizeWrapper,
+  gapActions,
+  handleFavouriteProperty,
+  handleShareProperty,
+  isActiveHeart,
+}) => {
   return (
     <StyledPropertyActions $size={sizeWrapper} $gap={gapActions}>
-      <div>
-        <NextImage info={iconHeart} $width={sizeIcon} $height={sizeIcon} />
+      <div onClick={handleFavouriteProperty}>
+        <NextImage
+          info={isActiveHeart ? iconFavorite : iconFavoriteBorder}
+          $width={sizeIcon}
+          $height={sizeIcon}
+          objectFit="contain"
+        />
       </div>
-      <div>
-        <NextImage info={iconShare} $width={sizeIcon} $height={sizeIcon} />
+      <div onClick={handleShareProperty}>
+        <NextImage info={iconShare} $width={sizeIcon} $height={sizeIcon} objectFit="contain" />
       </div>
     </StyledPropertyActions>
   );
@@ -38,6 +54,15 @@ const StyledPropertyActions = styled.div<{ $size: number; $gap: number }>`
     justify-content: center;
     align-items: center;
     cursor: pointer;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    gap: ${(props) => `${props.$gap}px`};
+    & > div {
+      border-radius: 5px;
+      width: ${(props) => `${props.$size}px`};
+      height: ${(props) => `${props.$size}px`};
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {

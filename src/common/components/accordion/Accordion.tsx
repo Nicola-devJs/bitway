@@ -47,6 +47,11 @@ const Arrow = styled.span<{ $isUp: boolean }>`
   transform: ${(props) => (props.$isUp ? "rotate(0deg)" : "rotate(180deg)")};
   transition: transform 0.2s ease-in;
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    width: 10px;
+    height: 4px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     width: 0.834vw;
     height: 0.334vw;
@@ -72,6 +77,11 @@ const AccordionBody = styled.div<{ $view: boolean; $zIndex?: number }>`
   opacity: ${(props) => (props.$view ? "1" : "0")};
   height: ${(props) => (props.$view ? "auto" : "0px")};
   transition: all 0.2s ease-in-out;
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    padding-top: ${(props) => (props.$view ? "10px" : "0px")};
+    transform: ${(props) => (props.$view ? "translateY(0px)" : "translateY(-10px)")};
+  }
 
   @media (max-width: ${theme.media.desktop}px) {
     padding-top: ${(props) => (props.$view ? "0.834vw" : "0px")};

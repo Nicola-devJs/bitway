@@ -13,21 +13,22 @@ interface IProps {
   children?: React.ReactNode;
   title: string;
   subTitle: string;
+  linkBack?: string;
 }
 
-export const AuthContent: FC<IProps> = ({ children, title, subTitle }) => {
-  const { back } = useRouter();
+export const AuthContent: FC<IProps> = ({ children, title, subTitle, linkBack }) => {
+  const roter = useRouter();
 
   return (
     <ContentWrappper>
-      <GoBack onClick={() => back()}>Back</GoBack>
+      {linkBack && <GoBack onClick={() => roter.push(linkBack)}>Назад</GoBack>}
       <HeaderBlock>
         <TextApp.Heading size={30} className={playfair.className} weight={700}>
           {title}
         </TextApp.Heading>
         <TextApp color={theme.colors.gray}>{subTitle}</TextApp>
       </HeaderBlock>
-      {children}
+      <>{children}</>
     </ContentWrappper>
   );
 };
@@ -52,6 +53,14 @@ const GoBack = styled.p`
 
   &:hover:before {
     transform: translateX(-4px);
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    margin-bottom: 30px;
+    &:before {
+      width: 8px;
+      height: 17px;
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {
@@ -90,6 +99,13 @@ const HeaderBlock = styled.div`
 
   margin-bottom: 2.083vw;
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    h5 {
+      margin-bottom: 5px;
+    }
+    margin-bottom: 30px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     h5 {
       margin-bottom: 0.417vw;
@@ -121,6 +137,18 @@ const ContentWrappper = styled.div`
 
     &:last-child {
       margin-top: 2.083vw;
+    }
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    form > * {
+      &:not(:first-child) {
+        margin-top: 16px;
+      }
+
+      &:last-child {
+        margin-top: 30px;
+      }
     }
   }
 

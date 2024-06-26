@@ -74,6 +74,10 @@ const CustomLink = styled(Link)<{ $fz: number; $color: string; $isNotViewUnderli
     width: 100%;
   }
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    font-size: ${(props) => props.$fz}px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     font-size: ${(props) => transformAdaptiveSize(props.$fz, theme.media.desktop)};
   }
@@ -118,6 +122,18 @@ const LinkButton = styled(Link)<{
 
   & > div {
     margin-right: 0.694vw;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    font-size: ${(props) => props.$fz}px;
+    padding-block: ${(props) => props.$pb}px;
+    width: ${(props) =>
+      typeof props.$w === "number" ? `${props.$w}px` : props.$w === "max-content" ? "max-content" : "100%"};
+    border-radius: 12px;
+
+    & > div {
+      margin-right: 12px;
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {

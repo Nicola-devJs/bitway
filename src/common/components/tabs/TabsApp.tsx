@@ -1,93 +1,36 @@
 "use client";
 import { theme } from "@/assets/theme/theme";
-import { SelectApp } from "@/common/UI/select/SelectApp";
-import { transformAdaptiveSize } from "@/common/helpers/transformValues";
 import { TextApp } from "@/common/styledComponents/Text";
-import React, { FC, useEffect, useMemo, useRef, useState } from "react";
+import React, { FC, useState } from "react";
 import styled from "styled-components";
 
-type ListTabsType = { id: number; title: string; content: React.ReactNode };
+type ListTabsType = { title: string; content: React.ReactNode };
 
 interface IProps {
   listTabs: ListTabsType[];
 }
 
-export const TabsApp: FC<IProps> = ({ listTabs: listTabsInitial }) => {
-  const [listTabs, setListTabs] = useState<{ visible: ListTabsType[]; hidden: ListTabsType[] }>({
-    visible: listTabsInitial,
-    hidden: [],
-  });
-  const [activeTab, setActiveTab] = useState(listTabsInitial[0].id);
-
-  const TabsNavigateWrapperRef = useRef<HTMLUListElement>(null);
-  const TabsNavigateRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (!(TabsNavigateWrapperRef.current && TabsNavigateRef.current)) {
-      return;
-    }
-
-    // TODO Доделать чтобы при ресайзе окна браузера соответственно изменялся внешний вид табов
-    if (TabsNavigateWrapperRef.current.offsetWidth >= TabsNavigateRef.current.offsetWidth) {
-      setListTabs((prevList) => ({
-        visible: prevList.visible.slice(0, prevList.visible.length - 1),
-        hidden: listTabsInitial.slice(prevList.visible.length - 1),
-      }));
-    }
-  }, [TabsNavigateRef.current?.offsetWidth]);
-
-  const findTabContent = (id: number) => (tab: ListTabsType) => {
-    return tab.id === id;
-  };
-
-  const listTabsMaping: <T extends ListTabsType>(
-    targetId: number,
-    replace: any
-  ) => (item: T, id: number, list: T[]) => T = (targetId, replace) => (item) => {
-    if (targetId === item.id) {
-      return replace;
-    }
-    return item;
-  };
-
-  const replacementHiddenTabsHandler = (tabId: number) => {
-    setActiveTab(tabId);
-    setListTabs((prevList) => ({
-      visible: prevList.visible.map(
-        listTabsMaping((prevList.visible.at(-1) as ListTabsType).id, prevList.hidden.find(findTabContent(tabId)))
-      ),
-      hidden: prevList.hidden.map(listTabsMaping(tabId, prevList.visible.at(-1))),
-    }));
-  };
+export const TabsApp: FC<IProps> = ({ listTabs }) => {
+  const [activeTab, setActiveTab] = useState(0);
 
   return (
     <StyledTabs>
-      <TabsNavigate ref={TabsNavigateRef}>
-        <TabsNavigateWrapper ref={TabsNavigateWrapperRef}>
-          {listTabs.visible.map((tab) => (
-            <TabItem key={tab.id} $active={tab.id === activeTab} onClick={() => setActiveTab(tab.id)}>
+      <TabsNavigate>
+        <TabsNavigateWrapper>
+          {listTabs.map((tab, id) => (
+            <TabItem key={id} $active={id === activeTab} onClick={() => setActiveTab(id)}>
               <TextApp
                 size={20}
-                weight={tab.id === activeTab ? 700 : 400}
-                color={tab.id === activeTab ? theme.colors.blue : theme.colors.dark}
+                weight={id === activeTab ? 700 : 400}
+                color={id === activeTab ? theme.colors.blue : theme.colors.dark}
               >
                 {tab.title}
               </TextApp>
             </TabItem>
           ))}
         </TabsNavigateWrapper>
-        {listTabs.hidden.length ? (
-          <SelectApp.Switcher
-            changeHandler={(tabId) => replacementHiddenTabsHandler(tabId as number)}
-            options={listTabs.hidden.map((tab) => ({
-              label: tab.title,
-              value: tab.id,
-            }))}
-            viewSide="left"
-          />
-        ) : null}
       </TabsNavigate>
-      {listTabsInitial.find(findTabContent(activeTab))?.content}
+      {listTabs[activeTab].content}
     </StyledTabs>
   );
 };
@@ -100,16 +43,26 @@ const TabsNavigate = styled.div`
   width: 100%;
   display: flex;
   align-items: center;
-  padding-bottom: 0.833vw;
+  padding-bottom: 1.042vw;
   margin-bottom: 1.389vw;
   border-bottom: 1px solid ${theme.colors.grayOpacity(0.2)};
+  overflow-x: auto;
 
   & > div {
     margin-left: 2.083vw;
   }
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    padding-bottom: 15px;
+    margin-bottom: 20px;
+
+    & > div {
+      margin-left: 30px;
+    }
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
-    padding-bottom: 1.001vw;
+    padding-bottom: 1.251vw;
     margin-bottom: 1.668vw;
 
     & > div {
@@ -118,7 +71,7 @@ const TabsNavigate = styled.div`
   }
 
   @media (max-width: ${theme.media.tablet}px) {
-    padding-bottom: 1.563vw;
+    padding-bottom: 1.953vw;
     margin-bottom: 2.604vw;
 
     & > div {
@@ -127,7 +80,7 @@ const TabsNavigate = styled.div`
   }
 
   @media (max-width: ${theme.media.phone}px) {
-    padding-bottom: 2.824vw;
+    padding-bottom: 3.529vw;
     margin-bottom: 4.706vw;
 
     & > div {
@@ -166,6 +119,17 @@ const TabItem = styled.li<{ $active?: boolean }>`
       background-color: ${theme.colors.blue};
       opacity: ${(props) => (props.$active ? 1 : 0)};
       transition: opacity 0.2s ease-in-out;
+    }
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    &:not(:last-child) {
+      margin-right: 30px;
+    }
+
+    p::after {
+      bottom: -14.5px;
+      height: 3px;
     }
   }
 

@@ -1,18 +1,25 @@
 import { Breadcrumbs } from "@/common/components/breadcrumbs/Breadcrumbs";
-import { PropertiesList } from "@/common/componentsPage/PropertiesList/PropertiesList";
+import { PropertiesBlock } from "@/common/componentsPage/PropertiesList/PropertiesList";
 import { SidebarFilter } from "@/common/componentsPage/SidebarFilter/SidebarFilter";
+import { generateSearchParams } from "@/common/helpers/searchParams";
 import FilterProvider from "@/common/hoc/FilterProvider";
 import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 import { FlexContent } from "@/common/styledComponents/Flex";
+import { fetcherAllPropertys } from "@/services/Properties";
 import { Metadata } from "next";
-import mockProperties from "../../../public/mockData/properties.json";
-import { PaginateProperties } from "@/common/componentsPage/PropertiesList/PaginateProperties";
 
 export const metadata: Metadata = {
-  title: "Properties | Bitway",
+  title: "Properties | NestHaven",
 };
 
-export default function Properties() {
+type PageParams = { params: Record<string, string>; searchParams: Record<string, string> };
+
+export default async function Properties({ searchParams }: PageParams) {
+  const paramsString = generateSearchParams(searchParams);
+  const properties = await fetcherAllPropertys(paramsString);
+
+  
+
   return (
     <>
       <ContainerApp>
@@ -20,10 +27,13 @@ export default function Properties() {
         <FlexContent $flexGap={50}>
           <FilterProvider>
             <SidebarFilter />
-            <PropertiesList properties={mockProperties} />
+            {properties.objects.length ? (
+              <PropertiesBlock responseProperties={properties} />
+            ) : (
+              <div>Объявлений не найдены</div>
+            )}
           </FilterProvider>
         </FlexContent>
-        <PaginateProperties properties={mockProperties} />
       </ContainerApp>
     </>
   );

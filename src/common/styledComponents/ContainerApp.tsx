@@ -8,17 +8,22 @@ export const ContainerApp = ({ children }: { children: React.ReactNode }) => {
 };
 
 const StyledContainer = styled.div`
-  width: 80.556vw;
+  max-width: 80.556vw;
   padding: 0 1.042vw;
   margin: 0 auto;
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    max-width: 1170px;
+    padding: 0 15px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
-    width: 96.747vw;
+    max-width: 96.747vw;
     padding: 0 1.251vw;
   }
 
   @media (max-width: ${theme.media.tablet}px) {
-    width: 100%;
+    max-width: 100%;
     padding: 0 1.953vw;
   }
 `;

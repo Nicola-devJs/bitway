@@ -1,7 +1,7 @@
 "use client";
 import { theme } from "@/assets/theme/theme";
 import { TextApp } from "@/common/styledComponents/Text";
-import React, { useContext } from "react";
+import React, { FC, useContext } from "react";
 import { useController, useForm } from "react-hook-form";
 import styled from "styled-components";
 import { NextImage } from "../NextImage";
@@ -13,28 +13,40 @@ import { validateEmail, validateName, validatePhone } from "@/common/constants/v
 import { LinkApp } from "@/common/UI/link/LinkApp";
 
 import { ModalContext } from "@/common/hoc/ModalProvider";
+import { fetcherSendMessage } from "@/services/User";
+import { getStorageValue } from "@/common/helpers/storage";
+import { USER_KEY } from "@/common/constants/user";
+import { IUserStorage } from "@/common/interfaces/IAuth";
 
 interface FormValues {
   name: string;
   email: string;
-  phone: number;
+  phone: string;
   message: string;
 }
 
-export const FormFeedback = () => {
+interface IProps {
+  author: string;
+  propertyId: string;
+}
+
+export const FormFeedback: FC<IProps> = ({ author, propertyId }) => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
-  const { handleSubmit, control } = useForm<FormValues>({ mode: "onBlur" });
+  const { handleSubmit, control, reset } = useForm<FormValues>({ mode: "onBlur" });
+  const user = getStorageValue<IUserStorage>(USER_KEY);
 
   const { field: name, fieldState: nameState } = useController({
     control,
     name: "name",
     rules: validateName(),
+    defaultValue: user?.userName ?? "",
   });
 
   const { field: email, fieldState: emailState } = useController({
     control,
     name: "email",
     rules: validateEmail(),
+    defaultValue: user?.email ?? "",
   });
 
   const { field: phone, fieldState: phoneState } = useController({
@@ -49,43 +61,48 @@ export const FormFeedback = () => {
     rules: { maxLength: { value: 180, message: "Слишком большое сообщение" } },
   });
 
-  const sendMessageHandler = (data: FormValues) => {
-    console.log(data);
+  const sendMessageHandler = async (data: FormValues) => {
+    try {
+      await fetcherSendMessage(propertyId, data);
 
-    setOptionModalHandler({
-      type: "alert",
-      options: {
-        title: "Отправка сообщения выполнилась успешно",
-        text: "Ваш запрос обработается в течении одного рабочего дня, мы с вами свяжемся :)",
-        textButton: "Закрыть",
-      },
-    });
-    showHandler();
+      await setOptionModalHandler({
+        type: "alert",
+        options: {
+          title: "Отправка сообщения выполнилась успешно",
+          text: "Ваш запрос обработается в течении одного рабочего дня, мы с вами свяжемся :)",
+          textButton: "Закрыть",
+        },
+      });
+      showHandler();
+      reset();
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
     <StyledFormFeedback>
-      <TextApp.Heading>Agent Details</TextApp.Heading>
+      <TextApp.Heading>Напишите автору объявления</TextApp.Heading>
       <AgentInfoBlock>
         <NextImage info={agentAvatar} $width={70} $height={70} />
         <div>
           <TextApp.Heading size={24} className={playfair.className}>
-            Leasie Willions
+            {author}
           </TextApp.Heading>
-          <TextApp color={theme.colors.gray}>Real Estate Agent</TextApp>
+          <TextApp color={theme.colors.gray}>Собственник</TextApp>
         </div>
       </AgentInfoBlock>
       <FormFeedbackBlock>
         <InputApp
-          label="Name"
-          placeholder="Enter Your Name"
+          label="Имя"
+          placeholder="Введите ваше имя"
           value={name.value}
           onChange={name.onChange}
           onBlur={name.onBlur}
           errorMessage={nameState.error?.message}
         />
         <InputApp
-          placeholder="Enter Your Email"
+          placeholder="Введите ваш email"
           type="email"
           label="Email"
           value={email.value}
@@ -94,23 +111,23 @@ export const FormFeedback = () => {
           errorMessage={emailState.error?.message}
         />
         <InputApp.Phone
-          placeholder="Enter Your Phone"
-          label="Phone"
+          placeholder="Введите ваш телефон"
+          label="Телефон"
           value={phone.value}
           onChange={phone.onChange}
           onBlur={phone.onBlur}
           errorMessage={phoneState.error?.message}
         />
         <InputApp.Text
-          placeholder="Enter Your Message"
-          label="Message"
+          placeholder="Напишите ваше сообщение"
+          label="Сообщение"
           value={message.value}
           onChange={message.onChange}
           onBlur={message.onBlur}
           errorMessage={messageState.error?.message}
         />
         <CommunicationBlock>
-          <ButtonApp onClick={handleSubmit(sendMessageHandler)}>Send Enquiry</ButtonApp>
+          <ButtonApp onClick={handleSubmit(sendMessageHandler)}>Отправить</ButtonApp>
 
           <LinkApp.Button href="https://t.me/" outlined icon="telegram">
             Telegram
@@ -139,17 +156,26 @@ const StyledFormFeedback = styled.div`
     margin-bottom: 2.083vw;
   }
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    padding: 20px;
+    border-radius: 16px;
+
+    & > h5 {
+      margin-bottom: 30px;
+    }
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     padding: 1.668vw;
     border-radius: 1.334vw;
-    box-shadow: none;
-    padding: 0;
 
     & > h5 {
       margin-bottom: 2.502vw;
     }
   }
   @media (max-width: ${theme.media.tablet}px) {
+    box-shadow: none;
+    padding: 0;
     padding: 2.604vw;
     border-radius: 2.083vw;
 

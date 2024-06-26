@@ -28,6 +28,17 @@ export const StyledCheckbox = styled.span<{ $error: boolean }>`
     opacity: 0;
   }
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    width: 20px;
+    height: 20px;
+    border-radius: 2px;
+    margin-right: 10px;
+    &:after {
+      width: 12px;
+      height: 12px;
+    }
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     width: 1.668vw;
     height: 1.668vw;

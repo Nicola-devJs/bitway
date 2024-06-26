@@ -18,9 +18,9 @@ export const FooterApp = () => {
           <Column>
             <LogoApp isWhite size={123} />
             <TextApp color={theme.colors.white}>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Totam, repudiandae minima. Ea hic pariatur a
-              totam voluptas ipsam doloremque, id quod sit sed error repellendus voluptates eligendi qui doloribus
-              architecto?
+              Nest Haven – это веб-сервис, предоставляющий пользователям возможность поиска, просмотра и взаимодействия
+              с недвижимостью. Основные функции включают поиск недвижимости по различным параметрам, просмотр подробной
+              информации об объектах, добавление объектов в избранное и многое другое.
             </TextApp>
           </Column>
           {FOOTER_NAVMENU.map((itemMenu) => (
@@ -38,8 +38,8 @@ export const FooterApp = () => {
             </Column>
           ))}
           <Column>
-            <TextApp.Heading color={theme.colors.white}>Our Location</TextApp.Heading>
-            <TextApp color={theme.colors.white}>2972 Westheimer Rd. Santa Ana, Illinois 85486 </TextApp>
+            <TextApp.Heading color={theme.colors.white}>Место положения</TextApp.Heading>
+            <TextApp color={theme.colors.white}>Приднестровье г. Тирасполь, ул. Чеканая, 179 (б)</TextApp>
             <ContainerSocialIcons>
               <SocialIcon $href={twitter.src} />
               <SocialIcon $href={facebook.src} />
@@ -48,7 +48,7 @@ export const FooterApp = () => {
           </Column>
         </FooterColumns>
         <FooterBottom>
-          <span>Copyright 2022 flora. All Rights Reserved</span>
+          <span>Copyright 2024 PMR. All Rights Reserved</span>
           <div>
             <span>Terms & Conditions</span>
             <span>Privacy Policy</span>
@@ -63,6 +63,10 @@ const FooterContainer = styled.footer`
   padding-block: 2.083vw;
   background-color: ${theme.colors.blue};
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    grid-column-gap: 30px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     padding-block: 2.502vw;
   }
@@ -74,9 +78,13 @@ const FooterContainer = styled.footer`
 
 const FooterColumns = styled.div`
   display: grid;
-  grid-template-columns: 28.6% 15.2% 28.4%;
+  grid-template-columns: 30.6% 15.2% 28.4%;
   grid-column-gap: 3.472vw;
   justify-content: space-between;
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    grid-column-gap: 50px;
+  }
 
   @media (max-width: ${theme.media.desktop}px) {
     grid-column-gap: 4.17vw;
@@ -106,6 +114,15 @@ const FooterBottom = styled.div`
     display: flex;
     align-items: center;
     gap: 2.083vw;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    padding-top: 20px;
+    margin-top: 30px;
+
+    & > div {
+      gap: 30px;
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {
@@ -142,12 +159,20 @@ const Column = styled.div`
   & > *:not(:last-child) {
     margin-bottom: 1.389vw;
 
+    @media (min-width: ${theme.media.desktopLarge}px) {
+      margin-bottom: 20px;
+    }
+
     @media (max-width: ${theme.media.desktop}px) {
       margin-bottom: 1.668vw;
     }
 
     @media (max-width: ${theme.media.tablet}px) {
       margin-bottom: 2.604vw;
+    }
+
+    @media (max-width: ${theme.media.phone}px) {
+      margin-bottom: 4.706vw;
     }
   }
 `;
@@ -156,12 +181,20 @@ const ContainerSocialIcons = styled.div`
   display: flex;
   gap: 1.111vw;
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    gap: 16px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     gap: 1.334vw;
   }
 
   @media (max-width: ${theme.media.tablet}px) {
     gap: 2.083vw;
+  }
+
+  @media (max-width: ${theme.media.phone}px) {
+    gap: 3.765vw;
   }
 `;
 
@@ -184,6 +217,16 @@ const SocialIcon = styled.div<{ $href: string }>`
     height: 1.667vw;
   }
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    width: 48px;
+    height: 48px;
+
+    &:before {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     width: 4.003vw;
     height: 4.003vw;
@@ -203,11 +246,25 @@ const SocialIcon = styled.div<{ $href: string }>`
       height: 3.125vw;
     }
   }
+
+  @media (max-width: ${theme.media.phone}px) {
+    width: 11.294vw;
+    height: 11.294vw;
+
+    &:before {
+      width: 5.647vw;
+      height: 5.647vw;
+    }
+  }
 `;
 
 const ListMenu = styled.ul`
   & > li:not(:last-child) {
     margin-bottom: 1.111vw;
+
+    @media (min-width: ${theme.media.desktopLarge}px) {
+      margin-bottom: 16px;
+    }
 
     @media (max-width: ${theme.media.desktop}px) {
       margin-bottom: 1.334vw;
@@ -215,6 +272,10 @@ const ListMenu = styled.ul`
 
     @media (max-width: ${theme.media.tablet}px) {
       margin-bottom: 2.083vw;
+    }
+
+    @media (max-width: ${theme.media.phone}px) {
+      margin-bottom: 3.765vw;
     }
   }
 `;

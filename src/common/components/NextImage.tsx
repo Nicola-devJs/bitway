@@ -12,12 +12,18 @@ interface IProps extends HtmlHTMLAttributes<HTMLDivElement> {
   $width?: number;
   $height?: number;
   $fullWidth?: boolean;
+  alt?: string;
 }
 
-export const NextImage: FC<IProps> = ({ info, objectFit, ...props }) => {
+export const NextImage: FC<IProps> = ({ info, objectFit, alt = "invalid image", ...props }) => {
   return (
     <ImageContainer {...props} $obf={objectFit || "cover"}>
-      <Image src={info} alt="image" />
+      <Image
+        src={info}
+        alt={alt}
+        width={props.$fullWidth ? `${1440}` : props.$width}
+        height={props.$fullWidth ? `${0}` : props.$height}
+      />
     </ImageContainer>
   );
 };
@@ -31,6 +37,11 @@ const ImageContainer = styled.div<{ $width?: number; $height?: number; $obf: str
     width: inherit;
     height: inherit;
     object-fit: ${(props) => props.$obf};
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    width: ${(props) => (props.$width ? `${props.$width}px` : props.$fullWidth ? "100%" : "auto")};
+    height: ${(props) => (props.$height ? `${props.$height}px` : props.$fullWidth ? "100%" : "auto")};
   }
 
   @media (max-width: ${theme.media.desktop}px) {

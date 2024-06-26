@@ -1,6 +1,6 @@
 "use client";
 import { theme } from "@/assets/theme/theme";
-import React, { FC, useContext } from "react";
+import React, { FC, useContext, useState } from "react";
 import styled from "styled-components";
 import Link from "next/link";
 import { NextImage } from "../NextImage";
@@ -8,13 +8,20 @@ import cardImg from "@/assets/images/main-img.jpg";
 import { TextApp } from "@/common/styledComponents/Text";
 import { playfair } from "@/common/constants/font";
 import { propertyCardIconsBlack } from "@/common/constants/constantImages";
-import iconHeart from "@/assets/icons/property-card/heart.svg";
+import iconFavoriteBorder from "@/assets/icons/property-card/favorite_border.svg";
+import iconFavorite from "@/assets/icons/property-card/favorite.svg";
 import iconLoupe from "@/assets/icons/property-card/loupe.svg";
 import { ShowType } from "../listProperties/ListProperties";
 import { PropertyActions } from "../propertyActions/PropertyActions";
-import { IPropertyCard } from "@/common/interfaces/IProperty";
+import { IPropertyCard } from "@/common/interfaces/property/property";
 import { ModalContext } from "@/common/hoc/ModalProvider";
-import { mockGallery } from "@/common/constants/mockGallery";
+import mockImage from "@/assets/images/main-img.jpg";
+import { fetcherSwitchFavourite } from "@/services/Properties";
+import { getCookie } from "@/common/helpers/cookie";
+import { Status, USER_KEY } from "@/common/constants/user";
+import { getStorageValue } from "@/common/helpers/storage";
+import { IUserStorage } from "@/common/interfaces/IAuth";
+import { NotificationContext } from "@/common/hoc/NotificationProvider";
 
 interface IProps {}
 
@@ -24,42 +31,68 @@ const iconComponents = [
   { icon: "car", count: 2 },
 ];
 
-interface IProps extends IPropertyCard {
+interface IProps {
   typeShow: ShowType;
-  id: number;
+  property: IPropertyCard;
 }
 
-export const PropertyCard: FC<IProps> = ({ typeShow, id, author, description, heading, price }) => {
+// TODO Добавить в оповещение после добавления / удаления избранных
+
+export const PropertyCard: FC<IProps> = ({ typeShow, property }) => {
+  const { addNotification } = useContext(NotificationContext);
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
+  const user = getStorageValue<IUserStorage>(USER_KEY);
+  const isFavoriteObject = Boolean(user?.favouriteObject.includes(property._id));
+
+  const [isFavourite, setFavourite] = useState(isFavoriteObject);
   const openModalGalleryHandler = () => {
-    // TODO Пофиксить изначальную позицию в модалке
-    setOptionModalHandler({ type: "gallery", options: { images: mockGallery, initialPosition: 0 } });
+    setOptionModalHandler({ type: "gallery", options: { images: property.photos, initialPosition: 0 } });
     showHandler();
+  };
+
+  const toggleFavouriteProperty = async () => {
+    const token = getCookie("token");
+    if (!token) {
+      return;
+    }
+
+    const isFavorite = await fetcherSwitchFavourite(property, token);
+    if (isFavorite.status === Status.SUCCESS) {
+      setFavourite(isFavorite.favouriteValue);
+      addNotification({ text: isFavorite.message, type: Status.SUCCESS });
+    }
   };
 
   return (
     <PropertyCardContainer $typeShow={typeShow}>
       <ContainerImage $typeShow={typeShow}>
-        <Link href={`/properties/luxury-apartment-in-california`}>
-          <NextImage info={cardImg} $fullWidth />
+        <Link href={`/properties/${property._id}`}>
+          <NextImage info={property.photos[0] || mockImage} $fullWidth />
         </Link>
-        <div className="container-icon heart">
-          <NextImage info={iconHeart} $width={20} $height={20} objectFit="contain" />
+        <div className="container-icon heart" onClick={toggleFavouriteProperty}>
+          <NextImage
+            info={isFavourite ? iconFavorite : iconFavoriteBorder}
+            $width={20}
+            $height={20}
+            objectFit="contain"
+          />
         </div>
-        <div className="container-icon loupe" onClick={openModalGalleryHandler}>
-          <NextImage info={iconLoupe} $width={20} $height={20} objectFit="contain" />
-        </div>
+        {property.photos.length > 1 && (
+          <div className="container-icon loupe" onClick={openModalGalleryHandler}>
+            <NextImage info={iconLoupe} $width={20} $height={20} objectFit="contain" />
+          </div>
+        )}
       </ContainerImage>
       <PropertyCardContent>
-        <Link href={`/properties/luxury-apartment-in-california`}>
-          <TextApp.Heading className={playfair.className} size={24} weight={700}>
-            {heading}
-          </TextApp.Heading>
+        <Link href={`/properties/${property._id}`}>
+          <PropertyCardHeading className={playfair.className} size={24} weight={700}>
+            {property.heading}
+          </PropertyCardHeading>
         </Link>
-        <TextApp size={20}>${price}</TextApp>
-        <TextApp color={theme.colors.gray} className="property_card_text">
-          {description}
-        </TextApp>
+        <TextApp size={20}>${property.price}</TextApp>
+        <PropertyCardDescription color={theme.colors.gray} className="property_card_text">
+          {property.description}
+        </PropertyCardDescription>
         <PropertyComponents>
           {iconComponents.map((comp) => (
             <div key={comp.icon}>
@@ -69,12 +102,18 @@ export const PropertyCard: FC<IProps> = ({ typeShow, id, author, description, he
         </PropertyComponents>
         <PropertyCardBottom>
           <Profile>
-            <div>
-              <NextImage info={cardImg} $width={34} $height={34} />
-            </div>
-            <TextApp>{author.name}</TextApp>
+            <NextImage info={cardImg} $width={34} $height={34} />
+            <TextApp>
+              {property.user.firstName} {property.user.lastName}
+            </TextApp>
           </Profile>
-          <PropertyActions gapActions={8} sizeIcon={18} sizeWrapper={34} />
+          <PropertyActions
+            gapActions={8}
+            sizeIcon={18}
+            sizeWrapper={34}
+            handleFavouriteProperty={toggleFavouriteProperty}
+            isActiveHeart={isFavourite}
+          />
         </PropertyCardBottom>
       </PropertyCardContent>
     </PropertyCardContainer>
@@ -84,10 +123,12 @@ export const PropertyCard: FC<IProps> = ({ typeShow, id, author, description, he
 const PropertyCardContainer = styled.article<{ $typeShow: ShowType }>`
   background-color: ${theme.colors.white};
   width: 100%;
+  height: 100%;
   border-radius: 1.111vw;
   padding: 1.389vw;
   display: flex;
   flex-direction: ${(props) => (props.$typeShow === "tile" ? "column" : "row")};
+  box-shadow: 0px 8px 8px -4px rgba(16, 24, 40, 0.02);
 
   h5,
   p {
@@ -98,14 +139,20 @@ const PropertyCardContainer = styled.article<{ $typeShow: ShowType }>`
     }
   }
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    border-radius: 16px;
+    padding: 20px;
+
+    h5,
+    p {
+      margin-bottom: 10px;
+    }
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     h5,
     p {
       margin-bottom: 0.834vw;
-
-      &.property_card_text {
-        margin-bottom: 0;
-      }
     }
 
     border-radius: 1.334vw;
@@ -116,10 +163,6 @@ const PropertyCardContainer = styled.article<{ $typeShow: ShowType }>`
     h5,
     p {
       margin-bottom: 1.302vw;
-
-      &.property_card_text {
-        margin-bottom: 0;
-      }
     }
 
     border-radius: 2.083vw;
@@ -130,10 +173,6 @@ const PropertyCardContainer = styled.article<{ $typeShow: ShowType }>`
     h5,
     p {
       margin-bottom: 2.353vw;
-
-      &.property_card_text {
-        margin-bottom: 0;
-      }
     }
 
     border-radius: 3.765vw;
@@ -142,10 +181,14 @@ const PropertyCardContainer = styled.article<{ $typeShow: ShowType }>`
 `;
 
 const ContainerImage = styled.div<{ $typeShow: ShowType }>`
-  width: ${(props) => (props.$typeShow === "tile" ? "100%" : "22.639vw")};
+  min-width: ${(props) => (props.$typeShow === "tile" ? "100%" : "22.639vw")};
   height: ${(props) => (props.$typeShow === "tile" ? "18.472vw" : "16.528vw")};
   border-radius: 0.833vw;
   margin: ${(props) => (props.$typeShow === "tile" ? "0 0 1.111vw 0" : "0 1.389vw 0 0")};
+  background-image: url(${mockImage.src});
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
   overflow: hidden;
   position: relative;
 
@@ -155,7 +198,6 @@ const ContainerImage = styled.div<{ $typeShow: ShowType }>`
 
   .container-icon {
     position: absolute;
-
     right: 1.111vw;
     width: 2.222vw;
     height: 2.222vw;
@@ -179,6 +221,27 @@ const ContainerImage = styled.div<{ $typeShow: ShowType }>`
 
   &:hover .container-icon {
     opacity: 1;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    width: ${(props) => (props.$typeShow === "tile" ? "100%" : "326px")};
+    height: ${(props) => (props.$typeShow === "tile" ? "266px" : "238px")};
+    border-radius: 0.833vw;
+    margin: ${(props) => (props.$typeShow === "tile" ? "0 0 16px 0" : "0 20px 0 0")};
+
+    .container-icon {
+      right: 16px;
+      width: 32px;
+      height: 32px;
+      border-radius: 5px;
+
+      &.heart {
+        top: 16px;
+      }
+      &.loupe {
+        bottom: 16px;
+      }
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {
@@ -255,6 +318,21 @@ const PropertyCardContent = styled.div`
   }
 `;
 
+const PropertyCardHeading = styled(TextApp.Heading)`
+  text-wrap: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+`;
+
+const PropertyCardDescription = styled(TextApp)`
+  max-height: 70px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+`;
+
 const PropertyComponents = styled.div`
   display: flex;
   align-items: center;
@@ -265,6 +343,15 @@ const PropertyComponents = styled.div`
     display: flex;
     align-items: center;
     gap: 0.694vw;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    gap: 20px;
+    margin-block: 16px;
+
+    & > div {
+      gap: 10px;
+    }
   }
 
   @media (max-width: ${theme.media.desktop}px) {
@@ -300,6 +387,10 @@ const PropertyCardBottom = styled.div`
   align-items: center;
   justify-content: space-between;
 
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    padding-top: 16px;
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     padding-top: 1.334vw;
   }
@@ -320,6 +411,14 @@ const Profile = styled.div`
   & > div {
     border-radius: 50%;
     overflow: hidden;
+  }
+
+  & > p {
+    margin-bottom: 0;
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    gap: 10px;
   }
 
   @media (max-width: ${theme.media.desktop}px) {

@@ -9,6 +9,10 @@ export const ContainerInput = styled.div`
     margin-bottom: 0.347vw;
     display: inline-block;
 
+    @media (min-width: ${theme.media.desktopLarge}px) {
+      margin-bottom: 5px;
+    }
+
     @media (max-width: ${theme.media.desktop}px) {
       margin-bottom: 0.417vw;
     }
@@ -23,10 +27,16 @@ export const ContainerInput = styled.div`
   }
 `;
 
-export const StyledInput = styled.input<{ $error?: boolean; $size: number; $width?: number; $pr?: number }>`
+export const StyledInput = styled.input<{
+  $error?: boolean;
+  $size: number;
+  $width?: number;
+  $pr?: number;
+  $padding: number;
+}>`
   width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width) : "100%")};
-  border: 1px solid ${(props) => (props.$error ? theme.colors.red : theme.colors.grayOpacity(0.2))};
-  padding: 1.111vw;
+  border: 1px solid ${(props) => (props.$error ? theme.colors.red : theme.colors.blue)};
+  padding: ${(props) => transformAdaptiveSize(props.$padding)};
   border-radius: 0.694vw;
   color: ${theme.colors.dark};
   font-weight: 500;
@@ -47,9 +57,20 @@ export const StyledInput = styled.input<{ $error?: boolean; $size: number; $widt
     color: ${theme.colors.gray};
   }
 
+  &:placeholder-shown {
+    border-color: ${(props) => (props.$error ? theme.colors.red : theme.colors.grayOpacity(0.2))};
+  }
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    padding: ${(props) => props.$padding}px;
+    border-radius: 10px;
+    width: ${(props) => (props.$width ? `${props.$width}px` : "100%")};
+    font-size: ${(props) => `${props.$size}px`};
+  }
+
   @media (max-width: ${theme.media.desktop}px) {
     width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width, theme.media.desktop) : "100%")};
-    padding: 1.334vw;
+    padding: ${(props) => transformAdaptiveSize(props.$padding, theme.media.desktop)};
     font-size: ${(props) => transformAdaptiveSize(props.$size, theme.media.desktop)};
     border-radius: 0.834vw;
 
@@ -62,7 +83,7 @@ export const StyledInput = styled.input<{ $error?: boolean; $size: number; $widt
 
   @media (max-width: ${theme.media.tablet}px) {
     width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width, theme.media.tablet) : "100%")};
-    padding: 2.083vw;
+    padding: ${(props) => transformAdaptiveSize(props.$padding, theme.media.tablet)};
     font-size: ${(props) => transformAdaptiveSize(props.$size, theme.media.tablet)};
     border-radius: 1.302vw;
 
@@ -75,7 +96,7 @@ export const StyledInput = styled.input<{ $error?: boolean; $size: number; $widt
 
   @media (max-width: ${theme.media.phone}px) {
     width: ${(props) => (props.$width ? transformAdaptiveSize(props.$width, theme.media.phone) : "100%")};
-    padding: 3.765vw;
+    padding: ${(props) => transformAdaptiveSize(props.$padding, theme.media.phone)};
     font-size: ${(props) => transformAdaptiveSize(props.$size, theme.media.phone)};
     border-radius: 2.353vw;
 
@@ -91,6 +112,11 @@ export const InputPasswordEye = styled.div`
   position: absolute;
   right: 1.111vw;
   bottom: 1.111vw;
+
+  @media (min-width: ${theme.media.desktopLarge}px) {
+    right: 16px;
+    bottom: 16px;
+  }
 
   @media (max-width: ${theme.media.desktop}px) {
     right: 1.334vw;
