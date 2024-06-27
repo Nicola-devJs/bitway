@@ -1,12 +1,12 @@
 import React, { FC } from "react";
 import { PropertyContentBody } from "../PropertyContentPage";
 import { IPropertyCard } from "@/common/interfaces/property/property";
-import { featuredFields } from "../constants/propertyFieldsConst";
 import { TextApp } from "@/common/styledComponents/Text";
 import { PropertyFeaturedFields } from "@/common/interfaces/property/fields/featuresFields";
 import { theme } from "@/assets/theme/theme";
 import styled from "styled-components";
-import { getValueProperty } from "../helper";
+import { getDetailsProperty } from "@/common/helpers/other";
+import { featuredPropertyLocalization } from "@/common/constants/detailsProperty";
 
 interface IProps {
   property: IPropertyCard;
@@ -18,14 +18,27 @@ export const PropertyFeatured: FC<IProps> = ({ property }) => {
       <PropertyContentBody>
         <div>
           <DetailsTable>
-            {Object.keys(property).map((featuredKey) =>
-              featuredFields[featuredKey as keyof PropertyFeaturedFields] ? (
-                <li>
-                  <TextApp weight={700}>{featuredFields[featuredKey as keyof PropertyFeaturedFields]}</TextApp>
-                  <TextApp>{getValueProperty(featuredKey, property)}</TextApp>
-                </li>
-              ) : null
-            )}
+            {getDetailsProperty<keyof PropertyFeaturedFields>(
+              property,
+              [
+                { key: "additionally" },
+                { key: "electricity" },
+                { key: "elevators" },
+                { key: "entrance" },
+                { key: "gas" },
+                { key: "heating" },
+                { key: "parking" },
+                { key: "renovation" },
+                { key: "sewerage" },
+                { key: "waterSupply" },
+              ],
+              featuredPropertyLocalization
+            ).map(([name, value]) => (
+              <li key={value}>
+                <TextApp weight={700}>{name}</TextApp>
+                <TextApp>{value}</TextApp>
+              </li>
+            ))}
           </DetailsTable>
         </div>
       </PropertyContentBody>

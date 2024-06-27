@@ -30,7 +30,7 @@ export interface IPriceFields {
   messengers: string[];
 }
 
-export type CategoriesType = "apartment" | "house" | "garage" | "plot";
+export type CategoriesType = "Квартира" | "Дом" | "Гараж" | "Участок";
 
 export enum GenericTypeFields {
   Apartment = "apartment",

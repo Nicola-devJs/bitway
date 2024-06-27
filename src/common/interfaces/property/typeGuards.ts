@@ -1,15 +1,14 @@
-import { GenericTypeFields, IFormFields } from "./fields/formFields";
+import { GenericTypeFields } from "./fields/formFields";
+import { IPropertyCard } from "./property";
 
-export const isApartmentObject = (
-  object: IFormFields<GenericTypeFields>
-): object is IFormFields<GenericTypeFields.Apartment> => object.category === "apartment";
+export const isApartmentProperty = (Property: IPropertyCard): Property is IPropertyCard<GenericTypeFields.Apartment> =>
+  Property.category === "Квартира";
 
-export const isHouseObject = (object: IFormFields<GenericTypeFields>): object is IFormFields<GenericTypeFields.House> =>
-  object.category === "house";
+export const isHouseProperty = (Property: IPropertyCard): Property is IPropertyCard<GenericTypeFields.House> =>
+  Property.category === "Дом";
 
-export const isGarageObject = (
-  object: IFormFields<GenericTypeFields>
-): object is IFormFields<GenericTypeFields.Garage> => object.category === "garage";
+export const isGarageProperty = (Property: IPropertyCard): Property is IPropertyCard<GenericTypeFields.Garage> =>
+  Property.category === "Гараж";
 
-export const isPlotObject = (object: IFormFields<GenericTypeFields>): object is IFormFields<GenericTypeFields.Plot> =>
-  object.category === "plot";
+export const isPlotProperty = (Property: IPropertyCard): Property is IPropertyCard<GenericTypeFields.Plot> =>
+  Property.category === "Участок";

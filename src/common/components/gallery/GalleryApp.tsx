@@ -36,8 +36,8 @@ export const GalleryApp: FC<IProps> = ({ gallery = [] }) => {
         <ContainerApp>
           <ContainerImages>
             {gallery.slice(1, viewPicturies).map((img, id) => (
-              <ContainerImage>
-                <NextImage key={id} info={img} $width={212} $height={125} onClick={openModalSlideHandler(id)} />
+              <ContainerImage key={id}>
+                <NextImage info={img} $width={212} $height={125} onClick={openModalSlideHandler(id)} />
               </ContainerImage>
             ))}
             {gallery.slice(viewPicturies).length === 1 ? (

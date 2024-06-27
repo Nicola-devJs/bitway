@@ -17,6 +17,8 @@ export interface IUserData {
   lastName: string;
   favouriteObject: string[];
   updatedAt: string;
+  whatsApp?: string;
+  telegram?: string;
   _id: string;
 }
 export interface IUserResponse {

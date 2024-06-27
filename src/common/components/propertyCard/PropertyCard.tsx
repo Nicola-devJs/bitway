@@ -22,14 +22,8 @@ import { Status, USER_KEY } from "@/common/constants/user";
 import { getStorageValue } from "@/common/helpers/storage";
 import { IUserStorage } from "@/common/interfaces/IAuth";
 import { NotificationContext } from "@/common/hoc/NotificationProvider";
-
-interface IProps {}
-
-const iconComponents = [
-  { icon: "bed", count: 2 },
-  { icon: "bath", count: 1 },
-  { icon: "car", count: 2 },
-];
+import { writeUrlProperty } from "@/common/helpers/other";
+import { MinorDetailsProperty } from "../minorDetailsProperty/MinorDetailsProperty";
 
 interface IProps {
   typeShow: ShowType;
@@ -66,7 +60,7 @@ export const PropertyCard: FC<IProps> = ({ typeShow, property }) => {
   };
 
   const onShareProperty = () => {
-    onSuccessNotify("Ссылки на объект скопирована");
+    writeUrlProperty(property._id, onSuccessNotify, onErrorNotify);
   };
 
   return (
@@ -100,11 +94,7 @@ export const PropertyCard: FC<IProps> = ({ typeShow, property }) => {
           {property.description}
         </PropertyCardDescription>
         <PropertyComponents>
-          {iconComponents.map((comp) => (
-            <div key={comp.icon}>
-              <NextImage info={propertyCardIconsBlack[comp.icon]} $width={24} /> <span>{comp.count}</span>
-            </div>
-          ))}
+          <MinorDetailsProperty property={property} color="black" />
         </PropertyComponents>
         <PropertyCardBottom>
           <Profile>

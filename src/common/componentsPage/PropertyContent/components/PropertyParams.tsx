@@ -5,9 +5,9 @@ import { theme } from "@/assets/theme/theme";
 import { TextApp } from "@/common/styledComponents/Text";
 import styled from "styled-components";
 import { IPropertyCard } from "@/common/interfaces/property/property";
-import { paramFields } from "../constants/propertyFieldsConst";
 import type { PropertyParamsFields } from "@/common/interfaces/property/fields/paramsFields";
-import { getValueProperty } from "../helper";
+import { getDetailsProperty } from "@/common/helpers/other";
+import { paramsPropertyLocalization } from "@/common/constants/detailsProperty";
 
 interface IProps {
   property: IPropertyCard;
@@ -18,14 +18,25 @@ export const PropertyParams: FC<IProps> = ({ property }) => {
     <PropertyContentBody>
       <div>
         <DetailsTable>
-          {Object.keys(property).map((propertyKey) =>
-            paramFields[propertyKey as keyof PropertyParamsFields] ? (
-              <li>
-                <TextApp weight={700}>{paramFields[propertyKey as keyof PropertyParamsFields]}</TextApp>
-                <TextApp>{getValueProperty(propertyKey, property)}</TextApp>
-              </li>
-            ) : null
-          )}
+          {getDetailsProperty<keyof PropertyParamsFields>(
+            property,
+            [
+              { key: "balconies" },
+              { key: "bathroom" },
+              { key: "floor" },
+              { key: "floorHouse" },
+              { key: "generalArea", postfix: "m²" },
+              { key: "livingArea", postfix: "m²" },
+              { key: "numberRooms" },
+              { key: "typeStructure" },
+            ],
+            paramsPropertyLocalization
+          ).map(([name, value]) => (
+            <li key={value}>
+              <TextApp weight={700}>{name}</TextApp>
+              <TextApp>{value}</TextApp>
+            </li>
+          ))}
         </DetailsTable>
       </div>
     </PropertyContentBody>

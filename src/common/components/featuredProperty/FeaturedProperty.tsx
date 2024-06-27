@@ -10,6 +10,7 @@ import { playfair } from "@/common/constants/font";
 import { LinkApp } from "@/common/UI/link/LinkApp";
 import imageProperty from "@/assets/images/main-img.jpg";
 import { IPropertyCard } from "@/common/interfaces/property/property";
+import { MinorDetailsProperty } from "../minorDetailsProperty/MinorDetailsProperty";
 
 interface IProps {
   properties: IPropertyCard[];
@@ -45,15 +46,9 @@ export const FeaturedProperty: FC<IProps> = ({ properties }) => {
               {properties[propId]?.price} ₽
             </TextApp>
             <PropertyDescription color={theme.colors.white}>{properties[propId]?.description}</PropertyDescription>
-            {/* <FeaturedPropertyInfoComponents>
-              {Object.keys(properties[propId]).map((comp) => (
-                <div key={comp}>
-                  <NextImage info={propertyCardIconsWhite[comp]} $width={24} />
-                  
-                  <span>{properties[propId].components[comp]}</span>
-                </div>
-              ))}
-            </FeaturedPropertyInfoComponents> */}
+            <FeaturedPropertyInfoComponents>
+              <MinorDetailsProperty property={properties[propId]} color="white" />
+            </FeaturedPropertyInfoComponents>
             <LinkApp.Button
               href={`/properties/${properties[propId]?._id}`}
               width={182}

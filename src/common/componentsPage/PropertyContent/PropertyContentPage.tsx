@@ -23,6 +23,7 @@ import { Status, USER_KEY } from "@/common/constants/user";
 import { getStorageValue } from "@/common/helpers/storage";
 import { IUserStorage } from "@/common/interfaces/IAuth";
 import { NotificationContext } from "@/common/hoc/NotificationProvider";
+import { writeUrlProperty } from "@/common/helpers/other";
 
 interface IProps {
   property: IPropertyCard;
@@ -35,6 +36,8 @@ export const PropertyContentPage: FC<IProps> = ({ property }) => {
   const isFavoriteObject = user?.favouriteObject.includes(property._id) ?? false;
   const [isFavourite, setFavourite] = useState(isFavoriteObject);
   const authorName = `${property.user.firstName} ${property.user.lastName}`;
+
+  console.log(property);
 
   const FeedBack = <FormFeedback author={authorName} propertyId={property._id} />;
 
@@ -65,7 +68,7 @@ export const PropertyContentPage: FC<IProps> = ({ property }) => {
   };
 
   const onShareProperty = () => {
-    onSuccessNotify("Ссылки на объект скопирована");
+    writeUrlProperty(property._id, onSuccessNotify, onErrorNotify);
   };
 
   return (

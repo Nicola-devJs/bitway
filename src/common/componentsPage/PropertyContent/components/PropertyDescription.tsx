@@ -31,7 +31,7 @@ export const PropertyDescription: FC<IProps> = ({ description, plans }) => {
             <TextApp.Heading>Планировка объекта</TextApp.Heading>
             <FloorPlanBlock>
               {plans.map((plan, id) => (
-                <ContainerFloorPlan>
+                <ContainerFloorPlan key={id}>
                   <NextImage key={id} info={plan} $fullWidth $height={278} onClick={openModalSlideHandler(id)} />
                 </ContainerFloorPlan>
               ))}

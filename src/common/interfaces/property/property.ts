@@ -2,10 +2,10 @@ import { Status } from "@/common/constants/user";
 import { GenericTypeFields, IFormFields } from "./fields/formFields";
 import { IUserData } from "../IAuth";
 
-export type IPropertyCard = {
+export type IPropertyCard<T extends GenericTypeFields = GenericTypeFields> = {
   _id: string;
   user: IUserData;
-} & IFormFields<GenericTypeFields>;
+} & IFormFields<T>;
 
 export interface IResponseProperties {
   objects: IPropertyCard[];
