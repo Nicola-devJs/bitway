@@ -86,7 +86,7 @@ export const PropertyCard: FC<IProps> = ({ typeShow, property }) => {
       <PropertyCardContent>
         <Link href={`/properties/${property._id}`}>
           <PropertyCardHeading className={playfair.className} size={24} weight={700}>
-            {property.heading}
+            {property.category} | {property.heading}
           </PropertyCardHeading>
         </Link>
         <TextApp size={20}>${property.price}</TextApp>

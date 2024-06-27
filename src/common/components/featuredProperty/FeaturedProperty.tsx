@@ -40,7 +40,7 @@ export const FeaturedProperty: FC<IProps> = ({ properties }) => {
           />
           <FeaturedPropertyInfoBlock>
             <PropertyHeading color={theme.colors.white} size={24} className={playfair.className}>
-              {properties[propId]?.heading}
+              {properties[propId]?.category} | {properties[propId]?.heading}
             </PropertyHeading>
             <TextApp color={theme.colors.white} size={20}>
               {properties[propId]?.price} ₽

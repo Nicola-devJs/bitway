@@ -10,6 +10,14 @@ import {
 
 import iconBathWhite from "@/assets/icons/property-card/bath-w.svg";
 import iconBathBlack from "@/assets/icons/property-card/bath-b.svg";
+import iconFloorWhite from "@/assets/icons/property-card/floor-w.svg";
+import iconFloorBlack from "@/assets/icons/property-card/floor-b.svg";
+import iconGeneralAreaWhite from "@/assets/icons/property-card/generalArea-w.svg";
+import iconGeneralAreaBlack from "@/assets/icons/property-card/generalArea-b.svg";
+import iconLivingAreaWhite from "@/assets/icons/property-card/livingArea-w.svg";
+import iconLivingAreaBlack from "@/assets/icons/property-card/livingArea-b.svg";
+import iconNumberRoomsWhite from "@/assets/icons/property-card/numberRooms-w.svg";
+import iconNumberRoomsBlack from "@/assets/icons/property-card/numberRooms-b.svg";
 
 interface IProps {
   property: IPropertyCard;
@@ -21,15 +29,15 @@ export const MinorDetailsProperty = ({ property, color }: IProps) => {
     return (
       <>
         <div>
-          <NextImage info={color === "white" ? iconBathWhite : iconBathBlack} $width={24} />{" "}
+          <NextImage info={color === "white" ? iconNumberRoomsWhite : iconNumberRoomsBlack} $width={24} />{" "}
           <span>{property.numberRooms}</span>
         </div>
         <div>
-          <NextImage info={color === "white" ? iconBathWhite : iconBathBlack} $width={24} />{" "}
+          <NextImage info={color === "white" ? iconGeneralAreaWhite : iconGeneralAreaBlack} $width={24} />{" "}
           <span>{property.generalArea} m²</span>
         </div>
         <div>
-          <NextImage info={color === "white" ? iconBathWhite : iconBathBlack} $width={24} />{" "}
+          <NextImage info={color === "white" ? iconFloorWhite : iconFloorBlack} $width={24} />{" "}
           <span>{property.floor}</span>
         </div>
       </>
@@ -39,11 +47,11 @@ export const MinorDetailsProperty = ({ property, color }: IProps) => {
     return (
       <>
         <div>
-          <NextImage info={color === "white" ? iconBathWhite : iconBathBlack} $width={24} />{" "}
+          <NextImage info={color === "white" ? iconNumberRoomsWhite : iconNumberRoomsBlack} $width={24} />{" "}
           <span>{property.numberRooms}</span>
         </div>
         <div>
-          <NextImage info={color === "white" ? iconBathWhite : iconBathBlack} $width={24} />{" "}
+          <NextImage info={color === "white" ? iconGeneralAreaWhite : iconGeneralAreaBlack} $width={24} />{" "}
           <span>{property.generalArea} m²</span>
         </div>
         <div>
@@ -57,7 +65,7 @@ export const MinorDetailsProperty = ({ property, color }: IProps) => {
     return (
       <>
         <div>
-          <NextImage info={color === "white" ? iconBathWhite : iconBathBlack} $width={24} />{" "}
+          <NextImage info={color === "white" ? iconGeneralAreaWhite : iconGeneralAreaBlack} $width={24} />{" "}
           <span>{property.generalArea} m²</span>
         </div>
       </>
@@ -67,7 +75,7 @@ export const MinorDetailsProperty = ({ property, color }: IProps) => {
     return (
       <>
         <div>
-          <NextImage info={color === "white" ? iconBathWhite : iconBathBlack} $width={24} />{" "}
+          <NextImage info={color === "white" ? iconGeneralAreaWhite : iconGeneralAreaBlack} $width={24} />{" "}
           <span>{property.generalArea} m²</span>
         </div>
       </>

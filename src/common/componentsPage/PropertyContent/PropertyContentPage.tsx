@@ -81,7 +81,7 @@ export const PropertyContentPage: FC<IProps> = ({ property }) => {
       <PropertyTopInfo>
         <div>
           <TextApp.Heading as="h3" weight={700} size={30} className={playfair.className}>
-            {property?.heading}
+            {property.category} | {property?.heading}
           </TextApp.Heading>
           <LocationText>
             <NextImage info={locationIcon} $width={24} $height={24} />
