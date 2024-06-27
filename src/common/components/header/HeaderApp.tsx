@@ -24,7 +24,7 @@ const AuthButtons = ({ width }: { width?: number }) => {
   const [checkUser, setCheckUser] = useState<IUserResponse | null>(null);
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
   const { onSuccessNotify, onErrorNotify } = useContext(NotificationContext);
-  const token = getCookie("token");
+  const [isToken, setToken] = useState<string>("");
 
   const handleDeleteCookie = () => {
     deleteCookie("token");
@@ -57,6 +57,8 @@ const AuthButtons = ({ width }: { width?: number }) => {
   };
 
   const checkAuthorization = async () => {
+    const token = getCookie("token");
+    setToken(token || "");
     if (!token) {
       // onErrorNotify("При авторизации произошла ошибка");
       return;
@@ -78,7 +80,7 @@ const AuthButtons = ({ width }: { width?: number }) => {
     <>
       {checkUser?.status === Status.SUCCESS ? (
         <FlexContent $flexGap={20} $align="center">
-          <LinkApp.Button href={`${process.env.NEXT_PUBLIC_ADMIN_API}?token=${token}`} width={width}>
+          <LinkApp.Button href={`${process.env.NEXT_PUBLIC_ADMIN_API}?token=${isToken}`} width={width}>
             Кабинет
           </LinkApp.Button>
           <ButtonApp width={width} onClick={handelLogout} outlined>
