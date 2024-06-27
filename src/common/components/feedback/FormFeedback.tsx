@@ -279,9 +279,7 @@ const FormFeedbackBlock = styled.form`
 const CommunicationBlock = styled.div`
   width: 100%;
   display: grid;
-
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 1fr 1fr;
+  grid: auto / repeat(auto-fill, minmax(1fr, 1fr));
 
   grid-gap: 0.694vw;
   @media (max-width: ${theme.media.desktop}px) {
