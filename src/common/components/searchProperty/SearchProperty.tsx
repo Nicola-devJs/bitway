@@ -120,13 +120,9 @@ const SearchPropertyContainer = styled.div`
 const SearchPropertyRow = styled.div`
   display: flex;
   align-items: center;
-
+  flex-wrap: wrap;
   @media (max-width: ${theme.media.tablet}px) {
     width: 100%;
-  }
-
-  @media (max-width: ${theme.media.phone}px) {
-    flex-wrap: wrap;
   }
 `;
 

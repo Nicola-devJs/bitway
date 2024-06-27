@@ -65,3 +65,17 @@ export const fetcherGetAllFavourite = async (token?: string): Promise<IResponseP
     throw new Error("Invalid request get one Property");
   }
 };
+
+export const fetcherPropularProperties = async (): Promise<IResponseProperties> => {
+  try {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_API}`, {
+      method: "GET",
+      cache: "no-cache",
+    });
+
+    return res.json();
+  } catch (err) {
+    console.error(err);
+    throw new Error("Invalid request get one Property");
+  }
+};

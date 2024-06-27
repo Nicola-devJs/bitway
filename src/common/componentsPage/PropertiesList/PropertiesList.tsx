@@ -35,7 +35,7 @@ export const PropertiesBlock: FC<IProps> = ({ responseProperties }) => {
   const [showType, setShowType] = useState<ShowType>("tile");
   const [sorted, setSorted] = useState<OptionType>(getinitialSort);
   const { showFilter } = useContext(FilterContext);
-  const [page, setPage] = useState(responseProperties.page);
+  const [page, setPage] = useState(initialSearchParams.get("_page") || "1");
   const { push } = useRouter();
   const pathname = usePathname();
 
@@ -45,7 +45,10 @@ export const PropertiesBlock: FC<IProps> = ({ responseProperties }) => {
   };
 
   const changeShowTypeHandler = (type: ShowType) => () => setShowType(type);
-  const changeActivePage = (page: number) => setPage(page);
+  const changeActivePage = (page: number) => {
+    navigateToSearchParams({ _page: `${page}` });
+    setPage(`${page}`);
+  };
   const changeSort = (sort: OptionType) => {
     navigateToSearchParams({ _order: sort.value });
     setSorted(sort);
@@ -86,7 +89,11 @@ export const PropertiesBlock: FC<IProps> = ({ responseProperties }) => {
         <SelectApp.Sorted label="Сортировать по" options={sortedOptions} value={sorted} changeHandler={changeSort} />
       </PropertiesToolbar>
       <ListProperties typeShow={showType} properties={responseProperties.objects} />
-      <PaginateApp amountPages={responseProperties.amountPages} activePage={page} changeActivePage={changeActivePage} />
+      <PaginateApp
+        amountPages={responseProperties.amountPages}
+        activePage={+page}
+        changeActivePage={changeActivePage}
+      />
     </div>
   );
 };

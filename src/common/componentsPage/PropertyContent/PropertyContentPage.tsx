@@ -37,9 +37,14 @@ export const PropertyContentPage: FC<IProps> = ({ property }) => {
   const [isFavourite, setFavourite] = useState(isFavoriteObject);
   const authorName = `${property.user.firstName} ${property.user.lastName}`;
 
-  console.log(property);
-
-  const FeedBack = <FormFeedback author={authorName} propertyId={property._id} />;
+  const FeedBack = (
+    <FormFeedback
+      author={authorName}
+      propertyId={property._id}
+      telegram={property.user.telegram}
+      whatsapp={property.user.whatsApp}
+    />
+  );
 
   const toggleFavouriteProperty = async () => {
     const token = getCookie("token");

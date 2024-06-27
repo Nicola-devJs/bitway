@@ -28,9 +28,11 @@ interface FormValues {
 interface IProps {
   author: string;
   propertyId: string;
+  telegram?: string;
+  whatsapp?: string;
 }
 
-export const FormFeedback: FC<IProps> = ({ author, propertyId }) => {
+export const FormFeedback: FC<IProps> = ({ author, propertyId, telegram, whatsapp }) => {
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
   const { handleSubmit, control, reset } = useForm<FormValues>({ mode: "onBlur" });
   const user = getStorageValue<IUserStorage>(USER_KEY);
@@ -58,7 +60,10 @@ export const FormFeedback: FC<IProps> = ({ author, propertyId }) => {
   const { field: message, fieldState: messageState } = useController({
     control,
     name: "message",
-    rules: { maxLength: { value: 180, message: "Слишком большое сообщение" } },
+    rules: {
+      required: { value: true, message: "Обязательное поле" },
+      maxLength: { value: 180, message: "Слишком большое сообщение" },
+    },
   });
 
   const sendMessageHandler = async (data: FormValues) => {
@@ -79,6 +84,8 @@ export const FormFeedback: FC<IProps> = ({ author, propertyId }) => {
       console.error(error);
     }
   };
+
+  console.log(telegram);
 
   return (
     <StyledFormFeedback>
@@ -126,19 +133,22 @@ export const FormFeedback: FC<IProps> = ({ author, propertyId }) => {
           onBlur={message.onBlur}
           errorMessage={messageState.error?.message}
         />
-        <CommunicationBlock>
-          <ButtonApp onClick={handleSubmit(sendMessageHandler)}>Отправить</ButtonApp>
+        <ButtonApp onClick={handleSubmit(sendMessageHandler)}>Отправить</ButtonApp>
+        {(telegram || whatsapp) && (
+          <CommunicationBlock>
+            {telegram && (
+              <LinkApp.Button href={`${telegram}?text=${message.value}`} outlined icon="telegram">
+                Telegram
+              </LinkApp.Button>
+            )}
 
-          <LinkApp.Button href="https://t.me/" outlined icon="telegram">
-            Telegram
-          </LinkApp.Button>
-          <LinkApp.Button href="https://wa.me/" outlined icon="whatsapp">
-            Whatsapp
-          </LinkApp.Button>
-          {/* <LinkApp.Button href="https://www.viber.com/" outlined icon="viber">
-            Viber
-          </LinkApp.Button> */}
-        </CommunicationBlock>
+            {whatsapp && (
+              <LinkApp.Button href={`${whatsapp}?text=${message.value}`} outlined icon="whatsapp">
+                Whatsapp
+              </LinkApp.Button>
+            )}
+          </CommunicationBlock>
+        )}
       </FormFeedbackBlock>
     </StyledFormFeedback>
   );
@@ -272,9 +282,6 @@ const CommunicationBlock = styled.div`
 
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: 1fr 1fr;
-  & > button:first-child {
-    grid-column: 1 / span 2;
-  }
 
   grid-gap: 0.694vw;
   @media (max-width: ${theme.media.desktop}px) {

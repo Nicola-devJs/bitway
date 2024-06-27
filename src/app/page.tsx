@@ -3,19 +3,20 @@ import React from "react";
 
 import { SearchProperty } from "@/common/components/searchProperty/SearchProperty";
 import { FeaturedProperty } from "@/common/components/featuredProperty/FeaturedProperty";
-import { fetcherAllPropertys } from "@/services/Properties";
+import { fetcherAllPropertys, fetcherPropularProperties } from "@/services/Properties";
 import { PropertiesBlock } from "@/common/componentsPage/PropertiesBlock";
 import { theme } from "@/assets/theme/theme";
 import { ContainerApp } from "@/common/styledComponents/ContainerApp";
 
 export default async function Home() {
   const properties = await fetcherAllPropertys();
+  const popularProperties = await fetcherPropularProperties();
 
   return (
     <>
       <HomeHeadingBlock />
       <SearchProperty />
-      {properties?.objects.length ? <FeaturedProperty properties={properties.objects} /> : null}
+      {properties?.objects.length ? <FeaturedProperty properties={popularProperties.objects} /> : null}
       {properties?.objects.length ? (
         <PropertiesBlock
           title="Последние предложения недвижимости"

@@ -23,7 +23,12 @@ export const PaginateApp: FC<IProps> = ({ sizePage = 40, amountPages, activePage
       {Array(amountPages)
         .fill(" ")
         .map((_, id) => (
-          <PaginateItem key={id} $size={sizePage} $actvie={activePage === id + 1} onClick={() => changeActivePage(id)}>
+          <PaginateItem
+            key={id}
+            $size={sizePage}
+            $actvie={activePage === id + 1}
+            onClick={() => changeActivePage(id + 1)}
+          >
             {id + 1}
           </PaginateItem>
         ))}
@@ -90,6 +95,7 @@ const PaginateItem = styled.div<{ $size: number; $actvie: boolean }>`
   justify-content: center;
   font-weight: 500;
   color: ${(props) => (props.$actvie ? theme.colors.white : theme.colors.dark)};
+  cursor: pointer;
 
   @media (min-width: ${theme.media.desktopLarge}px) {
     width: ${(props) => `${props.$size}px`};

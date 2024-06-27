@@ -56,9 +56,9 @@ const StyledSidebar = styled.aside<{ $showTabletFilter: boolean }>`
     top: 0;
     z-index: 100;
     background-color: ${theme.colors.white};
-    width: 65%;
+    min-width: 65%;
     padding: 3.906vw;
-
+    overflow-y: auto;
     transform: translateX(-10px);
     opacity: 0;
     visibility: hidden;
@@ -78,7 +78,7 @@ const StyledSidebar = styled.aside<{ $showTabletFilter: boolean }>`
       `}
   }
   @media (max-width: ${theme.media.phone}px) {
-    width: 100%;
+    min-width: 100%;
   }
 `;
 
@@ -92,5 +92,5 @@ const OverlaySidebar = styled.div`
   backdrop-filter: blur(5px);
   opacity: 0;
   transition: opacity 0.2s ease-in 0.1s;
-  width: 100%;
+  width: 100vw;
 `;
