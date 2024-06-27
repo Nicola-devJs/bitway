@@ -58,7 +58,7 @@ const AuthButtons = ({ width }: { width?: number }) => {
   const checkAuthorization = async () => {
     const token = getCookie("token");
     if (!token) {
-      onErrorNotify("При авторизации произошла ошибка");
+      // onErrorNotify("При авторизации произошла ошибка");
       return;
     }
 
@@ -66,7 +66,7 @@ const AuthButtons = ({ width }: { width?: number }) => {
       const user = await fetcherAuthMe(token);
       registrateUser(user);
     } catch (error) {
-      onErrorNotify("При авторизации произошла ошибка");
+      // onErrorNotify("При авторизации произошла ошибка");
     }
   };
 
