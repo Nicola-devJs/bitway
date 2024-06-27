@@ -9,6 +9,7 @@ import { validatePassword } from "@/common/constants/validation";
 import { ModalContext } from "@/common/hoc/ModalProvider";
 import { fetcherAuthChangePassword } from "@/services/Auth";
 import { useCustomQuery } from "@/common/hooks/customQuery";
+import { NotificationContext } from "@/common/hoc/NotificationProvider";
 
 interface FormValues {
   password: string;
@@ -21,26 +22,31 @@ export const AuthChangePage = () => {
   const searchParams = useSearchParams();
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
   const { handleSubmit, control } = useForm<FormValues>({ mode: "onBlur" });
+  const { onErrorNotify } = useContext(NotificationContext);
 
   const handler = async ({ password }: FormValues) => {
-    const email = searchParams.get("email");
-    if (!email) {
-      return console.error("Invalid email");
+    try {
+      const email = searchParams.get("email");
+      if (!email) {
+        throw "Невалидный email";
+      }
+      const data = { password, email };
+
+      await advancedFetcher(data);
+
+      await setOptionModalHandler({
+        type: "alert",
+        options: {
+          title: "Пароль изменен успешно",
+          text: "Ваш пароль обновлен успешно",
+          textButton: "Вернуться на страницу входа",
+          buttonHandler: () => router.push("/auth/login"),
+        },
+      });
+      showHandler();
+    } catch (error) {
+      onErrorNotify("При изменении пароля произошла ошибка");
     }
-    const data = { password, email };
-
-    const res = await advancedFetcher(data);
-
-    await setOptionModalHandler({
-      type: "alert",
-      options: {
-        title: "Пароль изменен успешно",
-        text: "Ваш пароль обновлен успешно",
-        textButton: "Вернуться на страницу входа",
-        buttonHandler: () => router.push("/auth/login"),
-      },
-    });
-    showHandler();
   };
 
   const { field: password, fieldState: passwordState } = useController({
@@ -77,7 +83,7 @@ export const AuthChangePage = () => {
             onBlur={againPassword.onBlur}
             errorMessage={againPasswordState.error?.message}
           />
-          <ButtonApp loading={isLoading}>Изменить</ButtonApp>
+          <ButtonApp disabled={isLoading}>Изменить</ButtonApp>
         </form>
       </AuthContent>
     </>

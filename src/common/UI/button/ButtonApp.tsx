@@ -13,7 +13,6 @@ interface IProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   width?: number;
   outlined?: boolean;
   icon?: keyof typeof feedbackButtonIcons;
-  loading?: boolean;
 }
 
 export const ButtonApp: FC<IProps> = ({
@@ -23,23 +22,27 @@ export const ButtonApp: FC<IProps> = ({
   width,
   outlined,
   icon,
-  loading,
+  disabled = false,
   ...props
 }) => {
   return (
-    <StyledButton $fz={fontSize} $pb={paddingBlock} $w={width} $outlined={outlined} onClick={props.onClick} {...props}>
+    <StyledButton
+      $fz={fontSize}
+      $pb={paddingBlock}
+      $w={width}
+      $outlined={outlined}
+      onClick={props.onClick}
+      $disabled={disabled}
+      disabled={disabled}
+      {...props}
+    >
       {icon && <NextImage info={feedbackButtonIcons[icon]} $width={24} $height={24} objectFit="contain" />}
       {children}
-      {loading && (
-        <CyrcleLoader>
-          <div></div>
-        </CyrcleLoader>
-      )}
     </StyledButton>
   );
 };
 
-const StyledButton = styled.button<{ $fz: number; $pb: number; $w?: number; $outlined?: boolean }>`
+const StyledButton = styled.button<{ $fz: number; $pb: number; $w?: number; $outlined?: boolean; $disabled: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
@@ -47,7 +50,8 @@ const StyledButton = styled.button<{ $fz: number; $pb: number; $w?: number; $out
 
   font-family: inherit;
   font-weight: 400;
-  background-color: ${(props) => (props.$outlined ? theme.colors.white : theme.colors.blue)};
+  background-color: ${(props) =>
+    props.$disabled ? theme.colors.gray : props.$outlined ? theme.colors.white : theme.colors.blue};
   color: ${(props) => (props.$outlined ? theme.colors.blue : theme.colors.white)};
   width: ${(props) => (props.$w ? transformAdaptiveSize(props.$w) : "100%")};
   border: 1px solid ${(props) => (props.$outlined ? theme.colors.blue : "transparent")};

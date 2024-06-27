@@ -18,15 +18,18 @@ import { deleteCookie, getCookie } from "@/common/helpers/cookie";
 import { ModalContext } from "@/common/hoc/ModalProvider";
 import { fetcherAuthMe } from "@/services/Auth";
 import { IUserResponse } from "@/common/interfaces/IAuth";
+import { NotificationContext } from "@/common/hoc/NotificationProvider";
 
 const AuthButtons = ({ width }: { width?: number }) => {
   const [checkUser, setCheckUser] = useState<IUserResponse | null>(null);
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
+  const { onSuccessNotify, onErrorNotify } = useContext(NotificationContext);
 
   const handleDeleteCookie = () => {
     deleteCookie("token");
     localStorage.removeItem(USER_KEY);
     setCheckUser(null);
+    onSuccessNotify("Вы вышли из акаунта");
   };
 
   const handelLogout = () => {
@@ -52,9 +55,23 @@ const AuthButtons = ({ width }: { width?: number }) => {
     setCheckUser(user);
   };
 
-  useEffect(() => {
+  const checkAuthorization = async () => {
     const token = getCookie("token");
-    token && fetcherAuthMe(token).then(registrateUser);
+    if (!token) {
+      onErrorNotify("При авторизации произошла ошибка");
+      return;
+    }
+
+    try {
+      const user = await fetcherAuthMe(token);
+      registrateUser(user);
+    } catch (error) {
+      onErrorNotify("При авторизации произошла ошибка");
+    }
+  };
+
+  useEffect(() => {
+    checkAuthorization();
   }, []);
 
   return (

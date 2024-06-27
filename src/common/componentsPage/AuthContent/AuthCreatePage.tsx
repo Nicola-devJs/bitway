@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useContext } from "react";
 import { useController, useForm } from "react-hook-form";
 import { AuthContent } from ".";
 import { ButtonApp } from "@/common/UI/button/ButtonApp";
@@ -11,6 +11,7 @@ import { fetcherAuthCreate } from "@/services/Auth";
 import { writingToken } from "@/common/helpers/cookie";
 import { useRouter } from "next/navigation";
 import { useCustomQuery } from "@/common/hooks/customQuery";
+import { NotificationContext } from "@/common/hoc/NotificationProvider";
 
 interface FormValues {
   firstName: string;
@@ -24,6 +25,7 @@ export const AuthCreatePage = () => {
   const { advancedFetcher, isLoading } = useCustomQuery(fetcherAuthCreate);
   const router = useRouter();
   const { handleSubmit, control } = useForm<FormValues>({ mode: "onBlur" });
+  const { onSuccessNotify, onErrorNotify } = useContext(NotificationContext);
 
   const { field: firstName, fieldState: firstNameState } = useController({
     control,
@@ -44,11 +46,16 @@ export const AuthCreatePage = () => {
   const { field: agree, fieldState: agreeState } = useController({ control, name: "agree", rules: validateRequired() });
 
   const handler = async (data: FormValues) => {
-    const { agree, ...newUser } = data;
-    const res = await advancedFetcher(newUser);
+    try {
+      const { agree, ...newUser } = data;
+      const res = await advancedFetcher(newUser);
 
-    writingToken(res.token);
-    router.push("/");
+      writingToken(res.token);
+      router.push("/");
+      onSuccessNotify("Вы успешно создали аккаунт");
+    } catch (error) {
+      onErrorNotify("При создании аккаунта произошла ошибка");
+    }
   };
 
   return (
@@ -101,7 +108,7 @@ export const AuthCreatePage = () => {
           onBlur={agree.onBlur}
           errorMessage={agreeState.error?.message}
         />
-        <ButtonApp loading={isLoading}>Зарегистрироваться</ButtonApp>
+        <ButtonApp disabled={isLoading}>Зарегистрироваться</ButtonApp>
       </form>
     </AuthContent>
   );

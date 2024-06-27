@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import styled from "styled-components";
 import { useController, useForm } from "react-hook-form";
 import { AuthContent } from ".";
@@ -13,6 +13,7 @@ import { fetcherAuthLogin } from "@/services/Auth";
 import { setCookie, writingToken } from "@/common/helpers/cookie";
 import { useRouter } from "next/navigation";
 import { useCustomQuery } from "@/common/hooks/customQuery";
+import { NotificationContext } from "@/common/hoc/NotificationProvider";
 
 interface FormValues {
   email: string;
@@ -24,6 +25,7 @@ export const AuthLoginPage = () => {
   const router = useRouter();
   const { handleSubmit, control } = useForm<FormValues>({ mode: "onBlur" });
   const { advancedFetcher, isLoading } = useCustomQuery(fetcherAuthLogin);
+  const { onSuccessNotify, onErrorNotify } = useContext(NotificationContext);
 
   const { field: email, fieldState: emailState } = useController({
     control,
@@ -43,10 +45,15 @@ export const AuthLoginPage = () => {
   const handler = async (data: FormValues) => {
     const { remember, ...user } = data;
 
-    const res = await advancedFetcher(user);
+    try {
+      const res = await advancedFetcher(user);
 
-    writingToken(res.token);
-    router.push("/");
+      writingToken(res.token);
+      router.push("/");
+      onSuccessNotify("Вы успешно вошли в аккаунт");
+    } catch (error) {
+      onErrorNotify("Произошла ошибка при авторизации");
+    }
   };
 
   return (
@@ -85,7 +92,7 @@ export const AuthLoginPage = () => {
             Забыли пароль?
           </LinkApp>
         </div>
-        <ButtonApp loading={isLoading}>Войти</ButtonApp>
+        <ButtonApp disabled={isLoading}>Войти</ButtonApp>
       </form>
       <TextBottom>
         Если вы еще не зарегестрированы, перейдите по{" "}

@@ -14,8 +14,6 @@ interface IProps {
 }
 
 export const PropertyParams: FC<IProps> = ({ property }) => {
-  console.log(property);
-
   return (
     <PropertyContentBody>
       <div>

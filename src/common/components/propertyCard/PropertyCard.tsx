@@ -36,10 +36,8 @@ interface IProps {
   property: IPropertyCard;
 }
 
-// TODO Добавить в оповещение после добавления / удаления избранных
-
 export const PropertyCard: FC<IProps> = ({ typeShow, property }) => {
-  const { addNotification } = useContext(NotificationContext);
+  const { onSuccessNotify, onErrorNotify } = useContext(NotificationContext);
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
   const user = getStorageValue<IUserStorage>(USER_KEY);
   const isFavoriteObject = Boolean(user?.favouriteObject.includes(property._id));
@@ -53,14 +51,22 @@ export const PropertyCard: FC<IProps> = ({ typeShow, property }) => {
   const toggleFavouriteProperty = async () => {
     const token = getCookie("token");
     if (!token) {
+      onErrorNotify("Вы не авторизованы");
       return;
     }
-
-    const isFavorite = await fetcherSwitchFavourite(property, token);
-    if (isFavorite.status === Status.SUCCESS) {
-      setFavourite(isFavorite.favouriteValue);
-      addNotification({ text: isFavorite.message, type: Status.SUCCESS });
+    try {
+      const isFavorite = await fetcherSwitchFavourite(property, token);
+      if (isFavorite.status === Status.SUCCESS) {
+        setFavourite(isFavorite.favouriteValue);
+        onSuccessNotify(isFavorite.message);
+      }
+    } catch (error) {
+      onErrorNotify("Ошибка при добавлении в избранное");
     }
+  };
+
+  const onShareProperty = () => {
+    onSuccessNotify("Ссылки на объект скопирована");
   };
 
   return (
@@ -113,6 +119,7 @@ export const PropertyCard: FC<IProps> = ({ typeShow, property }) => {
             sizeWrapper={34}
             handleFavouriteProperty={toggleFavouriteProperty}
             isActiveHeart={isFavourite}
+            handleShareProperty={onShareProperty}
           />
         </PropertyCardBottom>
       </PropertyCardContent>

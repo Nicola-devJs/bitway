@@ -4,6 +4,7 @@ import StyledComponentsRegistry from "@/lib/registryStyled";
 import { jost } from "@/common/constants/font";
 import ModalProvider from "@/common/hoc/ModalProvider";
 import { NotificationProvider } from "@/common/hoc/NotificationProvider";
+import "react-toastify/dist/ReactToastify.css";
 
 export const metadata: Metadata = {
   title: "NestHaven",

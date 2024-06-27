@@ -29,7 +29,7 @@ interface IProps {
 }
 
 export const PropertyContentPage: FC<IProps> = ({ property }) => {
-  const { addNotification } = useContext(NotificationContext);
+  const { onSuccessNotify, onErrorNotify } = useContext(NotificationContext);
   const { showHandler, setOptionModalHandler } = useContext(ModalContext);
   const user = getStorageValue<IUserStorage>(USER_KEY);
   const isFavoriteObject = user?.favouriteObject.includes(property._id) ?? false;
@@ -41,13 +41,18 @@ export const PropertyContentPage: FC<IProps> = ({ property }) => {
   const toggleFavouriteProperty = async () => {
     const token = getCookie("token");
     if (!token) {
+      onErrorNotify("Вы не авторизованы");
       return;
     }
 
-    const isFavorite = await fetcherSwitchFavourite(property, token);
-    if (isFavorite.status === Status.SUCCESS) {
-      setFavourite(isFavorite.favouriteValue);
-      addNotification({ text: isFavorite.message, type: Status.SUCCESS });
+    try {
+      const isFavorite = await fetcherSwitchFavourite(property, token);
+      if (isFavorite.status === Status.SUCCESS) {
+        setFavourite(isFavorite.favouriteValue);
+        onSuccessNotify(isFavorite.message);
+      }
+    } catch (error) {
+      onErrorNotify("Ошибка при добавлении в избранное");
     }
   };
 
@@ -57,6 +62,10 @@ export const PropertyContentPage: FC<IProps> = ({ property }) => {
       options: { children: FeedBack, width: 700 },
     });
     showHandler();
+  };
+
+  const onShareProperty = () => {
+    onSuccessNotify("Ссылки на объект скопирована");
   };
 
   return (
@@ -79,6 +88,7 @@ export const PropertyContentPage: FC<IProps> = ({ property }) => {
             gapActions={20}
             isActiveHeart={isFavourite}
             handleFavouriteProperty={toggleFavouriteProperty}
+            handleShareProperty={onShareProperty}
           />
           <HiddenBlock mode="min" extension={theme.media.tablet}>
             <ButtonApp onClick={openModalFormFeedback} width={98}>

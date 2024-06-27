@@ -5,8 +5,6 @@ import {
   IResponseProperty,
 } from "@/common/interfaces/property/property";
 
-type FetcherAllPropertysType = { page?: number; limit?: number } | void;
-
 // TODO Убрать no-cash поставить revalidate
 
 export const fetcherAllPropertys = async (params = ""): Promise<IResponseProperties> => {

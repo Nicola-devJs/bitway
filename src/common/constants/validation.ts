@@ -1,24 +1,24 @@
 import type { RegisterOptions } from "react-hook-form";
 import { emailRegexp } from "./regexp";
 
-export const validateEmail = (requiredMessage: string = "Required"): RegisterOptions => ({
+export const validateEmail = (requiredMessage: string = "Обязательное поле"): RegisterOptions => ({
   required: { value: true, message: requiredMessage },
   pattern: { value: emailRegexp, message: "Не правильный формат email" },
 });
 
 // TODO validation pass !/(?=.*[a-z]+)(?=.*[A-Z]+)(?=.*\d+)/.test(value)
 
-export const validatePassword = (requiredMessage: string = "Required"): RegisterOptions => ({
+export const validatePassword = (requiredMessage: string = "Обязательное поле"): RegisterOptions => ({
   required: { value: true, message: requiredMessage },
   validate: (value = "") => (!value || value.length < 5 || value.length > 26 ? "Не корректный пароль" : true),
 });
 
-export const validateName = (requiredMessage: string = "Required"): RegisterOptions => ({
+export const validateName = (requiredMessage: string = "Обязательное поле"): RegisterOptions => ({
   required: { value: true, message: requiredMessage },
   minLength: { value: 5, message: "Имя меньше 5 символов" },
 });
 
-export const validatePhone = (requiredMessage: string = "Required"): RegisterOptions => ({
+export const validatePhone = (requiredMessage: string = "Обязательное поле"): RegisterOptions => ({
   required: { value: true, message: requiredMessage },
   validate: (value: string = "") => {
     const resultResponse = value.length > 12 ? `больше на ${value.length - 12}` : `меньше на ${12 - value.length}`;
@@ -30,6 +30,6 @@ export const validatePhone = (requiredMessage: string = "Required"): RegisterOpt
   },
 });
 
-export const validateRequired = (requiredMessage: string = "Required"): RegisterOptions => ({
+export const validateRequired = (requiredMessage: string = "Обязательное поле"): RegisterOptions => ({
   required: { value: true, message: requiredMessage },
 });

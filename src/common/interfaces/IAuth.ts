@@ -22,6 +22,7 @@ export interface IUserData {
 export interface IUserResponse {
   status: Status;
   userData: IUserData;
+  token: string;
 }
 
 export interface IUserStorage {

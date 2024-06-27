@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { useController, useForm } from "react-hook-form";
 import { AuthContent } from ".";
 import { ButtonApp } from "@/common/UI/button/ButtonApp";
@@ -8,6 +8,7 @@ import { validateEmail } from "@/common/constants/validation";
 import { useRouter } from "next/navigation";
 import { fetcherAuthForgot } from "@/services/Auth";
 import { useCustomQuery } from "@/common/hooks/customQuery";
+import { NotificationContext } from "@/common/hoc/NotificationProvider";
 
 interface FormValues {
   email: string;
@@ -18,10 +19,16 @@ export const AuthForgotPage = () => {
 
   const router = useRouter();
   const { handleSubmit, control } = useForm<FormValues>({ mode: "onBlur" });
-  const handler = async (data: FormValues) => {
-    const res = await advancedFetcher(data);
+  const { onErrorNotify, onSuccessNotify } = useContext(NotificationContext);
 
-    router.push(`/auth/otp?email=${data.email}`);
+  const handler = async (data: FormValues) => {
+    try {
+      await advancedFetcher(data);
+      onSuccessNotify("Ваша почта одобрена");
+      router.push(`/auth/otp?email=${data.email}`);
+    } catch (error) {
+      onErrorNotify("Почта для изменения пароля не обработана");
+    }
   };
 
   const { field: email, fieldState: emailState } = useController({ control, name: "email", rules: validateEmail() });
@@ -42,7 +49,7 @@ export const AuthForgotPage = () => {
           onBlur={email.onBlur}
           errorMessage={emailState.error?.message}
         />
-        <ButtonApp loading={isLoading}>Отправить код</ButtonApp>
+        <ButtonApp disabled={isLoading}>Отправить код</ButtonApp>
       </form>
     </AuthContent>
   );

@@ -5,18 +5,20 @@ interface IReturnCustomQuery<T> {
   advancedFetcher: (data: any) => T;
 }
 
-type AsyncFetcher<T> = T extends (args: any) => Promise<infer R> ? Promise<R> : T;
-
 export const useCustomQuery = <T>(
-  fetcher: (args: any) => Promise<any>
+  fetcher: (args: any) => Promise<T>
 ): IReturnCustomQuery<ReturnType<typeof fetcher>> => {
   const [isLoading, setLoading] = useState(false);
 
   const advancedFetcher = async (data: any) => {
-    setLoading(true);
-    const response = await fetcher(data);
-    setLoading(false);
-    return response;
+    try {
+      setLoading(true);
+      return await fetcher(data);
+    } catch (error) {
+      throw error as T;
+    } finally {
+      setLoading(false);
+    }
   };
 
   return {
