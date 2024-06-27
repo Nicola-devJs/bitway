@@ -10,6 +10,7 @@ import { theme } from "@/assets/theme/theme";
 import { IPropertyCard } from "../interfaces/property/property";
 import styled from "styled-components";
 import { transformAdaptiveSize } from "../helpers/transformValues";
+import { EmptyApp } from "../components/empty/EmptyApp";
 
 type PropertiesBlockWrapperStyledType = { $bg?: string; $paddingBlock?: number };
 interface IProps {
@@ -49,7 +50,7 @@ export const PropertiesBlock = ({
             </>
           )
         ) : (
-          <div>Объектов не найдено</div>
+          <EmptyApp emptyText="Объектов не найдено" />
         )}
       </ContainerApp>
     </PropertiesBlockWrapper>

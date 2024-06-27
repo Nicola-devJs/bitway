@@ -89,7 +89,7 @@ export const PropertyCard: FC<IProps> = ({ typeShow, property }) => {
             {property.category} | {property.heading}
           </PropertyCardHeading>
         </Link>
-        <TextApp size={20}>${property.price}</TextApp>
+        <TextApp size={20}>{property.price} ₽</TextApp>
         <PropertyCardDescription color={theme.colors.gray} className="property_card_text">
           {property.description}
         </PropertyCardDescription>

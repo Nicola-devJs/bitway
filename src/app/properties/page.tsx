@@ -1,4 +1,5 @@
 import { Breadcrumbs } from "@/common/components/breadcrumbs/Breadcrumbs";
+import { EmptyApp } from "@/common/components/empty/EmptyApp";
 import { PropertiesBlock } from "@/common/componentsPage/PropertiesList/PropertiesList";
 import { SidebarFilter } from "@/common/componentsPage/SidebarFilter/SidebarFilter";
 import { generateSearchParams } from "@/common/helpers/searchParams";
@@ -18,8 +19,6 @@ export default async function Properties({ searchParams }: PageParams) {
   const paramsString = generateSearchParams(searchParams);
   const properties = await fetcherAllPropertys(paramsString);
 
-  
-
   return (
     <>
       <ContainerApp>
@@ -30,7 +29,7 @@ export default async function Properties({ searchParams }: PageParams) {
             {properties.objects.length ? (
               <PropertiesBlock responseProperties={properties} />
             ) : (
-              <div>Объявлений не найдены</div>
+              <EmptyApp emptyText="Объектов не найдено" />
             )}
           </FilterProvider>
         </FlexContent>

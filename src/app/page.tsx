@@ -7,6 +7,7 @@ import { fetcherAllPropertys, fetcherPropularProperties } from "@/services/Prope
 import { PropertiesBlock } from "@/common/componentsPage/PropertiesBlock";
 import { theme } from "@/assets/theme/theme";
 import { ContainerApp } from "@/common/styledComponents/ContainerApp";
+import { EmptyApp } from "@/common/components/empty/EmptyApp";
 
 export default async function Home() {
   const properties = await fetcherAllPropertys();
@@ -26,7 +27,7 @@ export default async function Home() {
         />
       ) : (
         <ContainerApp>
-          <div>На сайте пока объектов нет, вы можете добавить их в вашем кабинете</div>
+          <EmptyApp emptyText="На сайте пока объектов нет, вы можете добавить их в вашем кабинете" />
         </ContainerApp>
       )}
     </>
